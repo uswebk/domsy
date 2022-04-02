@@ -19,4 +19,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::namespace('Auth')->group(function () {
+    Route::prefix('register')->name('register.')->group(function () {
+        Route::get('/', 'RegisterController@index')->name('index');
+
+        Route::post('/', 'RegisterController@register')->name('register');
+    });
+
+    Route::get('email/verify/{id}/{hash}', 'VerificationController@verify')->name('verify');
+});
+
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
