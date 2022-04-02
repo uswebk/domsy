@@ -29,5 +29,8 @@ Route::namespace('Auth')->group(function () {
     Route::get('email/verify/{id}/{hash}', 'VerificationController@verify')->name('verify');
 });
 
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware('verified')->group(function () {
+    Route::middleware('auth')->group(function () {
+        Route::get('/home', 'HomeController@index')->name('home');
+    });
+});

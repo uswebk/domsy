@@ -5,25 +5,29 @@ declare(strict_types=1);
 namespace App\Services\Application\Auth\Register;
 
 use App\Infrastructures\Repositories\User\UserRepository;
-
-// use App\Repositories\UserLatestCode\UserLatestCodeRepository;
+use App\Infrastructures\Repositories\UserLatestCode\UserLatestCodeRepository;
 
 final class RegisterService
 {
     private $userRepository;
+    private $userLatestCodeRepository;
 
-    private const REGISTRATION_FAILED_MESSAGE = 'ユーザーの登録に失敗しました。再度登録をお願いいたします。';
+    private const REGISTRATION_FAILED_MESSAGE = 'Failed Registration';
 
     public function __construct(
         UserRepository $userRepository,
+        UserLatestCodeRepository $userLatestCodeRepository
     ) {
         $this->userRepository = $userRepository;
+        $this->userLatestCodeRepository = $userLatestCodeRepository;
     }
 
     public function handle(array $input): void
     {
         \DB::beginTransaction();
         try {
+            $input['code'] = $this->userLatestCodeRepository->next();
+
             $user = $this->userRepository->store($input);
 
             $user->sendEmailVerificationNotification();
