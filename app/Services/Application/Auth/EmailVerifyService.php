@@ -34,6 +34,14 @@ final class EmailVerifyService
         ->createFromTimestamp($this->request->expires));
     }
 
+    private function isEqualUserIdHash(): bool
+    {
+        return hash_equals(
+            (string) $this->request->route('id'),
+            (string) $this->request->user()->getKey()
+        );
+    }
+
     public function handle(): void
     {
         try {
@@ -41,8 +49,11 @@ final class EmailVerifyService
                 throw new ExpiredAuthenticationException();
             }
 
-            $user = $this->eloquentUserQueryService->firstOrFailByEmailVerifyToken($this->request->hash);
+            if (! $this->isEqualUserIdHash()) {
+                throw new Exception();
+            }
 
+            $user = $this->eloquentUserQueryService->firstOrFailByEmailVerifyToken($this->request->hash);
             $user->email_verified_at = now();
             $this->userRepository->save($user);
         } catch (ExpiredAuthenticationException $e) {
