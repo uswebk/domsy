@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Auth;
 
+use App\Exceptions\Auth\AlreadyVerifiedException;
 use App\Exceptions\Auth\ExpiredAuthenticationException;
 use App\Infrastructures\Queries\User\EloquentUserQueryService;
 use App\Infrastructures\Repositories\User\UserRepository;
@@ -53,10 +54,18 @@ final class EmailVerifyService
                 throw new Exception();
             }
 
-            $user = $this->eloquentUserQueryService->firstOrFailByEmailVerifyToken($this->request->hash);
+            $user = $this->eloquentUserQueryService
+            ->firstOrFailByEmailVerifyTokenUserId($this->request->hash, $this->request->user()->id);
+
+            if (isset($user->email_verified_at)) {
+                throw new AlreadyVerifiedException();
+            }
+
             $user->email_verified_at = now();
             $this->userRepository->save($user);
         } catch (ExpiredAuthenticationException $e) {
+            throw $e;
+        } catch (AlreadyVerifiedException $e) {
             throw $e;
         } catch (\Exception $e) {
             throw new \Exception(self::EMAIL_VERIFIED_FAILED_MESSAGE);
