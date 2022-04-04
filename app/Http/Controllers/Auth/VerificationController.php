@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Exceptions\Auth\ExpiredAuthenticationException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\VerifyRequest;
 use App\Services\Application\Auth\EmailVerifyService;
+use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Http\Request;
 
 class VerificationController extends Controller
 {
+    use VerifiesEmails;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -22,11 +25,11 @@ class VerificationController extends Controller
     }
 
     public function verify(
-        VerifyRequest $request,
-        EmailVerifyService $emailVerifyService
+        Request $request,
+        EmailVerifyService $emailVerifyService,
     ) {
         try {
-            $emailVerifyService->handle($request->hash);
+            $emailVerifyService->handle($request);
             return view('auth.main.register');
         } catch (ExpiredAuthenticationException $e) {
             $view = $this->showAuthVerifyByErrorMessage($e->getMessage());

@@ -7,35 +7,41 @@ namespace App\Services\Application\Auth;
 use App\Exceptions\Auth\ExpiredAuthenticationException;
 use App\Infrastructures\Queries\User\EloquentUserQueryService;
 use App\Infrastructures\Repositories\User\UserRepository;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 final class EmailVerifyService
 {
+    private $request;
     private $userRepository;
     private $eloquentUserQueryService;
 
     private const EMAIL_VERIFIED_FAILED_MESSAGE = 'Email Verified Failed';
 
     public function __construct(
+        Request $request,
         UserRepository $userRepository,
         EloquentUserQueryService $eloquentUserQueryService,
     ) {
+        $this->request = $request;
         $this->userRepository = $userRepository;
         $this->eloquentUserQueryService = $eloquentUserQueryService;
     }
 
-    // private function isExpired(): bool
-    // {
-    //     return true;
-    // }
+    private function isExpired(): bool
+    {
+        return (new Carbon())->gt((new Carbon())
+        ->createFromTimestamp($this->request->expires));
+    }
 
-    public function handle(string $emailVerifyToken): void
+    public function handle(): void
     {
         try {
-            $user = $this->eloquentUserQueryService->firstOrFailByEmailVerifyToken($emailVerifyToken);
+            if ($this->isExpired()) {
+                throw new ExpiredAuthenticationException();
+            }
 
-            // if ($this->isExpired()) {
-            //     throw new ExpiredAuthenticationException();
-            // }
+            $user = $this->eloquentUserQueryService->firstOrFailByEmailVerifyToken($this->request->hash);
 
             $user->email_verified_at = now();
             $this->userRepository->save($user);

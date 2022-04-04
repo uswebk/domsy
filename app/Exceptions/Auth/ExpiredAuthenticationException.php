@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Exceptions\Auth;
 
-use Exception;
+use RuntimeException;
 
-final class ExpiredAuthenticationException extends Exception
+final class ExpiredAuthenticationException extends RuntimeException
 {
     public function __construct()
     {
