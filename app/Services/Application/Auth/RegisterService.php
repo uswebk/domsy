@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application\Auth\Register;
+namespace App\Services\Application\Auth;
 
 use App\Infrastructures\Repositories\User\UserRepository;
 use App\Infrastructures\Repositories\UserLatestCode\UserLatestCodeRepository;
+use Illuminate\Support\Facades\Auth;
 
 final class RegisterService
 {
@@ -37,5 +38,7 @@ final class RegisterService
             \DB::rollBack();
             throw new \Exception(self::REGISTRATION_FAILED_MESSAGE);
         }
+
+        Auth::login($user);
     }
 }

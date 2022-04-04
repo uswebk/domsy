@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application\Auth\Verification;
+namespace App\Services\Application\Auth;
 
-use App\Exceptions\Auth\ExistsMailVerifiedException;
+use App\Exceptions\Auth\ExpiredAuthenticationException;
 use App\Infrastructures\Queries\User\EloquentUserQueryService;
 use App\Infrastructures\Repositories\User\UserRepository;
 
@@ -25,21 +25,21 @@ final class EmailVerifyService
 
     // private function isExpired(): bool
     // {
-    //     return;
+    //     return true;
     // }
 
     public function handle(string $emailVerifyToken): void
     {
         try {
-            $user = $this->eloquentUserQueryService->firstByEmailVerifyToken($emailVerifyToken);
+            $user = $this->eloquentUserQueryService->firstOrFailByEmailVerifyToken($emailVerifyToken);
 
-            // if($this->isExpired()){
-            //     throw new ExistsMailVerifiedException();
+            // if ($this->isExpired()) {
+            //     throw new ExpiredAuthenticationException();
             // }
 
             $user->email_verified_at = now();
             $this->userRepository->save($user);
-        } catch (ExistsMailVerifiedException $e) {
+        } catch (ExpiredAuthenticationException $e) {
             throw $e;
         } catch (\Exception $e) {
             throw new \Exception(self::EMAIL_VERIFIED_FAILED_MESSAGE);

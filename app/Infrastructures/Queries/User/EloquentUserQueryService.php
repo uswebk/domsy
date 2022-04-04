@@ -8,8 +8,14 @@ use App\Infrastructures\Eloquent\Models\User;
 
 final class EloquentUserQueryService
 {
-    public function firstByEmailVerifyToken(string $emailVerifyToken): User
+    public function __construct(User $user)
     {
-        return User::where('email_verify_token', $emailVerifyToken)->firstOrFail();
+        $this->model = $user;
+    }
+
+    public function firstOrFailByEmailVerifyToken(string $emailVerifyToken): User
+    {
+        return $this->model->where('email_verify_token', $emailVerifyToken)
+        ->firstOrFail();
     }
 }

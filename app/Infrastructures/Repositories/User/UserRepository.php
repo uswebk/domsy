@@ -8,6 +8,11 @@ use App\Infrastructures\Eloquent\Models\User;
 
 final class UserRepository
 {
+    public function __construct(User $user)
+    {
+        $this->model = $user;
+    }
+
     public function save(User $user): User
     {
         $user->save();
@@ -17,9 +22,8 @@ final class UserRepository
 
     public function store(array $data): User
     {
-        $user = new User();
-        $user->fill($data)->save();
+        $this->model->fill($data)->save();
 
-        return $user;
+        return $this->model;
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\Register\RegisterRequest;
-use App\Services\Application\Auth\Register\RegisterService;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Services\Application\Auth\RegisterService;
 
 class RegisterController extends Controller
 {
