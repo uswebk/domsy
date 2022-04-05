@@ -57,8 +57,9 @@ final class EmailVerifyService
         } catch (\Exception $e) {
             \DB::rollBack();
 
+            \Log::info($e->getMessage());
+
             throw $e;
-            throw new \Exception('Email verified failed');
         }
     }
 }

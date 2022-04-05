@@ -10,17 +10,21 @@ class VerificationController extends Controller
 {
     use VerifiesEmails;
 
-    public function __construct()
-    {
+    protected $emailVerifyService;
+
+    public function __construct(
+        EmailVerifyService $emailVerifyService
+    ) {
         $this->middleware('auth');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
+
+        $this->emailVerifyService = $emailVerifyService;
     }
 
-    public function verify(
-        EmailVerifyService $emailVerifyService,
-    ) {
-        $emailVerifyService->handle();
+    public function verify()
+    {
+        $this->emailVerifyService->handle();
 
         return view('auth.main.register');
     }
