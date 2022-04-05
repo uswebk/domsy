@@ -7,6 +7,7 @@ namespace App\Services\Application\Auth;
 use App\Infrastructures\Mails\SendServices\EmailVerificationService;
 use App\Infrastructures\Repositories\User\UserRepository;
 use App\Infrastructures\Repositories\UserLatestCode\UserLatestCodeRepository;
+
 use Illuminate\Support\Facades\Auth;
 
 final class RegisterService

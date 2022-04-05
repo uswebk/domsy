@@ -7,6 +7,7 @@ namespace App\Services\Application\Auth;
 use App\Exceptions\Auth\AlreadyVerifiedException;
 use App\Infrastructures\Queries\User\EloquentUserQueryService;
 use App\Infrastructures\Repositories\User\UserRepository;
+
 use Illuminate\Http\Request;
 
 final class EmailVerifyService
