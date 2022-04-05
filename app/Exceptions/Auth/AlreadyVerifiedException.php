@@ -8,8 +8,10 @@ use RuntimeException;
 
 final class AlreadyVerifiedException extends RuntimeException
 {
+    public $message;
+
     public function __construct()
     {
-        parent::__construct('Already verified', 1);
+        $this->message = 'Already verified';
     }
 }

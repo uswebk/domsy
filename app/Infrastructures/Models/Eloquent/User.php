@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Infrastructures\Eloquent\Models;
+declare(strict_types=1);
+
+namespace App\Infrastructures\Models\Eloquent;
 
 use App\Infrastructures\Mails\Client\EmailVerification;
 

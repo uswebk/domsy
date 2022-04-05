@@ -13,7 +13,7 @@ class UserLatestCode extends Seeder
      */
     public function run()
     {
-        $user_latest_code = new \App\Infrastructures\Eloquent\Models\UserLatestCode();
+        $user_latest_code = new \App\Infrastructures\Models\Eloquent\UserLatestCode();
         $user_latest_code->code = 100000;
         $user_latest_code->save();
     }

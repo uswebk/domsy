@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructures\Eloquent\Models;
+namespace App\Infrastructures\Models\Eloquent;
 
-use App\Infrastructures\Eloquent\EloquentModel;
-
-class UserLatestCode extends EloquentModel
+class UserLatestCode extends BaseModel
 {
     protected $table = 'user_latest_code';
 

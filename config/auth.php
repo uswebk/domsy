@@ -63,7 +63,7 @@ return [
         'users' => [
             'driver' => 'eloquent',
             // 'model' => App\Models\User::class,
-            'model' => App\Infrastructures\Eloquent\Models\User::class,
+            'model' => App\Infrastructures\Models\Eloquent\User::class,
         ],
 
         // 'users' => [

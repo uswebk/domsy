@@ -13,8 +13,6 @@ final class RegisterService
     private $userRepository;
     private $userLatestCodeRepository;
 
-    private const REGISTRATION_FAILED_MESSAGE = 'Failed Registration';
-
     public function __construct(
         UserRepository $userRepository,
         UserLatestCodeRepository $userLatestCodeRepository
@@ -40,13 +38,12 @@ final class RegisterService
                 $password,
                 $email_verify_token
             );
-
             $user->sendEmailVerificationNotification();
 
             \DB::commit();
         } catch (\Exception $e) {
             \DB::rollBack();
-            throw new \Exception(self::REGISTRATION_FAILED_MESSAGE);
+            throw new \Exception('Failed registration');
         }
 
         Auth::login($user);

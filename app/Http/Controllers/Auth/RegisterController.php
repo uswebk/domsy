@@ -22,13 +22,6 @@ class RegisterController extends Controller
         RegisterRequest $request,
         RegisterService $registerService
     ) {
-        $inputs = $request->only([
-            'name',
-            'email',
-            'password',
-            'email_verify_token',
-        ]);
-
         try {
             $registerService->handle(
                 $request->name,

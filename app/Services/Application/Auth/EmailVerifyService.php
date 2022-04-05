@@ -15,8 +15,6 @@ final class EmailVerifyService
     private $userRepository;
     private $eloquentUserQueryService;
 
-    private const EMAIL_VERIFIED_FAILED_MESSAGE = 'Email Verified Failed';
-
     public function __construct(
         Request $request,
         UserRepository $userRepository,
@@ -37,6 +35,7 @@ final class EmailVerifyService
 
     public function handle(): void
     {
+        \DB::beginTransaction();
         try {
             if (! $this->isEqualUserIdHash()) {
                 throw new Exception();
@@ -51,10 +50,15 @@ final class EmailVerifyService
 
             $user->email_verified_at = now();
             $this->userRepository->save($user);
+
+            \DB::commit();
         } catch (AlreadyVerifiedException $e) {
             throw $e;
         } catch (\Exception $e) {
-            throw new \Exception(self::EMAIL_VERIFIED_FAILED_MESSAGE);
+            \DB::rollBack();
+
+            throw $e;
+            throw new \Exception('Email verified failed');
         }
     }
 }

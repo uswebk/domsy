@@ -17,11 +17,6 @@ class RegisterRequest extends Request
         ];
     }
 
-    public function messages(): array
-    {
-        return [];
-    }
-
     protected function passedValidation(): void
     {
         $this->merge([

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Repositories\User;
 
-use App\Infrastructures\Eloquent\Models\User;
+use App\Infrastructures\Models\Eloquent\User;
 
 final class UserRepository
 {

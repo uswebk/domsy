@@ -38,4 +38,13 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof \App\Exceptions\Auth\AlreadyVerifiedException) {
+            return response()->view('auth.verify', ['error' => $exception->getMessage()]);
+        }
+
+        return parent::render($request, $exception);
+    }
 }
