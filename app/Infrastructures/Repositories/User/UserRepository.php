@@ -20,9 +20,20 @@ final class UserRepository
         return $user;
     }
 
-    public function store(array $data): User
-    {
-        $this->model->fill($data)->save();
+    public function store(
+        string $name,
+        int $code,
+        string $email,
+        string $password,
+        string $email_verify_token,
+    ): User {
+        $this->model->fill([
+            'name' => $name,
+            'code' => $code,
+            'email' => $email,
+            'password' => $password,
+            'email_verify_token' => $email_verify_token,
+        ])->save();
 
         return $this->model;
     }

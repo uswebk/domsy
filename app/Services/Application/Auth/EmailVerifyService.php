@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Services\Application\Auth;
 
 use App\Exceptions\Auth\AlreadyVerifiedException;
-use App\Exceptions\Auth\ExpiredAuthenticationException;
 use App\Infrastructures\Queries\User\EloquentUserQueryService;
 use App\Infrastructures\Repositories\User\UserRepository;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 final class EmailVerifyService
@@ -29,12 +27,6 @@ final class EmailVerifyService
         $this->eloquentUserQueryService = $eloquentUserQueryService;
     }
 
-    private function isExpired(): bool
-    {
-        return (new Carbon())->gt((new Carbon())
-        ->createFromTimestamp($this->request->expires));
-    }
-
     private function isEqualUserIdHash(): bool
     {
         return hash_equals(
@@ -46,10 +38,6 @@ final class EmailVerifyService
     public function handle(): void
     {
         try {
-            if ($this->isExpired()) {
-                throw new ExpiredAuthenticationException();
-            }
-
             if (! $this->isEqualUserIdHash()) {
                 throw new Exception();
             }
@@ -63,8 +51,6 @@ final class EmailVerifyService
 
             $user->email_verified_at = now();
             $this->userRepository->save($user);
-        } catch (ExpiredAuthenticationException $e) {
-            throw $e;
         } catch (AlreadyVerifiedException $e) {
             throw $e;
         } catch (\Exception $e) {

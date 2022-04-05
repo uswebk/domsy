@@ -30,7 +30,12 @@ class RegisterController extends Controller
         ]);
 
         try {
-            $registerService->handle($inputs);
+            $registerService->handle(
+                $request->name,
+                $request->email,
+                $request->password,
+                $request->email_verify_token,
+            );
         } catch (Exception $e) {
             return view('auth.register')
             ->with($request->all())

@@ -23,13 +23,23 @@ final class RegisterService
         $this->userLatestCodeRepository = $userLatestCodeRepository;
     }
 
-    public function handle(array $input): void
-    {
+    public function handle(
+        string $name,
+        string $email,
+        string $password,
+        string $email_verify_token,
+    ): void {
         \DB::beginTransaction();
         try {
-            $input['code'] = $this->userLatestCodeRepository->next();
+            $code = $this->userLatestCodeRepository->next();
 
-            $user = $this->userRepository->store($input);
+            $user = $this->userRepository->store(
+                $name,
+                $code,
+                $email,
+                $password,
+                $email_verify_token
+            );
 
             $user->sendEmailVerificationNotification();
 
