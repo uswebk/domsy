@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Auth;
 
+use App\Infrastructures\Mails\SendServices\EmailVerificationService;
 use App\Infrastructures\Repositories\User\UserRepository;
 use App\Infrastructures\Repositories\UserLatestCode\UserLatestCodeRepository;
 use Illuminate\Support\Facades\Auth;
@@ -12,13 +13,16 @@ final class RegisterService
 {
     private $userRepository;
     private $userLatestCodeRepository;
+    private $emailVerificationService;
 
     public function __construct(
         UserRepository $userRepository,
-        UserLatestCodeRepository $userLatestCodeRepository
+        UserLatestCodeRepository $userLatestCodeRepository,
+        EmailVerificationService $emailVerificationService
     ) {
         $this->userRepository = $userRepository;
         $this->userLatestCodeRepository = $userLatestCodeRepository;
+        $this->emailVerificationService = $emailVerificationService;
     }
 
     public function handle(
@@ -38,7 +42,8 @@ final class RegisterService
                 $password,
                 $email_verify_token
             );
-            $user->sendEmailVerificationNotification();
+
+            $this->emailVerificationService->execute($user);
 
             \DB::commit();
         } catch (\Exception $e) {

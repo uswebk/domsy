@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
-use App\Infrastructures\Mails\Client\EmailVerification;
-
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -42,9 +40,4 @@ class User extends Authenticatable implements MustVerifyEmail
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
-
-    public function sendEmailVerificationNotification(): void
-    {
-        $this->notify(new EmailVerification());
-    }
 }
