@@ -20,8 +20,6 @@ Route::get('/', function () {
 
 Route::middleware('verified')->group(function () {
     Route::middleware('auth')->group(function () {
-        Route::get('/home', 'HomeController@index')->name('home');
-
         Route::namespace('Client')->group(function () {
             Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
 
