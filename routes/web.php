@@ -24,6 +24,10 @@ Route::middleware('verified')->group(function () {
 
         Route::namespace('Client')->group(function () {
             Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
+
+            Route::prefix('domain')->name('domain.')->group(function () {
+                Route::get('/', 'DomainController@index')->name('index');
+            });
         });
     });
 });
