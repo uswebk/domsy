@@ -26,6 +26,8 @@ Route::middleware('verified')->group(function () {
             Route::prefix('domain')->name('domain.')->group(function () {
                 Route::get('/', 'DomainController@index')->name('index');
                 Route::get('/{domain}/edit', 'DomainController@edit')->name('edit')->where('domain', '[0-9]+');
+
+                Route::post('/{domain}/update', 'DomainController@update')->name('update')->where('domain', '[0-9]+');
             });
         });
     });
