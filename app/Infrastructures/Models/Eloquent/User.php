@@ -41,4 +41,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];
+
+    public function domains(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Infrastructures\Models\Eloquent\Domain');
+    }
 }
