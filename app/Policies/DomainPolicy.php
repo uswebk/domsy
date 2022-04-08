@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Infrastructures\Models\Eloquent\Domain;
 use App\Infrastructures\Models\Eloquent\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class DomainPolicy
+final class DomainPolicy
 {
     use HandlesAuthorization;
 
