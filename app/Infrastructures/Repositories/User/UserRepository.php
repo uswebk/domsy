@@ -8,11 +8,6 @@ use App\Infrastructures\Models\Eloquent\User;
 
 final class UserRepository
 {
-    public function __construct(User $user)
-    {
-        $this->model = $user;
-    }
-
     public function save(User $user): User
     {
         $user->save();
@@ -27,7 +22,8 @@ final class UserRepository
         string $password,
         string $email_verify_token,
     ): User {
-        $this->model->fill([
+        $user = new User();
+        $user->fill([
             'name' => $name,
             'code' => $code,
             'email' => $email,
@@ -35,6 +31,6 @@ final class UserRepository
             'email_verify_token' => $email_verify_token,
         ])->save();
 
-        return $this->model;
+        return $user;
     }
 }
