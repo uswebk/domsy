@@ -5,15 +5,28 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\Domain\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Domain;
-use Illuminate\Http\Request;
+use App\Infrastructures\Repositories\Domain\DomainRepository;
+
 use Illuminate\Support\Facades\Auth;
 
 class DomainController extends Controller
 {
-    public function __construct()
-    {
+    protected $domainRepository;
+
+    public function __construct(
+        DomainRepository $domainRepository
+    ) {
         $this->middleware('can:owner,domain')->except(['index']);
+
+        $this->middleware(function ($request, $next) {
+            view()->share('greeting', session('greeting'));
+
+            return $next($request);
+        });
+
+        $this->domainRepository = $domainRepository;
     }
 
     public function index()
@@ -30,8 +43,24 @@ class DomainController extends Controller
         ]);
     }
 
-    public function update(Request $request, Domain $domain)
+    public function update(UpdateRequest $request, Domain $domain)
     {
-        // Todo: 更新処理実装
+        $inputs = $request->only([
+            'name',
+            'price',
+            'is_active',
+            'is_transferred',
+            'is_management_only',
+            'purchased',
+            'expired_date',
+            'canceled_at',
+        ]);
+
+        $domain->fill($inputs);
+
+        $this->domainRepository->save($domain);
+
+        return redirect()->route('domain.index')
+        ->with('greeting', 'Success!!');
     }
 }

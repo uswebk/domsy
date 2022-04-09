@@ -1,5 +1,9 @@
 <h1>Domain</h1>
 
+@if(isset($greeting))
+  {{ $greeting }}
+@endif
+
 @foreach($domains as $domain)
 
   <p>
