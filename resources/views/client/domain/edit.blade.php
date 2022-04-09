@@ -68,9 +68,9 @@
     </dl>
 
     <div>
-      {{ Form::hidden('domain-is_active', 0) }}
+      {{ Form::hidden('is_active', 0) }}
       {{ Form::checkbox('is_active', '1', old('is_active', $domain->is_active), ['id' => 'domain-is_active', 'class' => 'form-check-input']) }}
-      {{ Form::label('is_active', '稼働中') }}
+      {{ Form::label('domain-is_active', '稼働中') }}
 
       @error('is_active')
         <div class='invalid-feedback d-block'>{{ $message }}</div>
@@ -78,19 +78,19 @@
     </div>
 
     <div>
-      {{ Form::hidden('domain-is_transferred', 0) }}
+      {{ Form::hidden('is_transferred', 0) }}
       {{ Form::checkbox('is_transferred', '1', old('is_transferred', $domain->is_transferred), ['id' => 'domain-is_transferred', 'class' => 'form-check-input']) }}
-      {{ Form::label('is_transferred', '移管済') }}
+      {{ Form::label('domain-is_transferred', '移管済') }}
 
-      @error('domain-is_transferred')
+      @error('is_transferred')
         <div class='invalid-feedback d-block'>{{ $message }}</div>
       @enderror
     </div>
 
     <div>
-      {{ Form::hidden('domain-is_management_only', 0) }}
+      {{ Form::hidden('is_management_only', 0) }}
       {{ Form::checkbox('is_management_only', '1', old('is_management_only', $domain->is_management_only), ['id' => 'domain-is_management_only', 'class' => 'form-check-input']) }}
-      {{ Form::label('is_management_only', '管理のみ') }}
+      {{ Form::label('domain-is_management_only', '管理のみ') }}
 
       @error('is_management_only')
         <div class='invalid-feedback d-block'>{{ $message }}</div>
