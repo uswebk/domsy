@@ -1,13 +1,20 @@
-<h1>Domain</h1>
+@extends('layouts.app')
 
-@if(isset($greeting))
-  {{ $greeting }}
-@endif
+@section('content')
 
-@foreach($domains as $domain)
+<div class="container">
+  <h1>Domain List</h1>
 
-  <p>
-    <a href="{{ route('domain.edit', $domain->id) }}"> {{ $domain->name }} </a>
-  </p>
+  @if(isset($greeting))
+    {{ $greeting }}
+  @endif
 
-@endforeach
+  @foreach($domains as $domain)
+
+    <p>
+      <a href="{{ route('domain.edit', $domain->id) }}"> {{ $domain->name }} </a>
+    </p>
+
+  @endforeach
+</div>
+@endsection
