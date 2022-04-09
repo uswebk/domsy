@@ -18,6 +18,24 @@ class Domain extends BaseModel
         'canceled_at',
     ];
 
+    protected $dates = [
+        'purchased',
+        'expired_date',
+        'canceled_at',
+        'deleted_at',
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $casts = [
+        'purchased' => 'datetime',
+        'expired_date' => 'datetime',
+        'canceled_at' => 'datetime',
+        'deleted_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'created_at' => 'datetime',
+    ];
+
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\User');
