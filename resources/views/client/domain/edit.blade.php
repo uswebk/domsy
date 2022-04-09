@@ -2,71 +2,106 @@
 
 @section('content')
 
-<div class="container">
+<div class='container'>
 
   <h1>Domain Edit</h1>
 
-  <p><a href="{{ route('domain.index') }}">←back</a></p>
+  <p><a href='{{ route('domain.index') }}'>←back</a></p>
 
-  {{ $domain->name }}
+  <div>{{ $domain->name }}</div>
 
-  <form action="{{ route('domain.update', $domain->id) }}" method="POST">
-    @csrf
-    <p>name:</p>
-    <input type="text" name='name' value={{ old('name', $domain->name) }} >
-    @error('name')
-        <strong>{{ $message }}</strong>
-    @enderror
+  {{ Form::open(['url' => route('domain.update', $domain->id), 'class' =>'w-50 p-3']) }}
+    <dl>
+      <dt class='form-label'>{{ Form::label('domain-name', 'ドメイン名') }}</dt>
 
-    <p>price:</p>
-    <input type="text" name='price' value={{ old('price', $domain->price) }}>
-    @error('price')
-      <strong>{{ $message }}</strong>
-    @enderror
+      <dd>{{ Form::text('name', old('name', $domain->name), ['placeholder' => 'example.com', 'id' => 'domain-name', 'class' => 'form-control']) }}</dd>
 
-    <p>is_active:</p>
-    <input name="is_active" type="hidden" value="0">
-    <input type="checkbox" name='is_active' value='1' {{ (old('is_active', $domain->is_active)) ? "checked" : "" }}>
-    @error('is_active')
-      <strong>{{ $message }}</strong>
-    @enderror
+      @error('name')
+        <div class='invalid-feedback d-block'>{{ $message }}</div>
+      @enderror
+    </dl>
 
-    <p>is_transferred:</p>
-    <input name="is_transferred" type="hidden" value="0">
-    <input type="checkbox" name='is_transferred' value='1' {{ (old('is_transferred', $domain->is_transferred)) ? "checked" : "" }}>
-    @error('is_transferred')
-      <strong>{{ $message }}</strong>
-    @enderror
+    <dl class='w-50'>
+      <dt>{{ Form::label('domain-price', '価格') }}</dt>
 
-    <p>is_management_only:</p>
-    <input name="is_management_only" type="hidden" value="0">
-    <input type="checkbox" name='is_management_only' value='1' {{ (old('is_management_only', $domain->is_management_only)) ? "checked" : "" }}>
-    @error('is_management_only')
-      <strong>{{ $message }}</strong>
-    @enderror
+      <dd>{{ Form::number('price', old('price', $domain->price), ['placeholder' => '1000', 'id' => 'domain-price', 'class' => 'form-control']) }}</dd>
 
-    <p>purchased:</p>
-    <input type="date" name='purchased' value={{ old('purchased', $domain->purchased) }}>
-    @error('purchased')
-      <strong>{{ $message }}</strong>
-    @enderror
+      @error('price')
+        <div class='invalid-feedback d-block'>{{ $message }}</div>
+      @enderror
+    </dl>
 
-    <p>expired_date:</p>
-    <input type="date" name='expired_date' value={{ old('expired_date', $domain->expired_date) }}>
-    @error('expired_date')
-      <strong>{{ $message }}</strong>
-    @enderror
+    <dl class='w-25'>
+      <dt>{{ Form::label('domain-purchased', '購入日') }}</dt>
 
-    <p>canceled_at:</p>
-    <input type="date" name='canceled_at' value={{ old('canceled_at', $domain->canceled_at) }}>
-    @error('canceled_at')
-      <strong>{{ $message }}</strong>
-    @enderror
+      <dd>
+        {{ Form::date('purchased',old('purchased', $domain->purchased), ['id' => 'domain-purchased','class' => 'form-control']) }}
+      </dd>
 
-    <br>
+      @error('purchased')
+        <div class='invalid-feedback d-block'>{{ $message }}</div>
+      @enderror
+    </dl>
 
-    <div><button type="submit">{{ __('update') }}</button></div>
-  </form>
+    <dl class='w-25'>
+      <dt>{{ Form::label('domain-expired_date', '有効期限日') }}</dt>
+
+      <dd>
+        {{ Form::date('expired_date',old('expired_date', $domain->expired_date), ['id' => 'domain-expired_date', 'class' => 'form-control']) }}
+      </dd>
+
+      @error('expired_date')
+        <div class='invalid-feedback d-block'>{{ $message }}</div>
+      @enderror
+    </dl>
+
+    <dl class='w-25'>
+      <dt>{{ Form::label('domain-canceled_at', '解約日') }}</dt>
+
+      <dd>
+        {{ Form::date('canceled_at',old('canceled_at', $domain->canceled_at), ['id' => 'domain-canceled_at', 'class' => 'form-control']) }}
+      </dd>
+
+      @error('canceled_at')
+        <div class='invalid-feedback d-block'>{{ $message }}</div>
+      @enderror
+    </dl>
+
+    <div>
+      {{ Form::hidden('domain-is_active', 0) }}
+      {{ Form::checkbox('is_active', '1', old('is_active', $domain->is_active), ['id' => 'domain-is_active', 'class' => 'form-check-input']) }}
+      {{ Form::label('is_active', '稼働中') }}
+
+      @error('is_active')
+        <div class='invalid-feedback d-block'>{{ $message }}</div>
+      @enderror
+    </div>
+
+    <div>
+      {{ Form::hidden('domain-is_transferred', 0) }}
+      {{ Form::checkbox('is_transferred', '1', old('is_transferred', $domain->is_transferred), ['id' => 'domain-is_transferred', 'class' => 'form-check-input']) }}
+      {{ Form::label('is_transferred', '移管済') }}
+
+      @error('domain-is_transferred')
+        <div class='invalid-feedback d-block'>{{ $message }}</div>
+      @enderror
+    </div>
+
+    <div>
+      {{ Form::hidden('domain-is_management_only', 0) }}
+      {{ Form::checkbox('is_management_only', '1', old('is_management_only', $domain->is_management_only), ['id' => 'domain-is_management_only', 'class' => 'form-check-input']) }}
+      {{ Form::label('is_management_only', '管理のみ') }}
+
+      @error('is_management_only')
+        <div class='invalid-feedback d-block'>{{ $message }}</div>
+      @enderror
+    </div>
+
+    <div class="mt-1">
+      {{ Form::button('更新', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
+    <div>
+
+    {{Form::close()}}
 </div>
 
 @endsection
