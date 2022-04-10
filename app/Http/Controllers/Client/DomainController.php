@@ -9,6 +9,7 @@ use App\Http\Requests\Client\Domain\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Domain;
 use App\Infrastructures\Repositories\Domain\DomainRepository;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DomainController extends Controller
@@ -18,7 +19,7 @@ class DomainController extends Controller
     public function __construct(
         DomainRepository $domainRepository
     ) {
-        $this->middleware('can:owner,domain')->except(['index']);
+        $this->middleware('can:owner,domain')->except(['index', 'new','create']);
 
         $this->middleware(function ($request, $next) {
             view()->share('greeting', session('greeting'));
@@ -59,6 +60,20 @@ class DomainController extends Controller
         $domain->fill($inputs);
 
         $this->domainRepository->save($domain);
+
+        return redirect()->route('domain.index')
+        ->with('greeting', 'Success!!');
+    }
+
+    public function new()
+    {
+        return view('client.domain.new');
+    }
+
+    public function create(Request $request)
+    {
+        // Form Validation
+        // Repository Add
 
         return redirect()->route('domain.index')
         ->with('greeting', 'Success!!');
