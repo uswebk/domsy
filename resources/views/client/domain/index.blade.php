@@ -50,15 +50,15 @@
         </td>
 
         <td>
-          {{ $domain->purchased->toDateString() }}
+          {{ $domain->purchased }}
         </td>
 
         <td>
-          {{ $domain->expired_date->toDateString() }}
+          {{ $domain->expired_date }}
         </td>
 
         <td>
-          {{ $domain->canceled_at->toDateString() }}
+          {{ $domain->canceled_at }}
         </td>
 
         <td>
