@@ -34,31 +34,31 @@
         </td>
 
         <td>
-          {{ $domain->price }}
+          ￥{{ number_format($domain->price) }}
         </td>
 
         <td>
-          {{ $domain->is_active }}
+          {{ AppHelper::getCircleSymbol($domain->is_active) }}
         </td>
 
         <td>
-          {{ $domain->is_transferred }}
+          {{ AppHelper::getCircleSymbol($domain->is_transferred) }}
         </td>
 
         <td>
-          {{ $domain->is_management_only }}
+          {{ AppHelper::getCircleSymbol($domain->is_management_only) }}
         </td>
 
         <td>
-          {{ $domain->purchased }}
+          {{ $domain->purchased->toDateString() }}
         </td>
 
         <td>
-          {{ $domain->expired_date }}
+          {{ $domain->expired_date->toDateString() }}
         </td>
 
         <td>
-          {{ $domain->canceled_at }}
+          {{ $domain->canceled_at->toDateString() }}
         </td>
 
         <td>

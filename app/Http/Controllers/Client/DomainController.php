@@ -7,9 +7,10 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\Domain\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Domain;
-use App\Infrastructures\Repositories\Domain\DomainRepository;
 
+use App\Infrastructures\Repositories\Domain\DomainRepository;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 
 class DomainController extends Controller
