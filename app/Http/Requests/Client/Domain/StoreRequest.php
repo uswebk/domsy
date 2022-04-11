@@ -17,8 +17,8 @@ class StoreRequest extends Request
             'is_active' => 'required|boolean',
             'is_transferred' => 'required|boolean',
             'is_management_only' => 'required|boolean',
-            'purchased' => 'required|date_format:Y-m-d',
-            'expired_date' => 'required|date_format:Y-m-d',
+            'purchased_at' => 'required|date_format:Y-m-d',
+            'expired_at' => 'required|date_format:Y-m-d',
             'canceled_at' => 'nullable|date_format:Y-m-d',
         ];
     }

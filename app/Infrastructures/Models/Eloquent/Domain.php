@@ -13,16 +13,15 @@ class Domain extends BaseModel
         'is_active',
         'is_transferred',
         'is_management_only',
-        'purchased',
-        'expired_date',
+        'purchased_at',
+        'expired_at',
         'canceled_at',
     ];
 
     protected $dates = [
-        'purchased',
-        'expired_date',
+        'purchased_at',
+        'expired_at',
         'canceled_at',
-        'deleted_at',
         'created_at',
         'updated_at',
     ];
@@ -31,10 +30,9 @@ class Domain extends BaseModel
         'is_active' => 'boolean',
         'is_transferred' => 'boolean',
         'is_management_only' => 'boolean',
-        'purchased' => 'datetime',
-        'expired_date' => 'datetime',
+        'purchased_at' => 'datetime',
+        'expired_at' => 'datetime',
         'canceled_at' => 'datetime',
-        'deleted_at' => 'datetime',
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
     ];

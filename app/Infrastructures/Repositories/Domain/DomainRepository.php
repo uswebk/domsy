@@ -21,4 +21,9 @@ final class DomainRepository
 
         return $domain;
     }
+
+    public function delete(Domain $domain): void
+    {
+        $domain->delete();
+    }
 }

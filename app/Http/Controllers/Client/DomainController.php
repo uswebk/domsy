@@ -53,8 +53,8 @@ class DomainController extends Controller
             'is_active',
             'is_transferred',
             'is_management_only',
-            'purchased',
-            'expired_date',
+            'purchased_at',
+            'expired_at',
             'canceled_at',
         ]);
 
@@ -80,8 +80,8 @@ class DomainController extends Controller
             'is_active',
             'is_transferred',
             'is_management_only',
-            'purchased',
-            'expired_date',
+            'purchased_at',
+            'expired_at',
             'canceled_at',
         ]);
 
@@ -89,5 +89,13 @@ class DomainController extends Controller
 
         return redirect()->route('domain.index')
         ->with('greeting', 'Create Success!!');
+    }
+
+    public function delete(Domain $domain)
+    {
+        $this->domainRepository->delete($domain);
+
+        return redirect()->route('domain.index')
+        ->with('greeting', 'Delete Success!!');
     }
 }

@@ -30,21 +30,21 @@
     </div>
 
     <div class='w-25 mt-2'>
-      <div>{{ Form::label('domain-purchased', 'Purchased Date') }}</div>
+      <div>{{ Form::label('domain-purchased_at', 'Purchased Date') }}</div>
 
-      <div>{{ Form::date('purchased',old('purchased'), ['id' => 'domain-purchased','class' => 'form-control']) }}</div>
+      <div>{{ Form::date('purchased_at',old('purchased_at'), ['id' => 'domain-purchased_at','class' => 'form-control']) }}</div>
 
-      @error('purchased')
+      @error('purchased_at')
         <div class='invalid-feedback d-block'>{{ $message }}</div>
       @enderror
     </div>
 
     <div class='w-25 mt-2'>
-      <div>{{ Form::label('domain-expired_date', 'Expired Date') }}</div>
+      <div>{{ Form::label('domain-expired_at', 'Expired Date') }}</div>
 
-      <div>{{ Form::date('expired_date',old('expired_date'), ['id' => 'domain-expired_date', 'class' => 'form-control']) }}</div>
+      <div>{{ Form::date('expired_at',old('expired_at'), ['id' => 'domain-expired_at', 'class' => 'form-control']) }}</div>
 
-      @error('expired_date')
+      @error('expired_at')
         <div class='invalid-feedback d-block'>{{ $message }}</div>
       @enderror
     </div>
@@ -90,7 +90,7 @@
     </div>
 
     <div class="mt-5">
-      {{ Form::button('作成', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
+      {{ Form::button('Create', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
     <div>
 
     {{Form::close()}}

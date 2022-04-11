@@ -37,24 +37,24 @@
           ￥{{ number_format($domain->price) }}
         </td>
 
-        <td class="text-center">
+        <td>
           {{ AppHelper::getCircleSymbol($domain->is_active) }}
         </td>
 
-        <td class="text-center">
+        <td>
           {{ AppHelper::getCircleSymbol($domain->is_transferred) }}
         </td>
 
-        <td class="text-center">
+        <td>
           {{ AppHelper::getCircleSymbol($domain->is_management_only) }}
         </td>
 
         <td>
-          {{ DateHelper::getFormattedDate($domain->purchased) }}
+          {{ DateHelper::getFormattedDate($domain->purchased_at) }}
         </td>
 
         <td>
-          {{ DateHelper::getFormattedDate($domain->expired_date) }}
+          {{ DateHelper::getFormattedDate($domain->expired_at) }}
         </td>
 
         <td>
@@ -62,7 +62,11 @@
         </td>
 
         <td>
-          <a href="{{ route('domain.edit', $domain->id) }}"> edit</a>
+          <a href="{{ route('domain.edit', $domain->id) }}" class="btn btn-primary btn-sm"> edit</a>
+          {{ Form::open(['url' => route('domain.delete', $domain->id)]) }}
+            {{ Form::button('delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm']) }}
+          {{Form::close()}}
+
         </td>
       </tr>
     @endforeach
