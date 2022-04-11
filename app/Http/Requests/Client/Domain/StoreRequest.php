@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Requests\Client\Domain;
 
 use App\Http\Requests\Request;
+use Illuminate\Support\Facades\Auth;
 
-class UpdateRequest extends Request
+class StoreRequest extends Request
 {
     public function rules(): array
     {
@@ -20,5 +21,12 @@ class UpdateRequest extends Request
             'expired_date' => 'required|date_format:Y-m-d',
             'canceled_at' => 'nullable|date_format:Y-m-d',
         ];
+    }
+
+    protected function passedValidation(): void
+    {
+        $this->merge([
+            'user_id' => Auth::id(),
+        ]);
     }
 }

@@ -28,7 +28,7 @@ Route::middleware('verified')->group(function () {
                 Route::get('/new', 'DomainController@new')->name('new');
                 Route::get('/{domain}/edit', 'DomainController@edit')->name('edit')->where('domain', '[0-9]+');
 
-                Route::post('/create', 'DomainController@create')->name('create');
+                Route::post('/create', 'DomainController@store')->name('create');
                 Route::post('/{domain}/update', 'DomainController@update')->name('update')->where('domain', '[0-9]+');
             });
         });

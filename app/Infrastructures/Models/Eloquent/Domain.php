@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
-use Carbon\Carbon;
-
 class Domain extends BaseModel
 {
     protected $fillable = [
@@ -44,20 +42,5 @@ class Domain extends BaseModel
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\User');
-    }
-
-    public function getPurchasedAttribute(string $date): string
-    {
-        return (new Carbon($date))->format('Y/m/d');
-    }
-
-    public function getExpiredDateAttribute(string $date): string
-    {
-        return (new Carbon($date))->format('Y/m/d');
-    }
-
-    public function getCanceledAtAttribute(string $date): string
-    {
-        return (new Carbon($date))->format('Y/m/d');
     }
 }

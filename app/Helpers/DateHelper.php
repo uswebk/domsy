@@ -8,10 +8,12 @@ use Carbon\Carbon;
 
 final class DateHelper
 {
-    public static function getFormattedDate(\Carbon\Carbon $date): string
+    public static function getFormattedDate(?\Carbon\Carbon $date): string
     {
-        $date = Carbon::parse($date);
+        if (! isset($date)) {
+            return '';
+        }
 
-        return $date->format('Y/m/d');
+        return (Carbon::parse($date))->format('Y/m/d');
     }
 }

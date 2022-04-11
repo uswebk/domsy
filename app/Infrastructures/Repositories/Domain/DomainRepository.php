@@ -14,4 +14,11 @@ final class DomainRepository
 
         return $domain;
     }
+
+    public function store(array $attributes): Domain
+    {
+        $domain = Domain::create($attributes);
+
+        return $domain;
+    }
 }

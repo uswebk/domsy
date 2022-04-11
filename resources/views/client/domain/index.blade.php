@@ -16,15 +16,15 @@
 
   <table class="table table-hover mt-2">
     <tr>
-      <th>ドメイン名</th>
-      <th>価格</th>
-      <th>稼働中</th>
-      <th>移管済</th>
-      <th>管理のみ</th>
-      <th>購入日</th>
-      <th>有効期限日</th>
-      <th>解約日</th>
-      <th>操作</th>
+      <th>Domain Name</th>
+      <th>Price</th>
+      <th>Active</th>
+      <th>Transferred</th>
+      <th>Management <br>Only</th>
+      <th>Purchased <br>Date</th>
+      <th>Expired <br>Date</th>
+      <th>Canceled <br>Date</th>
+      <th>Action</th>
     </tr>
 
     @foreach($domains as $domain)
@@ -37,32 +37,32 @@
           ￥{{ number_format($domain->price) }}
         </td>
 
-        <td>
+        <td class="text-center">
           {{ AppHelper::getCircleSymbol($domain->is_active) }}
         </td>
 
-        <td>
+        <td class="text-center">
           {{ AppHelper::getCircleSymbol($domain->is_transferred) }}
         </td>
 
-        <td>
+        <td class="text-center">
           {{ AppHelper::getCircleSymbol($domain->is_management_only) }}
         </td>
 
         <td>
-          {{ $domain->purchased }}
+          {{ DateHelper::getFormattedDate($domain->purchased) }}
         </td>
 
         <td>
-          {{ $domain->expired_date }}
+          {{ DateHelper::getFormattedDate($domain->expired_date) }}
         </td>
 
         <td>
-          {{ $domain->canceled_at }}
+          {{ DateHelper::getFormattedDate($domain->canceled_at) }}
         </td>
 
         <td>
-          <a href="{{ route('domain.edit', $domain->id) }}"> edit </a><br>
+          <a href="{{ route('domain.edit', $domain->id) }}"> edit</a>
         </td>
       </tr>
     @endforeach
