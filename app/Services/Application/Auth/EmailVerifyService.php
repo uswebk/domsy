@@ -6,7 +6,7 @@ namespace App\Services\Application\Auth;
 
 use App\Exceptions\Auth\AlreadyVerifiedException;
 use App\Infrastructures\Queries\User\EloquentUserQueryService;
-use App\Infrastructures\Repositories\User\UserRepository;
+use App\Infrastructures\Repositories\User\UserRepositoryInterface;
 
 use Illuminate\Http\Request;
 
@@ -18,7 +18,7 @@ final class EmailVerifyService
 
     public function __construct(
         Request $request,
-        UserRepository $userRepository,
+        UserRepositoryInterface $userRepository,
         EloquentUserQueryService $eloquentUserQueryService,
     ) {
         $this->request = $request;

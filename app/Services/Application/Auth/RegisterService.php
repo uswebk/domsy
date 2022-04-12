@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Services\Application\Auth;
 
 use App\Infrastructures\Mails\SendServices\EmailVerificationService;
-use App\Infrastructures\Repositories\User\UserLatestCodeRepository;
-use App\Infrastructures\Repositories\User\UserRepository;
+use App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface;
+use App\Infrastructures\Repositories\User\UserRepositoryInterface;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -17,8 +17,8 @@ final class RegisterService
     private $emailVerificationService;
 
     public function __construct(
-        UserRepository $userRepository,
-        UserLatestCodeRepository $userLatestCodeRepository,
+        UserRepositoryInterface $userRepository,
+        UserLatestCodeRepositoryInterface $userLatestCodeRepository,
         EmailVerificationService $emailVerificationService
     ) {
         $this->userRepository = $userRepository;
@@ -36,13 +36,13 @@ final class RegisterService
         try {
             $code = $this->userLatestCodeRepository->next();
 
-            $user = $this->userRepository->store(
-                $name,
-                $code,
-                $email,
-                $password,
-                $email_verify_token
-            );
+            $user = $this->userRepository->store([
+                'name' => $name,
+                'code' => $code,
+                'email' => $email,
+                'password' => $password,
+                'email_verify_token' => $email_verify_token,
+            ]);
 
             $this->emailVerificationService->execute($user);
 

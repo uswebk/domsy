@@ -6,7 +6,7 @@ namespace App\Infrastructures\Repositories\Domain;
 
 use App\Infrastructures\Models\Eloquent\Domain;
 
-final class DomainRepository
+final class DomainRepository implements DomainRepositoryInterface
 {
     public function save(Domain $domain): Domain
     {

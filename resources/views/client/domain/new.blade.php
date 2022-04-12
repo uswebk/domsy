@@ -8,7 +8,7 @@
 
   <p><a href='{{ route('domain.index') }}'>←back</a></p>
 
-  {{ Form::open(['url' => route('domain.create'), 'class' =>'w-50 p-3']) }}
+  {{ Form::open(['url' => route('domain.store'), 'class' =>'w-50 p-3']) }}
     <div class='w-50 mt-2'>
       <div class='form-label'>{{ Form::label('domain-name', 'Domain Name') }}</div>
 
@@ -93,7 +93,7 @@
       {{ Form::button('Create', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
     <div>
 
-    {{Form::close()}}
+    {{ Form::close() }}
 </div>
 
 @endsection

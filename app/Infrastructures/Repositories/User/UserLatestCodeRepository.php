@@ -6,7 +6,7 @@ namespace App\Infrastructures\Repositories\User;
 
 use App\Infrastructures\Models\Eloquent\UserLatestCode;
 
-final class UserLatestCodeRepository
+final class UserLatestCodeRepository implements UserLatestCodeRepositoryInterface
 {
     public function next(): int
     {

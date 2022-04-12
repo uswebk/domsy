@@ -9,7 +9,7 @@ use App\Http\Requests\Client\Domain\StoreRequest;
 use App\Http\Requests\Client\Domain\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Domain;
 
-use App\Infrastructures\Repositories\Domain\DomainRepository;
+use App\Infrastructures\Repositories\Domain\DomainRepositoryInterface;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +18,7 @@ class DomainController extends Controller
     protected $domainRepository;
 
     public function __construct(
-        DomainRepository $domainRepository
+        DomainRepositoryInterface $domainRepository
     ) {
         $this->middleware('can:owner,domain')->except(['index', 'new','store']);
 

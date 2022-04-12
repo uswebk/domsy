@@ -6,7 +6,7 @@ namespace App\Infrastructures\Repositories\User;
 
 use App\Infrastructures\Models\Eloquent\User;
 
-final class UserRepository
+final class UserRepository implements UserRepositoryInterface
 {
     public function save(User $user): User
     {
@@ -15,21 +15,9 @@ final class UserRepository
         return $user;
     }
 
-    public function store(
-        string $name,
-        int $code,
-        string $email,
-        string $password,
-        string $email_verify_token,
-    ): User {
-        $user = new User();
-        $user->fill([
-            'name' => $name,
-            'code' => $code,
-            'email' => $email,
-            'password' => $password,
-            'email_verify_token' => $email_verify_token,
-        ])->save();
+    public function store(array $attributes): User
+    {
+        $user = User::create($attributes);
 
         return $user;
     }
