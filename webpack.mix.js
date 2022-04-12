@@ -14,4 +14,13 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
+    .browserSync({
+        proxy: "http://dev.domsy.com:8000",
+        files: [
+            './resources/**/*',
+            './public/**/*',
+        ],
+        open: false,
+        reloadOnRestart: true,
+    })
     .sourceMaps();
