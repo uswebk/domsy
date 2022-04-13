@@ -32,6 +32,10 @@ Route::middleware('verified')->group(function () {
                 Route::post('/{domain}/update', 'DomainController@update')->name('update')->where('domain', '[0-9]+');
                 Route::post('/{domain}/delete', 'DomainController@delete')->name('delete')->where('domain', '[0-9]+');
             });
+
+            Route::prefix('dns')->name('dns.')->group(function () {
+                Route::get('/', 'DnsController@index')->name('index');
+            });
         });
     });
 });

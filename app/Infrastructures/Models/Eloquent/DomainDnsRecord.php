@@ -29,4 +29,18 @@ class DomainDnsRecord extends BaseModel
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\DnsRecordType', 'type_id');
     }
+
+    public function getFullDomainNameAttribute(): string
+    {
+        if (isset($this->subdomain)) {
+            return $this->subdomain . '.' . $this->domain->name;
+        }
+
+        return $this->domain->name;
+    }
+
+    public function getDnsTypeAttribute(): string
+    {
+        return (isset($this->dns_record_type)) ? $this->dns_record_type->name : '';
+    }
 }
