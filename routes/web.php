@@ -30,7 +30,7 @@ Route::middleware('verified')->group(function () {
 
                 Route::post('/store', 'DomainController@store')->name('store');
                 Route::post('/{domain}/update', 'DomainController@update')->name('update')->where('domain', '[0-9]+');
-                Route::post('/{domain}/delete', 'DomainController@delete')->name('delete');
+                Route::post('/{domain}/delete', 'DomainController@delete')->name('delete')->where('domain', '[0-9]+');
             });
         });
     });

@@ -63,33 +63,14 @@
 
         <td>
           <a href="{{ route('domain.edit', $domain->id) }}" class="btn btn-primary btn-sm"> edit</a>
-          {{ Form::button('delete', ['class' => 'btn btn-danger btn-sm delete-btn', 'data-bs-toggle' => 'modal', 'data-bs-target'=>'deleteModal']) }}
+          {{ Form::open(['url' => route('domain.delete', $domain->id), 'name' => 'delete-form']) }}
+            {{ Form::button('delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm']) }}
+          {{Form::close()}}
         </td>
       </tr>
     @endforeach
   </table>
 </div>
-</div>
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel">Delete Confirm</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Do you really want to delete
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        {{ Form::open(['url' => '', 'name' => 'delete-form']) }}
-          {{ Form::button('delete', ['type' => 'submit', 'class' => 'btn btn-danger']) }}
-        {{Form::close()}}
-      </div>
-    </div>
-  </div>
-</div>
-
 @endsection
 
 
