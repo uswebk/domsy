@@ -94,7 +94,6 @@ class DomainController extends Controller
         DomainStoreService $domainStoreService
     ) {
         try {
-            throw new Exception();
             $attributes = $request->only([
                 'name',
                 'price',
