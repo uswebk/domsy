@@ -4,8 +4,6 @@
 
 <div class="container">
 
-  <h1>DNS List</h1>
-
   @if(isset($greeting))
 
     <div class="alert alert-primary" role="alert">{{ $greeting }}</div>
@@ -16,6 +14,7 @@
 
   @endif
 
+  <h1>DNS List</h1>
 
   @foreach($domains as $domain)
   <ul class="list-group m-2">
@@ -23,7 +22,7 @@
         <div class="row">
           <span class="col-11">{{ $domain->name }}</span>
           <span class="col-1 text-end">
-            <a href="{{ route('dns.new', $domain->id) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">+</a>
+            <a href="{{ route('dns.new', ['domain' => $domain->id, 'domain_id' => $domainIdQuery]) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">+</a>
           </span>
         </div>
       </li>
