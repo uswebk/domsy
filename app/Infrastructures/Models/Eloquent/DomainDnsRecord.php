@@ -9,7 +9,7 @@ class DomainDnsRecord extends BaseModel
     protected $fillable = [
         'domain_id',
         'subdomain',
-        'dns_type_id',
+        'type_id',
         'value',
         'ttl',
         'priority',

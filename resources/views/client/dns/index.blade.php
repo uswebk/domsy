@@ -4,12 +4,28 @@
 
 <div class="container">
 
-  <h1>SubDomain List</h1>
+  <h1>DNS List</h1>
+
+  @if(isset($greeting))
+
+    <div class="alert alert-primary" role="alert">{{ $greeting }}</div>
+
+  @elseif(isset($failing))
+
+    <div class="alert alert-danger" role="alert">{{ $failing }}</div>
+
+  @endif
+
 
   @foreach($domains as $domain)
   <ul class="list-group m-2">
-      <li class="list-group-item disabled" aria-disabled="true">
-        {{ $domain->name }}
+      <li class="list-group-item">
+        <div class="row">
+          <span class="col-11">{{ $domain->name }}</span>
+          <span class="col-1 text-end">
+            <a href="{{ route('dns.new', $domain->id) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">+</a>
+          </span>
+        </div>
       </li>
 
       <li class="list-group-item p-0 px-2 pt-1">
