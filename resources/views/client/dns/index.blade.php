@@ -27,15 +27,15 @@
         </dl>
       </li>
 
-      @foreach($domain->domain_dns_records as $domain_dns_record)
+      @foreach($domain->domainDnsRecords as $domainDnsRecord)
 
         <li class="list-group-item">
           <dl class="row">
-            <dt class="col-3">{{ $domain_dns_record->full_domain_name }}</dt>
-            <dd class="col-1">{{ $domain_dns_record->dns_type }}</dd>
-            <dd class="col-3">{{ $domain_dns_record->value }}</dd>
-            <dd class="col-1">{{ $domain_dns_record->ttl }}</dd>
-            <dd class="col-1">{{ $domain_dns_record->priority }}</dd>
+            <dt class="col-3">{{ $domainDnsRecord->full_domain_name }}</dt>
+            <dd class="col-1">{{ $domainDnsRecord->dns_type }}</dd>
+            <dd class="col-3">{{ $domainDnsRecord->value }}</dd>
+            <dd class="col-1">{{ $domainDnsRecord->ttl }}</dd>
+            <dd class="col-1">{{ $domainDnsRecord->priority }}</dd>
             <dd class="col-2">Edit</dd>
           </dl>
         </li>

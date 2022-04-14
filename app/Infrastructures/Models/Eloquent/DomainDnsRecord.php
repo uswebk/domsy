@@ -25,7 +25,7 @@ class DomainDnsRecord extends BaseModel
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\Domain');
     }
 
-    public function dns_record_type(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function dnsRecordType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\DnsRecordType', 'type_id');
     }
@@ -41,6 +41,6 @@ class DomainDnsRecord extends BaseModel
 
     public function getDnsTypeAttribute(): string
     {
-        return (isset($this->dns_record_type)) ? $this->dns_record_type->name : '';
+        return (isset($this->dnsRecordType)) ? $this->dnsRecordType->name : '';
     }
 }

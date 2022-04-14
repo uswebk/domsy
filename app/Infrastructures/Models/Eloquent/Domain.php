@@ -42,7 +42,7 @@ class Domain extends BaseModel
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\User');
     }
 
-    public function domain_dns_records(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function domainDnsRecords(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany('App\Infrastructures\Models\Eloquent\DomainDnsRecord');
     }

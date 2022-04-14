@@ -18,8 +18,8 @@ class DnsController extends Controller
     {
         $domains = Auth::user()->domains;
         $domains->load([
-            'domain_dns_records',
-            'domain_dns_records.dns_record_type'
+            'domainDnsRecords',
+            'domainDnsRecords.dnsRecordType'
         ]);
 
         return view('client.dns.index', compact('domains'));
