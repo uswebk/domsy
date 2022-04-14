@@ -31,6 +31,12 @@ class DomainController extends Controller
         $this->domainRepository = $domainRepository;
     }
 
+    protected function redirectIndexWithGreeting(string $greetingMessage): \Illuminate\Http\RedirectResponse
+    {
+        return redirect()->route('domain.index')
+        ->with('greeting', $greetingMessage);
+    }
+
     public function index()
     {
         return view('client.domain.index', [
@@ -62,8 +68,7 @@ class DomainController extends Controller
 
         $this->domainRepository->save($domain);
 
-        return redirect()->route('domain.index')
-        ->with('greeting', 'Update Success!!');
+        return $this->redirectIndexWithGreeting('Update Success!!');
     }
 
     public function new()
@@ -87,15 +92,13 @@ class DomainController extends Controller
 
         $this->domainRepository->store($attributes);
 
-        return redirect()->route('domain.index')
-        ->with('greeting', 'Create Success!!');
+        return $this->redirectIndexWithGreeting('Create Success!!');
     }
 
     public function delete(Domain $domain)
     {
         $this->domainRepository->delete($domain);
 
-        return redirect()->route('domain.index')
-        ->with('greeting', 'Delete Success!!');
+        return $this->redirectIndexWithGreeting('Delete Success!!');
     }
 }
