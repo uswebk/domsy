@@ -4,10 +4,6 @@
 
 <div class="container">
 
-  @if(isset($greeting))
-    <div class="alert alert-primary" role="alert">{{ $greeting }}</div>
-  @endif
-
   <h1>SubDomain List</h1>
 
   @foreach($domains as $domain)

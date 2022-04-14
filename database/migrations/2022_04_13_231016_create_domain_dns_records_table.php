@@ -17,7 +17,7 @@ class CreateDomainDnsRecordsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('domain_id');
             $table->string('subdomain')->nullable()->comment('サブドメイン');
-            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('type_id')->nullable();
             $table->string('value')->comment('レコード値')->nullable();
             $table->integer('ttl')->nullable();
             $table->integer('priority')->comment('メール優先順位')->nullable();

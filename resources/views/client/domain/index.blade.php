@@ -5,7 +5,13 @@
 <div class="container">
 
   @if(isset($greeting))
+
     <div class="alert alert-primary" role="alert">{{ $greeting }}</div>
+
+  @elseif(isset($failing))
+
+    <div class="alert alert-danger" role="alert">{{ $failing }}</div>
+
   @endif
 
   <h1>Domain List</h1>
