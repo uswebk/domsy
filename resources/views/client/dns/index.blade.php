@@ -1,28 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
+  <div class="container">
 
-<div class="container">
+    @if (isset($greeting))
+      <div class="alert alert-primary" role="alert">{{ $greeting }}</div>
+    @elseif(isset($failing))
+      <div class="alert alert-danger" role="alert">{{ $failing }}</div>
+    @endif
 
-  @if(isset($greeting))
+    <h1>DNS List</h1>
 
-    <div class="alert alert-primary" role="alert">{{ $greeting }}</div>
-
-  @elseif(isset($failing))
-
-    <div class="alert alert-danger" role="alert">{{ $failing }}</div>
-
-  @endif
-
-  <h1>DNS List</h1>
-
-  @foreach($domains as $domain)
-    <ul class="list-group m-2">
+    @foreach ($domains as $domain)
+      <ul class="list-group m-2">
         <li class="list-group-item">
           <div class="row">
             <span class="col-11">{{ $domain->name }}</span>
             <span class="col-1 text-end">
-              <a href="{{ route('dns.new', ['domain' => $domain->id, 'domain_id' => $domainIdQuery]) }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">+</a>
+              <a href="{{ route('dns.new', ['domain' => $domain->id, 'domain_id' => $domainIdQuery]) }}"
+                class="btn btn-primary btn-sm active" role="button" aria-pressed="true">+</a>
             </span>
           </div>
         </li>
@@ -34,31 +30,30 @@
             <dd class="col-3 text-primary small">Value</dd>
             <dd class="col-1 text-primary small">TTL</dd>
             <dd class="col-1 text-primary small">Priority</dd>
-            <dd class="col-2 text-primary small">Action</dd>
+            <dd class="col-3 text-primary small">Action</dd>
           </dl>
         </li>
 
-        @foreach($domain->domainDnsRecords as $domainDnsRecord)
+        @foreach ($domain->domainDnsRecords as $domainDnsRecord)
           <li class="list-group-item">
             <dl class="row">
               <dt class="col-3">{{ $domainDnsRecord->full_domain_name }}</dt>
               <dd class="col-1">{{ $domainDnsRecord->dns_type }}</dd>
               <dd class="col-3">{{ $domainDnsRecord->value }}</dd>
               <dd class="col-1">{{ $domainDnsRecord->ttl }}</dd>
-              <dd class="col-2">{{ $domainDnsRecord->priority }}</dd>
+              <dd class="col-1">{{ $domainDnsRecord->priority }}</dd>
 
-              <dd class="col-2">
-                <a href="{{ route('dns.edit', ['domainDnsRecord' => $domainDnsRecord->id, 'domain_id' => $domainIdQuery]) }}" class="btn btn-primary btn-sm"> Edit</a>
-                {{ Form::open(['url' => route('dns.delete',  ['domainDnsRecord' => $domainDnsRecord->id, 'domain_id' => $domainIdQuery]), 'name' => 'delete-form']) }}
-                  {{ Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm']) }}
-                {{Form::close()}}
+              <dd class="col-3">
+                <a href="{{ route('dns.edit', ['domainDnsRecord' => $domainDnsRecord->id, 'domain_id' => $domainIdQuery]) }}"
+                  class="btn btn-primary btn-sm"> Edit</a>
+                {{ Form::open(['url' => route('dns.delete', ['domainDnsRecord' => $domainDnsRecord->id, 'domain_id' => $domainIdQuery]),'name' => 'delete-form', 'class' => 'd-inline']) }}
+                {{ Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm']) }}
+                {{ Form::close() }}
               </dd>
             </dl>
           </li>
         @endforeach
-    </ul>
-  @endforeach
-</div>
+      </ul>
+    @endforeach
+  </div>
 @endsection
-
-
