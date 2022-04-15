@@ -70,7 +70,7 @@
 
     <div class='mt-2'>
       {{ Form::hidden('is_active', 0) }}
-      {{ Form::checkbox('is_active', '1', old('is_active'), ['id' => 'domain-is_active','class' => 'form-check-input']) }}
+      {{ Form::checkbox('is_active', '1', old('is_active', 1), ['id' => 'domain-is_active','class' => 'form-check-input']) }}
       {{ Form::label('domain-is_active', 'Active') }}
 
       @error('is_active')
