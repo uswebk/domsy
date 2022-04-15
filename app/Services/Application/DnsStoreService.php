@@ -24,16 +24,11 @@ final class DnsStoreService
 
     public function handle(array $attributes)
     {
-        \DB::beginTransaction();
         try {
-            // isExistsDomain
             $this->domainQueryService->getFirstOrFailByIdUserID($attributes['domain_id'], Auth::id());
 
             $this->domainDnsRecordRepository->store($attributes);
-
-            \DB::commit();
         } catch (\Exception $e) {
-            \DB::rollback();
             throw $e;
         }
     }

@@ -56,8 +56,6 @@ class DnsController extends Controller
         Domain $domain,
         EloquentDnsRecordTypeQueryService $dnsRecordTypeQueryService
     ) {
-        $domainIdQuery = $request->query('domain_id');
-
         $dnsRecordTypes = $dnsRecordTypeQueryService->getAll();
         $dnsTypeIds = $dnsRecordTypes->pluck('name', 'id');
 
@@ -82,6 +80,7 @@ class DnsController extends Controller
         } catch (Exception $e) {
             throw $e;
         }
+
         return redirect()->route('dns.index', ['domain_id' => $this->domainIdQuery])
         ->with('greeting', 'Create!!');
     }
