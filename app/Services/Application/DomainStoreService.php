@@ -23,13 +23,13 @@ final class DomainStoreService
     public function handle(
         string $name,
         string $price,
-        string $user_id,
+        int $user_id,
         string $is_active,
         string $is_transferred,
         string $is_management_only,
         string $purchased_at,
         string $expired_at,
-        string $canceled_at,
+        ?string $canceled_at,
     ) {
         \DB::beginTransaction();
         try {
