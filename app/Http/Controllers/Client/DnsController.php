@@ -24,13 +24,15 @@ class DnsController extends Controller
 {
     protected $domainIdQuery;
     protected $dnsRecordTypeQueryService;
+    protected $domainDnsRecordRepository;
 
     public function __construct(
         Request $request,
-        EloquentDnsRecordTypeQueryService $dnsRecordTypeQueryService
+        EloquentDnsRecordTypeQueryService $dnsRecordTypeQueryService,
+        DomainDnsRecordRepositoryInterface $domainDnsRecordRepository
     ) {
-        $this->middleware('can:owner,domain')->except(['index', 'store', 'update', 'edit']);
-        $this->middleware('can:owner,domainDnsRecord')->only(['edit', 'update']);
+        $this->middleware('can:owner,domain')->only(['new']);
+        $this->middleware('can:owner,domainDnsRecord')->only(['edit', 'update','delete']);
 
         $this->domainIdQuery = $request->query('domain_id');
 
@@ -45,6 +47,7 @@ class DnsController extends Controller
         });
 
         $this->dnsRecordTypeQueryService = $dnsRecordTypeQueryService;
+        $this->domainDnsRecordRepository = $domainDnsRecordRepository;
     }
 
     private function getDnsRecordTypeIds(): \Illuminate\Support\Collection
@@ -86,7 +89,6 @@ class DnsController extends Controller
     public function update(
         UpdateRequest $request,
         DomainDnsRecord $domainDnsRecord,
-        DomainDnsRecordRepositoryInterface $domainDnsRecordRepository
     ) {
         $attributes = $request->only([
             'subdomain',
@@ -98,7 +100,7 @@ class DnsController extends Controller
 
         $domainDnsRecord->fill($attributes);
 
-        $domainDnsRecordRepository->save($domainDnsRecord);
+        $this->domainDnsRecordRepository->save($domainDnsRecord);
 
         return redirect()->route('dns.index', ['domain_id' => $this->domainIdQuery])
         ->with('greeting', 'Create!!');
@@ -125,5 +127,13 @@ class DnsController extends Controller
 
         return redirect()->route('dns.index', ['domain_id' => $this->domainIdQuery])
         ->with('greeting', 'Update!!');
+    }
+
+    public function delete(DomainDnsRecord $domainDnsRecord)
+    {
+        $this->domainDnsRecordRepository->delete($domainDnsRecord);
+
+        return redirect()->route('dns.index', ['domain_id' => $this->domainIdQuery])
+        ->with('greeting', 'Delete!!');
     }
 }

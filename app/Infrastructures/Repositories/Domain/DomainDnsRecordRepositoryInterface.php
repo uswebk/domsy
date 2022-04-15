@@ -11,4 +11,6 @@ interface DomainDnsRecordRepositoryInterface
     public function store(array $attributes): DomainDnsRecord;
 
     public function save(DomainDnsRecord $domainDnsRecord): DomainDnsRecord;
+
+    public function delete(DomainDnsRecord $domainDnsRecord): void;
 }

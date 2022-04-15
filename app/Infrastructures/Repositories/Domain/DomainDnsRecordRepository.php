@@ -21,4 +21,9 @@ final class DomainDnsRecordRepository implements DomainDnsRecordRepositoryInterf
 
         return $domainDnsRecord;
     }
+
+    public function delete(DomainDnsRecord $domainDnsRecord): void
+    {
+        $domainDnsRecord->delete();
+    }
 }

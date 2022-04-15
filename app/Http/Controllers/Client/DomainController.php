@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\Domain\StoreRequest;
 use App\Http\Requests\Client\Domain\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Domain;
-use App\Infrastructures\Repositories\Domain\DomainRepositoryInterface;
 use App\Services\Application\DomainStoreService;
 
 use Exception;
@@ -17,8 +16,11 @@ use Illuminate\Support\Facades\Auth;
 
 class DomainController extends Controller
 {
-    public function __construct()
-    {
+    protected $domainRepository;
+
+    public function __construct(
+        DomainRepositoryInterface $domainRepository
+    ) {
         $this->middleware('can:owner,domain')->except(['index', 'new','store']);
 
         $this->middleware(function ($request, $next) {
@@ -29,6 +31,8 @@ class DomainController extends Controller
 
             return $next($request);
         });
+
+        $this->domainRepository = $domainRepository;
     }
 
     protected function redirectIndexWithGreeting(string $greetingMessage): \Illuminate\Http\RedirectResponse
@@ -63,7 +67,6 @@ class DomainController extends Controller
     public function update(
         UpdateRequest $request,
         Domain $domain,
-        DomainRepositoryInterface $domainRepository
     ) {
         try {
             $attributes = $request->only([
@@ -79,7 +82,7 @@ class DomainController extends Controller
 
             $domain->fill($attributes);
 
-            $domainRepository->save($domain);
+            $this->domainRepository->save($domain);
         } catch (Exception $e) {
             return $this->redirectIndexWithFailing('Update Failed!!');
         }

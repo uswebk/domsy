@@ -45,9 +45,14 @@
               <dd class="col-1">{{ $domainDnsRecord->dns_type }}</dd>
               <dd class="col-3">{{ $domainDnsRecord->value }}</dd>
               <dd class="col-1">{{ $domainDnsRecord->ttl }}</dd>
-              <dd class="col-1">{{ $domainDnsRecord->priority }}</dd>
+              <dd class="col-2">{{ $domainDnsRecord->priority }}</dd>
 
-              <dd class="col-2"><a href="{{ route('dns.edit', ['domainDnsRecord' => $domainDnsRecord->id, 'domain_id' => $domainIdQuery]) }}" class="btn btn-primary btn-sm"> Edit</a></dd>
+              <dd class="col-2">
+                <a href="{{ route('dns.edit', ['domainDnsRecord' => $domainDnsRecord->id, 'domain_id' => $domainIdQuery]) }}" class="btn btn-primary btn-sm"> Edit</a>
+                {{ Form::open(['url' => route('dns.delete',  ['domainDnsRecord' => $domainDnsRecord->id, 'domain_id' => $domainIdQuery]), 'name' => 'delete-form']) }}
+                  {{ Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm']) }}
+                {{Form::close()}}
+              </dd>
             </dl>
           </li>
         @endforeach

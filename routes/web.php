@@ -40,6 +40,7 @@ Route::middleware('verified')->group(function () {
 
                 Route::post('/store', 'DnsController@store')->name('store');
                 Route::post('{domainDnsRecord}/update', 'DnsController@update')->name('update')->where('domainDnsRecord', '[0-9]+');
+                Route::post('{domainDnsRecord}/delete', 'DnsController@delete')->name('delete')->where('domainDnsRecord', '[0-9]+');
             });
         });
     });
