@@ -22,13 +22,28 @@ final class DnsStoreService
         $this->domainQueryService = $domainQueryService;
     }
 
-    public function handle(array $attributes)
-    {
+    public function handle(
+        string $subdomain,
+        string $domain_id,
+        string $type_id,
+        string $value,
+        string $ttl,
+        string $priority,
+    ) {
         try {
-            $this->domainQueryService->getFirstOrFailByIdUserID($attributes['domain_id'], Auth::id());
+            $this->domainQueryService->getFirstOrFailByIdUserID($domain_id, Auth::id());
 
-            $this->domainDnsRecordRepository->store($attributes);
+            $this->domainDnsRecordRepository->store([
+                'subdomain' => $subdomain,
+                'domain_id' => $domain_id,
+                'type_id' => $type_id,
+                'value' => $value,
+                'ttl' => $ttl,
+                'priority' => $priority,
+            ]);
         } catch (\Exception $e) {
+            \Log::info($e->getMessage());
+
             throw $e;
         }
     }

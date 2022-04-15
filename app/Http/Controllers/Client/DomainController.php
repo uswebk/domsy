@@ -96,19 +96,17 @@ class DomainController extends Controller
         DomainStoreService $domainStoreService
     ) {
         try {
-            $attributes = $request->only([
-                'name',
-                'price',
-                'user_id',
-                'is_active',
-                'is_transferred',
-                'is_management_only',
-                'purchased_at',
-                'expired_at',
-                'canceled_at',
-            ]);
-
-            $domainStoreService->handle($attributes);
+            $domainStoreService->handle(
+                $request->name,
+                $request->price,
+                $request->user_id,
+                $request->is_active,
+                $request->is_transferred,
+                $request->is_management_only,
+                $request->purchased_at,
+                $request->expired_at,
+                $request->canceled_at,
+            );
         } catch (Exception $e) {
             return $this->redirectIndexWithFailing('Create Failed!!');
         }

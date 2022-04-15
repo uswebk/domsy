@@ -111,16 +111,14 @@ class DnsController extends Controller
         DnsStoreService $dnsStoreService
     ) {
         try {
-            $attributes = $request->only([
-                'subdomain',
-                'domain_id',
-                'type_id',
-                'value',
-                'ttl',
-                'priority',
-            ]);
-
-            $dnsStoreService->handle($attributes);
+            $dnsStoreService->handle(
+                $request->subdomain,
+                $request->domain_id,
+                $request->type_id,
+                $request->value,
+                $request->ttl,
+                $request->priority,
+            );
         } catch (Exception $e) {
             throw $e;
         }

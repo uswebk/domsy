@@ -15,7 +15,7 @@ final class EloquentDomainQueryService
         $this->model = $domain;
     }
 
-    public function getFirstOrFailByIdUserID($id, $userId): Domain
+    public function getFirstOrFailByIdUserID(string $id, int $userId): Domain
     {
         return $this->model
         ->where('id', $id)
