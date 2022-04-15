@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructures\Queries\DNS;
+namespace App\Infrastructures\Queries\Dns;
 
 use App\Infrastructures\Models\Eloquent\DnsRecordType;
 

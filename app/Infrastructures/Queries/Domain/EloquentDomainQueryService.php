@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructures\Queries\DNS;
+namespace App\Infrastructures\Queries\Domain;
 
 use App\Infrastructures\Models\Eloquent\Domain;
 

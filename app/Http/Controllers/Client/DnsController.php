@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\DNS\StoreRequest;
-use App\Http\Requests\Client\DNS\UpdateRequest;
+use App\Http\Requests\Client\Dns\StoreRequest;
+use App\Http\Requests\Client\Dns\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Domain;
 use App\Infrastructures\Models\Eloquent\DomainDnsRecord;
-use App\Infrastructures\Queries\DNS\EloquentDnsRecordTypeQueryService;
+use App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryService;
 use App\Infrastructures\Repositories\Domain\DomainDnsRecordRepositoryInterface;
 
 use App\Services\Application\DnsStoreService;

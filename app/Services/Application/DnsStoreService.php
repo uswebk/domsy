@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
-use App\Infrastructures\Queries\DNS\EloquentDomainQueryService;
+use App\Infrastructures\Queries\Domain\EloquentDomainQueryService;
 use App\Infrastructures\Repositories\Domain\DomainDnsRecordRepositoryInterface;
 
 use Illuminate\Support\Facades\Auth;
