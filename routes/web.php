@@ -35,10 +35,11 @@ Route::middleware('verified')->group(function () {
 
             Route::prefix('dns')->name('dns.')->group(function () {
                 Route::get('/', 'DnsController@index')->name('index');
-                Route::get('{domain}/domain/new/', 'DnsController@new')->name('new')->where('domain', '[0-9]+');
-                // Route::get('{domain}/domain/{dns}/edit/', 'DnsController@edit')->name('edit')->where('domain', '[0-9]+');
+                Route::get('domain/{domain}/new/', 'DnsController@new')->name('new')->where('domain', '[0-9]+');
+                Route::get('{domainDnsRecord}/edit/', 'DnsController@edit')->name('edit')->where('domainDnsRecord', '[0-9]+');
 
                 Route::post('/store', 'DnsController@store')->name('store');
+                Route::post('{domainDnsRecord}/update', 'DnsController@update')->name('update')->where('domainDnsRecord', '[0-9]+');
             });
         });
     });

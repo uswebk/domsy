@@ -23,8 +23,8 @@ class DomainController extends Controller
 
         $this->middleware(function ($request, $next) {
             view()->share([
-                'greeting'=> session('greeting'),
-                'failing'=> session('failing')
+                'greeting' => session('greeting'),
+                'failing' => session('failing')
             ]);
 
             return $next($request);
@@ -45,16 +45,19 @@ class DomainController extends Controller
 
     public function index()
     {
-        return view('client.domain.index', [
-            'domains' => Auth::user()->domains
-        ]);
+        $domains = Auth::user()->domains;
+
+        return view('client.domain.index', compact('domains'));
+    }
+
+    public function new()
+    {
+        return view('client.domain.new');
     }
 
     public function edit(Domain $domain)
     {
-        return view('client.domain.edit', [
-            'domain' => $domain
-        ]);
+        return view('client.domain.edit', compact('domain'));
     }
 
     public function update(
@@ -82,11 +85,6 @@ class DomainController extends Controller
         }
 
         return $this->redirectIndexWithGreeting('Update Success!!');
-    }
-
-    public function new()
-    {
-        return view('client.domain.new');
     }
 
     public function store(

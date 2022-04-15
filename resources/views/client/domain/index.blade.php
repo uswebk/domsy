@@ -68,9 +68,9 @@
         </td>
 
         <td>
-          <a href="{{ route('domain.edit', $domain->id) }}" class="btn btn-primary btn-sm"> edit</a>
+          <a href="{{ route('domain.edit', $domain->id) }}" class="btn btn-primary btn-sm"> Edit</a>
           {{ Form::open(['url' => route('domain.delete', $domain->id), 'name' => 'delete-form']) }}
-            {{ Form::button('delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm']) }}
+            {{ Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm']) }}
           {{Form::close()}}
         </td>
       </tr>

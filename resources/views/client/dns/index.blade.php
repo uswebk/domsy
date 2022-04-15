@@ -46,7 +46,8 @@
               <dd class="col-3">{{ $domainDnsRecord->value }}</dd>
               <dd class="col-1">{{ $domainDnsRecord->ttl }}</dd>
               <dd class="col-1">{{ $domainDnsRecord->priority }}</dd>
-              <dd class="col-2">Edit</dd>
+
+              <dd class="col-2"><a href="{{ route('dns.edit', ['domainDnsRecord' => $domainDnsRecord->id, 'domain_id' => $domainIdQuery]) }}" class="btn btn-primary btn-sm"> Edit</a></dd>
             </dl>
           </li>
         @endforeach

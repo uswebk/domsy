@@ -14,4 +14,11 @@ final class DomainDnsRecordRepository implements DomainDnsRecordRepositoryInterf
 
         return $domain;
     }
+
+    public function save(DomainDnsRecord $domainDnsRecord): DomainDnsRecord
+    {
+        $domainDnsRecord->save();
+
+        return $domainDnsRecord;
+    }
 }

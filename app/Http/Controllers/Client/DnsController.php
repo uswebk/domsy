@@ -7,8 +7,12 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\DNS\StoreRequest;
 use App\Infrastructures\Models\Eloquent\Domain;
+use App\Infrastructures\Models\Eloquent\DomainDnsRecord;
 use App\Infrastructures\Queries\DNS\EloquentDnsRecordTypeQueryService;
+use App\Infrastructures\Repositories\Domain\DomainDnsRecordRepositoryInterface;
+
 use App\Services\Application\DnsStoreService;
+
 
 use Exception;
 
@@ -18,10 +22,15 @@ use Illuminate\Support\Facades\Auth;
 class DnsController extends Controller
 {
     protected $domainIdQuery;
+    protected $dnsRecordTypeQueryService;
 
-    public function __construct(Request $request)
-    {
-        $this->middleware('can:owner,domain')->except(['index', 'store']);
+    public function __construct(
+        Request $request,
+        EloquentDnsRecordTypeQueryService $dnsRecordTypeQueryService
+    ) {
+        $this->middleware('can:owner,domain')->except(['index', 'store', 'edit', 'update']);
+
+        //Todo: DNS用のPolicy Update, Edit
 
         $this->domainIdQuery = $request->query('domain_id');
 
@@ -34,7 +43,16 @@ class DnsController extends Controller
 
             return $next($request);
         });
+
+        $this->dnsRecordTypeQueryService = $dnsRecordTypeQueryService;
     }
+
+    private function getDnsRecordTypeIds(): \Illuminate\Support\Collection
+    {
+        $dnsRecordTypes = $this->dnsRecordTypeQueryService->getAll();
+        return $dnsRecordTypes->pluck('name', 'id');
+    }
+
 
     public function index()
     {
@@ -54,12 +72,38 @@ class DnsController extends Controller
     public function new(
         Request $request,
         Domain $domain,
-        EloquentDnsRecordTypeQueryService $dnsRecordTypeQueryService
     ) {
-        $dnsRecordTypes = $dnsRecordTypeQueryService->getAll();
-        $dnsTypeIds = $dnsRecordTypes->pluck('name', 'id');
+        $dnsTypeIds = $this->getDnsRecordTypeIds();
 
         return view('client.dns.new', compact('domain', 'dnsTypeIds'));
+    }
+
+    public function edit(DomainDnsRecord $domainDnsRecord)
+    {
+        $dnsTypeIds = $this->getDnsRecordTypeIds();
+
+        return view('client.dns.edit', compact('domainDnsRecord', 'dnsTypeIds'));
+    }
+
+    public function update(
+        Request $request,
+        DomainDnsRecord $domainDnsRecord,
+        DomainDnsRecordRepositoryInterface $domainDnsRecordRepository
+    ) {
+        $attributes = $request->only([
+            'subdomain',
+            'type_id',
+            'value',
+            'ttl',
+            'priority',
+        ]);
+
+        $domainDnsRecord->fill($attributes);
+
+        $domainDnsRecordRepository->save($domainDnsRecord);
+
+        return redirect()->route('dns.index', ['domain_id' => $this->domainIdQuery])
+        ->with('greeting', 'Create!!');
     }
 
     public function store(
@@ -82,6 +126,6 @@ class DnsController extends Controller
         }
 
         return redirect()->route('dns.index', ['domain_id' => $this->domainIdQuery])
-        ->with('greeting', 'Create!!');
+        ->with('greeting', 'Update!!');
     }
 }

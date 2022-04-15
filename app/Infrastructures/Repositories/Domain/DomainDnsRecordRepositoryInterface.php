@@ -9,4 +9,6 @@ use App\Infrastructures\Models\Eloquent\DomainDnsRecord;
 interface DomainDnsRecordRepositoryInterface
 {
     public function store(array $attributes): DomainDnsRecord;
+
+    public function save(DomainDnsRecord $domainDnsRecord): DomainDnsRecord;
 }
