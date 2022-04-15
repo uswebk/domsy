@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\DNS\StoreRequest;
+use App\Http\Requests\Client\DNS\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Domain;
 use App\Infrastructures\Models\Eloquent\DomainDnsRecord;
 use App\Infrastructures\Queries\DNS\EloquentDnsRecordTypeQueryService;
@@ -28,9 +29,8 @@ class DnsController extends Controller
         Request $request,
         EloquentDnsRecordTypeQueryService $dnsRecordTypeQueryService
     ) {
-        $this->middleware('can:owner,domain')->except(['index', 'store', 'edit', 'update']);
-
-        //Todo: DNS用のPolicy Update, Edit
+        $this->middleware('can:owner,domain')->except(['index', 'store', 'update', 'edit']);
+        $this->middleware('can:owner,domainDnsRecord')->only(['edit', 'update']);
 
         $this->domainIdQuery = $request->query('domain_id');
 
@@ -69,10 +69,8 @@ class DnsController extends Controller
         return view('client.dns.index', compact('domains'));
     }
 
-    public function new(
-        Request $request,
-        Domain $domain,
-    ) {
+    public function new(Domain $domain)
+    {
         $dnsTypeIds = $this->getDnsRecordTypeIds();
 
         return view('client.dns.new', compact('domain', 'dnsTypeIds'));
@@ -86,7 +84,7 @@ class DnsController extends Controller
     }
 
     public function update(
-        Request $request,
+        UpdateRequest $request,
         DomainDnsRecord $domainDnsRecord,
         DomainDnsRecordRepositoryInterface $domainDnsRecordRepository
     ) {
