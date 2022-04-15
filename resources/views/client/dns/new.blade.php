@@ -9,6 +9,7 @@
   <p><a href='{{ route('dns.index') }}'>←back</a></p>
 
   <h2>{{ $domain->name }}</h2>
+
   {{ Form::open(['url' => route('dns.store', ['domain_id' => $domainIdQuery]), 'class' =>'w-50 p-3']) }}
 
     {{ Form::hidden('domain_id', $domain->id) }}

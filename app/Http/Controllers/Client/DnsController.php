@@ -8,7 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\DNS\StoreRequest;
 use App\Infrastructures\Models\Eloquent\Domain;
 use App\Infrastructures\Queries\DNS\EloquentDnsRecordTypeQueryService;
-use App\Infrastructures\Repositories\Domain\DomainDnsRecordRepositoryInterface;
+use App\Services\Application\DnsStoreService;
+
+use Exception;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,10 +27,10 @@ class DnsController extends Controller
 
         $this->middleware(function ($request, $next) {
             view()->share([
-                'greeting'=> session('greeting'),
-                'failing'=> session('failing'),
-                'domainIdQuery'=> $this->domainIdQuery,
-                ]);
+                'greeting' => session('greeting'),
+                'failing' => session('failing'),
+                'domainIdQuery' => $this->domainIdQuery,
+            ]);
 
             return $next($request);
         });
@@ -63,19 +66,22 @@ class DnsController extends Controller
 
     public function store(
         StoreRequest $request,
-        DomainDnsRecordRepositoryInterface $domainDnsRecordRepository
+        DnsStoreService $dnsStoreService
     ) {
-        $attributes = $request->only([
-            'subdomain',
-            'domain_id',
-            'type_id',
-            'value',
-            'ttl',
-            'priority',
-        ]);
+        try {
+            $attributes = $request->only([
+                'subdomain',
+                'domain_id',
+                'type_id',
+                'value',
+                'ttl',
+                'priority',
+            ]);
 
-        $domainDnsRecordRepository->store($attributes);
-
+            $dnsStoreService->handle($attributes);
+        } catch (Exception $e) {
+            throw $e;
+        }
         return redirect()->route('dns.index', ['domain_id' => $this->domainIdQuery])
         ->with('greeting', 'Create!!');
     }
