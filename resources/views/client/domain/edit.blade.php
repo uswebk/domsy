@@ -12,6 +12,7 @@
     </div>
 
     {{ Form::open(['url' => route('domain.update', $domain->id), 'class' => 'w-50 p-3']) }}
+
     <div class='w-50 mt-2'>
       <div class='form-label'>{{ Form::label('domain-name', 'Domain Name') }}</div>
 
@@ -108,4 +109,6 @@
 
         {{ Form::close() }}
       </div>
-    @endsection
+    </div>
+  </div>
+@endsection
