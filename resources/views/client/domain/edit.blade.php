@@ -5,14 +5,14 @@
 @endsection
 
 @section('content')
-  <div class="container m-0">
+  <div class='container m-0'>
 
-    <h1 class="h4 m-1">Domain Edit</h1>
+    <h1 class='h4 m-1'>Domain Edit</h1>
 
-    <a href='{{ route('domain.index') }}' class="btn btn-secondary btn-sm"> < </a>
+    <a href='{{ route('domain.index') }}' class='btn btn-secondary btn-sm'> < </a>
 
-    <div class="border-bottom">
-      <p class="fs-4 m-0">{{ $domain->name }}</p>
+    <div class='border-bottom'>
+      <p class='fs-4 m-0'>{{ $domain->name }}</p>
     </div>
 
     {{ Form::open(['url' => route('domain.update', $domain->id), 'class' => 'w-50 p-3']) }}
@@ -107,7 +107,7 @@
       @enderror
     </div>
 
-    <div class="mt-5">
+    <div class='mt-5'>
       {{ Form::button('Update', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
       <div>
 

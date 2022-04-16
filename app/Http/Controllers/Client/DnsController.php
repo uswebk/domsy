@@ -11,9 +11,7 @@ use App\Infrastructures\Models\Eloquent\Domain;
 use App\Infrastructures\Models\Eloquent\DomainDnsRecord;
 use App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryService;
 use App\Infrastructures\Repositories\Domain\DomainDnsRecordRepositoryInterface;
-
 use App\Services\Application\DnsStoreService;
-
 
 use Exception;
 
@@ -31,6 +29,8 @@ class DnsController extends Controller
         EloquentDnsRecordTypeQueryService $dnsRecordTypeQueryService,
         DomainDnsRecordRepositoryInterface $domainDnsRecordRepository
     ) {
+        parent::__construct();
+
         $this->middleware('can:owner,domain')->only(['new']);
         $this->middleware('can:owner,domainDnsRecord')->only(['edit', 'update','delete']);
 
@@ -38,8 +38,6 @@ class DnsController extends Controller
 
         $this->middleware(function ($request, $next) {
             view()->share([
-                'greeting' => session('greeting'),
-                'failing' => session('failing'),
                 'domainIdQuery' => $this->domainIdQuery,
             ]);
 
@@ -53,6 +51,7 @@ class DnsController extends Controller
     private function getDnsRecordTypeIds(): \Illuminate\Support\Collection
     {
         $dnsRecordTypes = $this->dnsRecordTypeQueryService->getAll();
+
         return $dnsRecordTypes->pluck('name', 'id');
     }
 

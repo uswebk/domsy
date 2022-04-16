@@ -5,11 +5,11 @@
 @endsection
 
 @section('content')
-  <div class="container m-0">
+  <div class='container m-0'>
 
-    <h1 class="h4 m-1">DNS Edit</h1>
+    <h1 class='h4 m-1'>DNS Edit</h1>
 
-    <a href='{{ route('dns.index', ['domain_id' => $domainIdQuery]) }}' class="btn btn-secondary btn-sm"> < </a>
+    <a href='{{ route('dns.index', ['domain_id' => $domainIdQuery]) }}' class='btn btn-secondary btn-sm'> < </a>
 
     <h2>{{ $domainDnsRecord->full_domain_name }}</h2>
 
@@ -74,7 +74,7 @@
       @enderror
     </div>
 
-    <div class="mt-5">
+    <div class='mt-5'>
       {{ Form::button('Update', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
       <div>
 

@@ -12,18 +12,12 @@ use Illuminate\Support\Facades\Auth;
 
 class RegistrarController extends Controller
 {
+    protected const INDEX_ROUTE = 'registrar.index';
+
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            view()->share([
-                'greeting' => session('greeting'),
-                'failing' => session('failing')
-            ]);
-
-            return $next($request);
-        });
+        parent::__construct();
     }
-
 
     public function index()
     {
@@ -54,7 +48,6 @@ class RegistrarController extends Controller
             throw $e;
         }
 
-        return redirect()->route('registrar.index')
-        ->with('greeting', 'Create!!');
+        return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Registrar Create!!');
     }
 }

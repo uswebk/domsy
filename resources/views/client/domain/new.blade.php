@@ -5,11 +5,11 @@
 @endsection
 
 @section('content')
-  <div class="container m-0">
+  <div class='container m-0'>
 
-    <h1 class="h4 m-1">Domain Create</h1>
+    <h1 class='h4 m-1'>Domain Create</h1>
 
-    <a href='{{ route('domain.index') }}' class="btn btn-secondary btn-sm"> < </a>
+    <a href='{{ route('domain.index') }}' class='btn btn-secondary btn-sm'> < </a>
 
     {{ Form::open(['url' => route('domain.store'), 'class' => 'w-50 p-3']) }}
     <div class='w-50 mt-2'>
@@ -102,7 +102,7 @@
       @enderror
     </div>
 
-    <div class="mt-5">
+    <div class='mt-5'>
       {{ Form::button('Create', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
       <div>
         {{ Form::close() }}
