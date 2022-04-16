@@ -11,7 +11,7 @@
 
     <a href='{{ route('registrar.index') }}' class="btn btn-secondary btn-sm"> < </a>
 
-    {{ Form::open(['url' => route('domain.store'), 'class' => 'w-50 p-3']) }}
+    {{ Form::open(['url' => route('registrar.store'), 'class' => 'w-50 p-3']) }}
     <div class='w-75 mt-2'>
       <div class='form-label'>{{ Form::label('registrar-name', 'Registrar Name') }}</div>
 
