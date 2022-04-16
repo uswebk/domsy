@@ -9,7 +9,7 @@
 
     <h1 class="h4 m-1">DNS Edit</h1>
 
-    <p><a href='{{ route('dns.index') }}'>←back</a></p>
+    <a href='{{ route('dns.index', ['domain_id' => $domainIdQuery]) }}' class="btn btn-secondary btn-sm"> < </a>
 
     <h2>{{ $domainDnsRecord->full_domain_name }}</h2>
 

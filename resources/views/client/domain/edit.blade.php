@@ -9,7 +9,7 @@
 
     <h1 class="h4 m-1">Domain Edit</h1>
 
-    <p><a href='{{ route('domain.index') }}'>←back</a></p>
+    <a href='{{ route('domain.index') }}' class="btn btn-secondary btn-sm"> < </a>
 
     <div class="border-bottom">
       <p class="fs-4 m-0">{{ $domain->name }}</p>

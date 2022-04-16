@@ -1,21 +1,18 @@
-<div class='bg-light border-right' id='sidebar-wrapper'>
+<div class="card">
   <div class='list-group list-group-flush'>
-    <li class='list-group-item'>
-      <a href='{{ route('dashboard.index') }}'> Dashboard </a>
-    </li>
+    <a href='{{ route('dashboard.index') }}' class='list-group-item list-group-item-action'> Dashboard </a>
+    <div class="card-header">Domain</div>
 
-    <li class='list-group-item'>
-      <a href='{{ route('domain.index') }}'> Domain List </a>
-    </li>
-    <li class='list-group-item'>
+    <a href='{{ route('domain.index') }}' class='list-group-item list-group-item-action'> Domain List </a>
 
-      <a href='{{ route('domain.new') }}'> Domain Crate </a>
-    </li>
+    <a href='{{ route('domain.new') }}' class='list-group-item list-group-item-action'> Domain Crate </a>
 
-    <li class='list-group-item'>
+    <a href='{{ route('dns.index') }}' class='list-group-item list-group-item-action'> DNS List </a>
 
-      <a href='{{ route('dns.index') }}'> DNS List </a>
-    </li>
+    <div class="card-header">Registrar</div>
 
+    <a href='{{ route('registrar.index') }}' class='list-group-item list-group-item-action'> Registrar List </a>
+
+    <a href='{{ route('registrar.new') }}' class='list-group-item list-group-item-action'> Registrar Create </a>
   </div>
 </div>

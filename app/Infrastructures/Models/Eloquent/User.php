@@ -46,4 +46,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany('App\Infrastructures\Models\Eloquent\Domain');
     }
+
+    public function registrars(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Infrastructures\Models\Eloquent\Registrar');
+    }
 }

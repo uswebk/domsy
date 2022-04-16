@@ -9,7 +9,7 @@
 
     <h1 class="h4 m-1">Domain Create</h1>
 
-    <p><a href='{{ route('domain.index') }}'>←back</a></p>
+    <a href='{{ route('domain.index') }}' class="btn btn-secondary btn-sm"> < </a>
 
     {{ Form::open(['url' => route('domain.store'), 'class' => 'w-50 p-3']) }}
     <div class='w-50 mt-2'>
@@ -105,7 +105,6 @@
     <div class="mt-5">
       {{ Form::button('Create', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
       <div>
-
         {{ Form::close() }}
       </div>
     </div>
