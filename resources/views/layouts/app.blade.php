@@ -16,7 +16,8 @@
   <body>
     <div id="app">
       @include('layouts.header')
-      <main class="py-4">
+      <main class="py-4 d-flex justify-content-center">
+          @yield('sidebar')
           @yield('content')
       </main>
     </div>

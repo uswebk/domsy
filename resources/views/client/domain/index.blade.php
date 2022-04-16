@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
+@section('sidebar')
+  @include('layouts.sidebar')
+@endsection
+
 @section('content')
-  <div class="container">
+  <div class="container m-0">
 
     @if (isset($greeting))
       <div class="alert alert-primary" role="alert">{{ $greeting }}</div>
@@ -9,7 +13,7 @@
       <div class="alert alert-danger" role="alert">{{ $failing }}</div>
     @endif
 
-    <h1>Domain List</h1>
+    <h1 class="h4 m-1">Domain List</h1>
 
     <div class="container">
       <a href="{{ route('domain.new') }}" class="btn btn-primary btn-sm active" role="button" aria-pressed="true">+</a>

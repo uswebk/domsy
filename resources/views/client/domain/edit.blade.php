@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
-@section('content')
-  <div class='container'>
+@section('sidebar')
+  @include('layouts.sidebar')
+@endsection
 
-    <h1>Domain Edit</h1>
+@section('content')
+  <div class="container m-0">
+
+    <h1 class="h4 m-1">Domain Edit</h1>
 
     <p><a href='{{ route('domain.index') }}'>←back</a></p>
 
