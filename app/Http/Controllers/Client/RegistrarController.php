@@ -6,17 +6,25 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\Registrar\StoreRequest;
+use App\Http\Requests\Client\Registrar\UpdateRequest;
+use App\Infrastructures\Models\Eloquent\Registrar;
 use App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface;
-
 use Illuminate\Support\Facades\Auth;
 
 class RegistrarController extends Controller
 {
     protected const INDEX_ROUTE = 'registrar.index';
 
-    public function __construct()
-    {
+    protected $registrarRepository;
+
+    public function __construct(
+        RegistrarRepositoryInterface $registrarRepository
+    ) {
         parent::__construct();
+
+        $this->middleware('can:owner,registrar')->except(['index', 'new', 'store']);
+
+        $this->registrarRepository = $registrarRepository;
     }
 
     public function index()
@@ -31,10 +39,32 @@ class RegistrarController extends Controller
         return view('client.registrar.new');
     }
 
-    public function store(
-        StoreRequest $request,
-        RegistrarRepositoryInterface $registrarRepository
+    public function edit(Registrar $registrar)
+    {
+        return view('client.registrar.edit', compact('registrar'));
+    }
+
+    public function update(
+        UpdateRequest $request,
+        Registrar $registrar
     ) {
+        $attributes = $request->only([
+            'name',
+            'link',
+            'note',
+        ]);
+        try {
+            $registrar->fill($attributes);
+            $this->registrarRepository->save($registrar);
+        } catch (Exception $e) {
+            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Update');
+        }
+
+        return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Registrar Update!!');
+    }
+
+    public function store(StoreRequest $request)
+    {
         $attributes = $request->only([
             'name',
             'user_id',
@@ -43,11 +73,22 @@ class RegistrarController extends Controller
         ]);
 
         try {
-            $registrarRepository->store($attributes);
+            $this->registrarRepository->store($attributes);
         } catch (Exception $e) {
-            throw $e;
+            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Create');
         }
 
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Registrar Create!!');
+    }
+
+    public function delete(Registrar $registrar)
+    {
+        try {
+            $this->registrarRepository->delete($registrar);
+        } catch (Exception $e) {
+            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Delete');
+        }
+
+        return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Registrar Delete!!');
     }
 }

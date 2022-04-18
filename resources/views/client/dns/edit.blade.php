@@ -19,10 +19,10 @@
       <div class='form-label'>{{ Form::label('dns-subdomain', 'Subdomain') }}</div>
 
       <div>
-        {{ Form::text('subdomain', old('subdomain', $subdomain->subdomain), ['placeholder' => 'www','id' => 'dns-subdomain','class' => 'form-control']) }}
+        {{ Form::text('prefix', old('prefix', $subdomain->prefix), ['placeholder' => 'www','id' => 'dns-subdomain','class' => 'form-control']) }}
         .{{ $subdomain->domain->name }}</div>
 
-      @error('subdomain')
+      @error('prefix')
         <div class='invalid-feedback d-block'>{{ $message }}</div>
       @enderror
     </div>

@@ -42,6 +42,12 @@
           </td>
 
           <td>
+            <a href='{{ route('registrar.edit', $registrar->id) }}' class='btn btn-primary btn-sm'> Edit</a>
+
+            {{ Form::open(['url' => route('registrar.delete', $registrar->id), 'name' => 'delete-form']) }}
+              {{ Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm']) }}
+            {{ Form::close() }}
+
           </td>
         </tr>
       @endforeach

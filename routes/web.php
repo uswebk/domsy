@@ -34,8 +34,8 @@ Route::middleware(['verified','auth'])->group(function () {
 
         Route::prefix('dns')->name('dns.')->group(function () {
             Route::get('/', 'DnsController@index')->name('index');
-            Route::get('domain/{domain}/new/', 'DnsController@new')->name('new')->where('domain', '[0-9]+');
-            Route::get('{subdomain}/edit/', 'DnsController@edit')->name('edit')->where('subdomain', '[0-9]+');
+            Route::get('domain/{domain}/new', 'DnsController@new')->name('new')->where('domain', '[0-9]+');
+            Route::get('{subdomain}/edit', 'DnsController@edit')->name('edit')->where('subdomain', '[0-9]+');
 
             Route::post('/store', 'DnsController@store')->name('store');
             Route::post('{subdomain}/update', 'DnsController@update')->name('update')->where('subdomain', '[0-9]+');
@@ -45,8 +45,11 @@ Route::middleware(['verified','auth'])->group(function () {
         Route::prefix('registrar')->name('registrar.')->group(function () {
             Route::get('/', 'RegistrarController@index')->name('index');
             Route::get('new', 'RegistrarController@new')->name('new');
+            Route::get('{registrar}/edit', 'RegistrarController@edit')->name('edit')->where('registrar', '[0-9]+');
 
             Route::post('store', 'RegistrarController@store')->name('store');
+            Route::post('{registrar}/update', 'RegistrarController@update')->name('update')->where('registrar', '[0-9]+');
+            Route::post('{registrar}/delete', 'RegistrarController@delete')->name('delete')->where('registrar', '[0-9]+');
         });
     });
 });

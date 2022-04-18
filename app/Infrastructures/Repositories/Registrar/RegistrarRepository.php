@@ -14,4 +14,16 @@ final class RegistrarRepository implements RegistrarRepositoryInterface
 
         return $registrar;
     }
+
+    public function save(Registrar $registrar): Registrar
+    {
+        $registrar->save();
+
+        return $registrar;
+    }
+
+    public function delete(Registrar $registrar): void
+    {
+        $registrar->delete();
+    }
 }

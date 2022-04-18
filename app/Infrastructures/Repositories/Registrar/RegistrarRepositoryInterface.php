@@ -9,4 +9,8 @@ use App\Infrastructures\Models\Eloquent\Registrar;
 interface RegistrarRepositoryInterface
 {
     public function store(array $attributes): Registrar;
+
+    public function save(Registrar $registrar): Registrar;
+
+    public function delete(Registrar $registrar): void;
 }
