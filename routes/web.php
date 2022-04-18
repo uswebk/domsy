@@ -51,5 +51,15 @@ Route::middleware(['verified','auth'])->group(function () {
             Route::post('{registrar}/update', 'RegistrarController@update')->name('update')->where('registrar', '[0-9]+');
             Route::post('{registrar}/delete', 'RegistrarController@delete')->name('delete')->where('registrar', '[0-9]+');
         });
+
+        Route::prefix('client')->name('client.')->group(function () {
+            Route::get('/', 'ClientController@index')->name('index');
+            Route::get('new', 'ClientController@new')->name('new');
+            Route::get('{client}/edit', 'ClientController@edit')->name('edit')->where('client', '[0-9]+');
+
+            Route::post('store', 'ClientController@store')->name('store');
+            Route::post('{client}/update', 'ClientController@update')->name('update')->where('client', '[0-9]+');
+            Route::post('{client}/delete', 'ClientController@delete')->name('delete')->where('client', '[0-9]+');
+        });
     });
 });

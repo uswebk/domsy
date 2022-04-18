@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Client;
 
+use App\Exceptions\Client\DomainNotExistsException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\Dns\StoreRequest;
 use App\Http\Requests\Client\Dns\UpdateRequest;
@@ -119,6 +120,9 @@ class DnsController extends Controller
                 $request->ttl,
                 $request->priority,
             );
+        } catch (DomainNotExistsException $e) {
+            return redirect()->route('dns.index', ['domain_id' => $this->domainIdQuery])
+            ->with('failing', $e->getMessage());
         } catch (Exception $e) {
             throw $e;
         }

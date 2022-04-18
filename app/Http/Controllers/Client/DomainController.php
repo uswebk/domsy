@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Client;
 
+use App\Exceptions\Client\DomainExistsException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\Domain\StoreRequest;
 use App\Http\Requests\Client\Domain\UpdateRequest;
@@ -90,6 +91,8 @@ class DomainController extends Controller
                 $request->expired_at,
                 $request->canceled_at,
             );
+        } catch (DomainExistsException $e) {
+            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, $e->getMessage());
         } catch (Exception $e) {
             return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Create Failed!!');
         }

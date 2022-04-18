@@ -6,6 +6,7 @@ namespace App\Services\Application;
 
 use App\Infrastructures\Repositories\Domain\DomainRepositoryInterface;
 use App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface;
+use App\Services\Domain\Domain\AlreadyExistsService as DomainAlreadyExistsService;
 
 final class DomainStoreService
 {
@@ -33,24 +34,28 @@ final class DomainStoreService
     ) {
         \DB::beginTransaction();
         try {
-            $domain = $this->domainRepository->store([
-                'name' => $name,
-                'price' => $price,
-                'user_id' => $user_id,
-                'is_active' => $is_active,
-                'is_transferred' => $is_transferred,
-                'is_management_only' => $is_management_only,
-                'purchased_at' => $purchased_at,
-                'expired_at' => $expired_at,
-                'canceled_at' => $canceled_at,
-            ]);
+            $domainService = new DomainAlreadyExistsService($name, $user_id);
 
-            $this->subdomainRepository->store([
-                'domain_id' => $domain->id,
-                'subdomain' => null,
-            ]);
+            if ($domainService->isNotExists()) {
+                $domain = $this->domainRepository->store([
+                    'name' => $name,
+                    'price' => $price,
+                    'user_id' => $user_id,
+                    'is_active' => $is_active,
+                    'is_transferred' => $is_transferred,
+                    'is_management_only' => $is_management_only,
+                    'purchased_at' => $purchased_at,
+                    'expired_at' => $expired_at,
+                    'canceled_at' => $canceled_at,
+                ]);
 
-            \DB::commit();
+                $this->subdomainRepository->store([
+                    'domain_id' => $domain->id,
+                    'subdomain' => null,
+                ]);
+
+                \DB::commit();
+            }
         } catch (\Exception $e) {
             \DB::rollback();
             throw $e;

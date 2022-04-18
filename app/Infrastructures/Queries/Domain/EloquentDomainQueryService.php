@@ -8,17 +8,13 @@ use App\Infrastructures\Models\Eloquent\Domain;
 
 final class EloquentDomainQueryService
 {
-    private $model;
-
-    public function __construct(Domain $domain)
+    public function getFirstByIdUserID(string $id, int $userId): ?Domain
     {
-        $this->model = $domain;
+        return Domain::where('id', $id)->where('user_id', $userId)->first();
     }
 
-    public function getFirstOrFailByIdUserID(string $id, int $userId): Domain
+    public function getFirstByNameUserID(string $name, int $userId): ?Domain
     {
-        return $this->model
-        ->where('id', $id)
-        ->where('user_id', $userId)->firstOrFail();
+        return Domain::where('name', $name)->where('user_id', $userId)->first();
     }
 }
