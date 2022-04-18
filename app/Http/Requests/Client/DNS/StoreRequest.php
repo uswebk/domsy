@@ -11,7 +11,7 @@ class StoreRequest extends Request
     public function rules(): array
     {
         return [
-            'subdomain' => 'nullable|string',
+            'prefix' => 'nullable|string',
             'domain_id' => 'required|integer',
             'type_id' => 'required|integer',
             'value' => 'nullable|string',

@@ -13,7 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Infrastructures\Models\Eloquent\Domain' => 'App\Policies\DomainPolicy',
-        'App\Infrastructures\Models\Eloquent\DomainDnsRecord' => 'App\Policies\DnsPolicy',
+        'App\Infrastructures\Models\Eloquent\Subdomain' => 'App\Policies\DnsPolicy',
 
     ];
 

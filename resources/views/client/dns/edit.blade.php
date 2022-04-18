@@ -11,16 +11,16 @@
 
     <a href='{{ route('dns.index', ['domain_id' => $domainIdQuery]) }}' class='btn btn-secondary btn-sm'> < </a>
 
-    <h2>{{ $domainDnsRecord->full_domain_name }}</h2>
+    <h2>{{ $subdomain->full_domain_name }}</h2>
 
-    {{ Form::open(['url' => route('dns.update', ['domainDnsRecord' => $domainDnsRecord->id, 'domain_id' => $domainIdQuery]),'class' => 'w-50 p-3']) }}
+    {{ Form::open(['url' => route('dns.update', ['subdomain' => $subdomain->id, 'domain_id' => $domainIdQuery]),'class' => 'w-50 p-3']) }}
 
     <div class='w-25 mt-2'>
       <div class='form-label'>{{ Form::label('dns-subdomain', 'Subdomain') }}</div>
 
       <div>
-        {{ Form::text('subdomain', old('subdomain', $domainDnsRecord->subdomain), ['placeholder' => 'www','id' => 'dns-subdomain','class' => 'form-control']) }}
-        .{{ $domainDnsRecord->domain->name }}</div>
+        {{ Form::text('subdomain', old('subdomain', $subdomain->subdomain), ['placeholder' => 'www','id' => 'dns-subdomain','class' => 'form-control']) }}
+        .{{ $subdomain->domain->name }}</div>
 
       @error('subdomain')
         <div class='invalid-feedback d-block'>{{ $message }}</div>
@@ -31,7 +31,7 @@
       <div>{{ Form::label('dns-type-id', 'Type') }}</div>
 
       <div>
-        {{ Form::select('type_id', $dnsTypeIds, old('type_id', $domainDnsRecord->type_id), ['class' => 'form-control']) }}
+        {{ Form::select('type_id', $dnsTypeIds, old('type_id', $subdomain->type_id), ['class' => 'form-control']) }}
       </div>
 
       @error('type_id')
@@ -43,7 +43,7 @@
       <div>{{ Form::label('dns-value', 'Value') }}</div>
 
       <div>
-        {{ Form::text('value', old('value', $domainDnsRecord->value), ['id' => 'dns-value', 'class' => 'form-control']) }}
+        {{ Form::text('value', old('value', $subdomain->value), ['id' => 'dns-value', 'class' => 'form-control']) }}
       </div>
 
       @error('value')
@@ -54,7 +54,7 @@
     <div class='w-25 mt-2'>
       <div>{{ Form::label('dns-ttl', 'TTL') }}</div>
 
-      <div>{{ Form::number('ttl', old('ttl', $domainDnsRecord->ttl), ['id' => 'dns-ttl', 'class' => 'form-control']) }}
+      <div>{{ Form::number('ttl', old('ttl', $subdomain->ttl), ['id' => 'dns-ttl', 'class' => 'form-control']) }}
       </div>
 
       @error('ttl')
@@ -66,7 +66,7 @@
       <div>{{ Form::label('dns-priority', 'Priority') }}</div>
 
       <div>
-        {{ Form::number('priority', old('priority', $domainDnsRecord->priority), ['id' => 'dns-priority','class' => 'form-control']) }}
+        {{ Form::number('priority', old('priority', $subdomain->priority), ['id' => 'dns-priority','class' => 'form-control']) }}
       </div>
 
       @error('priority')

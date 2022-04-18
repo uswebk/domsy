@@ -5,25 +5,25 @@ declare(strict_types=1);
 namespace App\Services\Application;
 
 use App\Infrastructures\Queries\Domain\EloquentDomainQueryService;
-use App\Infrastructures\Repositories\Domain\DomainDnsRecordRepositoryInterface;
+use App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface;
 
 use Illuminate\Support\Facades\Auth;
 
 final class DnsStoreService
 {
-    private $domainDnsRecordRepository;
+    private $subdomainRepository;
     private $domainQueryService;
 
     public function __construct(
-        DomainDnsRecordRepositoryInterface $domainDnsRecordRepository,
+        SubdomainRepositoryInterface $subdomainRepository,
         EloquentDomainQueryService $domainQueryService,
     ) {
-        $this->domainDnsRecordRepository = $domainDnsRecordRepository;
+        $this->subdomainRepository = $subdomainRepository;
         $this->domainQueryService = $domainQueryService;
     }
 
     public function handle(
-        string $subdomain,
+        string $prefix,
         string $domain_id,
         string $type_id,
         string $value,
@@ -33,8 +33,8 @@ final class DnsStoreService
         try {
             $this->domainQueryService->getFirstOrFailByIdUserID($domain_id, Auth::id());
 
-            $this->domainDnsRecordRepository->store([
-                'subdomain' => $subdomain,
+            $this->subdomainRepository->store([
+                'prefix' => $prefix,
                 'domain_id' => $domain_id,
                 'type_id' => $type_id,
                 'value' => $value,

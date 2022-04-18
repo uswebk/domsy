@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
-use App\Infrastructures\Models\Eloquent\DomainDnsRecord;
+use App\Infrastructures\Models\Eloquent\Subdomain;
 use App\Infrastructures\Models\Eloquent\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -13,9 +13,9 @@ final class DnsPolicy
     use HandlesAuthorization;
 
 
-    public function owner(User $user, DomainDnsRecord $domainDnsRecord)
+    public function owner(User $user, Subdomain $subdomain)
     {
-        return $user->id == $domainDnsRecord->domain->user_id;
+        return $user->id == $subdomain->domain->user_id;
     }
     /**
      * Determine whether the user can view any models.

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
-class DomainDnsRecord extends BaseModel
+class Subdomain extends BaseModel
 {
     protected $fillable = [
         'domain_id',
-        'subdomain',
+        'prefix',
         'type_id',
         'value',
         'ttl',
@@ -32,8 +32,8 @@ class DomainDnsRecord extends BaseModel
 
     public function getFullDomainNameAttribute(): string
     {
-        if (isset($this->subdomain)) {
-            return $this->subdomain . '.' . $this->domain->name;
+        if (isset($this->prefix)) {
+            return $this->prefix . '.' . $this->domain->name;
         }
 
         return $this->domain->name;

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Infrastructures\Repositories\Domain\DomainDnsRecordRepository;
-use App\Infrastructures\Repositories\Domain\DomainDnsRecordRepositoryInterface;
 use App\Infrastructures\Repositories\Domain\DomainRepository;
 use App\Infrastructures\Repositories\Domain\DomainRepositoryInterface;
+use App\Infrastructures\Repositories\Subdomain\SubdomainRepository;
+use App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -22,7 +22,7 @@ final class DomainServiceProvider extends ServiceProvider
     {
         //
         $this->app->bind(DomainRepositoryInterface::class, DomainRepository::class);
-        $this->app->bind(DomainDnsRecordRepositoryInterface::class, DomainDnsRecordRepository::class);
+        $this->app->bind(SubdomainRepositoryInterface::class, SubdomainRepository::class);
     }
 
     /**

@@ -13,8 +13,8 @@ class DnsRecordType extends BaseModel
         'sort',
     ];
 
-    public function domainDnsRecord(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function subdomain(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo('App\Infrastructures\Models\Eloquent\DomainDnsRecord', 'type_id');
+        return $this->belongsTo('App\Infrastructures\Models\Eloquent\Subdomain', 'type_id');
     }
 }

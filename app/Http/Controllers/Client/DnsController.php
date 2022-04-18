@@ -8,9 +8,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\Dns\StoreRequest;
 use App\Http\Requests\Client\Dns\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Domain;
-use App\Infrastructures\Models\Eloquent\DomainDnsRecord;
+use App\Infrastructures\Models\Eloquent\Subdomain;
 use App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryService;
-use App\Infrastructures\Repositories\Domain\DomainDnsRecordRepositoryInterface;
+use App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface;
 use App\Services\Application\DnsStoreService;
 
 use Exception;
@@ -21,18 +21,19 @@ use Illuminate\Support\Facades\Auth;
 class DnsController extends Controller
 {
     protected $domainIdQuery;
+
     protected $dnsRecordTypeQueryService;
-    protected $domainDnsRecordRepository;
+    protected $subdomainRepository;
 
     public function __construct(
         Request $request,
         EloquentDnsRecordTypeQueryService $dnsRecordTypeQueryService,
-        DomainDnsRecordRepositoryInterface $domainDnsRecordRepository
+        SubdomainRepositoryInterface $subdomainRepository
     ) {
         parent::__construct();
 
         $this->middleware('can:owner,domain')->only(['new']);
-        $this->middleware('can:owner,domainDnsRecord')->only(['edit', 'update','delete']);
+        $this->middleware('can:owner,subdomain')->only(['edit', 'update','delete']);
 
         $this->domainIdQuery = $request->query('domain_id');
 
@@ -45,7 +46,7 @@ class DnsController extends Controller
         });
 
         $this->dnsRecordTypeQueryService = $dnsRecordTypeQueryService;
-        $this->domainDnsRecordRepository = $domainDnsRecordRepository;
+        $this->subdomainRepository = $subdomainRepository;
     }
 
     private function getDnsRecordTypeIds(): \Illuminate\Support\Collection
@@ -60,8 +61,8 @@ class DnsController extends Controller
     {
         $domains = Auth::user()->domains;
         $domains->load([
-            'domainDnsRecords',
-            'domainDnsRecords.dnsRecordType'
+            'subdomain',
+            'subdomain.dnsRecordType'
         ]);
 
         if (isset($this->domainIdQuery)) {
@@ -78,16 +79,16 @@ class DnsController extends Controller
         return view('client.dns.new', compact('domain', 'dnsTypeIds'));
     }
 
-    public function edit(DomainDnsRecord $domainDnsRecord)
+    public function edit(Subdomain $subdomain)
     {
         $dnsTypeIds = $this->getDnsRecordTypeIds();
 
-        return view('client.dns.edit', compact('domainDnsRecord', 'dnsTypeIds'));
+        return view('client.dns.edit', compact('subdomain', 'dnsTypeIds'));
     }
 
     public function update(
         UpdateRequest $request,
-        DomainDnsRecord $domainDnsRecord,
+        Subdomain $subdomain,
     ) {
         $attributes = $request->only([
             'subdomain',
@@ -97,9 +98,9 @@ class DnsController extends Controller
             'priority',
         ]);
 
-        $domainDnsRecord->fill($attributes);
+        $subdomain->fill($attributes);
 
-        $this->domainDnsRecordRepository->save($domainDnsRecord);
+        $this->subdomainRepository->save($subdomain);
 
         return redirect()->route('dns.index', ['domain_id' => $this->domainIdQuery])
         ->with('greeting', 'Create!!');
@@ -126,9 +127,9 @@ class DnsController extends Controller
         ->with('greeting', 'Update!!');
     }
 
-    public function delete(DomainDnsRecord $domainDnsRecord)
+    public function delete(Subdomain $subdomain)
     {
-        $this->domainDnsRecordRepository->delete($domainDnsRecord);
+        $this->subdomainRepository->delete($subdomain);
 
         return redirect()->route('dns.index', ['domain_id' => $this->domainIdQuery])
         ->with('greeting', 'Delete!!');

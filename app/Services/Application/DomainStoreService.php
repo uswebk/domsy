@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
-use App\Infrastructures\Repositories\Domain\DomainDnsRecordRepositoryInterface;
 use App\Infrastructures\Repositories\Domain\DomainRepositoryInterface;
+use App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface;
 
 final class DomainStoreService
 {
     private $domainRepository;
-    private $domainDnsRecordRepository;
+    private $subdomainRepository;
 
     public function __construct(
         DomainRepositoryInterface $domainRepository,
-        DomainDnsRecordRepositoryInterface $domainDnsRecordRepository,
+        SubdomainRepositoryInterface $subdomainRepository,
     ) {
         $this->domainRepository = $domainRepository;
-        $this->domainDnsRecordRepository = $domainDnsRecordRepository;
+        $this->subdomainRepository = $subdomainRepository;
     }
 
     public function handle(
@@ -45,7 +45,7 @@ final class DomainStoreService
                 'canceled_at' => $canceled_at,
             ]);
 
-            $this->domainDnsRecordRepository->store([
+            $this->subdomainRepository->store([
                 'domain_id' => $domain->id,
                 'subdomain' => null,
             ]);

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDomainDnsRecordsTable extends Migration
+class CreateSubdomainsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateDomainDnsRecordsTable extends Migration
      */
     public function up()
     {
-        Schema::create('domain_dns_records', function (Blueprint $table) {
+        Schema::create('subdomains', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('domain_id');
-            $table->string('subdomain')->nullable()->comment('サブドメイン');
+            $table->string('prefix')->nullable()->comment('サブドメイン');
             $table->unsignedBigInteger('type_id')->nullable();
             $table->string('value')->comment('レコード値')->nullable();
             $table->integer('ttl')->nullable();
