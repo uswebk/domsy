@@ -25,4 +25,9 @@ class Client extends BaseModel
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\User');
     }
+
+    public function domainDealings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Infrastructures\Models\Eloquent\DomainDealing', 'client_id');
+    }
 }

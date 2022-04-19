@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubdomainsTable extends Migration
+class CreateDomainDealingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,17 @@ class CreateSubdomainsTable extends Migration
      */
     public function up()
     {
-        Schema::create('subdomains', function (Blueprint $table) {
+        Schema::create('domain_dealings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('domain_id');
-            $table->string('prefix')->nullable()->comment('サブドメイン');
-            $table->unsignedBigInteger('type_id')->nullable();
-            $table->string('value')->comment('レコード値')->nullable();
-            $table->integer('ttl')->nullable();
-            $table->integer('priority')->comment('メール優先順位')->nullable();
+            $table->unsignedBigInteger('registrar_id');
+            $table->unsignedBigInteger('client_id');
+            $table->decimal('subtotal', 10, 0);
+            $table->decimal('discount', 10, 0);
+            $table->dateTime('billing_date');
+            $table->tinyInteger('interval');
+            $table->enum('interval_category', ['Day','Week', 'Month', 'Year']);
+            $table->boolean('is_auto_update');
             $table->dateTime('updated_at')->comment('更新日');
             $table->dateTime('created_at')->comment('登録日');
 
@@ -30,9 +33,15 @@ class CreateSubdomainsTable extends Migration
             ->cascadeOnUpdate()
             ->cascadeOnDelete();
 
-            $table->foreign('type_id')
+            $table->foreign('registrar_id')
             ->references('id')
-            ->on('dns_record_types')
+            ->on('registrars')
+            ->cascadeOnUpdate()
+            ->cascadeOnDelete();
+
+            $table->foreign('client_id')
+            ->references('id')
+            ->on('clients')
             ->cascadeOnUpdate()
             ->cascadeOnDelete();
         });
@@ -45,6 +54,6 @@ class CreateSubdomainsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subdomains');
+        Schema::dropIfExists('domain_dealings');
     }
 }

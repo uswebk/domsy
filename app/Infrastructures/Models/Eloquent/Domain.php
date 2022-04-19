@@ -46,4 +46,9 @@ class Domain extends BaseModel
     {
         return $this->hasMany('App\Infrastructures\Models\Eloquent\Subdomain');
     }
+
+    public function domainDealings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Infrastructures\Models\Eloquent\DomainDealing', 'domain_id');
+    }
 }

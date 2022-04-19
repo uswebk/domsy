@@ -61,5 +61,9 @@ Route::middleware(['verified','auth'])->group(function () {
             Route::post('{client}/update', 'ClientController@update')->name('update')->where('client', '[0-9]+');
             Route::post('{client}/delete', 'ClientController@delete')->name('delete')->where('client', '[0-9]+');
         });
+
+        Route::prefix('dealing')->name('dealing.')->group(function () {
+            Route::get('/', 'DealingController@index')->name('index');
+        });
     });
 });
