@@ -178,6 +178,7 @@ return [
         App\Providers\RegistrarServiceProvider::class,
         App\Providers\UserServiceProvider::class,
         App\Providers\UserLatestCodeServiceProvider::class,
+        App\Providers\ClientServiceProvider::class,
     ],
 
     /*
