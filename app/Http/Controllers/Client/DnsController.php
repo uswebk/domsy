@@ -57,7 +57,6 @@ class DnsController extends Controller
         return $dnsRecordTypes->pluck('name', 'id');
     }
 
-
     public function index()
     {
         $domains = Auth::user()->domains;

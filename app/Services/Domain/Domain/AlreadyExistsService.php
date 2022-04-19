@@ -21,7 +21,7 @@ final class AlreadyExistsService
     public function isNotExists(): bool
     {
         $domainQueryService = new EloquentDomainQueryService();
-        $domain = $domainQueryService->getFirstByNameUserID($this->name, $this->userId);
+        $domain = $domainQueryService->getFirstByNameUserId($this->name, $this->userId);
 
         if (isset($domain)) {
             throw new DomainExistsException();

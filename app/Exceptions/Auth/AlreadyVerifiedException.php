@@ -6,7 +6,7 @@ namespace App\Exceptions\Auth;
 
 use RuntimeException;
 
-final class AlreadyVerifiedException extends RuntimeException
+class AlreadyVerifiedException extends RuntimeException
 {
     public $message;
 

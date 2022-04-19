@@ -22,9 +22,8 @@ class DomainController extends Controller
 
     protected const INDEX_ROUTE = 'domain.index';
 
-    public function __construct(
-        DomainRepositoryInterface $domainRepository
-    ) {
+    public function __construct(DomainRepositoryInterface $domainRepository)
+    {
         parent::__construct();
 
         $this->middleware('can:owner,domain')->except(['index', 'new','store']);
@@ -53,24 +52,20 @@ class DomainController extends Controller
         UpdateRequest $request,
         Domain $domain,
     ) {
-        try {
-            $attributes = $request->only([
-                'name',
-                'price',
-                'is_active',
-                'is_transferred',
-                'is_management_only',
-                'purchased_at',
-                'expired_at',
-                'canceled_at',
-            ]);
+        $attributes = $request->only([
+            'name',
+            'price',
+            'is_active',
+            'is_transferred',
+            'is_management_only',
+            'purchased_at',
+            'expired_at',
+            'canceled_at',
+        ]);
 
-            $domain->fill($attributes);
+        $domain->fill($attributes);
 
-            $this->domainRepository->save($domain);
-        } catch (Exception $e) {
-            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Update Failed!!');
-        }
+        $this->domainRepository->save($domain);
 
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Update Success!!');
     }
@@ -94,7 +89,7 @@ class DomainController extends Controller
         } catch (DomainExistsException $e) {
             return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, $e->getMessage());
         } catch (Exception $e) {
-            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Create Failed!!');
+            throw $e;
         }
 
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Create Success!!');
@@ -102,11 +97,7 @@ class DomainController extends Controller
 
     public function delete(Domain $domain)
     {
-        try {
-            $this->domainRepository->delete($domain);
-        } catch (Exception $e) {
-            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Delete Failed!!');
-        }
+        $this->domainRepository->delete($domain);
 
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Delete Success!!');
     }

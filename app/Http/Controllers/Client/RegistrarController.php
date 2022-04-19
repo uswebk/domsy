@@ -17,9 +17,8 @@ class RegistrarController extends Controller
 
     protected $registrarRepository;
 
-    public function __construct(
-        RegistrarRepositoryInterface $registrarRepository
-    ) {
+    public function __construct(RegistrarRepositoryInterface $registrarRepository)
+    {
         parent::__construct();
 
         $this->middleware('can:owner,registrar')->except(['index', 'new', 'store']);
@@ -53,8 +52,10 @@ class RegistrarController extends Controller
             'link',
             'note',
         ]);
+
         try {
             $registrar->fill($attributes);
+
             $this->registrarRepository->save($registrar);
         } catch (Exception $e) {
             return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Update');
@@ -83,11 +84,7 @@ class RegistrarController extends Controller
 
     public function delete(Registrar $registrar)
     {
-        try {
-            $this->registrarRepository->delete($registrar);
-        } catch (Exception $e) {
-            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Delete');
-        }
+        $this->registrarRepository->delete($registrar);
 
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Registrar Delete!!');
     }

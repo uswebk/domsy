@@ -35,8 +35,9 @@ final class DomainStoreService
         \DB::beginTransaction();
         try {
             $domainService = new DomainAlreadyExistsService($name, $user_id);
+            $notExists = $domainService->isNotExists();
 
-            if ($domainService->isNotExists()) {
+            if ($notExists) {
                 $domain = $this->domainRepository->store([
                     'name' => $name,
                     'price' => $price,
@@ -53,9 +54,9 @@ final class DomainStoreService
                     'domain_id' => $domain->id,
                     'subdomain' => null,
                 ]);
-
-                \DB::commit();
             }
+
+            \DB::commit();
         } catch (\Exception $e) {
             \DB::rollback();
             throw $e;

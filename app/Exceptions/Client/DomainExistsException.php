@@ -6,7 +6,7 @@ namespace App\Exceptions\Client;
 
 use Exception;
 
-final class DomainExistsException extends Exception
+class DomainExistsException extends Exception
 {
     public $message;
 
