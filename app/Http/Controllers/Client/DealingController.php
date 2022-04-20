@@ -6,21 +6,46 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 
-
 use Illuminate\Support\Facades\Auth;
 
 class DealingController extends Controller
 {
-    public function index(
-    ) {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    private function makeSelectItemByCollection(
+        \Illuminate\Database\Eloquent\Collection $collection
+    ): array {
+        $selectItem = $collection->pluck('name', 'id')->toArray();
+
+        if (isset($selectItem)) {
+            return $selectItem;
+        }
+
+        return [];
+    }
+
+    public function index()
+    {
         $domains = Auth::user()->domains;
 
         $domains->load([
             'domainDealings',
+            'domainDealings.registrar',
+            'domainDealings.client',
         ]);
 
-        dd($domains);
+        return view('client.dealing.index', compact('domains'));
+    }
 
-        return view('client.dealing.index');
+    public function new()
+    {
+        $domainList = $this->makeSelectItemByCollection(Auth::user()->domains);
+        $registrarList = $this->makeSelectItemByCollection(Auth::user()->registrars);
+        $clientList = $this->makeSelectItemByCollection(Auth::user()->clients);
+
+        return view('client.dealing.new', compact('domainList', 'registrarList', 'clientList'));
     }
 }
