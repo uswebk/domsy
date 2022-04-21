@@ -21,4 +21,10 @@ class UpdateRequest extends Request
             'canceled_at' => 'nullable|date_format:Y-m-d',
         ];
     }
+    protected function passedValidation(): void
+    {
+        $this->merge([
+            'registrar_id' => (int) $this->registrar_id,
+        ]);
+    }
 }

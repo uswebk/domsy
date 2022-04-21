@@ -7,18 +7,18 @@ namespace App\Services\Domain\Domain;
 use App\Exceptions\Client\DomainExistsException;
 use App\Infrastructures\Queries\Domain\EloquentDomainQueryService;
 
-final class AlreadyExistsService
+final class NotExistsService
 {
-    private $name;
     private $userId;
+    private $name;
 
-    public function __construct(string $name, int $userId)
+    public function __construct(int $userId, string $name)
     {
-        $this->name = $name;
         $this->userId = $userId;
+        $this->name = $name;
     }
 
-    public function isNotExists(): bool
+    public function execute(): bool
     {
         $domainQueryService = new EloquentDomainQueryService();
         $domain = $domainQueryService->getFirstByNameUserId($this->name, $this->userId);

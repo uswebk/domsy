@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DealingController extends Controller
@@ -47,5 +48,11 @@ class DealingController extends Controller
         $clientList = $this->makeSelectItemByCollection(Auth::user()->clients);
 
         return view('client.dealing.new', compact('domainList', 'registrarList', 'clientList'));
+    }
+
+    public function store(
+        Request $request
+    ) {
+        dd($request);
     }
 }

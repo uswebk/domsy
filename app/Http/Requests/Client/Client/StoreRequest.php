@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Client\Client;
 
 use App\Http\Requests\Request;
+
 use Illuminate\Support\Facades\Auth;
 
 class StoreRequest extends Request

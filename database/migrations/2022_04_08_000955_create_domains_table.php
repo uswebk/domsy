@@ -18,6 +18,7 @@ class CreateDomainsTable extends Migration
             $table->bigIncrements('id');
             $table->text('name')->comment('ドメイン名');
             $table->unsignedBigInteger('user_id')->comment('ユーザーID');
+            $table->unsignedBigInteger('registrar_id')->nullable()->comment('レジストラID');
             $table->integer('price')->comment('価格');
             $table->boolean('is_active')->comment('稼働フラグ');
             $table->boolean('is_transferred')->comment('移管フラグ');
@@ -33,6 +34,10 @@ class CreateDomainsTable extends Migration
             ->on('users')
             ->cascadeOnUpdate()
             ->cascadeOnDelete();
+
+            $table->foreign('registrar_id')
+            ->references('id')
+            ->on('registrars');
         });
     }
 

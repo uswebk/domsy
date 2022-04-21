@@ -17,6 +17,18 @@
 
     {{ Form::open(['url' => route('domain.update', $domain->id), 'class' => 'w-50 p-3']) }}
 
+    <div class='w-100 mt-2'>
+      <div class='form-label'>{{ Form::label('domain-registrar_id', 'Registrar') }}</div>
+
+      <div>
+        {{ Form::select('registrar_id', $registrarIds, old('registrar_id', $domain->registrar_id), ['placeholder' => 'Select Registrar', 'id' => 'domain-registrar_id','class' => 'form-control w-50 d-inline']) }}
+      </div>
+
+      @error('registrar_id')
+        <div class='invalid-feedback d-block'>{{ $message }}</div>
+      @enderror
+    </div>
+
     <div class='w-50 mt-2'>
       <div class='form-label'>{{ Form::label('domain-name', 'Domain Name') }}</div>
 

@@ -26,6 +26,7 @@ class StoreRequest extends Request
     protected function passedValidation(): void
     {
         $this->merge([
+            'registrar_id' => (int) $this->registrar_id,
             'user_id' => Auth::id(),
         ]);
     }

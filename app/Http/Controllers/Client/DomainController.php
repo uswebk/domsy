@@ -11,6 +11,7 @@ use App\Http\Requests\Client\Domain\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Domain;
 use App\Infrastructures\Repositories\Domain\DomainRepositoryInterface;
 use App\Services\Application\DomainStoreService;
+use App\Services\Application\DomainUpdateService;
 
 use Exception;
 
@@ -27,6 +28,16 @@ class DomainController extends Controller
         parent::__construct();
 
         $this->middleware('can:owner,domain')->except(['index', 'new','store']);
+
+        $this->middleware(function ($request, $next) {
+            $registrars = Auth::user()->registrars;
+
+            view()->share([
+                'registrarIds' => $registrars->pluck('name', 'id')->toArray(),
+            ]);
+
+            return $next($request);
+        });
 
         $this->domainRepository = $domainRepository;
     }
@@ -51,21 +62,24 @@ class DomainController extends Controller
     public function update(
         UpdateRequest $request,
         Domain $domain,
+        DomainUpdateService $domainUpdateService
     ) {
-        $attributes = $request->only([
-            'name',
-            'price',
-            'is_active',
-            'is_transferred',
-            'is_management_only',
-            'purchased_at',
-            'expired_at',
-            'canceled_at',
-        ]);
-
-        $domain->fill($attributes);
-
-        $this->domainRepository->save($domain);
+        try {
+            $domainUpdateService->handle(
+                $domain,
+                $request->name,
+                $request->price,
+                $request->registrar_id,
+                $request->is_active,
+                $request->is_transferred,
+                $request->is_management_only,
+                $request->purchased_at,
+                $request->expired_at,
+                $request->canceled_at,
+            );
+        } catch (Exception $e) {
+            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Update');
+        }
 
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Update Success!!');
     }
@@ -79,6 +93,7 @@ class DomainController extends Controller
                 $request->name,
                 $request->price,
                 $request->user_id,
+                $request->registrar_id,
                 $request->is_active,
                 $request->is_transferred,
                 $request->is_management_only,
@@ -89,7 +104,7 @@ class DomainController extends Controller
         } catch (DomainExistsException $e) {
             return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, $e->getMessage());
         } catch (Exception $e) {
-            throw $e;
+            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Create');
         }
 
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Create Success!!');

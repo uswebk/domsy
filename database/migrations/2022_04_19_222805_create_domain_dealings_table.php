@@ -16,7 +16,6 @@ class CreateDomainDealingsTable extends Migration
         Schema::create('domain_dealings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('domain_id');
-            $table->unsignedBigInteger('registrar_id');
             $table->unsignedBigInteger('client_id');
             $table->decimal('subtotal', 10, 0);
             $table->decimal('discount', 10, 0);
@@ -33,17 +32,9 @@ class CreateDomainDealingsTable extends Migration
             ->cascadeOnUpdate()
             ->cascadeOnDelete();
 
-            $table->foreign('registrar_id')
-            ->references('id')
-            ->on('registrars')
-            ->cascadeOnUpdate()
-            ->cascadeOnDelete();
-
             $table->foreign('client_id')
             ->references('id')
-            ->on('clients')
-            ->cascadeOnUpdate()
-            ->cascadeOnDelete();
+            ->on('clients');
         });
     }
 

@@ -30,15 +30,9 @@ class DomainDealing extends BaseModel
         'Year',
     ];
 
-
     public function domain(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\Domain', 'domain_id');
-    }
-
-    public function registrar(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo('App\Infrastructures\Models\Eloquent\Registrar', 'registrar_id');
     }
 
     public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -9,10 +9,9 @@
 
     <h1 class='h4 m-1'>Dealing Create</h1>
 
-    <a href='{{ route('registrar.index') }}' class='btn btn-secondary btn-sm'> < </a>
+    <a href='{{ route('dealing.index') }}' class='btn btn-secondary btn-sm'> < </a>
 
-    {{ Form::open(['url' => route('registrar.store'), 'class' => 'w-50 p-3']) }}
-
+    {{ Form::open(['url' => route('dealing.store'), 'class' => 'w-50 p-3']) }}
 
     <div class='w-100 mt-2'>
       <div class='form-label'>{{ Form::label('dealing-domain_id', 'Domain') }}</div>

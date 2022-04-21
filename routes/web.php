@@ -65,6 +65,8 @@ Route::middleware(['verified','auth'])->group(function () {
         Route::prefix('dealing')->name('dealing.')->group(function () {
             Route::get('/', 'DealingController@index')->name('index');
             Route::get('new', 'DealingController@new')->name('new');
+
+            Route::post('store', 'DealingController@store')->name('store');
         });
     });
 });

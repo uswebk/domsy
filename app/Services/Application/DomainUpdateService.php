@@ -4,28 +4,25 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
+use App\Infrastructures\Models\Eloquent\Domain;
 use App\Infrastructures\Repositories\Domain\DomainRepositoryInterface;
-use App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface;
 use App\Services\Domain\Domain\HasRegistrarService as DomainHasRegistrarService;
-use App\Services\Domain\Domain\NotExistsService as DomainNotExistsService;
 
-final class DomainStoreService
+use Illuminate\Support\Facades\Auth;
+
+final class DomainUpdateService
 {
     private $domainRepository;
-    private $subdomainRepository;
 
-    public function __construct(
-        DomainRepositoryInterface $domainRepository,
-        SubdomainRepositoryInterface $subdomainRepository,
-    ) {
+    public function __construct(DomainRepositoryInterface $domainRepository)
+    {
         $this->domainRepository = $domainRepository;
-        $this->subdomainRepository = $subdomainRepository;
     }
 
     public function handle(
+        Domain $domain,
         string $name,
         string $price,
-        int $user_id,
         ?int $registrar_id,
         string $is_active,
         string $is_transferred,
@@ -36,14 +33,12 @@ final class DomainStoreService
     ) {
         \DB::beginTransaction();
         try {
-            $notExistsService = new DomainNotExistsService($user_id, $name);
-            $hasRegistrarService = new DomainHasRegistrarService($user_id, $registrar_id);
+            $hasRegistrarService = new DomainHasRegistrarService(Auth::id(), $registrar_id);
 
-            if ($hasRegistrarService->execute($registrar_id) && $notExistsService->execute($name)) {
-                $domain = $this->domainRepository->store([
+            if ($hasRegistrarService->execute($registrar_id)) {
+                $domain->fill([
                     'name' => $name,
                     'price' => $price,
-                    'user_id' => $user_id,
                     'registrar_id' => $registrar_id,
                     'is_active' => $is_active,
                     'is_transferred' => $is_transferred,
@@ -53,10 +48,7 @@ final class DomainStoreService
                     'canceled_at' => $canceled_at,
                 ]);
 
-                $this->subdomainRepository->store([
-                    'domain_id' => $domain->id,
-                    'subdomain' => null,
-                ]);
+                $this->domainRepository->save($domain);
             }
 
             \DB::commit();
