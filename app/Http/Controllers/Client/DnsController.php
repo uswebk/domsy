@@ -50,11 +50,11 @@ class DnsController extends Controller
         $this->subdomainRepository = $subdomainRepository;
     }
 
-    private function getDnsRecordTypeIds(): \Illuminate\Support\Collection
+    private function getDnsRecordTypeIds(): array
     {
         $dnsRecordTypes = $this->dnsRecordTypeQueryService->getAll();
 
-        return $dnsRecordTypes->pluck('name', 'id');
+        return $dnsRecordTypes->pluck('name', 'id')->toArray();
     }
 
     public function index()
