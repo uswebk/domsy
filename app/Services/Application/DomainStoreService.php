@@ -26,7 +26,7 @@ final class DomainStoreService
         string $name,
         string $price,
         int $user_id,
-        ?int $registrar_id,
+        int $registrar_id,
         string $is_active,
         string $is_transferred,
         string $is_management_only,

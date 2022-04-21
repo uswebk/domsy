@@ -11,6 +11,7 @@ class UpdateRequest extends Request
     public function rules(): array
     {
         return [
+            'registrar_id' => 'required|integer',
             'name' => 'required|string',
             'price' => 'required|integer',
             'is_active' => 'required|boolean',

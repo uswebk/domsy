@@ -8,6 +8,7 @@ class Domain extends BaseModel
 {
     protected $fillable = [
         'name',
+        'registrar_id',
         'user_id',
         'price',
         'is_active',
