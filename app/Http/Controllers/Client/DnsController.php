@@ -33,28 +33,24 @@ class DnsController extends Controller
     ) {
         parent::__construct();
 
+        $this->domainIdQuery = $request->query('domain_id');
+
+        $this->dnsRecordTypeQueryService = $dnsRecordTypeQueryService;
+        $this->subdomainRepository = $subdomainRepository;
+
         $this->middleware('can:owner,domain')->only(['new']);
         $this->middleware('can:owner,subdomain')->only(['edit', 'update','delete']);
 
-        $this->domainIdQuery = $request->query('domain_id');
-
         $this->middleware(function ($request, $next) {
+            $dnsRecordTypes = $this->dnsRecordTypeQueryService->getAll();
+
             view()->share([
                 'domainIdQuery' => $this->domainIdQuery,
+                'dnsTypeIds' => $dnsRecordTypes->pluck('name', 'id')->toArray(),
             ]);
 
             return $next($request);
         });
-
-        $this->dnsRecordTypeQueryService = $dnsRecordTypeQueryService;
-        $this->subdomainRepository = $subdomainRepository;
-    }
-
-    private function getDnsRecordTypeIds(): array
-    {
-        $dnsRecordTypes = $this->dnsRecordTypeQueryService->getAll();
-
-        return $dnsRecordTypes->pluck('name', 'id')->toArray();
     }
 
     public function index()
@@ -74,16 +70,12 @@ class DnsController extends Controller
 
     public function new(Domain $domain)
     {
-        $dnsTypeIds = $this->getDnsRecordTypeIds();
-
-        return view('client.dns.new', compact('domain', 'dnsTypeIds'));
+        return view('client.dns.new', compact('domain'));
     }
 
     public function edit(Subdomain $subdomain)
     {
-        $dnsTypeIds = $this->getDnsRecordTypeIds();
-
-        return view('client.dns.edit', compact('subdomain', 'dnsTypeIds'));
+        return view('client.dns.edit', compact('subdomain'));
     }
 
     public function update(
