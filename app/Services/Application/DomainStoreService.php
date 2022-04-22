@@ -39,7 +39,7 @@ final class DomainStoreService
             $notExistsService = new DomainNotExistsService($user_id, $name);
             $hasRegistrarService = new DomainHasRegistrarService($user_id, $registrar_id);
 
-            if ($hasRegistrarService->execute($registrar_id) && $notExistsService->execute($name)) {
+            if ($hasRegistrarService->execute() && $notExistsService->execute()) {
                 $domain = $this->domainRepository->store([
                     'name' => $name,
                     'price' => $price,
@@ -62,6 +62,7 @@ final class DomainStoreService
             \DB::commit();
         } catch (\Exception $e) {
             \DB::rollback();
+
             throw $e;
         }
     }

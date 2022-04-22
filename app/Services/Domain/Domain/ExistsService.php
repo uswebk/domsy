@@ -18,7 +18,7 @@ final class ExistsService
         $this->userId = $userId;
     }
 
-    public function isExists(): bool
+    public function execute(): bool
     {
         $domainQueryService = new EloquentDomainQueryService();
         $domain = $domainQueryService->getFirstByIdUserId($this->id, $this->userId);

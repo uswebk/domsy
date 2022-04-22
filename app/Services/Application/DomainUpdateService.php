@@ -35,7 +35,7 @@ final class DomainUpdateService
         try {
             $hasRegistrarService = new DomainHasRegistrarService(Auth::id(), $registrar_id);
 
-            if ($hasRegistrarService->execute($registrar_id)) {
+            if ($hasRegistrarService->execute()) {
                 $domain->fill([
                     'name' => $name,
                     'price' => $price,
@@ -54,6 +54,7 @@ final class DomainUpdateService
             \DB::commit();
         } catch (\Exception $e) {
             \DB::rollback();
+
             throw $e;
         }
     }
