@@ -44,6 +44,7 @@ class DomainController extends Controller
 
     public function index()
     {
+        // Todo: Pagination
         $domains = Auth::user()->domains;
 
         return view('client.domain.index', compact('domains'));

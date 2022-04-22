@@ -24,7 +24,7 @@ final class DnsStoreService
         string $type_id,
         string $value,
         string $ttl,
-        string $priority,
+        ?string $priority,
     ) {
         try {
             $domainService = new DomainExistsService($domain_id, Auth::id());
