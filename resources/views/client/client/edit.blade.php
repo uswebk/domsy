@@ -11,12 +11,12 @@
 
     <a href='{{ route('client.index') }}' class='btn btn-secondary btn-sm'> < </a>
 
-    {{ Form::open(['url' => route('client.store'), 'class' => 'w-50 p-3']) }}
+    {{ Form::open(['url' => route('client.update', $client->id), 'class' => 'w-50 p-3']) }}
     <div class='w-75 mt-2'>
       <div class='form-label'>{{ Form::label('client-name', 'Name') }}</div>
 
       <div>
-        {{ Form::text('name', old('name', $client->name), ['placeholder' => '株式会社domsy','id' => 'client-name','class' => 'form-control']) }}
+        {{ Form::text('name', old('name', $client->name), ['placeholder' => 'domsy Inc.','id' => 'client-name','class' => 'form-control']) }}
       </div>
 
       @error('name')
@@ -52,7 +52,7 @@
       <div class='form-label'>{{ Form::label('client-zip', 'Zip') }}</div>
 
       <div>
-        {{ Form::text('zip', old('zip', $client->zip), ['placeholder' => '5300001', 'id' => 'client-zip', 'class' => 'form-control']) }}
+        {{ Form::text('zip', old('zip', $client->zip), ['placeholder' => '5300001','id' => 'client-zip','class' => 'form-control']) }}
       </div>
 
       @error('zip')

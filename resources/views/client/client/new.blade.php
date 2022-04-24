@@ -16,7 +16,7 @@
       <div class='form-label'>{{ Form::label('client-name', 'Name') }}</div>
 
       <div>
-        {{ Form::text('name', old('name'), ['placeholder' => '株式会社domsy','id' => 'client-name','class' => 'form-control']) }}
+        {{ Form::text('name', old('name'), ['placeholder' => 'domsy Inc.','id' => 'client-name','class' => 'form-control']) }}
       </div>
 
       @error('name')

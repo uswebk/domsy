@@ -44,10 +44,9 @@ class DealingController extends Controller
     public function new()
     {
         $domainList = $this->makeSelectItemByCollection(Auth::user()->domains);
-        $registrarList = $this->makeSelectItemByCollection(Auth::user()->registrars);
         $clientList = $this->makeSelectItemByCollection(Auth::user()->clients);
 
-        return view('client.dealing.new', compact('domainList', 'registrarList', 'clientList'));
+        return view('client.dealing.new', compact('domainList', 'clientList'));
     }
 
     public function store(
