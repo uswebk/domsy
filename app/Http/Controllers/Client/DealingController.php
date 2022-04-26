@@ -14,18 +14,18 @@ class DealingController extends Controller
     public function __construct()
     {
         parent::__construct();
-    }
 
-    private function makeSelectItemByCollection(
-        \Illuminate\Database\Eloquent\Collection $collection
-    ): array {
-        $selectItem = $collection->pluck('name', 'id')->toArray();
+        $this->middleware(function ($request, $next) {
+            $domainList = Auth::user()->domains->pluck('name', 'id')->toArray();
+            $clientList = Auth::user()->clients->pluck('name', 'id')->toArray();
 
-        if (isset($selectItem)) {
-            return $selectItem;
-        }
+            view()->share([
+                'domainList' => $domainList,
+                'clientList' => $clientList,
+            ]);
 
-        return [];
+            return $next($request);
+        });
     }
 
     public function index()
@@ -43,15 +43,18 @@ class DealingController extends Controller
 
     public function new()
     {
-        $domainList = $this->makeSelectItemByCollection(Auth::user()->domains);
-        $clientList = $this->makeSelectItemByCollection(Auth::user()->clients);
-
-        return view('client.dealing.new', compact('domainList', 'clientList'));
+        return view('client.dealing.new');
     }
 
     public function store(
         Request $request
     ) {
+
+        // Application Service
+        // ドメイン整合性Check
+        // クライアント整合性Check
+        // データ保存(Repository)
+
         dd($request);
     }
 }
