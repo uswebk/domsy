@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\Dealing\StoreRequest;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DealingController extends Controller
@@ -47,7 +47,7 @@ class DealingController extends Controller
     }
 
     public function store(
-        Request $request
+        StoreRequest $request
     ) {
 
         // Application Service
