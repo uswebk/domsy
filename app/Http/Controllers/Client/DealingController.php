@@ -7,6 +7,8 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\Dealing\StoreRequest;
 
+use App\Services\Application\DealingStoreService;
+
 use Illuminate\Support\Facades\Auth;
 
 class DealingController extends Controller
@@ -18,10 +20,12 @@ class DealingController extends Controller
         $this->middleware(function ($request, $next) {
             $domainList = Auth::user()->domains->pluck('name', 'id')->toArray();
             $clientList = Auth::user()->clients->pluck('name', 'id')->toArray();
+            $intervalCategories = ['Day', 'Week', 'Month', 'Year'];
 
             view()->share([
                 'domainList' => $domainList,
                 'clientList' => $clientList,
+                'intervalCategories' => $intervalCategories,
             ]);
 
             return $next($request);
@@ -47,14 +51,19 @@ class DealingController extends Controller
     }
 
     public function store(
-        StoreRequest $request
+        StoreRequest $request,
+        DealingStoreService $dealingStoreService
     ) {
-
-        // Application Service
-        // ドメイン整合性Check
-        // クライアント整合性Check
-        // データ保存(Repository)
-
-        dd($request);
+        $dealingStoreService->handle(
+            $request->user_id,
+            $request->domain_id,
+            $request->client_id,
+            $request->subtotal,
+            $request->discount,
+            $request->billing_date,
+            $request->interval,
+            $request->interval_category,
+            $request->is_auto_update
+        );
     }
 }

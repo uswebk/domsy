@@ -17,8 +17,8 @@ class StoreRequest extends Request
             'subtotal' => 'required|integer',
             'discount' => 'nullable|integer',
             'billing_date' => 'required|date_format:Y-m-d',
-            'interval' => 'nullable|integer',
-            'interval_category' => 'nullable|integer',
+            'interval' => 'required|integer',
+            'interval_category' => 'required|integer',
             'is_auto_update' => 'required|boolean',
         ];
     }

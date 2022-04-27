@@ -78,7 +78,7 @@
 
       <div>
         {{ Form::number('interval', old('interval'), ['placeholder' => '1','id' => 'dealing-interval','class' => 'form-control w-25 d-inline']) }}
-        {{ Form::select('interval_category', ['Day','Month'], old('interval_category'), ['id' => 'dealing-interval_category','class' => 'form-control w-50 d-inline']) }}
+        {{ Form::select('interval_category', $intervalCategories , old('interval_category'), ['id' => 'dealing-interval_category','class' => 'form-control w-50 d-inline']) }}
       </div>
 
       @error('interval')

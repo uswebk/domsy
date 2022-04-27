@@ -179,6 +179,7 @@ return [
         App\Providers\UserServiceProvider::class,
         App\Providers\UserLatestCodeServiceProvider::class,
         App\Providers\ClientServiceProvider::class,
+        App\Providers\DomainDealingServiceProvider::class,
     ],
 
     /*
