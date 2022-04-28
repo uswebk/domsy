@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Client;
 
+use App\Infrastructures\Queries\Client\EloquentClientQueryService;
+
 final class HasService
 {
     private $clientId;
@@ -17,10 +19,10 @@ final class HasService
 
     public function execute(): bool
     {
-        $registrarQueryService = new EloquentRegistrarQueryService();
-        $registrar = $registrarQueryService->findById($this->registrar_id);
+        $clientQueryService = new EloquentClientQueryService();
+        $client = $clientQueryService->findById($this->clientId);
 
-        if (! isset($registrar) || $registrar->user_id !== $this->userId) {
+        if (! isset($client) || $client->user_id !== $this->userId) {
             throw new Exception();
         }
 

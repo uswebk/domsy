@@ -23,8 +23,8 @@ class Registrar extends BaseModel
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\User');
     }
 
-    public function domainDealing(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function domains(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany('App\Infrastructures\Models\Eloquent\DomainDealing', 'registrar_id');
+        return $this->hasMany('App\Infrastructures\Models\Eloquent\Domain', 'registrar_id');
     }
 }

@@ -33,9 +33,9 @@ final class DomainUpdateService
     ) {
         \DB::beginTransaction();
         try {
-            $registrarHasService = new RegistrarHasService(Auth::id(), $registrarId);
+            $registrarService = new RegistrarHasService(Auth::id(), $registrarId);
 
-            if ($registrarHasService->execute()) {
+            if ($registrarService->execute()) {
                 $domain->fill([
                     'name' => $name,
                     'price' => $price,

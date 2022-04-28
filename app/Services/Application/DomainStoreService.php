@@ -36,10 +36,10 @@ final class DomainStoreService
     ) {
         \DB::beginTransaction();
         try {
-            $notExistsService = new DomainNotExistsService($userId, $name);
-            $registrarHasService = new RegistrarHasService($userId, $registrarId);
+            $domainService = new DomainNotExistsService($userId, $name);
+            $registrarService = new RegistrarHasService($userId, $registrarId);
 
-            if ($registrarHasService->execute() && $notExistsService->execute()) {
+            if ($registrarService->execute() && $domainService->execute()) {
                 $domain = $this->domainRepository->store([
                     'name' => $name,
                     'price' => $price,

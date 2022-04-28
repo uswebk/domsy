@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 
 class DealingController extends Controller
 {
+    protected const INDEX_ROUTE = 'dealing.index';
+
     public function __construct()
     {
         parent::__construct();
@@ -38,7 +40,6 @@ class DealingController extends Controller
 
         $domains->load([
             'domainDealings',
-            'domainDealings.registrar',
             'domainDealings.client',
         ]);
 
@@ -54,16 +55,22 @@ class DealingController extends Controller
         StoreRequest $request,
         DealingStoreService $dealingStoreService
     ) {
-        $dealingStoreService->handle(
-            $request->user_id,
-            $request->domain_id,
-            $request->client_id,
-            $request->subtotal,
-            $request->discount,
-            $request->billing_date,
-            $request->interval,
-            $request->interval_category,
-            $request->is_auto_update
-        );
+        try {
+            $dealingStoreService->handle(
+                $request->user_id,
+                $request->domain_id,
+                $request->client_id,
+                $request->subtotal,
+                $request->discount,
+                $request->billing_date,
+                $request->interval,
+                $request->interval_category,
+                $request->is_auto_update
+            );
+        } catch (\Exception $e) {
+            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Create');
+        }
+
+        return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Create Success!!');
     }
 }
