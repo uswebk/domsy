@@ -39,4 +39,9 @@ class DomainDealing extends BaseModel
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\Client', 'client_id');
     }
+
+    public static function getIntervalCategories(): array
+    {
+        return self::INTERVAL_CATEGORIES;
+    }
 }

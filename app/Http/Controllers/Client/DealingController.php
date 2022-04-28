@@ -7,8 +7,8 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\Dealing\StoreRequest;
 
+use App\Infrastructures\Models\Eloquent\DomainDealing;
 use App\Services\Application\DealingStoreService;
-
 use Illuminate\Support\Facades\Auth;
 
 class DealingController extends Controller
@@ -20,7 +20,7 @@ class DealingController extends Controller
         $this->middleware(function ($request, $next) {
             $domainList = Auth::user()->domains->pluck('name', 'id')->toArray();
             $clientList = Auth::user()->clients->pluck('name', 'id')->toArray();
-            $intervalCategories = ['Day', 'Week', 'Month', 'Year'];
+            $intervalCategories = DomainDealing::getIntervalCategories();
 
             view()->share([
                 'domainList' => $domainList,
