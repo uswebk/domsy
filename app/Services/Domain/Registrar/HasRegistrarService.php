@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Domain\Domain;
+namespace App\Services\Domain\Registrar;
 
 use App\Infrastructures\Queries\Registrar\EloquentRegistrarQueryService;
 
 use Exception;
 
-final class HasRegistrarService
+final class HasService
 {
     private $userId;
     private $registrar_id;

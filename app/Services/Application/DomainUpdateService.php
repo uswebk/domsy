@@ -6,7 +6,7 @@ namespace App\Services\Application;
 
 use App\Infrastructures\Models\Eloquent\Domain;
 use App\Infrastructures\Repositories\Domain\DomainRepositoryInterface;
-use App\Services\Domain\Domain\HasRegistrarService as DomainHasRegistrarService;
+use App\Services\Domain\Registrar\HasService as RegistrarHasService;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -33,9 +33,9 @@ final class DomainUpdateService
     ) {
         \DB::beginTransaction();
         try {
-            $hasRegistrarService = new DomainHasRegistrarService(Auth::id(), $registrar_id);
+            $registrarHasService = new RegistrarHasService(Auth::id(), $registrar_id);
 
-            if ($hasRegistrarService->execute()) {
+            if ($registrarHasService->execute()) {
                 $domain->fill([
                     'name' => $name,
                     'price' => $price,

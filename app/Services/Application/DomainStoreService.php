@@ -6,8 +6,8 @@ namespace App\Services\Application;
 
 use App\Infrastructures\Repositories\Domain\DomainRepositoryInterface;
 use App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface;
-use App\Services\Domain\Domain\HasRegistrarService as DomainHasRegistrarService;
 use App\Services\Domain\Domain\NotExistsService as DomainNotExistsService;
+use App\Services\Domain\Registrar\HasService as RegistrarHasService;
 
 final class DomainStoreService
 {
@@ -37,9 +37,9 @@ final class DomainStoreService
         \DB::beginTransaction();
         try {
             $notExistsService = new DomainNotExistsService($user_id, $name);
-            $hasRegistrarService = new DomainHasRegistrarService($user_id, $registrar_id);
+            $registrarHasService = new RegistrarHasService($user_id, $registrar_id);
 
-            if ($hasRegistrarService->execute() && $notExistsService->execute()) {
+            if ($registrarHasService->execute() && $notExistsService->execute()) {
                 $domain = $this->domainRepository->store([
                     'name' => $name,
                     'price' => $price,
