@@ -8,7 +8,7 @@ use App\Infrastructures\Models\Eloquent\Domain;
 
 final class EloquentDomainQueryService
 {
-    public function getFirstByIdUserId(string $id, int $userId): ?Domain
+    public function getFirstByIdUserId(int $id, int $userId): ?Domain
     {
         return Domain::where('id', $id)->where('user_id', $userId)->first();
     }

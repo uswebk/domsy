@@ -23,29 +23,29 @@ final class DomainUpdateService
         Domain $domain,
         string $name,
         string $price,
-        int $registrar_id,
-        string $is_active,
-        string $is_transferred,
-        string $is_management_only,
-        string $purchased_at,
-        string $expired_at,
-        ?string $canceled_at,
+        int $registrarId,
+        string $isActive,
+        string $isTransferred,
+        string $isManagementOnly,
+        string $purchasedAt,
+        string $expiredAt,
+        ?string $canceledAt,
     ) {
         \DB::beginTransaction();
         try {
-            $registrarHasService = new RegistrarHasService(Auth::id(), $registrar_id);
+            $registrarHasService = new RegistrarHasService(Auth::id(), $registrarId);
 
             if ($registrarHasService->execute()) {
                 $domain->fill([
                     'name' => $name,
                     'price' => $price,
-                    'registrar_id' => $registrar_id,
-                    'is_active' => $is_active,
-                    'is_transferred' => $is_transferred,
-                    'is_management_only' => $is_management_only,
-                    'purchased_at' => $purchased_at,
-                    'expired_at' => $expired_at,
-                    'canceled_at' => $canceled_at,
+                    'registrar_id' => $registrarId,
+                    'is_active' => $isActive,
+                    'is_transferred' => $isTransferred,
+                    'is_management_only' => $isManagementOnly,
+                    'purchased_at' => $purchasedAt,
+                    'expired_at' => $expiredAt,
+                    'canceled_at' => $canceledAt,
                 ]);
 
                 $this->domainRepository->save($domain);

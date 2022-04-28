@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Application;
 
 use App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface;
+use App\Services\Domain\Domain\ExistsService as DomainExistsService;
 
 final class DealingStoreService
 {
@@ -16,31 +17,32 @@ final class DealingStoreService
     }
 
     public function handle(
-        int $user_id,
-        int $domain_id,
-        int $client_id,
+        int $userId,
+        int $domainId,
+        int $clientId,
         string $subtotal,
         string $discount,
-        string $billing_date,
+        string $billingDate,
         string $interval,
-        string $interval_category,
-        string $is_auto_update,
+        string $intervalCategory,
+        string $isAutoUpdate,
     ) {
-
-        // Todo:ドメイン整合性Check
+        $domainService = new DomainExistsService($domainId, Auth::id());
 
         // Todo:クライアント整合性Check
 
-        $this->dealingRepository->store([
-            'user_id' => $user_id,
-            'domain_id' => $domain_id,
-            'client_id' => $client_id,
-            'subtotal' => $subtotal,
-            'discount' => $discount,
-            'billing_date' => $billing_date,
-            'interval' => $interval,
-            'interval_category' => $interval_category,
-            'is_auto_update' => $is_auto_update,
-        ]);
+        if ($domainService->execute()) {
+            $this->dealingRepository->store([
+                'user_id' => $userId,
+                'domain_id' => $domainId,
+                'client_id' => $clientId,
+                'subtotal' => $subtotal,
+                'discount' => $discount,
+                'billing_date' => $billingDate,
+                'interval' => $interval,
+                'interval_category' => $intervalCategory,
+                'is_auto_update' => $isAutoUpdate,
+            ]);
+        }
     }
 }

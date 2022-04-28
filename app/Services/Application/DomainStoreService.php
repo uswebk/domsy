@@ -25,32 +25,32 @@ final class DomainStoreService
     public function handle(
         string $name,
         string $price,
-        int $user_id,
-        int $registrar_id,
-        string $is_active,
-        string $is_transferred,
-        string $is_management_only,
-        string $purchased_at,
-        string $expired_at,
-        ?string $canceled_at,
+        int $userId,
+        int $registrarId,
+        string $isActive,
+        string $isTransferred,
+        string $isManagementOnly,
+        string $purchasedAt,
+        string $expiredAt,
+        ?string $canceledAt,
     ) {
         \DB::beginTransaction();
         try {
-            $notExistsService = new DomainNotExistsService($user_id, $name);
-            $registrarHasService = new RegistrarHasService($user_id, $registrar_id);
+            $notExistsService = new DomainNotExistsService($userId, $name);
+            $registrarHasService = new RegistrarHasService($userId, $registrarId);
 
             if ($registrarHasService->execute() && $notExistsService->execute()) {
                 $domain = $this->domainRepository->store([
                     'name' => $name,
                     'price' => $price,
-                    'user_id' => $user_id,
-                    'registrar_id' => $registrar_id,
-                    'is_active' => $is_active,
-                    'is_transferred' => $is_transferred,
-                    'is_management_only' => $is_management_only,
-                    'purchased_at' => $purchased_at,
-                    'expired_at' => $expired_at,
-                    'canceled_at' => $canceled_at,
+                    'user_id' => $userId,
+                    'registrar_id' => $registrarId,
+                    'is_active' => $isActive,
+                    'is_transferred' => $isTransferred,
+                    'is_management_only' => $isManagementOnly,
+                    'purchased_at' => $purchasedAt,
+                    'expired_at' => $expiredAt,
+                    'canceled_at' => $canceledAt,
                 ]);
 
                 $this->subdomainRepository->store([

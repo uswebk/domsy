@@ -9,19 +9,19 @@ use App\Infrastructures\Queries\Domain\EloquentDomainQueryService;
 
 final class ExistsService
 {
-    private $id;
+    private $domainId;
     private $userId;
 
-    public function __construct(string $id, int $userId)
+    public function __construct(int $domainId, int $userId)
     {
-        $this->id = $id;
+        $this->domainId = $domainId;
         $this->userId = $userId;
     }
 
     public function execute(): bool
     {
         $domainQueryService = new EloquentDomainQueryService();
-        $domain = $domainQueryService->getFirstByIdUserId($this->id, $this->userId);
+        $domain = $domainQueryService->getFirstByIdUserId($this->domainId, $this->userId);
 
         if (! isset($domain)) {
             throw new DomainNotExistsException();

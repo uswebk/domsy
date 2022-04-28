@@ -30,7 +30,7 @@ final class RegisterService
         string $name,
         string $email,
         string $password,
-        string $email_verify_token,
+        string $emailVerifyToken,
     ): void {
         \DB::beginTransaction();
         try {
@@ -41,7 +41,7 @@ final class RegisterService
                 'code' => $code,
                 'email' => $email,
                 'password' => $password,
-                'email_verify_token' => $email_verify_token,
+                'email_verify_token' => $emailVerifyToken,
             ]);
 
             $this->emailVerificationService->execute($user);

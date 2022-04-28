@@ -19,4 +19,10 @@ class StoreRequest extends Request
             'priority' => 'nullable|integer',
         ];
     }
+    protected function passedValidation(): void
+    {
+        $this->merge([
+            'domain_id' => (int) $this->domain_id,
+        ]);
+    }
 }

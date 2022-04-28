@@ -20,20 +20,20 @@ final class DnsStoreService
 
     public function handle(
         string $prefix,
-        string $domain_id,
-        string $type_id,
+        int $domainId,
+        string $typeId,
         string $value,
         string $ttl,
         ?string $priority,
     ) {
         try {
-            $domainService = new DomainExistsService($domain_id, Auth::id());
+            $domainService = new DomainExistsService($domainId, Auth::id());
 
             if ($domainService->execute()) {
                 $this->subdomainRepository->store([
                     'prefix' => $prefix,
-                    'domain_id' => $domain_id,
-                    'type_id' => $type_id,
+                    'domain_id' => $domainId,
+                    'type_id' => $typeId,
                     'value' => $value,
                     'ttl' => $ttl,
                     'priority' => $priority,

@@ -2,27 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Domain\Registrar;
-
-use App\Infrastructures\Queries\Registrar\EloquentRegistrarQueryService;
-
-use Exception;
+namespace App\Services\Domain\Client;
 
 final class HasService
 {
+    private $clientId;
     private $userId;
-    private $registrarId;
 
-    public function __construct(int $userId, int $registrarId)
+    public function __construct(int $clientId, int $userId)
     {
+        $this->clientId = $clientId;
         $this->userId = $userId;
-        $this->registrarId = $registrarId;
     }
 
     public function execute(): bool
     {
         $registrarQueryService = new EloquentRegistrarQueryService();
-        $registrar = $registrarQueryService->findById($this->registrarId);
+        $registrar = $registrarQueryService->findById($this->registrar_id);
 
         if (! isset($registrar) || $registrar->user_id !== $this->userId) {
             throw new Exception();
