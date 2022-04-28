@@ -20,7 +20,7 @@ final class DealingStoreService
         int $domain_id,
         int $client_id,
         string $subtotal,
-        ?string $discount,
+        string $discount,
         string $billing_date,
         string $interval,
         string $interval_category,

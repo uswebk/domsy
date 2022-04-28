@@ -41,7 +41,7 @@
       <div class='form-label'>{{ Form::label('dealing-subtotal', 'Subtotal') }}</div>
 
       <div>
-        {{ Form::number('subtotal', old('subtotal'), ['placeholder' => '1000', 'id' => 'dealing-subtotal', 'class' => 'form-control']) }}
+        {{ Form::number('subtotal', old('subtotal', 0), ['placeholder' => '1000', 'id' => 'dealing-subtotal', 'class' => 'form-control']) }}
       </div>
 
       @error('subtotal')
@@ -52,7 +52,7 @@
       <div class='form-label'>{{ Form::label('dealing-discount', 'Discount') }}</div>
 
       <div>
-        {{ Form::number('discount', old('discount'), ['placeholder' => '1000', 'id' => 'dealing-discount', 'class' => 'form-control']) }}
+        {{ Form::number('discount', old('discount', 0), ['placeholder' => '1000', 'id' => 'dealing-discount', 'class' => 'form-control']) }}
       </div>
 
       @error('discount')
