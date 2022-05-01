@@ -19,6 +19,7 @@ class DomainDealing extends BaseModel
     ];
 
     protected $dates = [
+        'billing_date',
         'created_at',
         'updated_at',
     ];
