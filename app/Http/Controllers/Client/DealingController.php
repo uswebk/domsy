@@ -51,6 +51,11 @@ class DealingController extends Controller
         return view('client.dealing.new');
     }
 
+    public function edit(DomainDealing $dealing)
+    {
+        return view('client.dealing.edit', compact('dealing'));
+    }
+
     public function store(
         StoreRequest $request,
         DealingStoreService $dealingStoreService
