@@ -65,7 +65,7 @@ Route::middleware(['verified','auth'])->group(function () {
         Route::prefix('dealing')->name('dealing.')->group(function () {
             Route::get('/', 'DealingController@index')->name('index');
             Route::get('new', 'DealingController@new')->name('new');
-            Route::get('{dealing}/edit', 'DealingController@edit')->name('edit')->where('dealing', '[0-9]+');
+            Route::get('{domainDealing}/edit', 'DealingController@edit')->name('edit')->where('domainDealing', '[0-9]+');
 
             Route::post('store', 'DealingController@store')->name('store');
         });

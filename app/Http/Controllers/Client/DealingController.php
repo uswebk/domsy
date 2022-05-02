@@ -6,9 +6,9 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\Dealing\StoreRequest;
-
 use App\Infrastructures\Models\Eloquent\DomainDealing;
 use App\Services\Application\DealingStoreService;
+
 use Illuminate\Support\Facades\Auth;
 
 class DealingController extends Controller
@@ -18,6 +18,8 @@ class DealingController extends Controller
     public function __construct()
     {
         parent::__construct();
+
+        $this->middleware('can:owner,domainDealing')->only(['edit']);
 
         $this->middleware(function ($request, $next) {
             $domainList = Auth::user()->domains->pluck('name', 'id')->toArray();
@@ -51,9 +53,9 @@ class DealingController extends Controller
         return view('client.dealing.new');
     }
 
-    public function edit(DomainDealing $dealing)
+    public function edit(DomainDealing $domainDealing)
     {
-        return view('client.dealing.edit', compact('dealing'));
+        return view('client.dealing.edit', compact('domainDealing'));
     }
 
     public function store(
