@@ -51,7 +51,7 @@
 
             <td>
               {{ $domainDealing->interval }}
-              {{ $domainDealing->interval_category }}
+              {{ $domainDealing->interval_category_string }}
             </td>
 
             <td>

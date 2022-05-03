@@ -45,4 +45,11 @@ class DomainDealing extends BaseModel
     {
         return self::INTERVAL_CATEGORIES;
     }
+
+    public function getIntervalCategoryStringAttribute(): string
+    {
+        $intervalCategories = $this->getIntervalCategories();
+
+        return $intervalCategories[$this->interval_category];
+    }
 }
