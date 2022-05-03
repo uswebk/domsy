@@ -32,6 +32,7 @@
       </tr>
       @foreach ($domains as $domain)
         @foreach ($domain->domainDealings as $domainDealing)
+
           <tr>
             <td>
               {{ $domain->name }}
@@ -59,7 +60,10 @@
             </td>
 
             <td>
-              <a href='{{ route('dealing.edit', $domainDealing->id) }}' class='btn btn-primary btn-sm'> Edit</a>
+              @if($domainDealing->isUnclaimed())
+                <a href='{{ route('dealing.edit', $domainDealing->id) }}' class='btn btn-primary btn-sm'>Edit</a>
+              @endif
+              <a href='{{ route('dealing.edit', $domainDealing->id) }}' class='btn btn-primary btn-sm'>Detail</a>
             </td>
         @endforeach
       @endforeach

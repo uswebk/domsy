@@ -52,4 +52,14 @@ class DomainDealing extends BaseModel
 
         return $intervalCategories[$this->interval_category];
     }
+
+    public function isBilled(): bool
+    {
+        return $this->billing_date->lt(now());
+    }
+
+    public function isUnclaimed(): bool
+    {
+        return ! $this->isBilled();
+    }
 }
