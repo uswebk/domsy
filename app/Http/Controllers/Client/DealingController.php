@@ -21,7 +21,7 @@ class DealingController extends Controller
     {
         parent::__construct();
 
-        $this->middleware('can:owner,domainDealing')->only(['edit']);
+        $this->middleware('can:owner,domainDealing')->only(['edit','update']);
 
         $this->middleware(function ($request, $next) {
             $domainList = Auth::user()->domains->pluck('name', 'id')->toArray();
