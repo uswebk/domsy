@@ -6,8 +6,10 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Client\Dealing\StoreRequest;
+use App\Http\Requests\Client\Dealing\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\DomainDealing;
 use App\Services\Application\DealingStoreService;
+use App\Services\Application\DealingUpdateService;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -56,6 +58,30 @@ class DealingController extends Controller
     public function edit(DomainDealing $domainDealing)
     {
         return view('client.dealing.edit', compact('domainDealing'));
+    }
+
+    public function update(
+        UpdateRequest $request,
+        DomainDealing $domainDealing,
+        DealingUpdateService $dealingUpdateService
+    ) {
+        try {
+            $dealingUpdateService->handle(
+                $domainDealing,
+                $request->domain_id,
+                $request->client_id,
+                $request->subtotal,
+                $request->discount,
+                $request->billing_date,
+                $request->interval,
+                $request->interval_category,
+                $request->is_auto_update
+            );
+        } catch (\Exception $e) {
+            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Update');
+        }
+
+        return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Update Success!!');
     }
 
     public function store(

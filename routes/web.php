@@ -68,6 +68,7 @@ Route::middleware(['verified','auth'])->group(function () {
             Route::get('{domainDealing}/edit', 'DealingController@edit')->name('edit')->where('domainDealing', '[0-9]+');
 
             Route::post('store', 'DealingController@store')->name('store');
+            Route::post('{domainDealing}/update', 'DealingController@update')->name('update')->where('domainDealing', '[0-9]+');
         });
     });
 });

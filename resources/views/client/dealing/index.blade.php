@@ -25,7 +25,7 @@
         <th>Domain Name</th>
         <th>Client Name</th>
         <th>Subtotal</th>
-        <th>Billing Date</th>
+        <th>First Billing Date</th>
         <th>Interval</th>
         <th>Auto Update</th>
         <th>Action</th>
@@ -42,11 +42,11 @@
             </td>
 
             <td>
-              {{ $domainDealing->subtotal }}
+              ￥{{ number_format($domainDealing->subtotal) }}
             </td>
 
             <td>
-              {{ $domainDealing->billing_date }}
+              {{ DateHelper::getFormattedDate($domainDealing->billing_date) }}
             </td>
 
             <td>
@@ -55,7 +55,7 @@
             </td>
 
             <td>
-              {{ $domainDealing->is_auto_update }}
+              {{ AppHelper::getCircleSymbol($domainDealing->is_auto_update) }}
             </td>
 
             <td>

@@ -61,7 +61,7 @@
     </div>
 
     <div class='w-25 mt-2'>
-      <div>{{ Form::label('dealing-billing_date', 'Billing Date') }}</div>
+      <div>{{ Form::label('dealing-billing_date', 'First Billing Date') }}</div>
 
       <div>
         {{ Form::date('billing_date', old('billing_date'), ['id' => 'dealing-billing_date', 'class' => 'form-control']) }}

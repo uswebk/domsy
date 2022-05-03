@@ -11,7 +11,7 @@
 
     <a href='{{ route('dealing.index') }}' class='btn btn-secondary btn-sm'> < </a>
 
-    {{ Form::open(['url' => route('dealing.store'), 'class' => 'w-50 p-3']) }}
+    {{ Form::open(['url' => route('dealing.update', $domainDealing->id), 'class' => 'w-50 p-3']) }}
 
     <div class='w-100 mt-2'>
       <div class='form-label'>{{ Form::label('dealing-domain_id', 'Domain') }}</div>
@@ -61,7 +61,7 @@
     </div>
 
     <div class='w-25 mt-2'>
-      <div>{{ Form::label('dealing-billing_date', 'Billing Date') }}</div>
+      <div>{{ Form::label('dealing-billing_date', 'First Billing Date') }}</div>
 
       <div>
         {{ Form::date('billing_date', old('billing_date', $domainDealing->billing_date), ['id' => 'dealing-billing_date', 'class' => 'form-control']) }}
