@@ -15,7 +15,7 @@ final class DomainDealingPolicy
 
     public function owner(User $user, DomainDealing $domainDealing)
     {
-        return $user->id == $domainDealing->domain->user_id && $domainDealing->isUnclaimed();
+        return $user->id == $domainDealing->domain->user_id;
     }
     /**
      * Determine whether the user can view any models.

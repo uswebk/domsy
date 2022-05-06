@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Services\Application;
 
 use App\Infrastructures\Models\Eloquent\DomainDealing;
-
 use App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface;
 use App\Services\Domain\Client\HasService as ClientHasService;
 use App\Services\Domain\Domain\ExistsService as DomainExistsService;
+
 use Illuminate\Support\Facades\Auth;
 
 final class DealingUpdateService

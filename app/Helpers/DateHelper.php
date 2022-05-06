@@ -16,4 +16,13 @@ final class DateHelper
 
         return (Carbon::parse($date))->format('Y/m/d');
     }
+
+    public static function getFormattedDateHyphen(?\Carbon\Carbon $date): string
+    {
+        if (! isset($date)) {
+            return '';
+        }
+
+        return (Carbon::parse($date))->format('Y-m-d');
+    }
 }

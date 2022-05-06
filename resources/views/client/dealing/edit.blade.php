@@ -13,12 +13,24 @@
 
     {{ Form::open(['url' => route('dealing.update', $domainDealing->id), 'class' => 'w-50 p-3']) }}
 
+    @if($domainDealing->isUnclaimed())
+      @php
+        $disabled = 'disabled';
+      @endphp
+
+      {{ Form::hidden('domain_id', $domainDealing->domain_id) }}
+      {{ Form::hidden('client_id', $domainDealing->client_id) }}
+      {{ Form::hidden('billing_date', DateHelper::getFormattedDateHyphen($domainDealing->billing_date)) }}
+
+    @endif
+
+
     <div class='w-100 mt-2'>
       <div class='form-label'>{{ Form::label('dealing-domain_id', 'Domain') }}</div>
 
-      <div>
-        {{ Form::select('domain_id', $domainList, old('domain_id', $domainDealing->domain_id), ['placeholder' => 'Select Domain','id' => 'dealing-domain_id','class' => 'form-control w-50 d-inline']) }}
-      </div>
+        <div>
+          {{ Form::select('domain_id', $domainList, old('domain_id', $domainDealing->domain_id), ['placeholder' => 'Select Domain','id' => 'dealing-domain_id','class' => 'form-control w-50 d-inline', $disabled]) }}
+        </div>
 
       @error('domain_id')
         <div class='invalid-feedback d-block'>{{ $message }}</div>
@@ -29,7 +41,7 @@
       <div class='form-label'>{{ Form::label('dealing-client_id', 'Client') }}</div>
 
       <div>
-        {{ Form::select('client_id', $clientList, old('client_id', $domainDealing->client_id), ['placeholder' => 'Select Client', 'id' => 'dealing-client_id','class' => 'form-control w-50 d-inline']) }}
+        {{ Form::select('client_id', $clientList, old('client_id', $domainDealing->client_id), ['placeholder' => 'Select Client', 'id' => 'dealing-client_id','class' => 'form-control w-50 d-inline', $disabled]) }}
       </div>
 
       @error('client_id')
@@ -64,7 +76,7 @@
       <div>{{ Form::label('dealing-billing_date', 'First Billing Date') }}</div>
 
       <div>
-        {{ Form::date('billing_date', old('billing_date', $domainDealing->billing_date), ['id' => 'dealing-billing_date', 'class' => 'form-control']) }}
+        {{ Form::date('billing_date', old('billing_date', $domainDealing->billing_date), ['id' => 'dealing-billing_date', 'class' => 'form-control', $disabled]) }}
       </div>
 
       @error('billing_date')

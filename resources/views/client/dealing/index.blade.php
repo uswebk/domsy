@@ -60,9 +60,7 @@
             </td>
 
             <td>
-              @if($domainDealing->isUnclaimed())
-                <a href='{{ route('dealing.edit', $domainDealing->id) }}' class='btn btn-primary btn-sm'>Edit</a>
-              @endif
+              <a href='{{ route('dealing.edit', $domainDealing->id) }}' class='btn btn-primary btn-sm'>Edit</a>
               <a href='{{ route('dealing.edit', $domainDealing->id) }}' class='btn btn-primary btn-sm'>Detail</a>
             </td>
         @endforeach
