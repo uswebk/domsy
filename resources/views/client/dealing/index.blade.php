@@ -61,7 +61,7 @@
 
             <td>
               <a href='{{ route('dealing.edit', $domainDealing->id) }}' class='btn btn-primary btn-sm'>Edit</a>
-              <a href='{{ route('dealing.edit', $domainDealing->id) }}' class='btn btn-primary btn-sm'>Detail</a>
+              <a href='{{ route('dealing.detail', $domainDealing->id) }}' class='btn btn-primary btn-sm'>Detail</a>
             </td>
         @endforeach
       @endforeach

@@ -106,4 +106,9 @@ class DealingController extends Controller
 
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Create Success!!');
     }
+
+    public function detail(DomainDealing $domainDealing)
+    {
+        return view('client.dealing.detail', compact('domainDealing'));
+    }
 }

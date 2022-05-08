@@ -21,7 +21,6 @@
       {{ Form::hidden('domain_id', $domainDealing->domain_id) }}
       {{ Form::hidden('client_id', $domainDealing->client_id) }}
       {{ Form::hidden('billing_date', DateHelper::getFormattedDateHyphen($domainDealing->billing_date)) }}
-
     @endif
 
 
