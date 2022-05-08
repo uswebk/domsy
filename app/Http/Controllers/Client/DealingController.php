@@ -109,6 +109,8 @@ class DealingController extends Controller
 
     public function detail(DomainDealing $domainDealing)
     {
+        $domainDealing->load(['domain','client']);
+
         return view('client.dealing.detail', compact('domainDealing'));
     }
 }
