@@ -21,8 +21,6 @@ class DealingController extends Controller
     {
         parent::__construct();
 
-        $this->middleware('can:owner,domainDealing')->only(['edit','update']);
-
         $this->middleware(function ($request, $next) {
             $domainList = Auth::user()->domains->pluck('name', 'id')->toArray();
             $clientList = Auth::user()->clients->pluck('name', 'id')->toArray();
@@ -57,6 +55,8 @@ class DealingController extends Controller
 
     public function edit(DomainDealing $domainDealing)
     {
+        $this->authorize('owner', $domainDealing);
+
         return view('client.dealing.edit', compact('domainDealing'));
     }
 
@@ -65,6 +65,8 @@ class DealingController extends Controller
         DomainDealing $domainDealing,
         DealingUpdateService $dealingUpdateService
     ) {
+        $this->authorize('owner', $domainDealing);
+
         try {
             $dealingUpdateService->handle(
                 $domainDealing,
@@ -109,6 +111,8 @@ class DealingController extends Controller
 
     public function detail(DomainDealing $domainDealing)
     {
+        $this->authorize('owner', $domainDealing);
+
         $domainDealing->load(['domain','client']);
 
         return view('client.dealing.detail', compact('domainDealing'));
