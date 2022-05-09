@@ -27,6 +27,12 @@ class UpdateRequest extends Request
         $this->merge([
             'domain_id' => (int) $this->domain_id,
             'client_id' => (int) $this->client_id,
+            'subtotal' => (int) $this->subtotal,
+            'discount' => (int) $this->discount,
+            'billing_date' => new \Carbon\Carbon($this->billing_date),
+            'interval' => (int) $this->interval,
+            'interval_category' => (int) $this->interval_category,
+            'is_auto_update' => (bool) $this->is_auto_update,
         ]);
     }
 }
