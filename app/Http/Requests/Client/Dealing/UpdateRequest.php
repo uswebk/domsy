@@ -35,4 +35,8 @@ class UpdateRequest extends Request
             'is_auto_update' => (bool) $this->is_auto_update,
         ]);
     }
+
+    // Todo
+    // billing_dateが未来の場合のみ必須にする
+    // First Billing Dateが過去日付以外
 }

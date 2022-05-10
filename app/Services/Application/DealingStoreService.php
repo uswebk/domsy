@@ -18,18 +18,29 @@ final class DealingStoreService
         $this->dealingRepository = $dealingRepository;
     }
 
+    private function isExistsIntervalCategory(int $intervalCategory): bool
+    {
+        $intervalCategories = DomainDealing::getIntervalCategories();
+
+        return isset($intervalCategories[$intervalCategory]);
+    }
+
     public function handle(
         int $userId,
         int $domainId,
         int $clientId,
-        string $subtotal,
-        string $discount,
-        string $billingDate,
-        string $interval,
-        string $intervalCategory,
-        string $isAutoUpdate,
+        int $subtotal,
+        int $discount,
+        \Carbon\Carbon $billingDate,
+        int $interval,
+        int $intervalCategory,
+        bool $isAutoUpdate,
     ) {
         try {
+            if (! $this->isExistsIntervalCategory($intervalCategory)) {
+                throw new \Exception();
+            }
+
             $domainService = new DomainExistsService($domainId, Auth::id());
             $clientService = new ClientHasService($clientId, Auth::id());
 
