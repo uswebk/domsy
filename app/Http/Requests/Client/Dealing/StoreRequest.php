@@ -16,7 +16,7 @@ class StoreRequest extends Request
             'client_id' => 'required|integer',
             'subtotal' => 'required|integer',
             'discount' => 'nullable|integer',
-            'billing_date' => 'required|date_format:Y-m-d',
+            'billing_date' => 'required|date_format:Y-m-d|after:yesterday',
             'interval' => 'required|integer',
             'interval_category' => 'required|integer',
             'is_auto_update' => 'required|boolean',

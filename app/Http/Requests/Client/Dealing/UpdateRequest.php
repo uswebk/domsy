@@ -15,7 +15,7 @@ class UpdateRequest extends Request
             'client_id' => 'required|integer',
             'subtotal' => 'required|integer',
             'discount' => 'required|integer',
-            'billing_date' => 'required|date_format:Y-m-d',
+            'billing_date' => 'required|date_format:Y-m-d|after:yesterday',
             'interval' => 'required|integer',
             'interval_category' => 'required|integer',
             'is_auto_update' => 'required|boolean',
@@ -35,8 +35,4 @@ class UpdateRequest extends Request
             'is_auto_update' => (bool) $this->is_auto_update,
         ]);
     }
-
-    // Todo
-    // billing_dateが未来の場合のみ必須にする
-    // First Billing Dateが過去日付以外
 }
