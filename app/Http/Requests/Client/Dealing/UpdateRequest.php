@@ -11,11 +11,8 @@ class UpdateRequest extends Request
     public function rules(): array
     {
         return [
-            'domain_id' => 'required|integer',
-            'client_id' => 'required|integer',
             'subtotal' => 'required|integer',
             'discount' => 'required|integer',
-            'billing_date' => 'required|date_format:Y-m-d|after:yesterday',
             'interval' => 'required|integer',
             'interval_category' => 'required|integer',
             'is_auto_update' => 'required|boolean',
@@ -34,5 +31,28 @@ class UpdateRequest extends Request
             'interval_category' => (int) $this->interval_category,
             'is_auto_update' => (bool) $this->is_auto_update,
         ]);
+    }
+
+    public function withValidator(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        $validator->sometimes('domain_id', 'required|integer', function ($input) {
+            $domainDealing = $this->route()->parameter('domainDealing');
+
+            return $domainDealing->isUnclaimed();
+        });
+
+        $validator->sometimes('client_id', 'required|integer', function ($input) {
+            $domainDealing = $this->route()->parameter('domainDealing');
+
+            return $domainDealing->isUnclaimed();
+        });
+
+        $validator->sometimes('billing_date', 'required|date_format:Y-m-d|after:yesterday', function ($input) {
+            $domainDealing = $this->route()->parameter('domainDealing');
+
+            return $domainDealing->isUnclaimed();
+        });
+
+        return $validator;
     }
 }

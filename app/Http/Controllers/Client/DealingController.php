@@ -68,13 +68,22 @@ class DealingController extends Controller
         $this->authorize('owner', $domainDealing);
 
         try {
+            if ($domainDealing->isBilled()) {
+                $domain_id = $domainDealing->domain_id;
+                $client_id = $domainDealing->client_id;
+                $billing_date = $domainDealing->billing_date;
+            } else {
+                $domain_id = $request->domain_id;
+                $client_id = $request->client_id;
+                $billing_date = $request->billing_date;
+            }
             $dealingUpdateService->handle(
                 $domainDealing,
-                $request->domain_id,
-                $request->client_id,
+                $domain_id,
+                $client_id,
                 $request->subtotal,
                 $request->discount,
-                $request->billing_date,
+                $billing_date,
                 $request->interval,
                 $request->interval_category,
                 $request->is_auto_update

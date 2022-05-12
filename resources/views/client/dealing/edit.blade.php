@@ -13,16 +13,9 @@
 
     {{ Form::open(['url' => route('dealing.update', $domainDealing->id), 'class' => 'w-50 p-3']) }}
 
-    @if($domainDealing->isUnclaimed())
-      @php
-        $disabled = 'disabled';
-      @endphp
-
-      {{ Form::hidden('domain_id', $domainDealing->domain_id) }}
-      {{ Form::hidden('client_id', $domainDealing->client_id) }}
-      {{ Form::hidden('billing_date', DateHelper::getFormattedDateHyphen($domainDealing->billing_date)) }}
-    @endif
-
+    @php
+      $disabled = ($domainDealing->isBilled()) ? 'disabled' : '';
+    @endphp
 
     <div class='w-100 mt-2'>
       <div class='form-label'>{{ Form::label('dealing-domain_id', 'Domain') }}</div>
