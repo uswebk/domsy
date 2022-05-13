@@ -1,12 +1,17 @@
 <?php
 
-namespace Database\Factories;
+declare(strict_types=1);
 
+namespace Database\Factories\Infrastructures\Models\Eloquent;
+
+use App\Infrastructures\Models\Eloquent\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
+    protected $model = User::class;
     /**
      * Define the model's default state.
      *
@@ -16,10 +21,16 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'code' => $this->faker->randomNumber(5),
             'email' => $this->faker->unique()->safeEmail(),
+            'email_verify_token' => Str::random(10),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => Hash::make(Str::random(10)),
             'remember_token' => Str::random(10),
+            'deleted_at' => null,
+            'updated_at' => now(),
+            'created_at' => now(),
+
         ];
     }
 
