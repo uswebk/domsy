@@ -9,6 +9,7 @@ use App\Http\Requests\Client\Client\StoreRequest;
 use App\Http\Requests\Client\Client\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Client;
 use App\Infrastructures\Repositories\Client\ClientRepositoryInterface;
+
 use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
