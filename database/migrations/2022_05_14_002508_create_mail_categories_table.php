@@ -18,6 +18,7 @@ class CreateMailCategoriesTable extends Migration
         Schema::create($this->table_schema, function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('メールカテゴリ名');
+            $table->string('annotation')->comment('メールカテゴリ注釈');
             $table->integer('sort')->comment('並び順');
         });
     }

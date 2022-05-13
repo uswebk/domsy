@@ -18,6 +18,7 @@ class MailCategoryFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
+            'annotation' => $this->faker->word,
             'sort' => $this->faker->numberBetween(10, 100),
         ];
     }

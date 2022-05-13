@@ -15,7 +15,8 @@ class MailCategorySeeder extends Seeder
     public function run()
     {
         MailCategory::create([
-            'name' => 'ドメイン有効期限',
+            'name' => 'domain_expiration',
+            'annotation' => 'ドメイン有効期限',
             'sort' => 10,
         ]);
     }

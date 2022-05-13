@@ -14,6 +14,7 @@ class MailCategory extends BaseModel
 
     protected $fillable = [
         'name',
+        'annotation',
         'sort',
     ];
 }
