@@ -16,15 +16,32 @@ final class ExpirationService
         $this->eloquentUserQueryService = $eloquentUserQueryService;
     }
 
+    public function isReceivedMailByUser(
+        \App\Infrastructures\Models\Eloquent\User $user
+    ): bool {
+        $domainExpirationMailSetting = $user->getReceiveDomainExpirationMailSetting();
+
+        if (! isset($domainExpirationMailSetting)) {
+            return false;
+        }
+
+        if ($domainExpirationMailSetting->isRejection()) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function handle(\Illuminate\Support\Carbon $targetDate): void
     {
         $users = $this->eloquentUserQueryService->getByDeletedAtNull();
 
         foreach ($users as $user) {
+            if ($this->isReceivedMailByUser($user)) {
+                continue;
+            }
+
             $domainExpirationList = new Collection();
-
-            // メール受信拒否の場合continue
-
 
             $domains = $user->domains;
             foreach ($domains as $domain) {

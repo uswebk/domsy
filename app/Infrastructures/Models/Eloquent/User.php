@@ -56,4 +56,20 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany('App\Infrastructures\Models\Eloquent\Client');
     }
+
+    public function mailSettings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Infrastructures\Models\Eloquent\UserMailSetting');
+    }
+
+    public function getReceiveDomainExpirationMailSetting(): ?\App\Infrastructures\Models\Eloquent\UserMailSetting
+    {
+        foreach ($this->mailSettings as $mailSetting) {
+            if ($mailSetting->isDomainExpiration()) {
+                return $mailSetting;
+            }
+        }
+
+        return null;
+    }
 }
