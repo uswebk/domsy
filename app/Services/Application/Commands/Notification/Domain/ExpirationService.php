@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Application\Commands\Notification\Domain;
 
 use App\Infrastructures\Queries\User\EloquentUserQueryService;
+
 use Illuminate\Database\Eloquent\Collection;
 
 final class ExpirationService
@@ -16,41 +17,31 @@ final class ExpirationService
         $this->eloquentUserQueryService = $eloquentUserQueryService;
     }
 
-    public function isReceivedMailByUser(
-        \App\Infrastructures\Models\Eloquent\User $user
-    ): bool {
-        $domainExpirationMailSetting = $user->getReceiveDomainExpirationMailSetting();
-
-        if (! isset($domainExpirationMailSetting)) {
-            return false;
-        }
-
-        if ($domainExpirationMailSetting->isRejection()) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function handle(\Illuminate\Support\Carbon $targetDate): void
     {
         $users = $this->eloquentUserQueryService->getByDeletedAtNull();
-
         foreach ($users as $user) {
-            if ($this->isReceivedMailByUser($user)) {
+            $domainExpirationMailSetting = $user->getReceiveDomainExpirationMailSetting();
+
+            if (! isset($domainExpirationMailSetting)) {
+                continue;
+            }
+
+            if ($domainExpirationMailSetting->isRejection()) {
                 continue;
             }
 
             $domainExpirationList = new Collection();
+            $notificationDate = $targetDate->addDays($domainExpirationMailSetting->notice_number_days);
 
             $domains = $user->domains;
             foreach ($domains as $domain) {
-                if ($domain->isExpirationDateByTargetDate($targetDate)) {
+                if ($domain->isExpirationDateByTargetDate($notificationDate)) {
                     $domainExpirationList->push($domain);
                 }
             }
 
-            // ユーザー情報とドメインリストを受け取りメール送信
+            // MailSendService -> user, domainExpirationList
         }
     }
 }
