@@ -37,7 +37,9 @@ final class ExpirationService
             }
 
             $domainExpirationList = new Collection();
-            $notificationDate = $targetDate->addDays($domainExpirationMailSetting->notice_number_days);
+
+            $domainNoticeNumberDays = $domainExpirationMailSetting->notice_number_days;
+            $notificationDate = $targetDate->addDays($domainNoticeNumberDays);
 
             $domains = $user->domains;
             foreach ($domains as $domain) {
@@ -46,7 +48,7 @@ final class ExpirationService
                 }
             }
 
-            $this->domainExpirationService->execute($user, $domainExpirationList);
+            $this->domainExpirationService->execute($user, $domainExpirationList, $domainNoticeNumberDays);
         }
     }
 }

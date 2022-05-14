@@ -11,10 +11,14 @@ use Illuminate\Support\Facades\Lang;
 final class DomainExpiration extends Notification
 {
     private $domains;
+    private $domainNoticeNumberDays;
 
-    public function __construct(\Illuminate\Database\Eloquent\Collection $domains)
-    {
+    public function __construct(
+        \Illuminate\Database\Eloquent\Collection $domains,
+        int $domainNoticeNumberDays
+    ) {
         $this->domains = $domains;
+        $this->domainNoticeNumberDays = $domainNoticeNumberDays;
     }
     public function via($notifiable)
     {
@@ -25,6 +29,9 @@ final class DomainExpiration extends Notification
     {
         return (new MailMessage())
             ->subject(Lang::get('Notice of domain expiration date'))
-            ->markdown('email.domain', ['domains' => $this->domains]);
+            ->markdown('email.domain', [
+                'domains' => $this->domains,
+                'domainNoticeNumberDays' => $this->domainNoticeNumberDays,
+            ]);
     }
 }

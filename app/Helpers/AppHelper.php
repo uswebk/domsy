@@ -10,4 +10,9 @@ final class AppHelper
     {
         return ($value) ? '○' : '';
     }
+
+    public static function getPrice(int $price): string
+    {
+        return '￥' . number_format($price);
+    }
 }
