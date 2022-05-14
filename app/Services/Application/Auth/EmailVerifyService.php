@@ -9,6 +9,7 @@ use App\Infrastructures\Queries\User\EloquentUserQueryService;
 use App\Infrastructures\Repositories\User\UserRepositoryInterface;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 final class EmailVerifyService
 {
@@ -42,8 +43,7 @@ final class EmailVerifyService
                 throw new Exception();
             }
 
-            $user = $this->eloquentUserQueryService
-            ->firstOrFailByEmailVerifyTokenUserId($this->request->hash, $this->request->user()->id);
+            $user = $this->eloquentUserQueryService->firstByIdEmailVerifyToken(Auth::Id(), $this->request->hash);
 
             if (isset($user->email_verified_at)) {
                 throw new AlreadyVerifiedException();
