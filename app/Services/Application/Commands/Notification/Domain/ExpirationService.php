@@ -41,8 +41,7 @@ final class ExpirationService
             $domainNoticeNumberDays = $domainExpirationMailSetting->notice_number_days;
             $notificationDate = $targetDate->addDays($domainNoticeNumberDays);
 
-            $domains = $user->domains->where('is_active', '=', 1)->where('is_transferred', '=', 0);
-
+            $domains = $user->domains;
             foreach ($domains as $domain) {
                 if (! $domain->isExpirationDateByTargetDate($notificationDate)) {
                     continue;
@@ -55,7 +54,9 @@ final class ExpirationService
                 $domainExpirationList->push($domain);
             }
 
-            $this->domainExpirationService->execute($user, $domainExpirationList, $domainNoticeNumberDays);
+            if ($domainExpirationList->isNotEmpty()) {
+                $this->domainExpirationService->execute($user, $domainExpirationList, $domainNoticeNumberDays);
+            }
         }
     }
 }
