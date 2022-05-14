@@ -43,7 +43,7 @@
             </td>
 
             <td>
-              ￥{{ number_format($domainDealing->subtotal) }}
+              {{ AppHelper::getPrice($domainDealing->subtotal) }}
             </td>
 
             <td>

@@ -39,7 +39,7 @@
           </td>
 
           <td>
-            ￥{{ number_format($domain->price) }}
+            {{ AppHelper::getPrice($domain->price) }}
           </td>
 
           <td>
