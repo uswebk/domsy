@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Commands\Notification\Domain;
 
-use App\Infrastructures\Mails\SendServices\DomainExpirationService;
+use App\Infrastructures\Mails\Services\DomainExpirationService;
 
 use App\Infrastructures\Queries\User\EloquentUserQueryService;
 use Illuminate\Database\Eloquent\Collection;

@@ -29,7 +29,7 @@ final class DomainExpiration extends Notification
     {
         return (new MailMessage())
             ->subject(Lang::get('Notice of domain expiration date'))
-            ->markdown('email.domain', [
+            ->markdown('email.domain_expiration', [
                 'domains' => $this->domains,
                 'domainNoticeNumberDays' => $this->domainNoticeNumberDays,
             ]);

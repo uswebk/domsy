@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructures\Mails\SendServices;
+namespace App\Infrastructures\Mails\Services;
 
 use App\Infrastructures\Mails\Client\DomainExpiration;
 

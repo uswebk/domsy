@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Auth;
 
-use App\Infrastructures\Mails\SendServices\EmailVerificationService;
+use App\Infrastructures\Mails\Services\EmailVerificationService;
 use App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface;
 use App\Infrastructures\Repositories\User\UserRepositoryInterface;
 
