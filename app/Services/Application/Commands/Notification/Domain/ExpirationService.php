@@ -4,19 +4,36 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Commands\Notification\Domain;
 
+use App\Infrastructures\Queries\User\EloquentUserQueryService;
+use Illuminate\Database\Eloquent\Collection;
+
 final class ExpirationService
 {
-    public function __construct()
+    private $eloquentUserQueryService;
+
+    public function __construct(EloquentUserQueryService $eloquentUserQueryService)
     {
+        $this->eloquentUserQueryService = $eloquentUserQueryService;
     }
 
-
-    public function handle(\Carbon\Carbon $target_date): void
+    public function handle(\Illuminate\Support\Carbon $targetDate): void
     {
-        //// ユーザー情報取得 [users]　※ユーザーのメール通知設定を見る
-        //// ユーザー情報からドメイン情報取得 [user.domains]
-        //// ドメインの有効期限を取得 [domain.expired_at]
-        //// ドメインの有効期限が設定された通知日対象日時の場合メール送信
-        //// 通知日対象日時=仮で30日前 後ほどユーザーごとに指定できるようにする
+        $users = $this->eloquentUserQueryService->getByDeletedAtNull();
+
+        foreach ($users as $user) {
+            $domainExpirationList = new Collection();
+
+            // メール受信拒否の場合continue
+
+
+            $domains = $user->domains;
+            foreach ($domains as $domain) {
+                if ($domain->isExpirationDateByTargetDate($targetDate)) {
+                    $domainExpirationList->push($domain);
+                }
+            }
+
+            // ユーザー情報とドメインリストを受け取りメール送信
+        }
     }
 }

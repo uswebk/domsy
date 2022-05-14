@@ -57,4 +57,12 @@ class Domain extends BaseModel
     {
         return $this->hasMany('App\Infrastructures\Models\Eloquent\DomainDealing', 'domain_id');
     }
+
+    public function isExpirationDateByTargetDate(\Illuminate\Support\Carbon $_targetDate): bool
+    {
+        $expiredDate = $this->expired_at->startOfDay();
+        $targetDate = $_targetDate->startOfDay();
+
+        return $expiredDate->eq($targetDate);
+    }
 }
