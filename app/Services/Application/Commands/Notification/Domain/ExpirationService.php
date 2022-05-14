@@ -4,17 +4,22 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Commands\Notification\Domain;
 
-use App\Infrastructures\Queries\User\EloquentUserQueryService;
+use App\Infrastructures\Mails\SendServices\DomainExpirationService;
 
+use App\Infrastructures\Queries\User\EloquentUserQueryService;
 use Illuminate\Database\Eloquent\Collection;
 
 final class ExpirationService
 {
     private $eloquentUserQueryService;
+    private $domainExpirationService;
 
-    public function __construct(EloquentUserQueryService $eloquentUserQueryService)
-    {
+    public function __construct(
+        EloquentUserQueryService $eloquentUserQueryService,
+        DomainExpirationService $domainExpirationService
+    ) {
         $this->eloquentUserQueryService = $eloquentUserQueryService;
+        $this->domainExpirationService = $domainExpirationService;
     }
 
     public function handle(\Illuminate\Support\Carbon $targetDate): void
@@ -41,7 +46,7 @@ final class ExpirationService
                 }
             }
 
-            // MailSendService -> user, domainExpirationList
+            $this->domainExpirationService->execute($user, $domainExpirationList);
         }
     }
 }
