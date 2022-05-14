@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call('\Database\Seeders\UserLatestCodeSeeder');
+        $this->call('\Database\Seeders\DnsRecordTypeSeeder');
+        $this->call('\Database\Seeders\MailCategorySeeder');
     }
 }
