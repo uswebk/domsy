@@ -17,4 +17,16 @@ class MailCategory extends BaseModel
         'annotation',
         'sort',
     ];
+
+    protected const DOMAIN_EXPIRATION_NAME = 'domain_expiration';
+
+    public function isMatchByMailCategoryName($mailCategoryName): bool
+    {
+        return $this->name == $mailCategoryName;
+    }
+
+    public function isDomainExpiration(): bool
+    {
+        return $this->isMatchByMailCategoryName(self::DOMAIN_EXPIRATION_NAME);
+    }
 }

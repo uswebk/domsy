@@ -26,27 +26,18 @@ class UserMailSetting extends BaseModel
         'is_received' => 'boolean',
     ];
 
-
-    protected const MAIL_CATEGORY_DOMAIN_EXPIRATION = 'domain_expiration';
-
     public function mailCategory(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\MailCategory');
     }
 
-    public function isMatchByMailCategoryName($mailCategoryName): bool
-    {
-        return $this->mailCategory->name == $mailCategoryName;
-    }
-
     public function isDomainExpiration(): bool
     {
-        return $this->isMatchByMailCategoryName(self::MAIL_CATEGORY_DOMAIN_EXPIRATION);
+        return $this->mailCategory->isDomainExpiration();
     }
 
     public function isRejection(): bool
     {
-        $a = $this->is_received;
         return ! $this->is_received;
     }
 }
