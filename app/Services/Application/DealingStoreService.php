@@ -8,6 +8,8 @@ use App\Infrastructures\Models\Eloquent\DomainDealing;
 use App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface;
 use App\Services\Domain\Client\HasService as ClientHasService;
 use App\Services\Domain\Domain\ExistsService as DomainExistsService;
+
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 final class DealingStoreService
@@ -32,7 +34,7 @@ final class DealingStoreService
         int $clientId,
         int $subtotal,
         int $discount,
-        \Carbon\Carbon $billingDate,
+        Carbon $billingDate,
         int $interval,
         int $intervalCategory,
         bool $isAutoUpdate,

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\Client\Dealing;
 
 use App\Http\Requests\Request;
+
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class StoreRequest extends Request
@@ -30,7 +32,7 @@ class StoreRequest extends Request
             'client_id' => (int) $this->client_id,
             'subtotal' => (int) $this->subtotal,
             'discount' => (int) $this->discount,
-            'billing_date' => new \Carbon\Carbon($this->billing_date),
+            'billing_date' => new Carbon($this->billing_date),
             'interval' => (int) $this->interval,
             'interval_category' => (int) $this->interval_category,
             'is_auto_update' => (bool) $this->is_auto_update,

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Helpers;
 
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
 final class DateHelper
 {
-    public static function getFormattedDate(?\Carbon\Carbon $date): string
+    public static function getFormattedDate(?\Illuminate\Support\Carbon $date): string
     {
         if (! isset($date)) {
             return '';
@@ -17,7 +17,7 @@ final class DateHelper
         return (Carbon::parse($date))->format('Y/m/d');
     }
 
-    public static function getFormattedDateHyphen(?\Carbon\Carbon $date): string
+    public static function getFormattedDateHyphen(?\Illuminate\Support\Carbon $date): string
     {
         if (! isset($date)) {
             return '';
