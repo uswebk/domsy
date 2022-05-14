@@ -65,4 +65,9 @@ class Domain extends BaseModel
 
         return $expiredDate->eq($targetDate);
     }
+
+    public function isOwned():bool
+    {
+        return $this->is_active && ! $this->is_transferred;
+    }
 }
