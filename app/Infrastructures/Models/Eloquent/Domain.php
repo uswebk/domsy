@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class Domain extends BaseModel
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'registrar_id',
