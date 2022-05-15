@@ -8,18 +8,13 @@ use App\Infrastructures\Mails\Client\EmailVerification;
 use App\Infrastructures\Mails\Services\EmailVerificationService;
 use App\Infrastructures\Models\Eloquent\User;
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 final class EmailVerificationServiceTest extends TestCase
 {
-    use DatabaseMigrations;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
+    use RefreshDatabase;
 
     /**
     * @test
