@@ -7,6 +7,7 @@ namespace Database\Factories\Infrastructures\Models\Eloquent;
 use App\Infrastructures\Models\Eloquent\Domain;
 use App\Infrastructures\Models\Eloquent\Registrar;
 use App\Infrastructures\Models\Eloquent\User;
+
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DomainFactory extends Factory

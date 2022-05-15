@@ -10,6 +10,7 @@ use App\Infrastructures\Models\Eloquent\User;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
+
 use Tests\TestCase;
 
 final class EmailVerificationServiceTest extends TestCase
