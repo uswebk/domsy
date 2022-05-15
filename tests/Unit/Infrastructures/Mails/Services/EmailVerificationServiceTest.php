@@ -7,6 +7,7 @@ namespace Tests\Unit\Infrastructures\Mails\Services;
 use App\Infrastructures\Mails\Client\EmailVerification;
 use App\Infrastructures\Mails\Services\EmailVerificationService;
 use App\Infrastructures\Models\Eloquent\User;
+
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -36,7 +37,17 @@ final class EmailVerificationServiceTest extends TestCase
 
         Notification::assertSentTo(
             [$user],
-            EmailVerification::class
+            EmailVerification::class,
+            function ($notification) use ($user) {
+                $mail = $notification->toMail($user);
+
+                $this->assertStringContainsString(
+                    $user->email_verify_token,
+                    $mail->actionUrl
+                );
+
+                return true;
+            }
         );
 
         Notification::assertNotSentTo(
