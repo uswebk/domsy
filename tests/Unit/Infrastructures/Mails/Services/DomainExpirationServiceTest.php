@@ -44,7 +44,7 @@ final class DomainExpirationServiceTest extends TestCase
 
         $userMailSetting = UserMailSetting::factory()->create([
             'user_id' => $user->id,
-            'mail_category_id' => $user->id,
+            'mail_category_id' => self::MAIL_CATEGORY_ID,
             'notice_number_days' => self::NOTICE_NUMBER_DAYS,
         ]);
 
