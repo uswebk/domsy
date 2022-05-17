@@ -23,7 +23,7 @@ final class HasService
         $client = $clientQueryService->findById($this->clientId);
 
         if (! isset($client) || $client->user_id !== $this->userId) {
-            throw new Exception();
+            throw new \Exception();
         }
 
         return true;

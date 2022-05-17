@@ -24,7 +24,7 @@ class ClientFactory extends Factory
             'name' => $this->faker->company,
             'name_kana' => $this->faker->company,
             'email' => $this->faker->safeEmail,
-            'zip' => $this->faker->postcode,
+            'zip' => $this->faker->randomNumber(7),
             'address' => $this->faker->address,
             'phone_number' => $this->faker->phoneNumber,
             'updated_at' => now(),
