@@ -22,6 +22,10 @@ Route::middleware(['verified','auth'])->group(function () {
     Route::namespace('Client')->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
 
+        Route::get('settings', 'SettingController@index')->name('settings.index');
+
+        Route::post('settings', 'SettingController@post')->name('settings.post');
+
         Route::prefix('domain')->name('domain.')->group(function () {
             Route::get('/', 'DomainController@index')->name('index');
             Route::get('new', 'DomainController@new')->name('new');
