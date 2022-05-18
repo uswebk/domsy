@@ -4,28 +4,38 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Auth;
 
-use App\Infrastructures\Mails\Services\EmailVerificationService;
-use App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface;
-use App\Infrastructures\Repositories\User\UserRepositoryInterface;
-
 use Illuminate\Support\Facades\Auth;
 
 final class RegisterService
 {
     private $userRepository;
+
     private $userLatestCodeRepository;
+
     private $emailVerificationService;
 
+    /**
+     * @param \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
+     * @param \App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository
+     * @param \App\Infrastructures\Mails\Services\EmailVerificationService $emailVerificationService
+     */
     public function __construct(
-        UserRepositoryInterface $userRepository,
-        UserLatestCodeRepositoryInterface $userLatestCodeRepository,
-        EmailVerificationService $emailVerificationService
+        \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository,
+        \App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository,
+        \App\Infrastructures\Mails\Services\EmailVerificationService $emailVerificationService
     ) {
         $this->userRepository = $userRepository;
         $this->userLatestCodeRepository = $userLatestCodeRepository;
         $this->emailVerificationService = $emailVerificationService;
     }
 
+    /**
+     * @param string $name
+     * @param string $email
+     * @param string $password
+     * @param string $emailVerifyToken
+     * @return void
+     */
     public function handle(
         string $name,
         string $email,

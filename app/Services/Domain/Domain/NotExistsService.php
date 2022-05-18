@@ -10,14 +10,22 @@ use App\Infrastructures\Queries\Domain\EloquentDomainQueryService;
 final class NotExistsService
 {
     private $userId;
+
     private $name;
 
+    /**
+     * @param integer $userId
+     * @param string $name
+     */
     public function __construct(int $userId, string $name)
     {
         $this->userId = $userId;
         $this->name = $name;
     }
 
+    /**
+     * @return boolean
+     */
     public function execute(): bool
     {
         $domainQueryService = new EloquentDomainQueryService();

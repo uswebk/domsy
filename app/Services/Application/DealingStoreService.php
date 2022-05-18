@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Application;
 
 use App\Infrastructures\Models\Eloquent\DomainDealing;
-use App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface;
 use App\Services\Domain\Client\HasService as ClientHasService;
 use App\Services\Domain\Domain\ExistsService as DomainExistsService;
 
@@ -16,11 +15,19 @@ final class DealingStoreService
 {
     private $dealingRepository;
 
-    public function __construct(DomainDealingRepositoryInterface $dealingRepository)
-    {
+    /**
+     * @param \App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface $dealingRepository
+     */
+    public function __construct(
+        \App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface $dealingRepository
+    ) {
         $this->dealingRepository = $dealingRepository;
     }
 
+    /**
+     * @param integer $intervalCategory
+     * @return boolean
+     */
     private function isExistsIntervalCategory(int $intervalCategory): bool
     {
         $intervalCategories = DomainDealing::getIntervalCategories();
@@ -28,6 +35,18 @@ final class DealingStoreService
         return isset($intervalCategories[$intervalCategory]);
     }
 
+    /**
+     * @param integer $userId
+     * @param integer $domainId
+     * @param integer $clientId
+     * @param integer $subtotal
+     * @param integer $discount
+     * @param Carbon $billingDate
+     * @param integer $interval
+     * @param integer $intervalCategory
+     * @param boolean $isAutoUpdate
+     * @return void
+     */
     public function handle(
         int $userId,
         int $domainId,

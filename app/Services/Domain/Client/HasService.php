@@ -11,12 +11,19 @@ final class HasService
     private $clientId;
     private $userId;
 
+    /**
+     * @param integer $clientId
+     * @param integer $userId
+     */
     public function __construct(int $clientId, int $userId)
     {
         $this->clientId = $clientId;
         $this->userId = $userId;
     }
 
+    /**
+     * @return boolean
+     */
     public function execute(): bool
     {
         $clientQueryService = new EloquentClientQueryService();

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
-use App\Infrastructures\Models\Eloquent\Domain;
-use App\Infrastructures\Repositories\Domain\DomainRepositoryInterface;
 use App\Services\Domain\Registrar\HasService as RegistrarHasService;
 
 use Illuminate\Support\Facades\Auth;
@@ -14,13 +12,30 @@ final class DomainUpdateService
 {
     private $domainRepository;
 
-    public function __construct(DomainRepositoryInterface $domainRepository)
-    {
+    /**
+     * @param \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
+     */
+    public function __construct(
+        \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
+    ) {
         $this->domainRepository = $domainRepository;
     }
 
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\Domain $domain
+     * @param string $name
+     * @param string $price
+     * @param integer $registrarId
+     * @param string $isActive
+     * @param string $isTransferred
+     * @param string $isManagementOnly
+     * @param string $purchasedAt
+     * @param string $expiredAt
+     * @param string|null $canceledAt
+     * @return void
+     */
     public function handle(
-        Domain $domain,
+        \App\Infrastructures\Models\Eloquent\Domain $domain,
         string $name,
         string $price,
         int $registrarId,

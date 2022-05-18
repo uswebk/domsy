@@ -5,22 +5,26 @@ declare(strict_types=1);
 namespace App\Services\Application\Auth;
 
 use App\Exceptions\Auth\AlreadyVerifiedException;
-use App\Infrastructures\Queries\User\EloquentUserQueryService;
-use App\Infrastructures\Repositories\User\UserRepositoryInterface;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 final class EmailVerifyService
 {
     private $request;
+
     private $userRepository;
+
     private $eloquentUserQueryService;
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
+     * @param \App\Infrastructures\Queries\User\EloquentUserQueryService $eloquentUserQueryService
+     */
     public function __construct(
-        Request $request,
-        UserRepositoryInterface $userRepository,
-        EloquentUserQueryService $eloquentUserQueryService,
+        \Illuminate\Http\Request $request,
+        \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository,
+        \App\Infrastructures\Queries\User\EloquentUserQueryService $eloquentUserQueryService,
     ) {
         $this->request = $request;
         $this->userRepository = $userRepository;
@@ -35,6 +39,9 @@ final class EmailVerifyService
         );
     }
 
+    /**
+     * @return void
+     */
     public function handle(): void
     {
         \DB::beginTransaction();

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
-use App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface;
 use App\Services\Domain\Domain\ExistsService as DomainExistsService;
 
 use Illuminate\Support\Facades\Auth;
@@ -13,11 +12,23 @@ final class DnsStoreService
 {
     private $subdomainRepository;
 
-    public function __construct(SubdomainRepositoryInterface $subdomainRepository)
+    /**
+     * @param \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     */
+    public function __construct(\App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository)
     {
         $this->subdomainRepository = $subdomainRepository;
     }
 
+    /**
+     * @param string $prefix
+     * @param integer $domainId
+     * @param string $typeId
+     * @param string $value
+     * @param string $ttl
+     * @param string|null $priority
+     * @return void
+     */
     public function handle(
         string $prefix,
         int $domainId,

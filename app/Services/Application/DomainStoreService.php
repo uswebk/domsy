@@ -4,24 +4,40 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
-use App\Infrastructures\Repositories\Domain\DomainRepositoryInterface;
-use App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface;
 use App\Services\Domain\Domain\NotExistsService as DomainNotExistsService;
 use App\Services\Domain\Registrar\HasService as RegistrarHasService;
 
 final class DomainStoreService
 {
     private $domainRepository;
+
     private $subdomainRepository;
 
+    /**
+     * @param \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
+     * @param \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     */
     public function __construct(
-        DomainRepositoryInterface $domainRepository,
-        SubdomainRepositoryInterface $subdomainRepository,
+        \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository,
+        \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
     ) {
         $this->domainRepository = $domainRepository;
         $this->subdomainRepository = $subdomainRepository;
     }
 
+    /**
+     * @param string $name
+     * @param string $price
+     * @param integer $userId
+     * @param integer $registrarId
+     * @param string $isActive
+     * @param string $isTransferred
+     * @param string $isManagementOnly
+     * @param string $purchasedAt
+     * @param string $expiredAt
+     * @param string|null $canceledAt
+     * @return void
+     */
     public function handle(
         string $name,
         string $price,
