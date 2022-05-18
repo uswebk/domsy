@@ -8,7 +8,6 @@ use App\Infrastructures\Models\Eloquent\Client;
 use App\Infrastructures\Models\Eloquent\User;
 use App\Services\Domain\Client\HasService;
 
-use Exception;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -22,52 +21,76 @@ final class HasServiceTest extends TestCase
 
     private const USER_ID_2 = 2;
 
+    private const CLIENT_ID_1 = 1;
+
+    /**
+     * @return void
+     */
     public function setUp(): void
     {
         parent::setUp();
+
+        Client::factory([
+            'user_id' => User::factory([
+                'id' => self::USER_ID_1
+                ])->create(),
+        ])->create();
+
+        Client::factory([
+            'user_id' => User::factory([
+                'id' => self::USER_ID_2
+                ])->create(),
+        ])->create();
     }
 
     /**
      * @return array
      */
-    public function hasClientCheckDataProvider(): array
+    public function dataProviderOfClientHasUserEqualUserReturnTrue(): array
     {
         return [
-            'UserとClientが一致する' => [
+            '$userId が $clientId の所有ユーザーと一致する' => [
                 self::USER_ID_1,
-                self::USER_ID_1,
-                true,
-            ],
-            'UserとClientが一致しない' => [
-                self::USER_ID_2,
-                self::USER_ID_1,
-                false,
+                self::CLIENT_ID_1,
             ],
         ];
     }
 
     /**
-    * @dataProvider hasClientCheckDataProvider
+     * @return array
+     */
+    public function dataProviderOfClientHasUserNotEqualUserThrowException(): array
+    {
+        return [
+            '$userId が $clientId の所有ユーザーと異なる' => [
+                self::USER_ID_2,
+                self::CLIENT_ID_1,
+            ],
+        ];
+    }
+
+    /**
+    * @dataProvider dataProviderOfClientHasUserEqualUserReturnTrue
     * @test
     */
-    public function hasClientCheckOfDataProvider(
-        int $userId,
-        int $targetUserId,
-        bool $assertResult
-    ): void {
+    public function clientHasUserEqualUserReturnTrue(int $userId, int $clientId): void
+    {
+        $hasService = new HasService($clientId, $userId);
+
+        $this->assertTrue($hasService->execute());
+    }
+
+    /**
+    * @dataProvider dataProviderOfClientHasUserNotEqualUserThrowException
+    * @test
+    */
+    public function clientHasUserNotEqualUserThrowException(int $userId, int $clientId): void
+    {
         try {
-            $client = Client::factory([
-                'user_id' => User::factory([
-                    'id' => $userId
-                ])->create(),
-            ])->create();
-
-            $hasService = new HasService($client->id, $targetUserId);
-            $result = $hasService->execute();
-
-            $this->assertEquals($result, $assertResult);
-        } catch (Exception $e) {
-            $this->assertInstanceOf(Exception::class, $e);
+            $hasService = new HasService($clientId, $userId);
+            $hasService->execute();
+        } catch (\Exception $e) {
+            $this->assertTrue(true);
         }
     }
 }
