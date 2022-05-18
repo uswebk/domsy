@@ -20,7 +20,7 @@ final class EmailVerificationServiceTest extends TestCase
     /**
     * @test
     */
-    public function sendVerificationEmail()
+    public function emailIsSendWithEmailVerifyTokenIncludedInTheActionUrlOfTheEmail(): void
     {
         Notification::fake();
         Notification::assertNothingSent();

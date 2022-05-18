@@ -37,7 +37,7 @@ final class DomainExpirationServiceTest extends TestCase
     /**
     * @test
     */
-    public function sendDomainExpirationEmail()
+    public function domainNameAndNotificationNumberDaysIncludedInTheBodyOfEmailAndSend(): void
     {
         $user = User::factory()->create();
         $userOther = User::factory()->create();

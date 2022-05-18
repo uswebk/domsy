@@ -8,7 +8,6 @@ use App\Infrastructures\Models\Eloquent\Client;
 use App\Infrastructures\Models\Eloquent\User;
 use App\Services\Domain\Client\HasService;
 
-
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use Tests\TestCase;
