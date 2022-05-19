@@ -8,9 +8,21 @@ use App\Infrastructures\Models\Eloquent\Subdomain;
 
 interface SubdomainRepositoryInterface
 {
-    public function store(array $attributes): Subdomain;
+    /**
+     * @param Subdomain $subdomain
+     * @return \App\Infrastructures\Models\Eloquent\Subdomain
+     */
+    public function save(Subdomain $subdomain): \App\Infrastructures\Models\Eloquent\Subdomain;
 
-    public function save(Subdomain $subdomain): Subdomain;
+    /**
+     * @param array $attributes
+     * @return \App\Infrastructures\Models\Eloquent\Subdomain
+     */
+    public function store(array $attributes): \App\Infrastructures\Models\Eloquent\Subdomain;
 
-    public function delete(Subdomain $subdomain): void;
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @return void
+     */
+    public function delete(\App\Infrastructures\Models\Eloquent\Subdomain $subdomain): void;
 }

@@ -8,6 +8,9 @@ use App\Infrastructures\Models\Eloquent\UserLatestCode;
 
 final class UserLatestCodeRepository implements UserLatestCodeRepositoryInterface
 {
+    /**
+     * @return integer
+     */
     public function next(): int
     {
         $userLatestCode = UserLatestCode::firstOrFail();

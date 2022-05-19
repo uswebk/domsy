@@ -8,21 +8,34 @@ use App\Infrastructures\Models\Eloquent\Client;
 
 final class ClientRepository implements ClientRepositoryInterface
 {
-    public function save(Client $client): client
-    {
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\Client $client
+     * @return \App\Infrastructures\Models\Eloquent\Client
+     */
+    public function save(
+        \App\Infrastructures\Models\Eloquent\Client $client
+    ): \App\Infrastructures\Models\Eloquent\Client {
         $client->save();
 
         return $client;
     }
 
-    public function store(array $attributes): Client
+    /**
+     * @param array $attributes
+     * @return \App\Infrastructures\Models\Eloquent\Client
+     */
+    public function store(array $attributes): \App\Infrastructures\Models\Eloquent\Client
     {
         $client = Client::create($attributes);
 
         return $client;
     }
 
-    public function delete(Client $client): void
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\Client $client
+     * @return void
+     */
+    public function delete(\App\Infrastructures\Models\Eloquent\Client $client): void
     {
         $client->delete();
     }

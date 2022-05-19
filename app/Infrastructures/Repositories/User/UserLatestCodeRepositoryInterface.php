@@ -6,5 +6,8 @@ namespace App\Infrastructures\Repositories\User;
 
 interface UserLatestCodeRepositoryInterface
 {
+    /**
+     * @return integer
+     */
     public function next(): int;
 }

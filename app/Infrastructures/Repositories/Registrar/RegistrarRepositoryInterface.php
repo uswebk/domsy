@@ -4,13 +4,23 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Repositories\Registrar;
 
-use App\Infrastructures\Models\Eloquent\Registrar;
-
 interface RegistrarRepositoryInterface
 {
-    public function store(array $attributes): Registrar;
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\Registrar $registrar
+     * @return \App\Infrastructures\Models\Eloquent\Registrar
+     */
+    public function save(\App\Infrastructures\Models\Eloquent\Registrar $registrar): \App\Infrastructures\Models\Eloquent\Registrar;
 
-    public function save(Registrar $registrar): Registrar;
+    /**
+     * @param array $attributes
+     * @return \App\Infrastructures\Models\Eloquent\Registrar
+     */
+    public function store(array $attributes): \App\Infrastructures\Models\Eloquent\Registrar;
 
-    public function delete(Registrar $registrar): void;
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\Registrar $registrar
+     * @return void
+     */
+    public function delete(\App\Infrastructures\Models\Eloquent\Registrar $registrar): void;
 }

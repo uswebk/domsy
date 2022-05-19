@@ -8,21 +8,34 @@ use App\Infrastructures\Models\Eloquent\Registrar;
 
 final class RegistrarRepository implements RegistrarRepositoryInterface
 {
-    public function store(array $attributes): Registrar
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\Registrar $registrar
+     * @return \App\Infrastructures\Models\Eloquent\Registrar
+     */
+    public function save(
+        \App\Infrastructures\Models\Eloquent\Registrar $registrar
+    ): \App\Infrastructures\Models\Eloquent\Registrar {
+        $registrar->save();
+
+        return $registrar;
+    }
+
+    /**
+     * @param array $attributes
+     * @return \App\Infrastructures\Models\Eloquent\Registrar
+     */
+    public function store(array $attributes): \App\Infrastructures\Models\Eloquent\Registrar
     {
         $registrar = Registrar::create($attributes);
 
         return $registrar;
     }
 
-    public function save(Registrar $registrar): Registrar
-    {
-        $registrar->save();
-
-        return $registrar;
-    }
-
-    public function delete(Registrar $registrar): void
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\Registrar $registrar
+     * @return void
+     */
+    public function delete(\App\Infrastructures\Models\Eloquent\Registrar $registrar): void
     {
         $registrar->delete();
     }

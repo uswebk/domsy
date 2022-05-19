@@ -8,21 +8,34 @@ use App\Infrastructures\Models\Eloquent\Subdomain;
 
 final class SubdomainRepository implements SubdomainRepositoryInterface
 {
-    public function store(array $attributes): Subdomain
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @return \App\Infrastructures\Models\Eloquent\Subdomain
+     */
+    public function save(
+        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+    ): \App\Infrastructures\Models\Eloquent\Subdomain {
+        $subdomain->save();
+
+        return $subdomain;
+    }
+
+    /**
+     * @param array $attributes
+     * @return \App\Infrastructures\Models\Eloquent\Subdomain
+     */
+    public function store(array $attributes): \App\Infrastructures\Models\Eloquent\Subdomain
     {
         $domain = Subdomain::create($attributes);
 
         return $domain;
     }
 
-    public function save(Subdomain $subdomain): Subdomain
-    {
-        $subdomain->save();
-
-        return $subdomain;
-    }
-
-    public function delete(Subdomain $subdomain): void
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @return void
+     */
+    public function delete(\App\Infrastructures\Models\Eloquent\Subdomain $subdomain): void
     {
         $subdomain->delete();
     }
