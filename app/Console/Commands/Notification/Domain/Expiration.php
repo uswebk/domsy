@@ -15,6 +15,11 @@ class Expiration extends Command
 
     protected $expirationService;
 
+    /**
+     * Undocumented function
+     *
+     * @param ExpirationService $expirationService
+     */
     public function __construct(ExpirationService $expirationService)
     {
         parent::__construct();
@@ -22,6 +27,9 @@ class Expiration extends Command
         $this->expirationService = $expirationService;
     }
 
+    /**
+     * @return void
+     */
     public function handle(): void
     {
         $targetDateArgument = $this->argument('targetDate');

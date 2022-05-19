@@ -6,11 +6,19 @@ namespace App\Helpers;
 
 final class AppHelper
 {
+    /**
+     * @param integer $value
+     * @return string
+     */
     public static function getCircleSymbol(int $value): string
     {
         return ($value) ? '○' : '';
     }
 
+    /**
+     * @param integer $price
+     * @return string
+     */
     public static function getPrice(int $price): string
     {
         return '￥' . number_format($price);
