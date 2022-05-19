@@ -20,11 +20,18 @@ class MailCategory extends BaseModel
 
     protected const DOMAIN_EXPIRATION_NAME = 'domain_expiration';
 
-    public function isMatchByMailCategoryName($mailCategoryName): bool
+    /**
+     * @param string $mailCategoryName
+     * @return boolean
+     */
+    public function isMatchByMailCategoryName(string $mailCategoryName): bool
     {
         return $this->name == $mailCategoryName;
     }
 
+    /**
+     * @return boolean
+     */
     public function isDomainExpiration(): bool
     {
         return $this->isMatchByMailCategoryName(self::DOMAIN_EXPIRATION_NAME);

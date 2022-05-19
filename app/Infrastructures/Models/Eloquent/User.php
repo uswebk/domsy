@@ -42,26 +42,41 @@ class User extends Authenticatable implements MustVerifyEmail
         'created_at' => 'datetime',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function domains(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany('App\Infrastructures\Models\Eloquent\Domain');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function registrars(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany('App\Infrastructures\Models\Eloquent\Registrar');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function clients(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany('App\Infrastructures\Models\Eloquent\Client');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function mailSettings(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany('App\Infrastructures\Models\Eloquent\UserMailSetting');
     }
 
+    /**
+     * @return \App\Infrastructures\Models\Eloquent\UserMailSetting|null
+     */
     public function getReceiveDomainExpirationMailSetting(): ?\App\Infrastructures\Models\Eloquent\UserMailSetting
     {
         foreach ($this->mailSettings as $mailSetting) {

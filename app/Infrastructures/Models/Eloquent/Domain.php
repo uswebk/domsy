@@ -42,34 +42,53 @@ class Domain extends BaseModel
         'created_at' => 'datetime',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\User');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function subdomain(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany('App\Infrastructures\Models\Eloquent\Subdomain');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function registrar(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\Registrar', 'registrar_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function domainDealings(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany('App\Infrastructures\Models\Eloquent\DomainDealing', 'domain_id');
     }
 
-    public function isExpirationDateByTargetDate(\Illuminate\Support\Carbon $_targetDate): bool
+    /**
+     * @param \Illuminate\Support\Carbon $_targetDate
+     * @return boolean
+     */
+    public function isExpirationDateByTargetDate(\Illuminate\Support\Carbon $targetDate): bool
     {
-        $targetDate = $_targetDate->copy()->startOfDay();
+        $targetDate = $targetDate->copy()->startOfDay();
         $expiredDate = $this->expired_at->copy()->startOfDay();
 
         return $expiredDate->eq($targetDate);
     }
 
+    /**
+     * @return boolean
+     */
     public function isOwned():bool
     {
         return $this->is_active && ! $this->is_transferred;

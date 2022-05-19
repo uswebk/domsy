@@ -20,16 +20,25 @@ class Subdomain extends BaseModel
         'created_at',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function domain(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\Domain');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function dnsRecordType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\DnsRecordType', 'type_id');
     }
 
+    /**
+     * @return string
+     */
     public function getFullDomainNameAttribute(): string
     {
         if (isset($this->prefix)) {
@@ -39,6 +48,9 @@ class Subdomain extends BaseModel
         return $this->domain->name;
     }
 
+    /**
+     * @return string
+     */
     public function getDnsTypeAttribute(): string
     {
         return (isset($this->dnsRecordType)) ? $this->dnsRecordType->name : '';

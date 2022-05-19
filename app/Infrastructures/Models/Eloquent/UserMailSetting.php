@@ -26,16 +26,25 @@ class UserMailSetting extends BaseModel
         'is_received' => 'boolean',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function mailCategory(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\MailCategory');
     }
 
+    /**
+     * @return boolean
+     */
     public function isDomainExpiration(): bool
     {
         return $this->mailCategory->isDomainExpiration();
     }
 
+    /**
+     * @return boolean
+     */
     public function isRejection(): bool
     {
         return ! $this->is_received;

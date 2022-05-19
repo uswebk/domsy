@@ -21,6 +21,9 @@ class DomainBilling extends BaseModel
         'updated_at',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function domainDealing(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\DomainDealing', 'dealing_id');

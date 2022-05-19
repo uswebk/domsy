@@ -31,21 +31,33 @@ class DomainDealing extends BaseModel
         'Year',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function domain(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\Domain', 'domain_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\Client', 'client_id');
     }
 
+    /**
+     * @return array
+     */
     public static function getIntervalCategories(): array
     {
         return self::INTERVAL_CATEGORIES;
     }
 
+    /**
+     * @return string
+     */
     public function getIntervalCategoryStringAttribute(): string
     {
         $intervalCategories = $this->getIntervalCategories();
@@ -53,11 +65,17 @@ class DomainDealing extends BaseModel
         return $intervalCategories[$this->interval_category];
     }
 
+    /**
+     * @return boolean
+     */
     public function isBilled(): bool
     {
         return $this->billing_date->lt(now());
     }
 
+    /**
+     * @return boolean
+     */
     public function isUnclaimed(): bool
     {
         return ! $this->isBilled();
