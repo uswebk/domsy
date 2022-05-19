@@ -8,6 +8,12 @@ use App\Infrastructures\Mails\Client\DomainExpiration;
 
 final class DomainExpirationService
 {
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\User $user
+     * @param \Illuminate\Database\Eloquent\Collection $domains
+     * @param integer $domainNoticeNumberDays
+     * @return void
+     */
     public function execute(
         \App\Infrastructures\Models\Eloquent\User $user,
         \Illuminate\Database\Eloquent\Collection $domains,

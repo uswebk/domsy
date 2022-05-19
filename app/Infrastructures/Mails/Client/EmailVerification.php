@@ -13,12 +13,19 @@ use Illuminate\Support\Facades\URL;
 
 final class EmailVerification extends Notification
 {
-    public function via($notifiable)
+    /**
+     * @return array
+     */
+    public function via(): array
     {
         return ['mail'];
     }
 
-    public function toMail($notifiable)
+    /**
+     * @param  $notifiable
+     * @return void
+     */
+    public function toMail($notifiable): \Illuminate\Notifications\Messages\MailMessage
     {
         $verificationUrl = $this->verificationUrl($notifiable);
 
@@ -29,13 +36,17 @@ final class EmailVerification extends Notification
             ->line(Lang::get('If you did not create an account, no further action is required.'));
     }
 
-    protected function verificationUrl($notifiable)
+    /**
+     * @param  $notifiable
+     * @return void
+     */
+    protected function verificationUrl($notifiable): string
     {
         return URL::temporarySignedRoute(
             'verify',
             Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
             [
-                'id'   => $notifiable->getKey(),
+                'id' => $notifiable->getKey(),
                 'hash' => $notifiable->email_verify_token,
             ]
         );

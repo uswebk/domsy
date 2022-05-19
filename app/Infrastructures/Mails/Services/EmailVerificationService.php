@@ -8,6 +8,10 @@ use App\Infrastructures\Mails\Client\EmailVerification;
 
 final class EmailVerificationService
 {
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\User $user
+     * @return void
+     */
     public function execute(
         \App\Infrastructures\Models\Eloquent\User $user
     ): void {
