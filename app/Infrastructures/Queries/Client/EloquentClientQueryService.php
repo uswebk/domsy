@@ -8,7 +8,11 @@ use App\Infrastructures\Models\Eloquent\Client;
 
 final class EloquentClientQueryService
 {
-    public function findById(int $id): Client
+    /**
+     * @param integer $id
+     * @return \App\Infrastructures\Models\Eloquent\Client
+     */
+    public function findById(int $id): \App\Infrastructures\Models\Eloquent\Client
     {
         return Client::findOrFail($id);
     }

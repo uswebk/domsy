@@ -8,13 +8,25 @@ use App\Infrastructures\Models\Eloquent\Domain;
 
 final class EloquentDomainQueryService
 {
-    public function getFirstByIdUserId(int $id, int $userId): ?Domain
+    /**
+     * @param integer $id
+     * @param integer $userId
+     * @return \App\Infrastructures\Models\Eloquent\Domain
+     */
+    public function getFirstByIdUserId(int $id, int $userId): \App\Infrastructures\Models\Eloquent\Domain
     {
-        return Domain::where('id', $id)->where('user_id', $userId)->first();
+        return Domain::where('id', $id)->where('user_id', $userId)
+        ->firstOrFail();
     }
 
-    public function getFirstByNameUserId(string $name, int $userId): ?Domain
+    /**
+     * @param string $name
+     * @param integer $userId
+     * @return \App\Infrastructures\Models\Eloquent\Domain
+     */
+    public function getFirstByNameUserId(string $name, int $userId): \App\Infrastructures\Models\Eloquent\Domain
     {
-        return Domain::where('name', $name)->where('user_id', $userId)->first();
+        return Domain::where('name', $name)->where('user_id', $userId)
+        ->firstOrFail();
     }
 }

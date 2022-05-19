@@ -8,7 +8,11 @@ use App\Infrastructures\Models\Eloquent\Registrar;
 
 final class EloquentRegistrarQueryService
 {
-    public function findById(int $id): Registrar
+    /**
+     * @param integer $id
+     * @return \App\Infrastructures\Models\Eloquent\Registrar
+     */
+    public function findById(int $id): \App\Infrastructures\Models\Eloquent\Registrar
     {
         return Registrar::findOrFail($id);
     }

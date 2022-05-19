@@ -8,6 +8,9 @@ use App\Infrastructures\Models\Eloquent\DnsRecordType;
 
 final class EloquentDnsRecordTypeQueryService
 {
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     public function getAll(): \Illuminate\Database\Eloquent\Collection
     {
         return DnsRecordType::orderBy('sort')->get();
