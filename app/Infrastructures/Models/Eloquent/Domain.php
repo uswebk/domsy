@@ -75,11 +75,12 @@ class Domain extends BaseModel
     }
 
     /**
-     * @param \Illuminate\Support\Carbon $_targetDate
+     * @param \Illuminate\Support\Carbon $targetDate
      * @return boolean
      */
-    public function isExpirationDateByTargetDate(\Illuminate\Support\Carbon $targetDate): bool
-    {
+    public function isExpirationDateByTargetDate(
+        \Illuminate\Support\Carbon $targetDate
+    ): bool {
         $targetDate = $targetDate->copy()->startOfDay();
         $expiredDate = $this->expired_at->copy()->startOfDay();
 
@@ -89,7 +90,7 @@ class Domain extends BaseModel
     /**
      * @return boolean
      */
-    public function isOwned():bool
+    public function isOwned(): bool
     {
         return $this->is_active && ! $this->is_transferred;
     }
