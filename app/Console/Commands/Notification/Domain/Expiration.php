@@ -16,8 +16,6 @@ class Expiration extends Command
     protected $expirationService;
 
     /**
-     * Undocumented function
-     *
      * @param ExpirationService $expirationService
      */
     public function __construct(ExpirationService $expirationService)
