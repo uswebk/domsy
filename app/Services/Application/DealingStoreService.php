@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
+use App\Exceptions\Client\NotOwnerException;
 use App\Infrastructures\Models\Eloquent\DomainDealing;
 use App\Services\Domain\Client\HasService as ClientHasService;
 use App\Services\Domain\Domain\ExistsService as DomainExistsService;
+
+use Exception;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +63,7 @@ final class DealingStoreService
     ) {
         try {
             if (! $this->isExistsIntervalCategory($intervalCategory)) {
-                throw new \Exception();
+                throw new Exception();
             }
 
             $domainService = new DomainExistsService($domainId, Auth::id());
@@ -78,8 +81,12 @@ final class DealingStoreService
                     'interval_category' => $intervalCategory,
                     'is_auto_update' => $isAutoUpdate,
                 ]);
+            } else {
+                throw new NotOwnerException();
             }
-        } catch (\Exception $e) {
+        } catch (NotOwnerException $e) {
+            throw $e;
+        } catch (Exception $e) {
             throw $e;
         }
     }

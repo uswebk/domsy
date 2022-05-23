@@ -6,10 +6,15 @@ namespace App\Services\Domain\Client;
 
 use App\Infrastructures\Queries\Client\EloquentClientQueryService;
 
+use Exception;
+
 final class HasService
 {
     private $clientId;
+
     private $userId;
+
+    private $clientQueryService;
 
     /**
      * @param integer $clientId
@@ -19,6 +24,8 @@ final class HasService
     {
         $this->clientId = $clientId;
         $this->userId = $userId;
+
+        $this->clientQueryService = new EloquentClientQueryService();
     }
 
     /**
@@ -26,11 +33,14 @@ final class HasService
      */
     public function execute(): bool
     {
-        $clientQueryService = new EloquentClientQueryService();
-        $client = $clientQueryService->findById($this->clientId);
+        try {
+            $client = $this->clientQueryService->findById($this->clientId);
 
-        if (! isset($client) || $client->user_id !== $this->userId) {
-            throw new \Exception();
+            if (! isset($client) || $client->user_id !== $this->userId) {
+                return false;
+            }
+        } catch (Exception $e) {
+            return false;
         }
 
         return true;
