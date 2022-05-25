@@ -55,7 +55,7 @@ final class DomainStoreService
             $domainService = new DomainNotExistsService($userId, $name);
             $registrarService = new RegistrarHasService($userId, $registrarId);
 
-            if ($registrarService->execute() && $domainService->execute()) {
+            if ($registrarService->isOwner() && $domainService->isNotExists()) {
                 $domain = $this->domainRepository->store([
                     'name' => $name,
                     'price' => $price,

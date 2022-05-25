@@ -6,7 +6,7 @@ namespace App\Services\Domain\Registrar;
 
 use App\Infrastructures\Queries\Registrar\EloquentRegistrarQueryService;
 
-use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class HasService
 {
@@ -27,13 +27,14 @@ final class HasService
     /**
      * @return boolean
      */
-    public function execute(): bool
+    public function isOwner(): bool
     {
         $registrarQueryService = new EloquentRegistrarQueryService();
-        $registrar = $registrarQueryService->findById($this->registrarId);
 
-        if (! isset($registrar) || $registrar->user_id !== $this->userId) {
-            throw new Exception();
+        try {
+            $registrarQueryService->firstByIdUserId($this->registrarId, $this->userId);
+        } catch (ModelNotFoundException $e) {
+            return false;
         }
 
         return true;
