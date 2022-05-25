@@ -16,80 +16,67 @@ final class HasServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    private const USER_ID_1 = 1;
+    private const USER_ID1 = 1;
 
-    private const USER_ID_2 = 2;
+    private const CLIENT_ID1 = 1;
 
-    private const CLIENT_ID_1 = 1;
+    private const NOT_OWNER_USER_ID2 = 2;
 
     /**
+     * @return array
+     */
+    public function dataProviderOfIsOwner(): array
+    {
+        return [
+            'users.id === clients.user_id' => [
+                [
+                    'id' => self::USER_ID1,
+                ],
+                [
+                    'id' => self::CLIENT_ID1,
+                    'user_id' => self::USER_ID1,
+                ],
+                self::CLIENT_ID1,
+                self::USER_ID1,
+                true,
+            ],
+            'users.id !== clients.user_id' => [
+                [
+                    'id' => self::USER_ID1,
+                ],
+                [
+                    'id' => self::CLIENT_ID1,
+                    'user_id' => self::USER_ID1,
+                ],
+                self::CLIENT_ID1,
+                self::NOT_OWNER_USER_ID2,
+                false,
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider dataProviderOfIsOwner
+     *
+     * @param array $parameterOfUsers
+     * @param array $parameterOfClients
+     * @param integer $clientId
+     * @param integer $userId
+     * @param boolean $resultOfAssert
      * @return void
      */
-    public function setUp(): void
-    {
-        parent::setUp();
+    public function caseOfIsOwner(
+        array $parameterOfUsers,
+        array $parameterOfClients,
+        int $clientId,
+        int $userId,
+        bool $resultOfAssert
+    ): void {
+        User::factory($parameterOfUsers)->create();
+        Client::factory($parameterOfClients)->create();
 
-        Client::factory([
-            'user_id' => User::factory([
-                'id' => self::USER_ID_1
-                ])->create(),
-        ])->create();
-
-        Client::factory([
-            'user_id' => User::factory([
-                'id' => self::USER_ID_2
-                ])->create(),
-        ])->create();
-    }
-
-    /**
-     * @return array
-     */
-    public function dataProviderOfClientHasUserEqualUserReturnTrue(): array
-    {
-        return [
-            '$userId が $clientId の所有ユーザーと一致する' => [
-                self::USER_ID_1,
-                self::CLIENT_ID_1,
-            ],
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function dataProviderOfClientHasUserNotEqualUserThrowException(): array
-    {
-        return [
-            '$userId が $clientId の所有ユーザーと異なる' => [
-                self::USER_ID_2,
-                self::CLIENT_ID_1,
-            ],
-        ];
-    }
-
-    /**
-    * @dataProvider dataProviderOfClientHasUserEqualUserReturnTrue
-    * @test
-    */
-    public function clientHasUserEqualUserReturnTrue(int $userId, int $clientId): void
-    {
         $hasService = new HasService($clientId, $userId);
-
-        $this->assertTrue($hasService->execute());
-    }
-
-    /**
-    * @dataProvider dataProviderOfClientHasUserNotEqualUserThrowException
-    * @test
-    */
-    public function clientHasUserNotEqualUserThrowException(int $userId, int $clientId): void
-    {
-        try {
-            $hasService = new HasService($clientId, $userId);
-            $hasService->execute();
-        } catch (\Exception $e) {
-            $this->assertTrue(true);
-        }
+        $this->assertSame($resultOfAssert, $hasService->isOwner());
     }
 }
