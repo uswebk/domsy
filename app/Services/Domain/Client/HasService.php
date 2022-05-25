@@ -6,7 +6,7 @@ namespace App\Services\Domain\Client;
 
 use App\Infrastructures\Queries\Client\EloquentClientQueryService;
 
-use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class HasService
 {
@@ -31,15 +31,19 @@ final class HasService
     /**
      * @return boolean
      */
-    public function execute(): bool
+    public function isOwner(): bool
     {
         try {
             $client = $this->clientQueryService->findById($this->clientId);
 
-            if (! isset($client) || $client->user_id !== $this->userId) {
+            if (! isset($client)) {
                 return false;
             }
-        } catch (Exception $e) {
+
+            if ($client->user_id !== $this->userId) {
+                return false;
+            }
+        } catch (ModelNotFoundException $e) {
             return false;
         }
 

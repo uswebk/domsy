@@ -69,7 +69,7 @@ final class DealingStoreService
             $domainService = new DomainExistsService($domainId, Auth::id());
             $clientService = new ClientHasService($clientId, Auth::id());
 
-            if ($domainService->execute() && $clientService->execute()) {
+            if ($domainService->execute() && $clientService->isOwner()) {
                 $this->dealingRepository->store([
                     'user_id' => $userId,
                     'domain_id' => $domainId,
