@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Domain;
 
+use App\Exceptions\Client\DomainNotExistsException;
 use App\Infrastructures\Queries\Domain\EloquentDomainQueryService;
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class ExistsService
@@ -25,15 +27,16 @@ final class ExistsService
 
     /**
      * @return boolean
+     * @throws DomainNotExistsException
      */
-    public function exists(): bool
+    public function execute(): bool
     {
         $domainQueryService = new EloquentDomainQueryService();
 
         try {
             $domainQueryService->getFirstByIdUserId($this->domainId, $this->userId);
         } catch (ModelNotFoundException $e) {
-            return false;
+            throw new DomainNotExistsException();
         }
 
         return true;

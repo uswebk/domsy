@@ -25,8 +25,9 @@ final class NotExistsService
 
     /**
      * @return boolean
+     * @throws DomainExistsException
      */
-    public function execute(): bool
+    public function isNotExists(): bool
     {
         $domainQueryService = new EloquentDomainQueryService();
         $domain = $domainQueryService->getFirstByNameUserId($this->name, $this->userId);
