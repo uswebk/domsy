@@ -62,7 +62,7 @@ final class DealingUpdateService
             $domainService = new DomainExistsService($domainId, Auth::id());
             $clientService = new ClientHasService($clientId, Auth::id());
 
-            if ($domainService->execute() && $clientService->isOwner()) {
+            if ($domainService->exists() && $clientService->isOwner()) {
                 $domainDealing->fill([
                     'domain_id' => $domainId,
                     'client_id' => $clientId,
