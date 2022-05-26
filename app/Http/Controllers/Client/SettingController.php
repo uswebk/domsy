@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Infrastructures\Models\Eloquent\MailCategory;
+use Illuminate\Support\Facades\Auth;
 
 class SettingController extends Controller
 {
@@ -14,7 +16,10 @@ class SettingController extends Controller
 
     public function index()
     {
-        return view('client.settings');
+        $user = Auth::user();
+        $mailCategories = MailCategory::get();
+
+        return view('client.settings', compact('user', 'mailCategories'));
     }
 
     public function post()
