@@ -87,4 +87,23 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return null;
     }
+
+    /**
+     * @param integer $mailCategoryId
+     * @return boolean
+     */
+    public function isReceivedMailByMailCategoryId(int $mailCategoryId): bool
+    {
+        foreach ($this->mailSettings as $mailSetting) {
+            if ($mailSetting->mail_category_id !== $mailCategoryId) {
+                continue;
+            }
+
+            if ($mailSetting->is_received) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

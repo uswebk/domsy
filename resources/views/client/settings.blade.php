@@ -9,16 +9,17 @@
 
     <h1>Setting</h1>
 
-    <setting-index v-bind:mail-categories='{{ $mailCategories }}'></setting-index>
+    {{ Form::open(['url' => route('settings.save')]) }}
+      @foreach ($mailCategories as $mailCategory )
 
-    {{-- @foreach ($mailCategories as $mailCategory ) --}}
+        {{ Form::hidden($mailCategory->name, 0) }}
+        {{ Form::checkbox($mailCategory->name, '1', old($mailCategory->name, $user->isReceivedMailByMailCategoryId($mailCategory->id) ), ['id' =>$mailCategory->name,'class' => 'form-check-input']) }}
+        {{ Form::label($mailCategory->name,  $mailCategory->annotation) }} <br>
 
-    {{-- {{ Form::open(['url' => route('settings.post'), 'name' => 'delete-form']) }}
+        @endforeach
 
-      {{ $mailCategory->annotation }} <br>
+        {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
 
     {{ Form::close() }}
- --}}
-    {{-- @endforeach --}}
   </div>
 @endsection

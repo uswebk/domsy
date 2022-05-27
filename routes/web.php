@@ -24,7 +24,7 @@ Route::middleware(['verified','auth'])->group(function () {
 
         Route::get('settings', 'SettingController@index')->name('settings.index');
 
-        Route::post('settings', 'SettingController@post')->name('settings.post');
+        Route::post('settings', 'SettingController@save')->name('settings.save');
 
         Route::prefix('domain')->name('domain.')->group(function () {
             Route::get('/', 'DomainController@index')->name('index');
