@@ -40,7 +40,7 @@ final class DnsStoreService
         try {
             $domainService = new DomainExistsService($domainId, Auth::id());
 
-            if ($domainService->execute()) {
+            if ($domainService->exists()) {
                 $this->subdomainRepository->store([
                     'prefix' => $prefix,
                     'domain_id' => $domainId,

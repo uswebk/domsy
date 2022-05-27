@@ -29,7 +29,7 @@ final class ExistsService
      * @return boolean
      * @throws DomainNotExistsException
      */
-    public function execute(): bool
+    public function exists(): bool
     {
         $domainQueryService = new EloquentDomainQueryService();
 

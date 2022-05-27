@@ -50,7 +50,7 @@ final class DomainUpdateService
         try {
             $registrarService = new RegistrarHasService(Auth::id(), $registrarId);
 
-            if ($registrarService->execute()) {
+            if ($registrarService->isOwner()) {
                 $domain->fill([
                     'name' => $name,
                     'price' => $price,
