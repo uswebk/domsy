@@ -20,9 +20,10 @@ use App\Infrastructures\Repositories\User\UserMailSettingRepository;
 use App\Infrastructures\Repositories\User\UserMailSettingRepositoryInterface;
 use App\Infrastructures\Repositories\User\UserRepository;
 use App\Infrastructures\Repositories\User\UserRepositoryInterface;
+
 use Illuminate\Support\ServiceProvider;
 
-final class UserServiceProvider extends ServiceProvider
+final class RepositoryProvider extends ServiceProvider
 {
     /**
      * Register services.
