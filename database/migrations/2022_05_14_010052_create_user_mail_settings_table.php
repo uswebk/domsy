@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateUserMailSettingsTable extends Migration
 {
     protected $table_schema = 'user_mail_settings';
+
     /**
      * Run the migrations.
      *
@@ -17,7 +18,7 @@ class CreateUserMailSettingsTable extends Migration
         Schema::create($this->table_schema, function (Blueprint $table) {
             $table->unsignedBigInteger('user_id')->comment('ユーザーID');
             $table->unsignedBigInteger('mail_category_id')->comment('メールカテゴリID');
-            $table->unsignedInteger('notice_number_days')->comment('事前通知日数');
+            $table->unsignedInteger('notice_number_days')->default(0)->comment('事前通知日数');
             $table->boolean('is_received')->comment('受信可否');
             $table->dateTime('updated_at')->comment('更新日');
             $table->dateTime('created_at')->comment('登録日');

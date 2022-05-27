@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Infrastructures\Models\Eloquent\MailCategory;
+use App\Services\Application\SettingSaveService;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,9 +25,14 @@ class SettingController extends Controller
         return view('client.settings', compact('user', 'mailCategories'));
     }
 
-    public function save(Request $request)
-    {
-        //
-        dd($request);
+    public function save(
+        Request $request,
+        SettingSaveService $settingSaveService
+    ) {
+        try {
+            $settingSaveService->handle($request);
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 }

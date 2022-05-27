@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Infrastructures\Repositories\User\UserMailSettingRepository;
+use App\Infrastructures\Repositories\User\UserMailSettingRepositoryInterface;
 use App\Infrastructures\Repositories\User\UserRepository;
 use App\Infrastructures\Repositories\User\UserRepositoryInterface;
 
@@ -20,6 +22,7 @@ final class UserServiceProvider extends ServiceProvider
     {
         //
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(UserMailSettingRepositoryInterface::class, UserMailSettingRepository::class);
     }
 
     /**
