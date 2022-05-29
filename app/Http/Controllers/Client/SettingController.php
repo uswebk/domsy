@@ -13,8 +13,11 @@ use Illuminate\Support\Facades\Auth;
 
 class SettingController extends Controller
 {
+    protected const INDEX_ROUTE = 'settings.index';
+
     public function __construct()
     {
+        parent::__construct();
     }
 
     public function index()
@@ -34,5 +37,6 @@ class SettingController extends Controller
         } catch (Exception $e) {
             throw $e;
         }
+        return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Setting Update!!');
     }
 }
