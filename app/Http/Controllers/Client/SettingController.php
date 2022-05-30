@@ -35,7 +35,7 @@ class SettingController extends Controller
         try {
             $settingSaveService->handle($request);
         } catch (Exception $e) {
-            throw $e;
+            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Update');
         }
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Setting Update!!');
     }
