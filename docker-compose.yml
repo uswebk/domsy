@@ -8,7 +8,7 @@ services:
       - ./:/var/www
       - ./docker/php/php.ini:/usr/local/etc/php/php.ini
       - ./log:/var/log
-    working_dir: /var/www/domsy
+    working_dir: /var/www
     environment:
       TZ: Asia/Tokyo
     ports:

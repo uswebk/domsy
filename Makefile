@@ -17,5 +17,17 @@ restart:
 php:
 	docker-compose exec web bash
 
-cache:
-	docker-compose exec php php artisan cache:clear
+ps:
+	docker-compose ps
+
+db:
+	docker-compose exec db bash
+
+db:
+	docker-compose exec db bash
+
+migrate:
+	docker-compose exec web php artisan migrate
+
+fresh:
+	docker-compose exec web php artisan migrate:fresh --seed
