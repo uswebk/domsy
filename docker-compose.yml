@@ -26,6 +26,7 @@ services:
       - VIRTUAL_HOST=dev.domsy.com
 
   db:
+    platform: linux/x86_64
     container_name: db-domsy
     image: mysql
     environment:
@@ -42,6 +43,7 @@ services:
     ports:
       - "${IP}:3306:3306"
   db-test:
+    platform: linux/x86_64
     container_name: db-domsy-test
     image: mysql
     environment:
