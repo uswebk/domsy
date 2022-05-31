@@ -5,7 +5,7 @@ build:
 	docker-compose exec web php artisan migrate:fresh --seed
 	docker-compose exec web npm i
 	docker-compose exec web npm run dev
-	
+
 up:
 	docker-compose up -d
 

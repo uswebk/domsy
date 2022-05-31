@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\Application\Auth\RegisterService;
 
+use Exception;
+
 class RegisterController extends Controller
 {
     public function __construct()

@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Auth;
 
+use Exception;
+
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 final class RegisterService
 {
@@ -42,7 +46,7 @@ final class RegisterService
         string $password,
         string $emailVerifyToken,
     ): void {
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             $code = $this->userLatestCodeRepository->next();
 
@@ -56,13 +60,13 @@ final class RegisterService
 
             $this->emailVerificationService->execute($user);
 
-            \DB::commit();
-        } catch (\Exception $e) {
-            \DB::rollBack();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
 
-            \Log::info($e->getMessage());
+            Log::info($e->getMessage());
 
-            throw new \Exception('Failed registration');
+            throw new Exception('Failed registration');
         }
 
         Auth::login($user);

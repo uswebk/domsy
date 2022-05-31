@@ -7,7 +7,7 @@
           "request": "launch",
           "port": 9012,
           "pathMappings": {
-            "/var/www/domsy": "${workspaceFolder}"
+            "/var/www": "${workspaceFolder}"
           }
       }
   ]
