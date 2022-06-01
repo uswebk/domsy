@@ -32,14 +32,37 @@ final class RepositoryProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(ClientRepositoryInterface::class, ClientRepository::class);
-        $this->app->bind(DomainDealingRepositoryInterface::class, DomainDealingRepository::class);
-        $this->app->bind(DomainRepositoryInterface::class, DomainRepository::class);
-        $this->app->bind(RegistrarRepositoryInterface::class, RegistrarRepository::class);
-        $this->app->bind(SubdomainRepositoryInterface::class, SubdomainRepository::class);
-        $this->app->bind(UserLatestCodeRepositoryInterface::class, UserLatestCodeRepository::class);
-        $this->app->bind(UserMailSettingRepositoryInterface::class, UserMailSettingRepository::class);
-        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(ClientRepositoryInterface::class, function () {
+            return new ClientRepository();
+        });
+
+        $this->app->bind(DomainDealingRepositoryInterface::class, function () {
+            return new DomainDealingRepository();
+        });
+
+        $this->app->bind(DomainRepositoryInterface::class, function () {
+            return new DomainRepository();
+        });
+
+        $this->app->bind(RegistrarRepositoryInterface::class, function () {
+            return new RegistrarRepository();
+        });
+
+        $this->app->bind(SubdomainRepositoryInterface::class, function () {
+            return new SubdomainRepository();
+        });
+
+        $this->app->bind(UserLatestCodeRepositoryInterface::class, function () {
+            return new UserLatestCodeRepository();
+        });
+
+        $this->app->bind(UserMailSettingRepositoryInterface::class, function () {
+            return new UserMailSettingRepository();
+        });
+
+        $this->app->bind(UserRepositoryInterface::class, function () {
+            return new UserRepository();
+        });
     }
 
     /**
