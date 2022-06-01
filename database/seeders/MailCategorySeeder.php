@@ -18,12 +18,14 @@ class MailCategorySeeder extends Seeder
             'id' => 1,
             'name' => 'notification',
             'annotation' => 'お知らせ',
+            'is_specify_number_days' => false,
             'sort' => 10,
         ]);
         MailCategory::create([
             'id' => 2,
             'name' => 'domain_expiration',
             'annotation' => 'ドメイン有効期限',
+            'is_specify_number_days' => true,
             'sort' => 20,
         ]);
     }

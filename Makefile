@@ -34,6 +34,9 @@ migrate:
 fresh:
 	docker-compose exec web php artisan migrate:fresh --seed
 
+rollback:
+	docker-compose exec web php artisan migrate:rollback
+
 mix:
 	docker-compose exec web npm run dev
 

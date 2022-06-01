@@ -16,11 +16,11 @@ class CreateSubdomainsTable extends Migration
         Schema::create('subdomains', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('domain_id');
-            $table->string('prefix')->nullable()->comment('サブドメイン');
+            $table->string('prefix')->default('')->comment('サブドメイン');
             $table->unsignedBigInteger('type_id')->nullable();
-            $table->string('value')->comment('レコード値')->nullable();
-            $table->integer('ttl')->nullable();
-            $table->integer('priority')->comment('メール優先順位')->nullable();
+            $table->string('value')->default('')->comment('レコード値');
+            $table->integer('ttl')->default(0)->comment('TTL');
+            $table->integer('priority')->default(0)->comment('メール優先順位');
             $table->dateTime('updated_at')->comment('更新日');
             $table->dateTime('created_at')->comment('登録日');
 
