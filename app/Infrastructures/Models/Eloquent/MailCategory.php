@@ -15,6 +15,7 @@ class MailCategory extends BaseModel
     protected $fillable = [
         'name',
         'annotation',
+        'is_specify_number_days',
         'sort',
     ];
 
