@@ -6,7 +6,7 @@ namespace App\Infrastructures\Queries\Client;
 
 use App\Infrastructures\Models\Eloquent\Client;
 
-final class EloquentClientQueryService
+final class EloquentClientQueryService implements EloquentClientQueryServiceInterface
 {
     /**
      * @param integer $id

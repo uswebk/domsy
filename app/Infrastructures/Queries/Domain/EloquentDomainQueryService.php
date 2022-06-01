@@ -6,7 +6,7 @@ namespace App\Infrastructures\Queries\Domain;
 
 use App\Infrastructures\Models\Eloquent\Domain;
 
-final class EloquentDomainQueryService
+final class EloquentDomainQueryService implements EloquentDomainQueryServiceInterface
 {
     /**
      * @param integer $id
@@ -20,11 +20,11 @@ final class EloquentDomainQueryService
     }
 
     /**
-     * @param string $name
      * @param integer $userId
+     * @param string $name
      * @return \App\Infrastructures\Models\Eloquent\Domain
      */
-    public function getFirstByNameUserId(string $name, int $userId): \App\Infrastructures\Models\Eloquent\Domain
+    public function getFirstByUserIdName(int $userId, string $name): \App\Infrastructures\Models\Eloquent\Domain
     {
         return Domain::where('name', $name)->where('user_id', $userId)
         ->firstOrFail();
