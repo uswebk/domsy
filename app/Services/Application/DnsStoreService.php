@@ -4,55 +4,62 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
-use App\Services\Domain\Domain\ExistsService as DomainExistsService;
+use Exception;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 final class DnsStoreService
 {
-    private $subdomainRepository;
+    private $domainExistsService;
 
     /**
      * @param \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     * @param \App\Services\Domain\Domain\ExistsService $domainExistsService
      */
-    public function __construct(\App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository)
-    {
+    public function __construct(
+        \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
+        \App\Services\Domain\Domain\ExistsService $domainExistsService
+    ) {
         $this->subdomainRepository = $subdomainRepository;
+        $this->domainExistsService = $domainExistsService;
     }
 
     /**
      * @param string $prefix
      * @param integer $domainId
-     * @param string $typeId
+     * @param integer $typeId
      * @param string $value
-     * @param string $ttl
-     * @param string|null $priority
+     * @param integer $ttl
+     * @param integer $priority
      * @return void
      */
     public function handle(
         string $prefix,
         int $domainId,
-        string $typeId,
+        int $typeId,
         string $value,
-        string $ttl,
-        ?string $priority,
+        int $ttl,
+        int $priority,
     ) {
         try {
-            $domainService = new DomainExistsService($domainId, Auth::id());
-
-            if ($domainService->exists()) {
-                $this->subdomainRepository->store([
-                    'prefix' => $prefix,
-                    'domain_id' => $domainId,
-                    'type_id' => $typeId,
-                    'value' => $value,
-                    'ttl' => $ttl,
-                    'priority' => $priority,
-                ]);
+            if (! $this->domainExistsService->exists($domainId, Auth::id())) {
+                throw new DomainNotExistsException();
             }
-        } catch (\Exception $e) {
-            \Log::info($e->getMessage());
 
+            $this->subdomainRepository->store([
+                'prefix' => $prefix,
+                'domain_id' => $domainId,
+                'type_id' => $typeId,
+                'value' => $value,
+                'ttl' => $ttl,
+                'priority' => $priority,
+            ]);
+        } catch (DomainNotExistsException $e) {
+            Log::info($e->getMessage());
+
+            throw $e;
+        } catch (Exception $e) {
             throw $e;
         }
     }

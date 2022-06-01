@@ -6,10 +6,8 @@ namespace App\Services\Application;
 
 use App\Exceptions\Client\NotOwnerException;
 use App\Infrastructures\Models\Eloquent\DomainDealing;
-use App\Services\Domain\Domain\ExistsService as DomainExistsService;
 use Exception;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 final class DealingUpdateService
@@ -18,15 +16,21 @@ final class DealingUpdateService
 
     private $clientHasService;
 
+    private $domainExistsService;
+
     /**
      * @param \App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface $dealingRepository
+     * @param \App\Services\Domain\Client\HasService $clientHasService
+     * @param \App\Services\Domain\Domain\ExistsService $domainExistsService
      */
     public function __construct(
         \App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface $dealingRepository,
-        \App\Services\Domain\Client\HasService $clientHasService
+        \App\Services\Domain\Client\HasService $clientHasService,
+        \App\Services\Domain\Domain\ExistsService $domainExistsService
     ) {
         $this->dealingRepository = $dealingRepository;
         $this->clientHasService = $clientHasService;
+        $this->domainExistsService = $domainExistsService;
     }
 
     private function isExistsIntervalCategory(int $intervalCategory): bool
@@ -42,7 +46,7 @@ final class DealingUpdateService
      * @param integer $clientId
      * @param integer $subtotal
      * @param integer $discount
-     * @param Carbon $billingDate
+     * @param \Illuminate\Support\Carbon $billingDate
      * @param integer $interval
      * @param integer $intervalCategory
      * @param boolean $isAutoUpdate
@@ -54,7 +58,7 @@ final class DealingUpdateService
         int $clientId,
         int $subtotal,
         int $discount,
-        Carbon $billingDate,
+        \Illuminate\Support\Carbon $billingDate,
         int $interval,
         int $intervalCategory,
         bool $isAutoUpdate,
@@ -64,28 +68,31 @@ final class DealingUpdateService
                 throw new Exception();
             }
 
-
             if (! $this->clientHasService->isOwner($clientId, Auth::id())) {
                 throw new NotOwnerException();
             }
 
-            $domainService = new DomainExistsService($domainId, Auth::id());
-
-            if ($domainService->exists()) {
-                $domainDealing->fill([
-                    'domain_id' => $domainId,
-                    'client_id' => $clientId,
-                    'subtotal' => $subtotal,
-                    'discount' => $discount,
-                    'billing_date' => $billingDate,
-                    'interval' => $interval,
-                    'interval_category' => $intervalCategory,
-                    'is_auto_update' => $isAutoUpdate,
-                ]);
-
-                $this->dealingRepository->save($domainDealing);
+            if (! $this->domainExistsService->exists($domainId, Auth::id())) {
+                throw new DomainNotExistsException();
             }
-        } catch (\Exception $e) {
+
+            $domainDealing->fill([
+                'domain_id' => $domainId,
+                'client_id' => $clientId,
+                'subtotal' => $subtotal,
+                'discount' => $discount,
+                'billing_date' => $billingDate,
+                'interval' => $interval,
+                'interval_category' => $intervalCategory,
+                'is_auto_update' => $isAutoUpdate,
+            ]);
+
+            $this->dealingRepository->save($domainDealing);
+        } catch (NotOwnerException | DomainNotExistsException $e) {
+            Log::info($e->getMessage());
+
+            throw $e;
+        } catch (Exception $e) {
             throw $e;
         }
     }

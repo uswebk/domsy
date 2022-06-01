@@ -5,38 +5,34 @@ declare(strict_types=1);
 namespace App\Services\Domain\Domain;
 
 use App\Exceptions\Client\DomainNotExistsException;
-use App\Infrastructures\Queries\Domain\EloquentDomainQueryService;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class ExistsService
 {
-    private $domainId;
+    private $eloquentDomainQueryService;
 
-    private $userId;
+    /**
+     * @param \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+     */
+    public function __construct(
+        \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+    ) {
+        $this->eloquentDomainQueryService = $eloquentDomainQueryService;
+    }
 
     /**
      * @param integer $domainId
      * @param integer $userId
-     */
-    public function __construct(int $domainId, int $userId)
-    {
-        $this->domainId = $domainId;
-        $this->userId = $userId;
-    }
-
-    /**
      * @return boolean
-     * @throws DomainNotExistsException
      */
-    public function exists(): bool
+    public function exists(int $domainId, int $userId): bool
     {
-        $domainQueryService = new EloquentDomainQueryService();
-
         try {
-            $domainQueryService->getFirstByIdUserId($this->domainId, $this->userId);
+            $this->eloquentDomainQueryService->getFirstByIdUserId($domainId, $userId);
         } catch (ModelNotFoundException $e) {
-            throw new DomainNotExistsException();
+            return false;
+            // throw new DomainNotExistsException();
         }
 
         return true;
