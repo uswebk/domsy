@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Application;
 
 use App\Exceptions\Client\NotOwnerException;
+
 use Exception;
 
 use Illuminate\Support\Facades\DB;
@@ -39,6 +40,9 @@ final class DomainUpdateService
      * @param string $purchasedAt
      * @param string $expiredAt
      * @param string|null $canceledAt
+     *
+     * @throws NotOwnerException
+     *
      * @return void
      */
     public function handle(
@@ -52,7 +56,7 @@ final class DomainUpdateService
         string $purchasedAt,
         string $expiredAt,
         ?string $canceledAt,
-    ) {
+    ): void {
         try {
             if (!$this->registrarHasService->isOwner($registrarId, Auth::id())) {
                 throw new NotOwnerException();

@@ -51,6 +51,10 @@ final class DomainStoreService
      * @param string $purchasedAt
      * @param string $expiredAt
      * @param string|null $canceledAt
+     *
+     * @throws DomainExistsException
+     * @throws NotOwnerException
+     *
      * @return void
      */
     public function handle(
@@ -64,7 +68,7 @@ final class DomainStoreService
         string $purchasedAt,
         string $expiredAt,
         ?string $canceledAt,
-    ) {
+    ): void {
         try {
             if (! $this->domainNotExistsService->isNotExists($userId, $name)) {
                 throw new DomainExistsException();

@@ -6,7 +6,10 @@ namespace App\Services\Application\Auth;
 
 use App\Exceptions\Auth\AlreadyVerifiedException;
 
+use Exception;
+
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 final class EmailVerifyService
 {
@@ -31,6 +34,9 @@ final class EmailVerifyService
         $this->eloquentUserQueryService = $eloquentUserQueryService;
     }
 
+    /**
+     * @return boolean
+     */
     private function isEqualUserIdHash(): bool
     {
         return hash_equals(
@@ -40,11 +46,14 @@ final class EmailVerifyService
     }
 
     /**
+     *
+     * @throws AlreadyVerifiedException
+     *
      * @return void
      */
     public function handle(): void
     {
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
             if (! $this->isEqualUserIdHash()) {
                 throw new Exception();
@@ -59,13 +68,13 @@ final class EmailVerifyService
             $user->email_verified_at = now();
             $this->userRepository->save($user);
 
-            \DB::commit();
+            DB::commit();
         } catch (AlreadyVerifiedException $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            \DB::rollBack();
+            Log::info($e->getMessage());
 
-            \Log::info($e->getMessage());
+            throw $e;
+        } catch (Exception $e) {
+            DB::rollBack();
 
             throw $e;
         }

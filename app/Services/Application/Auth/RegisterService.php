@@ -8,7 +8,6 @@ use Exception;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 final class RegisterService
 {
@@ -63,8 +62,6 @@ final class RegisterService
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-
-            Log::info($e->getMessage());
 
             throw new Exception('Failed registration');
         }

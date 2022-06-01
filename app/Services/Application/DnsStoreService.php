@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Log;
 
 final class DnsStoreService
 {
+    private $subdomainRepository;
+
     private $domainExistsService;
 
     /**
@@ -32,6 +34,9 @@ final class DnsStoreService
      * @param string $value
      * @param integer $ttl
      * @param integer $priority
+     *
+     * @throws DomainNotExistsException
+     *
      * @return void
      */
     public function handle(
@@ -41,7 +46,7 @@ final class DnsStoreService
         string $value,
         int $ttl,
         int $priority,
-    ) {
+    ): void {
         try {
             if (! $this->domainExistsService->exists($domainId, Auth::id())) {
                 throw new DomainNotExistsException();

@@ -10,7 +10,6 @@ use App\Infrastructures\Models\Eloquent\DomainDealing;
 
 use Exception;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -25,6 +24,7 @@ final class DealingStoreService
     /**
      * @param \App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface $dealingRepository
      * @param \App\Services\Domain\Client\HasService $clientHasService
+     * @param \App\Services\Domain\Domain\ExistsService $domainExistsService
      */
     public function __construct(
         \App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface $dealingRepository,
@@ -53,10 +53,14 @@ final class DealingStoreService
      * @param integer $clientId
      * @param integer $subtotal
      * @param integer $discount
-     * @param Carbon $billingDate
+     * @param \Illuminate\Support\Carbon $billingDate
      * @param integer $interval
      * @param integer $intervalCategory
      * @param boolean $isAutoUpdate
+     *
+     * @throws NotFoundException
+     * @throws DomainNotExistsException
+     *
      * @return void
      */
     public function handle(
@@ -65,11 +69,11 @@ final class DealingStoreService
         int $clientId,
         int $subtotal,
         int $discount,
-        Carbon $billingDate,
+        \Illuminate\Support\Carbon $billingDate,
         int $interval,
         int $intervalCategory,
         bool $isAutoUpdate,
-    ) {
+    ): void {
         try {
             if (! $this->isExistsIntervalCategory($intervalCategory)) {
                 throw new Exception();

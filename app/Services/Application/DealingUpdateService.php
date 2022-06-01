@@ -9,6 +9,7 @@ use App\Infrastructures\Models\Eloquent\DomainDealing;
 use Exception;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 final class DealingUpdateService
 {
@@ -33,6 +34,10 @@ final class DealingUpdateService
         $this->domainExistsService = $domainExistsService;
     }
 
+    /**
+     * @param integer $intervalCategory
+     * @return boolean
+     */
     private function isExistsIntervalCategory(int $intervalCategory): bool
     {
         $intervalCategories = DomainDealing::getIntervalCategories();
@@ -50,6 +55,10 @@ final class DealingUpdateService
      * @param integer $interval
      * @param integer $intervalCategory
      * @param boolean $isAutoUpdate
+     *
+     * @throws NotOwnerException
+     * @throws DomainNotExistsException
+     *
      * @return void
      */
     public function handle(
@@ -62,7 +71,7 @@ final class DealingUpdateService
         int $interval,
         int $intervalCategory,
         bool $isAutoUpdate,
-    ) {
+    ): void {
         try {
             if (! $this->isExistsIntervalCategory($intervalCategory)) {
                 throw new Exception();
