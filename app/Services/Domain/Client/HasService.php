@@ -4,43 +4,32 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Client;
 
-use App\Infrastructures\Queries\Client\EloquentClientQueryService;
-
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class HasService
 {
-    private $clientId;
+    private $eloquentClientQueryService;
 
-    private $userId;
-
-    private $clientQueryService;
+    /**
+     * @param \App\Infrastructures\Queries\Client\EloquentClientQueryService $eloquentClientQueryService
+     */
+    public function __construct(
+        \App\Infrastructures\Queries\Client\EloquentClientQueryService $eloquentClientQueryService
+    ) {
+        $this->eloquentClientQueryService = $eloquentClientQueryService;
+    }
 
     /**
      * @param integer $clientId
      * @param integer $userId
-     */
-    public function __construct(int $clientId, int $userId)
-    {
-        $this->clientId = $clientId;
-        $this->userId = $userId;
-
-        $this->clientQueryService = new EloquentClientQueryService();
-    }
-
-    /**
      * @return boolean
      */
-    public function isOwner(): bool
+    public function isOwner(int $clientId, int $userId): bool
     {
         try {
-            $client = $this->clientQueryService->findById($this->clientId);
+            $client = $this->eloquentClientQueryService->findById($clientId);
 
-            if (! isset($client)) {
-                return false;
-            }
-
-            if ($client->user_id !== $this->userId) {
+            if ($client->user_id !== $userId) {
                 return false;
             }
         } catch (ModelNotFoundException $e) {
