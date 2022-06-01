@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
-use App\Services\Domain\Domain\NotExistsService as DomainNotExistsService;
+use App\Exceptions\Client\DomainExistsException;
 use App\Services\Domain\Registrar\HasService as RegistrarHasService;
+
+use Exception;
+
+use Illuminate\Support\Facades\DB;
 
 final class DomainStoreService
 {
@@ -13,16 +17,21 @@ final class DomainStoreService
 
     private $subdomainRepository;
 
+    private $domainNotExistsService;
+
     /**
      * @param \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
      * @param \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     * @param \App\Services\Domain\Domain\NotExistsService $domainNotExistsService
      */
     public function __construct(
         \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository,
-        \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+        \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
+        \App\Services\Domain\Domain\NotExistsService $domainNotExistsService
     ) {
         $this->domainRepository = $domainRepository;
         $this->subdomainRepository = $subdomainRepository;
+        $this->domainNotExistsService = $domainNotExistsService;
     }
 
     /**
@@ -50,12 +59,15 @@ final class DomainStoreService
         string $expiredAt,
         ?string $canceledAt,
     ) {
-        \DB::beginTransaction();
+        DB::beginTransaction();
         try {
-            $domainService = new DomainNotExistsService($userId, $name);
+            if (! $this->domainNotExistsService->isNotExists($userId, $name)) {
+                throw new DomainExistsException();
+            }
+
             $registrarService = new RegistrarHasService($userId, $registrarId);
 
-            if ($registrarService->isOwner() && $domainService->isNotExists()) {
+            if ($registrarService->isOwner()) {
                 $domain = $this->domainRepository->store([
                     'name' => $name,
                     'price' => $price,
@@ -75,9 +87,9 @@ final class DomainStoreService
                 ]);
             }
 
-            \DB::commit();
-        } catch (\Exception $e) {
-            \DB::rollback();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
 
             throw $e;
         }

@@ -6,7 +6,6 @@ namespace App\Services\Application;
 
 use App\Exceptions\Client\NotOwnerException;
 use App\Infrastructures\Models\Eloquent\DomainDealing;
-use App\Services\Domain\Client\HasService as ClientHasService;
 use App\Services\Domain\Domain\ExistsService as DomainExistsService;
 
 use Exception;
@@ -18,13 +17,18 @@ final class DealingStoreService
 {
     private $dealingRepository;
 
+    private $clientHasService;
+
     /**
      * @param \App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface $dealingRepository
+     * @param \App\Services\Domain\Client\HasService $clientHasService
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface $dealingRepository
+        \App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface $dealingRepository,
+        \App\Services\Domain\Client\HasService $clientHasService
     ) {
         $this->dealingRepository = $dealingRepository;
+        $this->clientHasService = $clientHasService;
     }
 
     /**
@@ -66,10 +70,13 @@ final class DealingStoreService
                 throw new Exception();
             }
 
-            $domainService = new DomainExistsService($domainId, Auth::id());
-            $clientService = new ClientHasService($clientId, Auth::id());
+            if (! $this->clientHasService->isOwner($clientId, Auth::id())) {
+                throw new NotOwnerException();
+            }
 
-            if ($domainService->exists() && $clientService->isOwner()) {
+            $domainService = new DomainExistsService($domainId, Auth::id());
+
+            if ($domainService->exists()) {
                 $this->dealingRepository->store([
                     'user_id' => $userId,
                     'domain_id' => $domainId,

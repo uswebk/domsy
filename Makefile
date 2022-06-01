@@ -28,9 +28,6 @@ ps:
 db:
 	docker-compose exec db bash
 
-db:
-	docker-compose exec db bash
-
 migrate:
 	docker-compose exec web php artisan migrate
 
@@ -39,3 +36,7 @@ fresh:
 
 mix:
 	docker-compose exec web npm run dev
+
+cache:
+	docker-compose exec web php artisan cache:clear
+	docker-compose exec web php artisan config:clear

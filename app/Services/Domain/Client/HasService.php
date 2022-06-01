@@ -11,10 +11,10 @@ final class HasService
     private $eloquentClientQueryService;
 
     /**
-     * @param \App\Infrastructures\Queries\Client\EloquentClientQueryService $eloquentClientQueryService
+     * @param \App\Infrastructures\Queries\Client\EloquentClientQueryServiceInterface $eloquentClientQueryService
      */
     public function __construct(
-        \App\Infrastructures\Queries\Client\EloquentClientQueryService $eloquentClientQueryService
+        \App\Infrastructures\Queries\Client\EloquentClientQueryServiceInterface $eloquentClientQueryService
     ) {
         $this->eloquentClientQueryService = $eloquentClientQueryService;
     }
