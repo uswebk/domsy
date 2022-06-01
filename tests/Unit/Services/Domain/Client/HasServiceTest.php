@@ -6,6 +6,7 @@ namespace Tests\Unit\Services\Domain\Client;
 
 use App\Infrastructures\Models\Eloquent\Client;
 use App\Infrastructures\Models\Eloquent\User;
+use App\Infrastructures\Queries\Client\EloquentClientQueryServiceInterface;
 use App\Services\Domain\Client\HasService;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -76,7 +77,7 @@ final class HasServiceTest extends TestCase
         User::factory($parameterOfUsers)->create();
         Client::factory($parameterOfClients)->create();
 
-        $hasService = new HasService($clientId, $userId);
-        $this->assertSame($resultOfAssert, $hasService->isOwner());
+        $hasService = new HasService(new EloquentClientQueryServiceInterface());
+        $this->assertSame($resultOfAssert, $hasService->isOwner($clientId, $userId));
     }
 }
