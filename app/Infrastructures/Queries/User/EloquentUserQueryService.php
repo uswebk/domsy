@@ -6,7 +6,7 @@ namespace App\Infrastructures\Queries\User;
 
 use App\Infrastructures\Models\Eloquent\User;
 
-final class EloquentUserQueryService
+final class EloquentUserQueryService implements EloquentUserQueryServiceInterface
 {
     /**
      * @return \Illuminate\Database\Eloquent\Collection

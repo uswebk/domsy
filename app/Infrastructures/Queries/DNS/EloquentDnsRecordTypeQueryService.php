@@ -6,12 +6,12 @@ namespace App\Infrastructures\Queries\Dns;
 
 use App\Infrastructures\Models\Eloquent\DnsRecordType;
 
-final class EloquentDnsRecordTypeQueryService
+final class EloquentDnsRecordTypeQueryService implements EloquentDnsRecordTypeQueryServiceInterface
 {
     /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAll(): \Illuminate\Database\Eloquent\Collection
+    public function getSortAll(): \Illuminate\Database\Eloquent\Collection
     {
         return DnsRecordType::orderBy('sort')->get();
     }

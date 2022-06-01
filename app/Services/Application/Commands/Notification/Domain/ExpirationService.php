@@ -13,11 +13,11 @@ final class ExpirationService
     private $domainExpirationService;
 
     /**
-     * @param \App\Infrastructures\Queries\User\EloquentUserQueryService $eloquentUserQueryService
+     * @param \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
      * @param \App\Infrastructures\Mails\Services\DomainExpirationService $domainExpirationService
      */
     public function __construct(
-        \App\Infrastructures\Queries\User\EloquentUserQueryService $eloquentUserQueryService,
+        \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService,
         \App\Infrastructures\Mails\Services\DomainExpirationService $domainExpirationService
     ) {
         $this->eloquentUserQueryService = $eloquentUserQueryService;

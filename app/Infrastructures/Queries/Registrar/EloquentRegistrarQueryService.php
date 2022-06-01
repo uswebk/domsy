@@ -6,7 +6,7 @@ namespace App\Infrastructures\Queries\Registrar;
 
 use App\Infrastructures\Models\Eloquent\Registrar;
 
-final class EloquentRegistrarQueryService
+final class EloquentRegistrarQueryService implements EloquentRegistrarQueryServiceInterface
 {
     /**
      * @param integer $id
@@ -16,6 +16,6 @@ final class EloquentRegistrarQueryService
     {
         return Registrar::where('id', '=', $id)
         ->where('user_id', '=', $userId)
-        ->first();
+        ->firstOrFail();
     }
 }

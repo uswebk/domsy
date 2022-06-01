@@ -10,8 +10,6 @@ use App\Http\Requests\Client\Dns\StoreRequest;
 use App\Http\Requests\Client\Dns\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Domain;
 use App\Infrastructures\Models\Eloquent\Subdomain;
-use App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryService;
-use App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface;
 use App\Services\Application\DnsStoreService;
 
 use Exception;
@@ -24,12 +22,18 @@ class DnsController extends Controller
     protected $domainIdQuery;
 
     protected $dnsRecordTypeQueryService;
+
     protected $subdomainRepository;
 
+    /**
+     * @param Request $request
+     * @param \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecordTypeQueryService
+     * @param \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     */
     public function __construct(
         Request $request,
-        EloquentDnsRecordTypeQueryService $dnsRecordTypeQueryService,
-        SubdomainRepositoryInterface $subdomainRepository
+        \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecordTypeQueryService,
+        \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
     ) {
         parent::__construct();
 
@@ -42,7 +46,7 @@ class DnsController extends Controller
         $this->middleware('can:owner,subdomain')->only(['edit', 'update','delete']);
 
         $this->middleware(function ($request, $next) {
-            $dnsRecordTypes = $this->dnsRecordTypeQueryService->getAll();
+            $dnsRecordTypes = $this->dnsRecordTypeQueryService->getSortAll();
 
             view()->share([
                 'domainIdQuery' => $this->domainIdQuery,

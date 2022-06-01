@@ -4,35 +4,30 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Registrar;
 
-use App\Infrastructures\Queries\Registrar\EloquentRegistrarQueryService;
-
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class HasService
 {
-    private $userId;
-
-    private $registrarId;
+    private $eloquentRegistrarQueryService;
 
     /**
-     * @param integer $userId
-     * @param integer $registrarId
+     * @param \App\Infrastructures\Queries\Registrar\EloquentRegistrarQueryServiceInterface $eloquentRegistrarQueryService
      */
-    public function __construct(int $userId, int $registrarId)
-    {
-        $this->userId = $userId;
-        $this->registrarId = $registrarId;
+    public function __construct(
+        \App\Infrastructures\Queries\Registrar\EloquentRegistrarQueryServiceInterface $eloquentRegistrarQueryService
+    ) {
+        $this->eloquentRegistrarQueryService = $eloquentRegistrarQueryService;
     }
 
     /**
+     * @param integer $id
+     * @param integer $userId
      * @return boolean
      */
-    public function isOwner(): bool
+    public function isOwner(int $id, int $userId): bool
     {
-        $registrarQueryService = new EloquentRegistrarQueryService();
-
         try {
-            $registrarQueryService->firstByIdUserId($this->registrarId, $this->userId);
+            $this->eloquentRegistrarQueryService->firstByIdUserId($id, $userId);
         } catch (ModelNotFoundException $e) {
             return false;
         }
