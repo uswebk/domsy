@@ -5,7 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\Dealing\StoreRequest;
+use App\Http\Requests\Client\Dealing\UpdateRequest;
+use App\Infrastructures\Models\Eloquent\DomainDealing;
 use App\Infrastructures\Models\Interval;
+use App\Services\Application\DealingStoreService;
+use App\Services\Application\DealingUpdateService;
 
 use Exception;
 
@@ -60,25 +65,24 @@ class DealingController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
+     * @param DomainDealing $domainDealing
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function edit(
-        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
-    ): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory {
+    public function edit(DomainDealing $domainDealing): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+    {
         return view('client.dealing.edit', compact('domainDealing'));
     }
 
     /**
-     * @param \App\Http\Requests\Client\Dealing\UpdateRequest $request
-     * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
-     * @param \App\Services\Application\DealingUpdateService $dealingUpdateService
+     * @param UpdateRequest $request
+     * @param DomainDealing $domainDealing
+     * @param DealingUpdateService $dealingUpdateService
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(
-        \App\Http\Requests\Client\Dealing\UpdateRequest $request,
-        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing,
-        \App\Services\Application\DealingUpdateService $dealingUpdateService
+        UpdateRequest $request,
+        DomainDealing $domainDealing,
+        DealingUpdateService $dealingUpdateService
     ): \Illuminate\Http\RedirectResponse {
         $domainDealingRequest = $request->makeDto();
 
@@ -92,13 +96,13 @@ class DealingController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Client\Dealing\StoreRequest $request
-     * @param \App\Services\Application\DealingStoreService $dealingStoreService
+     * @param StoreRequest $request
+     * @param DealingStoreService $dealingStoreService
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(
-        \App\Http\Requests\Client\Dealing\StoreRequest $request,
-        \App\Services\Application\DealingStoreService $dealingStoreService
+        StoreRequest $request,
+        DealingStoreService $dealingStoreService
     ): \Illuminate\Http\RedirectResponse {
         $domainDealingRequest = $request->makeDto();
 
@@ -112,12 +116,11 @@ class DealingController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
+     * @param DomainDealing $domainDealing
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function detail(
-        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
-    ): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory {
+    public function detail(DomainDealing $domainDealing): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+    {
         $this->authorize('owner', $domainDealing);
 
         $domainDealing->load(['domain','client']);
