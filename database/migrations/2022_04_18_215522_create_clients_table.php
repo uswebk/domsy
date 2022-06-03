@@ -17,7 +17,7 @@ class CreateClientsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name')->comment('請求先名');
-            $table->string('name_kana')->nullable()->comment('請求先かな名');
+            $table->string('name_kana')->default('')->comment('請求先かな名');
             $table->string('email')->comment('メールアドレス');
             $table->char('zip', 7)->comment('請求先郵便番号');
             $table->string('address')->comment('請求先住所');

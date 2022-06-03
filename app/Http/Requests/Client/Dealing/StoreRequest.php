@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Requests\Client\Dealing;
 
 use App\Http\Requests\Request;
+use App\Infrastructures\Models\Eloquent\DomainDealing;
+use App\Infrastructures\Models\Interval;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends Request
 {
@@ -20,23 +21,16 @@ class StoreRequest extends Request
             'discount' => 'nullable|integer',
             'billing_date' => 'required|date_format:Y-m-d|after:yesterday',
             'interval' => 'required|integer',
-            'interval_category' => 'required|integer',
+            'interval_category' => Rule::in(array_keys(Interval::getIntervalList())),
             'is_auto_update' => 'required|boolean',
         ];
     }
 
-    protected function passedValidation(): void
+    /**
+     * @return \App\Infrastructures\Models\Eloquent\DomainDealing
+     */
+    public function makeDto(): \App\Infrastructures\Models\Eloquent\DomainDealing
     {
-        $this->merge([
-            'domain_id' => (int) $this->domain_id,
-            'client_id' => (int) $this->client_id,
-            'subtotal' => (int) $this->subtotal,
-            'discount' => (int) $this->discount,
-            'billing_date' => new Carbon($this->billing_date),
-            'interval' => (int) $this->interval,
-            'interval_category' => (int) $this->interval_category,
-            'is_auto_update' => (bool) $this->is_auto_update,
-            'user_id' => Auth::id(),
-        ]);
+        return new DomainDealing($this->validated());
     }
 }

@@ -18,17 +18,23 @@ class DomainDealing extends BaseModel
         'is_auto_update',
     ];
 
+    protected $casts = [
+        'domain_id' => 'integer',
+        'registrar_id' => 'integer',
+        'client_id' => 'integer',
+        'subtotal' => 'integer',
+        'discount' => 'integer',
+        'billing_date' => 'datetime',
+        'interval' => 'integer',
+        'interval_category' => 'string',
+        'is_auto_update' => 'boolean',
+
+    ];
+
     protected $dates = [
         'billing_date',
         'created_at',
         'updated_at',
-    ];
-
-    protected const INTERVAL_CATEGORIES = [
-        'Day',
-        'Week',
-        'Month',
-        'Year',
     ];
 
     /**
@@ -45,24 +51,6 @@ class DomainDealing extends BaseModel
     public function client(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\Client', 'client_id');
-    }
-
-    /**
-     * @return array
-     */
-    public static function getIntervalCategories(): array
-    {
-        return self::INTERVAL_CATEGORIES;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIntervalCategoryStringAttribute(): string
-    {
-        $intervalCategories = $this->getIntervalCategories();
-
-        return $intervalCategories[$this->interval_category];
     }
 
     /**

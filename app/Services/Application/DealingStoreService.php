@@ -64,39 +64,29 @@ final class DealingStoreService
      * @return void
      */
     public function handle(
-        int $userId,
-        int $domainId,
-        int $clientId,
-        int $subtotal,
-        int $discount,
-        \Illuminate\Support\Carbon $billingDate,
-        int $interval,
-        int $intervalCategory,
-        bool $isAutoUpdate,
+        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealingRequest
     ): void {
-        try {
-            if (! $this->isExistsIntervalCategory($intervalCategory)) {
-                throw new Exception();
-            }
+        $userId = Auth::id();
 
-            if (! $this->clientHasService->isOwner($clientId, Auth::id())) {
+        try {
+            if (! $this->clientHasService->isOwner($domainDealingRequest->client_id, $userId)) {
                 throw new NotOwnerException();
             }
 
-            if (! $this->domainExistsService->exists($domainId, Auth::id())) {
+            if (! $this->domainExistsService->exists($domainDealingRequest->domain_id, $userId)) {
                 throw new DomainNotExistsException();
             }
 
             $this->dealingRepository->store([
                 'user_id' => $userId,
-                'domain_id' => $domainId,
-                'client_id' => $clientId,
-                'subtotal' => $subtotal,
-                'discount' => $discount,
-                'billing_date' => $billingDate,
-                'interval' => $interval,
-                'interval_category' => $intervalCategory,
-                'is_auto_update' => $isAutoUpdate,
+                'domain_id' => $domainDealingRequest->domain_id,
+                'client_id' => $domainDealingRequest->client_id,
+                'subtotal' => $domainDealingRequest->subtotal,
+                'discount' => $domainDealingRequest->discount,
+                'billing_date' => $domainDealingRequest->billing_date,
+                'interval' => $domainDealingRequest->interval,
+                'interval_category' => $domainDealingRequest->interval_category,
+                'is_auto_update' => $domainDealingRequest->is_auto_update,
             ]);
         } catch (NotOwnerException | DomainNotExistsException $e) {
             Log::info($e->getMessage());
