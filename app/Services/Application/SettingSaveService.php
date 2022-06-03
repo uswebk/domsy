@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
-use App\Infrastructures\Models\Eloquent\MailCategory;
-
-use Illuminate\Support\Facades\Auth;
-
 final class SettingSaveService
 {
     private $userMailSettingRepository;
@@ -22,22 +18,18 @@ final class SettingSaveService
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Services\Application\DataTransferObjects\SettingSaveDto $settingSaveDto
      * @return void
      */
-    public function handle(\Illuminate\Http\Request $request): void
-    {
-        // ToDev: メール事前通知日(user_mail_settings.notice_number_days)も設定できるようにする
-
-        $mailCategories = MailCategory::get();
-
-        foreach ($mailCategories as $mailCategory) {
-            $isReceived = (bool) $request[$mailCategory->name];
-
+    public function handle(
+        \App\Services\Application\DataTransferObjects\SettingSaveDto $settingSaveDto
+    ): void {
+        foreach ($settingSaveDto->userMailSettings as $userMailSetting) {
             $this->userMailSettingRepository->updateOfUserIdAndMailCategoryIdEqual(
-                Auth::user()->id,
-                $mailCategory->id,
-                $isReceived
+                $userMailSetting->user_id,
+                $userMailSetting->mail_category_id,
+                $userMailSetting->is_received,
+                $userMailSetting->notice_number_days,
             );
         }
     }

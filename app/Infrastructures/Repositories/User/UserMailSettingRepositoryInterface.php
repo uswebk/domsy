@@ -9,6 +9,7 @@ interface UserMailSettingRepositoryInterface
     public function updateOfUserIdAndMailCategoryIdEqual(
         int $userId,
         int $mailCategoryId,
-        bool $isReceived
+        bool $isReceived,
+        int $noticeNumberDays
     ): \App\Infrastructures\Models\Eloquent\UserMailSetting;
 }

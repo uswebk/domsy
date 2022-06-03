@@ -18,12 +18,24 @@
     {{ Form::open(['url' => route('settings.save')]) }}
       @foreach ($mailCategories as $mailCategory )
 
-        {{ Form::hidden($mailCategory->name, 0) }}
-        {{ Form::checkbox($mailCategory->name, '1', old($mailCategory->name, $user->isReceivedMailByMailCategoryId($mailCategory->id) ), ['id' =>$mailCategory->name,'class' => 'form-check-input']) }}
-        {{ Form::label($mailCategory->name,  $mailCategory->annotation) }} <br>
+        {{ Form::hidden($mailCategory->name.'[is_received]', 0) }}
+        {{ Form::checkbox($mailCategory->name.'[is_received]', '1', old($mailCategory->name, $user->isReceivedMailByMailCategoryId($mailCategory->id) ), ['id' =>$mailCategory->name,'class' => 'form-check-input']) }}
+        {{ Form::label($mailCategory->name,  $mailCategory->annotation) }}
 
+        @if($mailCategory->is_specify_number_days)
+
+          @php
+            $noticeNumberDays = $user->getMailSettingNoticeNumberDaysByMailCategoryId($mailCategory->id);
+          @endphp
+
+          {{ Form::number($mailCategory->name.'[notice_number_days]', old('notice_number_days', $noticeNumberDays), ['placeholder' => '1','id' => 'notice_number_days','class' => 'form-control w-25 d-inline']) }}
+          Days ago
+        @endif
+
+        <br>
         @endforeach
 
+        <br>
         {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
 
     {{ Form::close() }}

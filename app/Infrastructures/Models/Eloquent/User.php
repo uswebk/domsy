@@ -106,4 +106,20 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return false;
     }
+
+    /**
+     * @param integer $mailCategoryId
+     * @return integer
+     */
+    public function getMailSettingNoticeNumberDaysByMailCategoryId(int $mailCategoryId): int
+    {
+        $mailSetting = $this->mailSettings->where('mail_category_id', $mailCategoryId)
+        ->first();
+
+        if (isset($mailSetting)) {
+            return $mailSetting->notice_number_days;
+        }
+
+        return UserMailSetting::getDefaultNoticeNumberDays();
+    }
 }

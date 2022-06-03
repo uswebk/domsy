@@ -11,7 +11,8 @@ final class UserMailSettingRepository implements UserMailSettingRepositoryInterf
     public function updateOfUserIdAndMailCategoryIdEqual(
         int $userId,
         int $mailCategoryId,
-        bool $isReceived
+        bool $isReceived,
+        int $noticeNumberDays
     ): \App\Infrastructures\Models\Eloquent\UserMailSetting {
         $userMailSetting = UserMailSetting::firstOrNew([
             'user_id' => $userId,
@@ -19,6 +20,7 @@ final class UserMailSettingRepository implements UserMailSettingRepositoryInterf
         ]);
 
         $userMailSetting->is_received = $isReceived;
+        $userMailSetting->notice_number_days = $noticeNumberDays;
 
         $userMailSetting->save();
 

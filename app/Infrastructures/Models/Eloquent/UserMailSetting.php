@@ -27,8 +27,13 @@ class UserMailSetting extends BaseModel
     ];
 
     protected $casts = [
+        'user_id' => 'integer',
+        'mail_category_id' => 'integer',
+        'notice_number_days' => 'integer',
         'is_received' => 'boolean',
     ];
+
+    protected const DEFAULT_NOTICE_NUMBER_DAYS = 90;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -52,5 +57,13 @@ class UserMailSetting extends BaseModel
     public function isRejection(): bool
     {
         return ! $this->is_received;
+    }
+
+    /**
+     * @return integer
+     */
+    public static function getDefaultNoticeNumberDays(): int
+    {
+        return self::DEFAULT_NOTICE_NUMBER_DAYS;
     }
 }
