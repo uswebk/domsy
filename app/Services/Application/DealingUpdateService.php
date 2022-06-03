@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
+use App\Exceptions\Client\DomainNotExistsException;
 use App\Exceptions\Client\NotOwnerException;
-use App\Infrastructures\Models\Eloquent\DomainDealing;
+
 use Exception;
 
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,8 @@ final class DealingUpdateService
     private $clientHasService;
 
     private $domainExistsService;
+
+    private $userId;
 
     /**
      * @param \App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface $dealingRepository
@@ -32,29 +35,15 @@ final class DealingUpdateService
         $this->dealingRepository = $dealingRepository;
         $this->clientHasService = $clientHasService;
         $this->domainExistsService = $domainExistsService;
+
+        $this->userId = Auth::id();
     }
 
     /**
-     * @param integer $intervalCategory
-     * @return boolean
-     */
-    private function isExistsIntervalCategory(int $intervalCategory): bool
-    {
-        $intervalCategories = DomainDealing::getIntervalCategories();
-
-        return isset($intervalCategories[$intervalCategory]);
-    }
-
-    /**
+     * Undocumented function
+     *
+     * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealingRequest
      * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
-     * @param integer $domainId
-     * @param integer $clientId
-     * @param integer $subtotal
-     * @param integer $discount
-     * @param \Illuminate\Support\Carbon $billingDate
-     * @param integer $interval
-     * @param integer $intervalCategory
-     * @param boolean $isAutoUpdate
      *
      * @throws NotOwnerException
      * @throws DomainNotExistsException
@@ -62,39 +51,21 @@ final class DealingUpdateService
      * @return void
      */
     public function handle(
-        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing,
-        int $domainId,
-        int $clientId,
-        int $subtotal,
-        int $discount,
-        \Illuminate\Support\Carbon $billingDate,
-        int $interval,
-        int $intervalCategory,
-        bool $isAutoUpdate,
+        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealingRequest,
+        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
     ): void {
         try {
-            if (! $this->isExistsIntervalCategory($intervalCategory)) {
-                throw new Exception();
-            }
-
-            if (! $this->clientHasService->isOwner($clientId, Auth::id())) {
+            if (isset($domainDealingRequest->client_id) &&
+            ! $this->clientHasService->isOwner($domainDealingRequest->client_id, $this->userId)) {
                 throw new NotOwnerException();
             }
 
-            if (! $this->domainExistsService->exists($domainId, Auth::id())) {
+            if (isset($domainDealingRequest->domain_id) &&
+            ! $this->domainExistsService->exists($domainDealingRequest->domain_id, $this->userId)) {
                 throw new DomainNotExistsException();
             }
 
-            $domainDealing->fill([
-                'domain_id' => $domainId,
-                'client_id' => $clientId,
-                'subtotal' => $subtotal,
-                'discount' => $discount,
-                'billing_date' => $billingDate,
-                'interval' => $interval,
-                'interval_category' => $intervalCategory,
-                'is_auto_update' => $isAutoUpdate,
-            ]);
+            $domainDealing->fill($domainDealingRequest->toArray());
 
             $this->dealingRepository->save($domainDealing);
         } catch (NotOwnerException | DomainNotExistsException $e) {

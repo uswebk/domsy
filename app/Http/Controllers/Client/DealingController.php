@@ -24,6 +24,8 @@ class DealingController extends Controller
     {
         parent::__construct();
 
+        $this->middleware('can:owner,domainDealing')->only(['edit']);
+
         $this->middleware(function ($request, $next) {
             $domainList = Auth::user()->domains->pluck('name', 'id')->toArray();
             $clientList = Auth::user()->clients->pluck('name', 'id')->toArray();
@@ -58,7 +60,7 @@ class DealingController extends Controller
 
     public function edit(DomainDealing $domainDealing)
     {
-        $this->authorize('owner', $domainDealing);
+        // $this->authorize('owner', $domainDealing);
 
         return view('client.dealing.edit', compact('domainDealing'));
     }
@@ -68,30 +70,10 @@ class DealingController extends Controller
         DomainDealing $domainDealing,
         DealingUpdateService $dealingUpdateService
     ) {
-        $this->authorize('owner', $domainDealing);
-
+        $domainDealingRequest = $request->makeDto();
         try {
-            if ($domainDealing->isBilled()) {
-                $domain_id = $domainDealing->domain_id;
-                $client_id = $domainDealing->client_id;
-                $billing_date = $domainDealing->billing_date;
-            } else {
-                $domain_id = $request->domain_id;
-                $client_id = $request->client_id;
-                $billing_date = $request->billing_date;
-            }
-            $dealingUpdateService->handle(
-                $domainDealing,
-                $domain_id,
-                $client_id,
-                $request->subtotal,
-                $request->discount,
-                $billing_date,
-                $request->interval,
-                $request->interval_category,
-                $request->is_auto_update
-            );
-        } catch (\Exception $e) {
+            $dealingUpdateService->handle($domainDealingRequest, $domainDealing);
+        } catch (Exception $e) {
             return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Update');
         }
 
