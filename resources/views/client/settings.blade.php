@@ -22,7 +22,7 @@
         {{ Form::checkbox($mailCategory->name.'[is_received]', '1', old($mailCategory->name, $user->isReceivedMailByMailCategoryId($mailCategory->id) ), ['id' =>$mailCategory->name,'class' => 'form-check-input']) }}
         {{ Form::label($mailCategory->name,  $mailCategory->annotation) }}
 
-        @if($mailCategory->is_specify_number_days)
+        @if($mailCategory->hasDays())
 
           @php
             $noticeNumberDays = $user->getMailSettingNoticeNumberDaysByMailCategoryId($mailCategory->id);

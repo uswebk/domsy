@@ -10,9 +10,9 @@ class UserMailSetting extends BaseModel
 {
     use HasFactory;
 
-    protected $primaryKey = null;
+    // protected $primaryKey = null;
 
-    public $incrementing = false;
+    // public $incrementing = false;
 
     protected $fillable = [
         'user_id',

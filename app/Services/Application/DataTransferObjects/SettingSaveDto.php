@@ -26,12 +26,14 @@ final class SettingSaveDto
         $mailSettingParameter = $saveRequest->request->all();
 
         foreach ($mailCategories as $mailCategory) {
+            $parameter = [];
+
             $parameter = array_merge($mailSettingParameter[$mailCategory->name], [
                 'user_id' => Auth::id(),
                 'mail_category_id' => $mailCategory->id,
             ]);
 
-            if (! $mailCategory->is_specify_number_days) {
+            if (! $mailCategory->hasDays()) {
                 $parameter = array_merge($parameter, [
                     'notice_number_days' => 0,
                 ]);

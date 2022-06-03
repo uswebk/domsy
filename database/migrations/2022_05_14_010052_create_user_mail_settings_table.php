@@ -16,6 +16,7 @@ class CreateUserMailSettingsTable extends Migration
     public function up()
     {
         Schema::create($this->table_schema, function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('user_id')->comment('ユーザーID');
             $table->unsignedBigInteger('mail_category_id')->comment('メールカテゴリID');
             $table->unsignedInteger('notice_number_days')->default(0)->comment('事前通知日数');
@@ -34,8 +35,6 @@ class CreateUserMailSettingsTable extends Migration
             ->on('mail_categories')
             ->cascadeOnUpdate()
             ->cascadeOnDelete();
-
-            $table->unique(['user_id', 'mail_category_id']);
         });
     }
 
