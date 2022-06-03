@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Requests\Client\Domain;
 
 use App\Http\Requests\Request;
+use App\Infrastructures\Models\Eloquent\Domain;
+
 use Illuminate\Support\Facades\Auth;
 
 class StoreRequest extends Request
 {
+    /**
+     * @return array
+     */
     public function rules(): array
     {
         return [
@@ -24,11 +29,15 @@ class StoreRequest extends Request
         ];
     }
 
-    protected function passedValidation(): void
+    /**
+     * @return \App\Infrastructures\Models\Eloquent\Domain
+     */
+    public function makeDto(): \App\Infrastructures\Models\Eloquent\Domain
     {
-        $this->merge([
-            'registrar_id' => (int) $this->registrar_id,
+        $validated = array_merge($this->validated(), [
             'user_id' => Auth::id(),
         ]);
+
+        return new Domain($validated);
     }
 }

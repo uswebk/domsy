@@ -41,16 +41,7 @@ final class DomainStoreService
     }
 
     /**
-     * @param string $name
-     * @param string $price
-     * @param integer $userId
-     * @param integer $registrarId
-     * @param string $isActive
-     * @param string $isTransferred
-     * @param string $isManagementOnly
-     * @param string $purchasedAt
-     * @param string $expiredAt
-     * @param string|null $canceledAt
+     * @param \App\Infrastructures\Models\Eloquent\Domain $domainRequest
      *
      * @throws DomainExistsException
      * @throws NotOwnerException
@@ -58,23 +49,16 @@ final class DomainStoreService
      * @return void
      */
     public function handle(
-        string $name,
-        string $price,
-        int $userId,
-        int $registrarId,
-        string $isActive,
-        string $isTransferred,
-        string $isManagementOnly,
-        string $purchasedAt,
-        string $expiredAt,
-        ?string $canceledAt,
+        \App\Infrastructures\Models\Eloquent\Domain $domainRequest
     ): void {
+        $userId = $domainRequest->user_id;
+
         try {
-            if (! $this->domainNotExistsService->isNotExists($userId, $name)) {
+            if (! $this->domainNotExistsService->isNotExists($userId, $domainRequest->name)) {
                 throw new DomainExistsException();
             }
 
-            if (! $this->registrarHasService->isOwner($registrarId, $userId)) {
+            if (! $this->registrarHasService->isOwner($domainRequest->registrar_id, $userId)) {
                 throw new NotOwnerException();
             }
         } catch (DomainExistsException | NotOwnerException $e) {
@@ -86,21 +70,21 @@ final class DomainStoreService
         DB::beginTransaction();
         try {
             $domain = $this->domainRepository->store([
-                'name' => $name,
-                'price' => $price,
+                'name' => $domainRequest->name,
+                'price' => $domainRequest->price,
                 'user_id' => $userId,
-                'registrar_id' => $registrarId,
-                'is_active' => $isActive,
-                'is_transferred' => $isTransferred,
-                'is_management_only' => $isManagementOnly,
-                'purchased_at' => $purchasedAt,
-                'expired_at' => $expiredAt,
-                'canceled_at' => $canceledAt,
+                'registrar_id' => $domainRequest->registrar_id,
+                'is_active' => $domainRequest->is_active,
+                'is_transferred' => $domainRequest->is_transferred,
+                'is_management_only' => $domainRequest->is_management_only,
+                'purchased_at' => $domainRequest->purchased_at,
+                'expired_at' => $domainRequest->expired_at,
+                'canceled_at' => $domainRequest->canceled_at,
             ]);
 
             $this->subdomainRepository->store([
                 'domain_id' => $domain->id,
-                'subdomain' => null,
+                'subdomain' => '',
             ]);
 
             DB::commit();

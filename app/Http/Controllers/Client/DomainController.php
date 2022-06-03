@@ -89,19 +89,10 @@ class DomainController extends Controller
         StoreRequest $request,
         DomainStoreService $domainStoreService
     ) {
+        $domainRequest = $request->makeDto();
+
         try {
-            $domainStoreService->handle(
-                $request->name,
-                $request->price,
-                $request->user_id,
-                $request->registrar_id,
-                $request->is_active,
-                $request->is_transferred,
-                $request->is_management_only,
-                $request->purchased_at,
-                $request->expired_at,
-                $request->canceled_at,
-            );
+            $domainStoreService->handle($domainRequest);
         } catch (DomainExistsException $e) {
             return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, $e->getMessage());
         } catch (Exception $e) {

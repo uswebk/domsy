@@ -32,6 +32,8 @@ class Domain extends BaseModel
     ];
 
     protected $casts = [
+        'registrar_id' => 'integer',
+        'user_id' => 'integer',
         'is_active' => 'boolean',
         'is_transferred' => 'boolean',
         'is_management_only' => 'boolean',

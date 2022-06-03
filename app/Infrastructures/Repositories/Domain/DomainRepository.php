@@ -26,7 +26,9 @@ final class DomainRepository implements DomainRepositoryInterface
      */
     public function store(array $attributes): \App\Infrastructures\Models\Eloquent\Domain
     {
-        $domain = Domain::create($attributes);
+        $domain = new Domain();
+
+        $domain->fill($attributes)->save();
 
         return $domain;
     }
