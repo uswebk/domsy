@@ -18,6 +18,9 @@ class ClientController extends Controller
 
     protected $clientRepository;
 
+    /**
+     * @param ClientRepositoryInterface $clientRepository
+     */
     public function __construct(ClientRepositoryInterface $clientRepository)
     {
         parent::__construct();
@@ -27,27 +30,42 @@ class ClientController extends Controller
         $this->clientRepository = $clientRepository;
     }
 
-    public function index()
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
         $clients = Auth::user()->clients;
 
         return view('client.client.index', compact('clients'));
     }
 
-    public function new()
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function new(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
         return view('client.client.new');
     }
 
-    public function edit(Client $client)
+    /**
+     * @param Client $client
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function edit(Client $client): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
         return view('client.client.edit', compact('client'));
     }
 
+    /**
+     * @param UpdateRequest $request
+     * @param Client $client
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(
         UpdateRequest $request,
         Client $client
-    ) {
+    ): \Illuminate\Http\RedirectResponse {
         $attributes = $request->only([
             'name',
             'name_kana',
@@ -64,7 +82,11 @@ class ClientController extends Controller
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Client Update!!');
     }
 
-    public function store(StoreRequest $request)
+    /**
+     * @param StoreRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(StoreRequest $request): \Illuminate\Http\RedirectResponse
     {
         $attributes = $request->only([
             'name',
@@ -81,7 +103,11 @@ class ClientController extends Controller
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Client Create!!');
     }
 
-    public function delete(Client $client)
+    /**
+     * @param Client $client
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function delete(Client $client): \Illuminate\Http\RedirectResponse
     {
         $this->clientRepository->delete($client);
 

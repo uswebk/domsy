@@ -18,13 +18,13 @@
         {{ Form::hidden('domain_id', $domain->id) }}
 
         <div class='w-25 mt-2'>
-          <div class='form-label'>{{ Form::label('dns-subdomain', 'Subdomain') }}</div>
+          <div class='form-label'>{{ Form::label('dns-prefix', 'Subdomain') }}</div>
 
           <div>
-            {{ Form::text('subdomain', old('subdomain'), ['placeholder' => 'www','id' => 'dns-subdomain','class' => 'form-control']) }}
+            {{ Form::text('prefix', old('prefix'), ['placeholder' => 'www','id' => 'dns-prefix','class' => 'form-control']) }}
             .{{ $domain->name }}</div>
 
-          @error('subdomain')
+          @error('prefix')
             <div class='invalid-feedback d-block'>{{ $message }}</div>
           @enderror
         </div>

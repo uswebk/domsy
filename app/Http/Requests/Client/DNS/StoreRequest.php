@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Requests\Client\Dns;
 
 use App\Http\Requests\Request;
+use App\Infrastructures\Models\Eloquent\Subdomain;
 
 class StoreRequest extends Request
 {
+    /**
+     * @return array
+     */
     public function rules(): array
     {
         return [
@@ -19,10 +23,20 @@ class StoreRequest extends Request
             'priority' => 'nullable|integer',
         ];
     }
-    protected function passedValidation(): void
+
+    /**
+     * @return \App\Infrastructures\Models\Eloquent\Subdomain
+     */
+    public function makeDto(): \App\Infrastructures\Models\Eloquent\Subdomain
     {
-        $this->merge([
-            'domain_id' => (int) $this->domain_id,
-        ]);
+        $validated = $this->validated();
+
+        if (! isset($this->prefix)) {
+            $validated = array_merge($validated, [
+                'prefix' => '',
+            ]);
+        }
+
+        return new Subdomain($validated);
     }
 }

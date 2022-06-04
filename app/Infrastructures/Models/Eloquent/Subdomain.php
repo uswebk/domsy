@@ -15,6 +15,15 @@ class Subdomain extends BaseModel
         'priority',
     ];
 
+    protected $casts = [
+        'domain_id' => 'integer',
+        'prefix' => 'string',
+        'type_id' => 'integer',
+        'value' => 'string',
+        'ttl' => 'integer',
+        'priority' => 'integer',
+    ];
+
     protected $dates = [
         'updated_at',
         'created_at',
@@ -41,7 +50,7 @@ class Subdomain extends BaseModel
      */
     public function getFullDomainNameAttribute(): string
     {
-        if (isset($this->prefix)) {
+        if ($this->prefix !== '') {
             return $this->prefix . '.' . $this->domain->name;
         }
 
