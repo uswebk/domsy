@@ -6,6 +6,7 @@ namespace App\Services\Application\DataTransferObjects;
 
 use App\Infrastructures\Models\Eloquent\MailCategory;
 use App\Infrastructures\Models\Eloquent\UserMailSetting;
+
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,9 +22,9 @@ final class SettingSaveDto
     ) {
         $this->userMailSettings = new Collection();
 
-        $mailCategories = MailCategory::get();
-
         $mailSettingParameter = $saveRequest->request->all();
+
+        $mailCategories = MailCategory::get();
 
         foreach ($mailCategories as $mailCategory) {
             $parameter = [];

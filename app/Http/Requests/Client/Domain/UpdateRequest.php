@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Requests\Client\Domain;
 
 use App\Http\Requests\Request;
+use App\Infrastructures\Models\Eloquent\Domain;
 
 class UpdateRequest extends Request
 {
+    /**
+     * @return array
+     */
     public function rules(): array
     {
         return [
@@ -22,10 +26,16 @@ class UpdateRequest extends Request
             'canceled_at' => 'nullable|date_format:Y-m-d',
         ];
     }
-    protected function passedValidation(): void
+
+    /**
+     * @return \App\Infrastructures\Models\Eloquent\Domain
+     */
+    public function makeDto(): \App\Infrastructures\Models\Eloquent\Domain
     {
-        $this->merge([
-            'registrar_id' => (int) $this->registrar_id,
+        $validated = array_merge($this->validated(), [
+            'user_id' => Auth::id(),
         ]);
+
+        return new Domain($validated);
     }
 }

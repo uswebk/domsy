@@ -30,35 +30,19 @@ final class DomainUpdateService
     }
 
     /**
+     * @param \App\Infrastructures\Models\Eloquent\Domain $domainRequest
      * @param \App\Infrastructures\Models\Eloquent\Domain $domain
-     * @param string $name
-     * @param string $price
-     * @param integer $registrarId
-     * @param string $isActive
-     * @param string $isTransferred
-     * @param string $isManagementOnly
-     * @param string $purchasedAt
-     * @param string $expiredAt
-     * @param string|null $canceledAt
      *
      * @throws NotOwnerException
      *
      * @return void
      */
     public function handle(
-        \App\Infrastructures\Models\Eloquent\Domain $domain,
-        string $name,
-        string $price,
-        int $registrarId,
-        string $isActive,
-        string $isTransferred,
-        string $isManagementOnly,
-        string $purchasedAt,
-        string $expiredAt,
-        ?string $canceledAt,
+        \App\Infrastructures\Models\Eloquent\Domain $domainRequest,
+        \App\Infrastructures\Models\Eloquent\Domain $domain
     ): void {
         try {
-            if (!$this->registrarHasService->isOwner($registrarId, Auth::id())) {
+            if (!$this->registrarHasService->isOwner($domainRequest->registrar_id, Auth::id())) {
                 throw new NotOwnerException();
             }
         } catch (NotOwnerException $e) {
@@ -70,15 +54,15 @@ final class DomainUpdateService
         DB::beginTransaction();
         try {
             $domain->fill([
-                'name' => $name,
-                'price' => $price,
-                'registrar_id' => $registrarId,
-                'is_active' => $isActive,
-                'is_transferred' => $isTransferred,
-                'is_management_only' => $isManagementOnly,
-                'purchased_at' => $purchasedAt,
-                'expired_at' => $expiredAt,
-                'canceled_at' => $canceledAt,
+                'name' => $domainRequest->name,
+                'price' => $domainRequest->price,
+                'registrar_id' => $domainRequest->registrar_id,
+                'is_active' => $domainRequest->is_active,
+                'is_transferred' => $domainRequest->is_transferred,
+                'is_management_only' => $domainRequest->is_management_only,
+                'purchased_at' => $domainRequest->purchased_at,
+                'expired_at' => $domainRequest->expired_at,
+                'canceled_at' => $domainRequest->canceled_at,
             ]);
 
             $this->domainRepository->save($domain);

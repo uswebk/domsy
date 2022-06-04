@@ -23,6 +23,9 @@ class DomainController extends Controller
 
     protected const INDEX_ROUTE = 'domain.index';
 
+    /**
+     * @param DomainRepositoryInterface $domainRepository
+     */
     public function __construct(DomainRepositoryInterface $domainRepository)
     {
         parent::__construct();
@@ -42,41 +45,50 @@ class DomainController extends Controller
         $this->domainRepository = $domainRepository;
     }
 
-    public function index()
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
-        // Todo: Pagination
         $domains = Auth::user()->domains;
 
         return view('client.domain.index', compact('domains'));
     }
 
-    public function new()
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function new(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
         return view('client.domain.new');
     }
 
-    public function edit(Domain $domain)
+    /**
+     * @param Domain $domain
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function edit(Domain $domain): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
         return view('client.domain.edit', compact('domain'));
     }
 
+    /**
+     * @param UpdateRequest $request
+     * @param Domain $domain
+     * @param DomainUpdateService $domainUpdateService
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(
         UpdateRequest $request,
         Domain $domain,
         DomainUpdateService $domainUpdateService
-    ) {
+    ): \Illuminate\Http\RedirectResponse {
+        $domainRequest = $request->makeDto();
+
         try {
             $domainUpdateService->handle(
-                $domain,
-                $request->name,
-                $request->price,
-                $request->registrar_id,
-                $request->is_active,
-                $request->is_transferred,
-                $request->is_management_only,
-                $request->purchased_at,
-                $request->expired_at,
-                $request->canceled_at,
+                $domainRequest,
+                $domain
             );
         } catch (Exception $e) {
             return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Update');
@@ -85,10 +97,15 @@ class DomainController extends Controller
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Update Success!!');
     }
 
+    /**
+     * @param StoreRequest $request
+     * @param DomainStoreService $domainStoreService
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(
         StoreRequest $request,
         DomainStoreService $domainStoreService
-    ) {
+    ): \Illuminate\Http\RedirectResponse {
         $domainRequest = $request->makeDto();
 
         try {
@@ -102,7 +119,11 @@ class DomainController extends Controller
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Create Success!!');
     }
 
-    public function delete(Domain $domain)
+    /**
+     * @param Domain $domain
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function delete(Domain $domain): \Illuminate\Http\RedirectResponse
     {
         $this->domainRepository->delete($domain);
 
