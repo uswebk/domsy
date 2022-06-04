@@ -10,10 +10,6 @@ class UserMailSetting extends BaseModel
 {
     use HasFactory;
 
-    // protected $primaryKey = null;
-
-    // public $incrementing = false;
-
     protected $fillable = [
         'user_id',
         'mail_category_id',
@@ -32,8 +28,6 @@ class UserMailSetting extends BaseModel
         'notice_number_days' => 'integer',
         'is_received' => 'boolean',
     ];
-
-    protected const DEFAULT_NOTICE_NUMBER_DAYS = 90;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -57,13 +51,5 @@ class UserMailSetting extends BaseModel
     public function isRejection(): bool
     {
         return ! $this->is_received;
-    }
-
-    /**
-     * @return integer
-     */
-    public static function getDefaultNoticeNumberDays(): int
-    {
-        return self::DEFAULT_NOTICE_NUMBER_DAYS;
     }
 }

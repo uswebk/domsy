@@ -20,6 +20,7 @@ class CreateMailCategoriesTable extends Migration
             $table->string('name')->comment('メールカテゴリ名');
             $table->string('annotation')->comment('メールカテゴリ注釈');
             $table->boolean('is_specify_number_days')->comment('日数指定可能');
+            $table->integer('default_days')->comment('メール通知標準値');
             $table->integer('sort')->comment('並び順');
         });
     }

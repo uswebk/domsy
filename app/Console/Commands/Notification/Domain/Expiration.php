@@ -6,12 +6,12 @@ namespace App\Console\Commands\Notification\Domain;
 
 use App\Services\Application\Commands\Notification\Domain\ExpirationService;
 
+use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
 
 class Expiration extends Command
 {
-    protected $signature = 'notification:domain_expiration {targetDate?}';
+    protected $signature = 'notification:domain_expiration {executeDate?}';
 
     protected $expirationService;
 
@@ -30,14 +30,14 @@ class Expiration extends Command
      */
     public function handle(): void
     {
-        $targetDateArgument = $this->argument('targetDate');
+        $executeDateArgument = $this->argument('executeDate');
 
-        if (isset($targetDateArgument)) {
-            $targetDate = new Carbon($targetDateArgument);
+        if (isset($executeDateArgument)) {
+            $executeDate = new Carbon($executeDateArgument);
         } else {
-            $targetDate = new Carbon();
+            $executeDate = new Carbon();
         }
 
-        $this->expirationService->handle($targetDate);
+        $this->expirationService->handle($executeDate);
     }
 }

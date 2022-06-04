@@ -16,6 +16,7 @@ class MailCategory extends BaseModel
         'name',
         'annotation',
         'is_specify_number_days',
+        'default_days',
         'sort',
     ];
 
@@ -23,6 +24,7 @@ class MailCategory extends BaseModel
         'name' => 'string',
         'annotation' => 'string',
         'is_specify_number_days' => 'boolean',
+        'default_days' => 'integer',
         'sort' => 'integer',
     ];
 

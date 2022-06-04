@@ -120,6 +120,8 @@ class User extends Authenticatable implements MustVerifyEmail
             return $mailSetting->notice_number_days;
         }
 
-        return UserMailSetting::getDefaultNoticeNumberDays();
+        $mailCategory = MailCategory::find($mailCategoryId);
+
+        return $mailCategory->default_days;
     }
 }

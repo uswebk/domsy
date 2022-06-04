@@ -19,6 +19,7 @@ class MailCategorySeeder extends Seeder
             'name' => 'notification',
             'annotation' => 'お知らせ',
             'is_specify_number_days' => false,
+            'default_days' => 0,
             'sort' => 10,
         ]);
         MailCategory::create([
@@ -26,6 +27,7 @@ class MailCategorySeeder extends Seeder
             'name' => 'domain_expiration',
             'annotation' => 'ドメイン有効期限',
             'is_specify_number_days' => true,
+            'default_days' => 90,
             'sort' => 20,
         ]);
     }

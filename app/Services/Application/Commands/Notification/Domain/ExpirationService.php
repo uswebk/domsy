@@ -25,10 +25,10 @@ final class ExpirationService
     }
 
     /**
-     * @param \Illuminate\Support\Carbon $targetDate
+     * @param \Carbon\Carbon $executeDate
      * @return void
      */
-    public function handle(\Illuminate\Support\Carbon $targetDate): void
+    public function handle(\Carbon\Carbon $executeDate): void
     {
         $users = $this->eloquentUserQueryService->getByDeletedAtNull();
         foreach ($users as $user) {
@@ -45,9 +45,10 @@ final class ExpirationService
             $domainExpirationList = new Collection();
 
             $domainNoticeNumberDays = $domainExpirationMailSetting->notice_number_days;
-            $notificationDate = $targetDate->addDays($domainNoticeNumberDays);
+            $notificationDate = $executeDate->copy()->addDays($domainNoticeNumberDays);
 
             $domains = $user->domains;
+
             foreach ($domains as $domain) {
                 if (! $domain->isExpirationDateByTargetDate($notificationDate)) {
                     continue;
