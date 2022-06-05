@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application\DataTransferObjects;
+namespace App\DataTransferObjects\Services\Application;
 
 use App\Infrastructures\Models\Eloquent\MailCategory;
 use App\Infrastructures\Models\Eloquent\UserMailSetting;

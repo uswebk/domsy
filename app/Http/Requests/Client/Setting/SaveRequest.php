@@ -4,20 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Client\Setting;
 
+use App\DataTransferObjects\Services\Application\SettingSaveDto;
+
 use App\Http\Requests\Request;
-use App\Services\Application\DataTransferObjects\SettingSaveDto;
 
 class SaveRequest extends Request
 {
-    public function rules()
+    /**
+     * @return array
+     */
+    public function rules(): array
     {
         return [];
     }
 
     /**
-     * @return \App\Services\Application\DataTransferObjects\SettingSaveDto
+     * @return \App\DataTransferObjects\Services\Application\SettingSaveDto
      */
-    public function makeDto(): \App\Services\Application\DataTransferObjects\SettingSaveDto
+    public function makeDto(): \App\DataTransferObjects\Services\Application\SettingSaveDto
     {
         return new SettingSaveDto($this);
     }
