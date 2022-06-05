@@ -6,8 +6,10 @@ namespace App\Providers;
 
 use App\Infrastructures\Repositories\Client\ClientRepository;
 use App\Infrastructures\Repositories\Client\ClientRepositoryInterface;
-use App\Infrastructures\Repositories\Dealing\Domain\DealingRepository;
-use App\Infrastructures\Repositories\Dealing\Domain\DealingRepositoryInterface;
+use App\Infrastructures\Repositories\Domain\Billing\BillingRepository;
+use App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface;
+use App\Infrastructures\Repositories\Domain\Dealing\DealingRepository;
+use App\Infrastructures\Repositories\Domain\Dealing\DealingRepositoryInterface;
 use App\Infrastructures\Repositories\Domain\DomainRepository;
 use App\Infrastructures\Repositories\Domain\DomainRepositoryInterface;
 use App\Infrastructures\Repositories\Registrar\RegistrarRepository;
@@ -38,6 +40,10 @@ final class RepositoryProvider extends ServiceProvider
 
         $this->app->bind(DealingRepositoryInterface::class, function () {
             return new DealingRepository();
+        });
+
+        $this->app->bind(BillingRepositoryInterface::class, function () {
+            return new BillingRepository();
         });
 
         $this->app->bind(DomainRepositoryInterface::class, function () {

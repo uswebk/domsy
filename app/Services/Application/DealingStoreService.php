@@ -9,11 +9,15 @@ use App\Exceptions\Client\NotOwnerException;
 
 use Exception;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 final class DealingStoreService
 {
     private $dealingRepository;
+
+    private $billingRepository;
 
     private $clientHasService;
 
@@ -22,16 +26,19 @@ final class DealingStoreService
     private $userId;
 
     /**
-     * @param \App\Infrastructures\Repositories\Dealing\Domain\DealingRepositoryInterface $dealingRepository
+     * @param \App\Infrastructures\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
+     * @param \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
      * @param \App\Services\Domain\Client\HasService $clientHasService
      * @param \App\Services\Domain\Domain\ExistsService $domainExistsService
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Dealing\Domain\DealingRepositoryInterface $dealingRepository,
+        \App\Infrastructures\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository,
+        \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository,
         \App\Services\Domain\Client\HasService $clientHasService,
         \App\Services\Domain\Domain\ExistsService $domainExistsService
     ) {
         $this->dealingRepository = $dealingRepository;
+        $this->billingRepository = $billingRepository;
         $this->clientHasService = $clientHasService;
         $this->domainExistsService = $domainExistsService;
 
@@ -57,7 +64,14 @@ final class DealingStoreService
             if (! $this->domainExistsService->exists($domainDealingRequest->domain_id, $this->userId)) {
                 throw new DomainNotExistsException();
             }
+        } catch (NotOwnerException | DomainNotExistsException $e) {
+            Log::info($e->getMessage());
 
+            throw $e;
+        }
+
+        DB::beginTransaction();
+        try {
             $domainDealing = $this->dealingRepository->store([
                 'user_id' => $this->userId,
                 'domain_id' => $domainDealingRequest->domain_id,
@@ -69,11 +83,19 @@ final class DealingStoreService
                 'interval_category' => $domainDealingRequest->interval_category,
                 'is_auto_update' => $domainDealingRequest->is_auto_update,
             ]);
-        } catch (NotOwnerException | DomainNotExistsException $e) {
-            Log::info($e->getMessage());
 
-            throw $e;
+            $this->billingRepository->store([
+                'dealing_id' => $domainDealing->id,
+                'total' => $domainDealing->getBillingAmount(),
+                'billing_date' => $domainDealing->getNextBillingDate(),
+                'is_fixed' => false,
+                'changed_at' => null,
+            ]);
+
+            DB::commit();
         } catch (Exception $e) {
+            DB::rollback();
+
             throw $e;
         }
     }

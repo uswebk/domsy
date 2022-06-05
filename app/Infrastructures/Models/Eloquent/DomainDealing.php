@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
+use App\Infrastructures\Models\Interval;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DomainDealing extends BaseModel
@@ -71,5 +72,25 @@ class DomainDealing extends BaseModel
     public function isUnclaimed(): bool
     {
         return ! $this->isBilled();
+    }
+
+    /**
+     * @return integer
+     */
+    public function getBillingAmount(): int
+    {
+        return $this->subtotal - $this->discount;
+    }
+
+    /**
+     * @return \Carbon\Carbon
+     */
+    public function getNextBillingDate(): \Carbon\Carbon
+    {
+        return Interval::getDateByIntervalIntervalCategory(
+            $this->billing_date,
+            $this->interval,
+            $this->interval_category
+        );
     }
 }

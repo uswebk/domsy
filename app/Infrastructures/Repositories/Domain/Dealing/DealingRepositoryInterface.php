@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructures\Repositories\Dealing;
+namespace App\Infrastructures\Repositories\Domain\Dealing;
 
 interface DealingRepositoryInterface
 {

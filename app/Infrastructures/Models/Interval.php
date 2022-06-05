@@ -28,4 +28,32 @@ final class Interval
     {
         return self::INTERVAL_LIST;
     }
+
+    /**
+     * @param \Carbon\Carbon $targetDate
+     * @param integer $interval
+     * @param string $intervalCategory
+     * @return \Carbon\Carbon
+     */
+    public static function getDateByIntervalIntervalCategory(
+        \Carbon\Carbon $targetDate,
+        int $interval,
+        string $intervalCategory
+    ): \Carbon\Carbon {
+        if ($intervalCategory == 'DAY') {
+            return $targetDate->addDays($interval);
+        }
+
+        if ($intervalCategory == 'WEEK') {
+            return $targetDate->addWeeks($interval);
+        }
+
+        if ($intervalCategory == 'MONTH') {
+            return $targetDate->addMonths($interval);
+        }
+
+        if ($intervalCategory == 'YEAR') {
+            return $targetDate->addYears($interval);
+        }
+    }
 }
