@@ -20,6 +20,7 @@ class UpdateRequest extends Request
             'interval' => 'required|integer',
             'interval_category' => Rule::in(array_keys(Interval::getIntervalList())),
             'is_auto_update' => 'required|boolean',
+            'is_halt' => 'required|boolean',
         ];
     }
 

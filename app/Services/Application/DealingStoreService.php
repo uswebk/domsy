@@ -82,6 +82,7 @@ final class DealingStoreService
                 'interval' => $domainDealingRequest->interval,
                 'interval_category' => $domainDealingRequest->interval_category,
                 'is_auto_update' => $domainDealingRequest->is_auto_update,
+                'is_halt' => $domainDealingRequest->is_halt,
             ]);
 
             $this->billingRepository->store([

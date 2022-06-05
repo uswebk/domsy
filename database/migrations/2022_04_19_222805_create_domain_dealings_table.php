@@ -23,6 +23,7 @@ class CreateDomainDealingsTable extends Migration
             $table->unsignedInteger('interval');
             $table->enum('interval_category', ['DAY', 'WEEK', 'MONTH', 'YEAR'])->comment('請求間隔');
             $table->boolean('is_auto_update')->comment('請求情報自動更新可否');
+            $table->boolean('is_halt')->comment('取引停止');
             $table->dateTime('updated_at')->comment('更新日');
             $table->dateTime('created_at')->comment('登録日');
 

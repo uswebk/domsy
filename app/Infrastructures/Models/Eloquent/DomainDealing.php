@@ -21,6 +21,7 @@ class DomainDealing extends BaseModel
         'interval',
         'interval_category',
         'is_auto_update',
+        'is_halt',
     ];
 
     protected $casts = [
@@ -33,7 +34,7 @@ class DomainDealing extends BaseModel
         'interval' => 'integer',
         'interval_category' => 'string',
         'is_auto_update' => 'boolean',
-
+        'is_halt' => 'boolean',
     ];
 
     protected $dates = [

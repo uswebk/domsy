@@ -100,6 +100,16 @@
       @enderror
     </div>
 
+    <div class='mt-2'>
+      {{ Form::hidden('is_halt', 0) }}
+      {{ Form::checkbox('is_halt', '1', old('is_halt', 0), ['id' => 'dealing-is_halt','class' => 'form-check-input']) }}
+      {{ Form::label('dealing-is_halt', 'Halt') }}
+
+      @error('is_halt')
+        <div class='invalid-feedback d-block'>{{ $message }}</div>
+      @enderror
+    </div>
+
     <div class='mt-5'>
       {{ Form::button('Create', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
       <div>
