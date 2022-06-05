@@ -20,7 +20,7 @@ class CreateDomainDealingsTable extends Migration
             $table->decimal('subtotal', 10, 0)->default(0);
             $table->decimal('discount', 10, 0)->default(0);
             $table->dateTime('billing_date')->comment('請求日');
-            $table->tinyInteger('interval');
+            $table->unsignedInteger('interval');
             $table->enum('interval_category', ['DAY', 'WEEK', 'MONTH', 'YEAR'])->comment('請求間隔');
             $table->boolean('is_auto_update')->comment('請求情報自動更新可否');
             $table->dateTime('updated_at')->comment('更新日');

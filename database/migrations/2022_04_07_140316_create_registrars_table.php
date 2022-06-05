@@ -17,8 +17,8 @@ class CreateRegistrarsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->comment('ユーザーID');
             $table->string('name')->comment('レジストラ名');
-            $table->string('link')->nullable()->comment('レジストラURL');
-            $table->text('note')->nullable()->comment('備考');
+            $table->string('link')->default('')->comment('レジストラURL');
+            $table->text('note')->comment('備考');
             $table->dateTime('updated_at')->comment('更新日');
             $table->dateTime('created_at')->comment('登録日');
 
