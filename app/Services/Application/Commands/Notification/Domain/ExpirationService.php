@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Commands\Notification\Domain;
 
-use Illuminate\Database\Eloquent\Collection;
+use App\Services\Domain\UserMailSetting\Domain\GetNotificationService;
 
 final class ExpirationService
 {
@@ -30,7 +30,8 @@ final class ExpirationService
      */
     public function handle(\Carbon\Carbon $executeDate): void
     {
-        $users = $this->eloquentUserQueryService->getByDeletedAtNull();
+        $users = $this->eloquentUserQueryService->getActiveUsers();
+
         foreach ($users as $user) {
             $domainExpirationMailSetting = $user->getReceiveDomainExpirationMailSetting();
 
@@ -42,27 +43,16 @@ final class ExpirationService
                 continue;
             }
 
-            $domainExpirationList = new Collection();
+            $getNotificationService = new GetNotificationService(
+                $domainExpirationMailSetting,
+                $user,
+                $executeDate
+            );
 
-            $domainNoticeNumberDays = $domainExpirationMailSetting->notice_number_days;
-            $notificationDate = $executeDate->copy()->addDays($domainNoticeNumberDays);
+            $notificationDomains = $getNotificationService->getDomains();
 
-            $domains = $user->domains;
-
-            foreach ($domains as $domain) {
-                if (! $domain->isExpirationDateByTargetDate($notificationDate)) {
-                    continue;
-                }
-
-                if (! $domain->isOwned()) {
-                    continue;
-                }
-
-                $domainExpirationList->push($domain);
-            }
-
-            if ($domainExpirationList->isNotEmpty()) {
-                $this->domainExpirationService->execute($user, $domainExpirationList, $domainNoticeNumberDays);
+            if ($notificationDomains->isNotEmpty()) {
+                $this->domainExpirationService->execute($user, $notificationDomains, $domainExpirationMailSetting->notice_number_days);
             }
         }
     }

@@ -77,16 +77,16 @@ class Domain extends BaseModel
     }
 
     /**
-     * @param \Illuminate\Support\Carbon $targetDatetime
+     * @param \Carbon\Carbon $targetDatetime
      * @return boolean
      */
     public function isExpirationDateByTargetDate(
-        \Illuminate\Support\Carbon $targetDatetime
+        \Carbon\Carbon $targetDate
     ): bool {
-        $targetDatetime = $targetDatetime->copy()->startOfDay();
-        $expirationDatetime = $this->expired_at->copy()->startOfDay();
+        $targetStartDate = $targetDate->copy()->startOfDay();
+        $expirationStartDate = $this->expired_at->copy()->startOfDay();
 
-        return $expirationDatetime->eq($targetDatetime);
+        return $expirationStartDate->eq($targetStartDate);
     }
 
     /**

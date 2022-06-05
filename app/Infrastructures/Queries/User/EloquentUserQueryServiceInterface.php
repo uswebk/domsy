@@ -9,7 +9,7 @@ interface EloquentUserQueryServiceInterface
     /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getByDeletedAtNull(): \Illuminate\Database\Eloquent\Collection;
+    public function getActiveUsers(): \Illuminate\Database\Eloquent\Collection;
 
     /**
      * @param integer $id
