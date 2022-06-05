@@ -23,12 +23,12 @@ final class DealingUpdateService
     private $userId;
 
     /**
-     * @param \App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface $dealingRepository
+     * @param \App\Infrastructures\Repositories\Dealing\Domain\DealingRepositoryInterface $dealingRepository
      * @param \App\Services\Domain\Client\HasService $clientHasService
      * @param \App\Services\Domain\Domain\ExistsService $domainExistsService
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface $dealingRepository,
+        \App\Infrastructures\Repositories\Dealing\Domain\DealingRepositoryInterface $dealingRepository,
         \App\Services\Domain\Client\HasService $clientHasService,
         \App\Services\Domain\Domain\ExistsService $domainExistsService
     ) {

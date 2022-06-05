@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Repositories\Dealing;
 
-interface DomainDealingRepositoryInterface
+interface DealingRepositoryInterface
 {
     /**
      * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing

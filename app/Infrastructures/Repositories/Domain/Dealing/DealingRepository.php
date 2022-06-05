@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructures\Repositories\Dealing;
+namespace App\Infrastructures\Repositories\Domain\Dealing;
 
 use App\Infrastructures\Models\Eloquent\DomainDealing;
 
-final class DomainDealingRepository implements DomainDealingRepositoryInterface
+final class DealingRepository implements DealingRepositoryInterface
 {
     /**
      * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing

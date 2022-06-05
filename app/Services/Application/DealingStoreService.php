@@ -22,12 +22,12 @@ final class DealingStoreService
     private $userId;
 
     /**
-     * @param \App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface $dealingRepository
+     * @param \App\Infrastructures\Repositories\Dealing\Domain\DealingRepositoryInterface $dealingRepository
      * @param \App\Services\Domain\Client\HasService $clientHasService
      * @param \App\Services\Domain\Domain\ExistsService $domainExistsService
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Dealing\DomainDealingRepositoryInterface $dealingRepository,
+        \App\Infrastructures\Repositories\Dealing\Domain\DealingRepositoryInterface $dealingRepository,
         \App\Services\Domain\Client\HasService $clientHasService,
         \App\Services\Domain\Domain\ExistsService $domainExistsService
     ) {
@@ -47,27 +47,27 @@ final class DealingStoreService
       * @return void
       */
     public function handle(
-        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
+        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealingRequest
     ): void {
         try {
-            if (! $this->clientHasService->isOwner($domainDealing->client_id, $this->userId)) {
+            if (! $this->clientHasService->isOwner($domainDealingRequest->client_id, $this->userId)) {
                 throw new NotOwnerException();
             }
 
-            if (! $this->domainExistsService->exists($domainDealing->domain_id, $this->userId)) {
+            if (! $this->domainExistsService->exists($domainDealingRequest->domain_id, $this->userId)) {
                 throw new DomainNotExistsException();
             }
 
-            $this->dealingRepository->store([
+            $domainDealing = $this->dealingRepository->store([
                 'user_id' => $this->userId,
-                'domain_id' => $domainDealing->domain_id,
-                'client_id' => $domainDealing->client_id,
-                'subtotal' => $domainDealing->subtotal,
-                'discount' => $domainDealing->discount,
-                'billing_date' => $domainDealing->billing_date,
-                'interval' => $domainDealing->interval,
-                'interval_category' => $domainDealing->interval_category,
-                'is_auto_update' => $domainDealing->is_auto_update,
+                'domain_id' => $domainDealingRequest->domain_id,
+                'client_id' => $domainDealingRequest->client_id,
+                'subtotal' => $domainDealingRequest->subtotal,
+                'discount' => $domainDealingRequest->discount,
+                'billing_date' => $domainDealingRequest->billing_date,
+                'interval' => $domainDealingRequest->interval,
+                'interval_category' => $domainDealingRequest->interval_category,
+                'is_auto_update' => $domainDealingRequest->is_auto_update,
             ]);
         } catch (NotOwnerException | DomainNotExistsException $e) {
             Log::info($e->getMessage());
