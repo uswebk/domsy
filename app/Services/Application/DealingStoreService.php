@@ -46,7 +46,7 @@ final class DealingStoreService
     }
 
     /**
-      * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
+      * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealingRequest
       *
       * @throws NotFoundException
       * @throws DomainNotExistsException

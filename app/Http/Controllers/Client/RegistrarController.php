@@ -66,6 +66,8 @@ class RegistrarController extends Controller
 
     public function store(StoreRequest $request)
     {
+
+        // Todo: make DTO
         $attributes = $request->only([
             'name',
             'user_id',

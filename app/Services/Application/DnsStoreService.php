@@ -28,16 +28,16 @@ final class DnsStoreService
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomainRequest
      *
      * @throws DomainNotExistsException
      *
      * @return void
      */
     public function handle(
-        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+        \App\Infrastructures\Models\Eloquent\Subdomain $subdomainRequest
     ): void {
-        $domainId = $subdomain->domain_id;
+        $domainId = $subdomainRequest->domain_id;
 
         try {
             if (! $this->domainExistsService->exists($domainId, Auth::id())) {
@@ -45,12 +45,12 @@ final class DnsStoreService
             }
 
             $this->subdomainRepository->store([
-                'prefix' => $subdomain->prefix,
+                'prefix' => $subdomainRequest->prefix,
                 'domain_id' => $domainId,
-                'type_id' => $subdomain->type_id,
-                'value' => $subdomain->value,
-                'ttl' => $subdomain->ttl,
-                'priority' => $subdomain->priority,
+                'type_id' => $subdomainRequest->type_id,
+                'value' => $subdomainRequest->value,
+                'ttl' => $subdomainRequest->ttl,
+                'priority' => $subdomainRequest->priority,
             ]);
         } catch (DomainNotExistsException $e) {
             Log::info($e->getMessage());
