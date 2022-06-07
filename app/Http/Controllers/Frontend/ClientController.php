@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\Client\StoreRequest;
-use App\Http\Requests\Client\Client\UpdateRequest;
+use App\Http\Requests\Frontend\Client\StoreRequest;
+use App\Http\Requests\Frontend\Client\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Client;
 use App\Infrastructures\Repositories\Client\ClientRepositoryInterface;
 

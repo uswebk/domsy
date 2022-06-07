@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\Dealing\StoreRequest;
-use App\Http\Requests\Client\Dealing\UpdateRequest;
+use App\Http\Requests\Frontend\Dealing\StoreRequest;
+use App\Http\Requests\Frontend\Dealing\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\DomainDealing;
 use App\Infrastructures\Models\Interval;
 use App\Services\Application\DealingStoreService;

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\Registrar\StoreRequest;
-use App\Http\Requests\Client\Registrar\UpdateRequest;
+use App\Http\Requests\Frontend\Registrar\StoreRequest;
+use App\Http\Requests\Frontend\Registrar\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Registrar;
 use App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface;
 use Illuminate\Support\Facades\Auth;

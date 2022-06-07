@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Client\Registrar;
+namespace App\Http\Requests\Frontend\Registrar;
 
 use App\Http\Requests\Request;
+use Illuminate\Support\Facades\Auth;
 
-class UpdateRequest extends Request
+class StoreRequest extends Request
 {
     public function rules(): array
     {
@@ -15,5 +16,12 @@ class UpdateRequest extends Request
             'link' => 'nullable|string',
             'note' => 'nullable|string',
         ];
+    }
+
+    protected function passedValidation(): void
+    {
+        $this->merge([
+            'user_id' => Auth::id(),
+        ]);
     }
 }

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Domain;
 
-use App\Exceptions\Client\DomainNotExistsException;
-
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class ExistsService
@@ -32,7 +30,6 @@ final class ExistsService
             $this->eloquentDomainQueryService->getFirstByIdUserId($domainId, $userId);
         } catch (ModelNotFoundException $e) {
             return false;
-            // throw new DomainNotExistsException();
         }
 
         return true;

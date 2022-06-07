@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Client\Dns;
+namespace App\Http\Requests\Frontend\Dns;
 
 use App\Http\Requests\Request;
 

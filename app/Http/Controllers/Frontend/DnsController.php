@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Frontend;
 
-use App\Exceptions\Client\DomainNotExistsException;
+use App\Exceptions\Frontend\DomainNotExistsException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\Dns\StoreRequest;
-use App\Http\Requests\Client\Dns\UpdateRequest;
+use App\Http\Requests\Frontend\Dns\StoreRequest;
+use App\Http\Requests\Frontend\Dns\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Domain;
 use App\Infrastructures\Models\Eloquent\Subdomain;
 use App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface;

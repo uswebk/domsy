@@ -15,10 +15,10 @@ final class SettingSaveDto
     public $userMailSettings;
 
     /**
-     * @param \App\Http\Requests\Client\Setting\SaveRequest $saveRequest
+     * @param \App\Http\Requests\Frontend\Setting\SaveRequest $saveRequest
      */
     public function __construct(
-        \App\Http\Requests\Client\Setting\SaveRequest $saveRequest
+        \App\Http\Requests\Frontend\Setting\SaveRequest $saveRequest
     ) {
         $this->userMailSettings = new Collection();
 

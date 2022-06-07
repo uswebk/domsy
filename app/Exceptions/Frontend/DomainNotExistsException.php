@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Exceptions\Client;
+namespace App\Exceptions\Frontend;
 
 use Exception;
 
-class DomainNotExistsException extends Exception
+final class DomainNotExistsException extends Exception
 {
     public $message;
 

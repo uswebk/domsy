@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Client\Setting;
+namespace App\Http\Requests\Frontend\Setting;
 
 use App\Http\Requests\Request;
 

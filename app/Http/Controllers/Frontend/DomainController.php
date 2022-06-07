@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Frontend;
 
-use App\Exceptions\Client\DomainExistsException;
+use App\Exceptions\Frontend\DomainExistsException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\Domain\StoreRequest;
-use App\Http\Requests\Client\Domain\UpdateRequest;
+use App\Http\Requests\Frontend\Domain\StoreRequest;
+use App\Http\Requests\Frontend\Domain\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Domain;
 use App\Infrastructures\Repositories\Domain\DomainRepositoryInterface;
 use App\Services\Application\DomainStoreService;

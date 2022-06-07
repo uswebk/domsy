@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
-use App\Exceptions\Client\NotOwnerException;
+use App\Exceptions\Frontend\NotOwnerException;
 
 use Exception;
 

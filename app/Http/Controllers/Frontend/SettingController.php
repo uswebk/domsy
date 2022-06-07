@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Client;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Client\Setting\SaveRequest;
+use App\Http\Requests\Frontend\Setting\SaveRequest;
 
 use App\Infrastructures\Models\Eloquent\MailCategory;
 use App\Services\Application\SettingSaveService;

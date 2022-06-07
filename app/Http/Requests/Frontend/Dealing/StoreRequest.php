@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Client\Dealing;
+namespace App\Http\Requests\Frontend\Dealing;
 
 use App\Http\Requests\Request;
 use App\Infrastructures\Models\Eloquent\DomainDealing;

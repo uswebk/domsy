@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Client\Domain;
+namespace App\Http\Requests\Frontend\Domain;
 
 use App\Http\Requests\Request;
 use App\Infrastructures\Models\Eloquent\Domain;
 
-class UpdateRequest extends Request
+use Illuminate\Support\Facades\Auth;
+
+class StoreRequest extends Request
 {
     /**
      * @return array
