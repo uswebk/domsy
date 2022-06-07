@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\DataTransferObjects\Services\Application;
+namespace App\Services\Application\InputData;
 
 use App\Infrastructures\Models\Eloquent\MailCategory;
 use App\Infrastructures\Models\Eloquent\UserMailSetting;
@@ -27,8 +27,6 @@ final class SettingSaveDto
         $mailCategories = MailCategory::get();
 
         foreach ($mailCategories as $mailCategory) {
-            $parameter = [];
-
             $parameter = array_merge($mailSettingParameter[$mailCategory->name], [
                 'user_id' => Auth::id(),
                 'mail_category_id' => $mailCategory->id,

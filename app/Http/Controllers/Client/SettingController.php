@@ -41,10 +41,10 @@ class SettingController extends Controller
         SaveRequest $request,
         SettingSaveService $settingSaveService
     ): \Illuminate\Http\RedirectResponse {
-        $settingSaveDto = $request->makeDto();
+        $settingSaveRequest = $request->makeInput();
 
         try {
-            $settingSaveService->handle($settingSaveDto);
+            $settingSaveService->handle($settingSaveRequest);
         } catch (Exception $e) {
             return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Update');
         }
