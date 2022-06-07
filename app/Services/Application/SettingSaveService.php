@@ -18,13 +18,13 @@ final class SettingSaveService
     }
 
     /**
-     * @param \App\Services\Application\DataTransferObjects\SettingSaveDto $settingSaveDto
+     * @param \App\Services\Application\InputData\SettingSaveRequest $settingSaveRequest
      * @return void
      */
     public function handle(
-        \App\Services\Application\DataTransferObjects\SettingSaveDto $settingSaveDto
+        \App\Services\Application\InputData\SettingSaveRequest $settingSaveRequest
     ): void {
-        foreach ($settingSaveDto->userMailSettings as $userMailSetting) {
+        foreach ($settingSaveRequest->userMailSettings as $userMailSetting) {
             $this->userMailSettingRepository->updateOfUserIdAndMailCategoryIdEqual(
                 $userMailSetting->user_id,
                 $userMailSetting->mail_category_id,

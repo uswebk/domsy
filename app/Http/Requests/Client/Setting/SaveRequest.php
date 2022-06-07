@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Client\Setting;
 
-use App\DataTransferObjects\Services\Application\SettingSaveDto;
-
 use App\Http\Requests\Request;
+
+use App\Services\Application\InputData\SettingSaveRequest;
 
 class SaveRequest extends Request
 {
@@ -19,10 +19,10 @@ class SaveRequest extends Request
     }
 
     /**
-     * @return \App\DataTransferObjects\Services\Application\SettingSaveDto
+     * @return \App\Services\Application\InputData\SettingSaveRequest
      */
-    public function makeDto(): \App\DataTransferObjects\Services\Application\SettingSaveDto
+    public function makeInput(): \App\Services\Application\InputData\SettingSaveRequest
     {
-        return new SettingSaveDto($this);
+        return new SettingSaveRequest($this);
     }
 }
