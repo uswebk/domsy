@@ -30,7 +30,7 @@ class UpdateRequest extends Request
     /**
      * @return \App\Infrastructures\Models\Eloquent\Domain
      */
-    public function makeDto(): \App\Infrastructures\Models\Eloquent\Domain
+    public function makeInput(): \App\Infrastructures\Models\Eloquent\Domain
     {
         $validated = array_merge($this->validated(), [
             'user_id' => Auth::id(),

@@ -55,7 +55,7 @@ class UpdateRequest extends Request
     /**
      * @return \App\Infrastructures\Models\Eloquent\DomainDealing
      */
-    public function makeDto(): \App\Infrastructures\Models\Eloquent\DomainDealing
+    public function makeInput(): \App\Infrastructures\Models\Eloquent\DomainDealing
     {
         $validated = $this->validated();
 

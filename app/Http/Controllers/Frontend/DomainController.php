@@ -83,8 +83,7 @@ class DomainController extends Controller
         Domain $domain,
         DomainUpdateService $domainUpdateService
     ): \Illuminate\Http\RedirectResponse {
-        $domainRequest = $request->makeDto();
-
+        $domainRequest = $request->makeInput();
         try {
             $domainUpdateService->handle(
                 $domainRequest,
@@ -106,8 +105,7 @@ class DomainController extends Controller
         StoreRequest $request,
         DomainStoreService $domainStoreService
     ): \Illuminate\Http\RedirectResponse {
-        $domainRequest = $request->makeDto();
-
+        $domainRequest = $request->makeInput();
         try {
             $domainStoreService->handle($domainRequest);
         } catch (DomainExistsException $e) {

@@ -12,7 +12,7 @@ final class DateHelper
      * @param \Carbon\Carbon $date
      * @return string
      */
-    public static function getFormattedDateSlashSlash(\Carbon\Carbon $date): string
+    public static function getFormattedDateSlash(\Carbon\Carbon $date): string
     {
         return (Carbon::parse($date))->format('Y/m/d');
     }
@@ -21,7 +21,7 @@ final class DateHelper
      * @param \Carbon\Carbon $date
      * @return string
      */
-    public static function getFormattedDateSlashHyphen(\Carbon\Carbon $date): string
+    public static function getFormattedDateHyphen(\Carbon\Carbon $date): string
     {
         return (Carbon::parse($date))->format('Y-m-d');
     }

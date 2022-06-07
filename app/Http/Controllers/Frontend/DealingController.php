@@ -84,8 +84,7 @@ class DealingController extends Controller
         DomainDealing $domainDealing,
         DealingUpdateService $dealingUpdateService
     ): \Illuminate\Http\RedirectResponse {
-        $domainDealingRequest = $request->makeDto();
-
+        $domainDealingRequest = $request->makeInput();
         try {
             $dealingUpdateService->handle($domainDealingRequest, $domainDealing);
         } catch (Exception $e) {
@@ -104,8 +103,7 @@ class DealingController extends Controller
         StoreRequest $request,
         DealingStoreService $dealingStoreService
     ): \Illuminate\Http\RedirectResponse {
-        $domainDealingRequest = $request->makeDto();
-
+        $domainDealingRequest = $request->makeInput();
         try {
             $dealingStoreService->handle($domainDealingRequest);
         } catch (Exception $e) {

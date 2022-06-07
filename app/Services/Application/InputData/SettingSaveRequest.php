@@ -10,9 +10,9 @@ use App\Infrastructures\Models\Eloquent\UserMailSetting;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
-final class SettingSaveDto
+final class SettingSaveRequest
 {
-    public $userMailSettings;
+    protected $userMailSettings;
 
     /**
      * @param \App\Http\Requests\Frontend\Setting\SaveRequest $saveRequest

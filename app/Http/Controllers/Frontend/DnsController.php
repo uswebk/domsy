@@ -129,8 +129,7 @@ class DnsController extends Controller
         StoreRequest $request,
         DnsStoreService $dnsStoreService
     ): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse {
-        $subdomainRequest = $request->makeDto();
-
+        $subdomainRequest = $request->makeInput();
         try {
             $dnsStoreService->handle($subdomainRequest);
         } catch (DomainNotExistsException $e) {

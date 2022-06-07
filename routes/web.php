@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['verified','auth'])->group(function () {
-    Route::namespace('Client')->group(function () {
+    Route::namespace('Frontend')->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
 
         Route::get('settings', 'SettingController@index')->name('settings.index');

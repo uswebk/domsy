@@ -46,22 +46,23 @@ final class DealingStoreService
     }
 
     /**
-      * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealingRequest
-      *
-      * @throws NotFoundException
-      * @throws DomainNotExistsException
-      *
-      * @return void
-      */
+     * @param \App\Services\Application\InputData\DealingStoreRequest $domainDealingRequest
+     *
+     * @throws NotFoundException
+     * @throws DomainNotExistsException
+     *
+     * @return void
+    */
     public function handle(
-        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealingRequest
+        \App\Services\Application\InputData\DealingStoreRequest $domainDealingRequest
     ): void {
+        $domainDealingInput = $domainDealingRequest->domainDealing;
         try {
-            if (! $this->clientHasService->isOwner($domainDealingRequest->client_id, $this->userId)) {
+            if (! $this->clientHasService->isOwner($domainDealingInput->client_id, $this->userId)) {
                 throw new NotOwnerException();
             }
 
-            if (! $this->domainExistsService->exists($domainDealingRequest->domain_id, $this->userId)) {
+            if (! $this->domainExistsService->exists($domainDealingInput->domain_id, $this->userId)) {
                 throw new DomainNotExistsException();
             }
         } catch (NotOwnerException | DomainNotExistsException $e) {
@@ -74,15 +75,15 @@ final class DealingStoreService
         try {
             $domainDealing = $this->dealingRepository->store([
                 'user_id' => $this->userId,
-                'domain_id' => $domainDealingRequest->domain_id,
-                'client_id' => $domainDealingRequest->client_id,
-                'subtotal' => $domainDealingRequest->subtotal,
-                'discount' => $domainDealingRequest->discount,
-                'billing_date' => $domainDealingRequest->billing_date,
-                'interval' => $domainDealingRequest->interval,
-                'interval_category' => $domainDealingRequest->interval_category,
-                'is_auto_update' => $domainDealingRequest->is_auto_update,
-                'is_halt' => $domainDealingRequest->is_halt,
+                'domain_id' => $domainDealingInput->domain_id,
+                'client_id' => $domainDealingInput->client_id,
+                'subtotal' => $domainDealingInput->subtotal,
+                'discount' => $domainDealingInput->discount,
+                'billing_date' => $domainDealingInput->billing_date,
+                'interval' => $domainDealingInput->interval,
+                'interval_category' => $domainDealingInput->interval_category,
+                'is_auto_update' => $domainDealingInput->is_auto_update,
+                'is_halt' => $domainDealingInput->is_halt,
             ]);
 
             $this->billingRepository->store([

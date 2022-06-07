@@ -27,7 +27,7 @@ class StoreRequest extends Request
     /**
      * @return \App\Infrastructures\Models\Eloquent\Subdomain
      */
-    public function makeDto(): \App\Infrastructures\Models\Eloquent\Subdomain
+    public function makeInput(): \App\Infrastructures\Models\Eloquent\Subdomain
     {
         $validated = $this->validated();
 

@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace App\Http\Requests\Frontend\Dealing;
 
 use App\Http\Requests\Request;
-use App\Infrastructures\Models\Eloquent\DomainDealing;
 use App\Infrastructures\Models\Interval;
+use App\Services\Application\InputData\DealingStoreRequest;
 
 use Illuminate\Validation\Rule;
 
 class StoreRequest extends Request
 {
+    /**
+     * @return array
+     */
     public function rules(): array
     {
         return [
@@ -28,10 +31,10 @@ class StoreRequest extends Request
     }
 
     /**
-     * @return \App\Infrastructures\Models\Eloquent\DomainDealing
+     * @return \App\Services\Application\InputData\DealingStoreRequest
      */
-    public function makeDto(): \App\Infrastructures\Models\Eloquent\DomainDealing
+    public function makeInput(): \App\Services\Application\InputData\DealingStoreRequest
     {
-        return new DomainDealing($this->validated());
+        return new DealingStoreRequest($this);
     }
 }
