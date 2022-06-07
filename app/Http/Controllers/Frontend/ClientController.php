@@ -37,7 +37,7 @@ class ClientController extends Controller
     {
         $clients = Auth::user()->clients;
 
-        return view('client.client.index', compact('clients'));
+        return view('frontend.client.index', compact('clients'));
     }
 
     /**
@@ -45,7 +45,7 @@ class ClientController extends Controller
      */
     public function new(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
-        return view('client.client.new');
+        return view('frontend.client.new');
     }
 
     /**
@@ -54,7 +54,7 @@ class ClientController extends Controller
      */
     public function edit(Client $client): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
-        return view('client.client.edit', compact('client'));
+        return view('frontend.client.edit', compact('client'));
     }
 
     /**

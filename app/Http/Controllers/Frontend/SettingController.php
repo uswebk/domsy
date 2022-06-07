@@ -29,7 +29,7 @@ class SettingController extends Controller
         $mailCategories = MailCategory::get();
         $user = Auth::user();
 
-        return view('client.settings', compact('user', 'mailCategories'));
+        return view('frontend.settings', compact('user', 'mailCategories'));
     }
 
     /**

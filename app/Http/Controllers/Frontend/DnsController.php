@@ -74,7 +74,7 @@ class DnsController extends Controller
             $domains = $domains->where('id', $this->domainIdQuery);
         }
 
-        return view('client.dns.index', compact('domains'));
+        return view('frontend.dns.index', compact('domains'));
     }
 
     /**
@@ -83,7 +83,7 @@ class DnsController extends Controller
      */
     public function new(Domain $domain): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
-        return view('client.dns.new', compact('domain'));
+        return view('frontend.dns.new', compact('domain'));
     }
 
     /**
@@ -92,7 +92,7 @@ class DnsController extends Controller
      */
     public function edit(Subdomain $subdomain): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
-        return view('client.dns.edit', compact('subdomain'));
+        return view('frontend.dns.edit', compact('subdomain'));
     }
 
     /**

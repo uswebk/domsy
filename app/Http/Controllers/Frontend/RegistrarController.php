@@ -30,17 +30,17 @@ class RegistrarController extends Controller
     {
         $registrars = Auth::user()->registrars;
 
-        return view('client.registrar.index', compact('registrars'));
+        return view('frontend.registrar.index', compact('registrars'));
     }
 
     public function new()
     {
-        return view('client.registrar.new');
+        return view('frontend.registrar.new');
     }
 
     public function edit(Registrar $registrar)
     {
-        return view('client.registrar.edit', compact('registrar'));
+        return view('frontend.registrar.edit', compact('registrar'));
     }
 
     public function update(

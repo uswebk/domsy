@@ -15,9 +15,10 @@ Route::namespace('Auth')->group(function () {
     Route::get('email/verify/{id}/{hash}', 'VerificationController@verify')->name('verify');
 });
 
-Route::get('/', function () {
-    return view('welcome');
+Route::namespace('Frontend')->group(function () {
+    Route::get('/', 'TopController@index')->name('top.index');
 });
+
 
 Route::middleware(['verified','auth'])->group(function () {
     Route::namespace('Frontend')->group(function () {
@@ -57,7 +58,7 @@ Route::middleware(['verified','auth'])->group(function () {
             Route::post('{registrar}/delete', 'RegistrarController@delete')->name('delete')->where('registrar', '[0-9]+');
         });
 
-        Route::prefix('client')->name('client.')->group(function () {
+        Route::prefix('client')->name('frontend.')->group(function () {
             Route::get('/', 'ClientController@index')->name('index');
             Route::get('new', 'ClientController@new')->name('new');
             Route::get('{client}/edit', 'ClientController@edit')->name('edit')->where('client', '[0-9]+');

@@ -53,7 +53,7 @@ class DealingController extends Controller
             'domainDealings.client',
         ]);
 
-        return view('client.dealing.index', compact('domains'));
+        return view('frontend.dealing.index', compact('domains'));
     }
 
     /**
@@ -61,7 +61,7 @@ class DealingController extends Controller
      */
     public function new(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
-        return view('client.dealing.new');
+        return view('frontend.dealing.new');
     }
 
     /**
@@ -70,7 +70,7 @@ class DealingController extends Controller
      */
     public function edit(DomainDealing $domainDealing): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
-        return view('client.dealing.edit', compact('domainDealing'));
+        return view('frontend.dealing.edit', compact('domainDealing'));
     }
 
     /**
@@ -123,6 +123,6 @@ class DealingController extends Controller
 
         $domainDealing->load(['domain','client']);
 
-        return view('client.dealing.detail', compact('domainDealing'));
+        return view('frontend.dealing.detail', compact('domainDealing'));
     }
 }

@@ -52,7 +52,7 @@ class DomainController extends Controller
     {
         $domains = Auth::user()->domains;
 
-        return view('client.domain.index', compact('domains'));
+        return view('frontend.domain.index', compact('domains'));
     }
 
     /**
@@ -60,7 +60,7 @@ class DomainController extends Controller
      */
     public function new(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
-        return view('client.domain.new');
+        return view('frontend.domain.new');
     }
 
     /**
@@ -69,7 +69,7 @@ class DomainController extends Controller
      */
     public function edit(Domain $domain): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
-        return view('client.domain.edit', compact('domain'));
+        return view('frontend.domain.edit', compact('domain'));
     }
 
     /**
