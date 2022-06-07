@@ -1,14 +1,18 @@
 <p align="center"><img src="https://user-images.githubusercontent.com/50518919/172174251-59503c10-0401-4615-ba9f-2842f2f892c4.jpeg" width="400"></p>
 
-
-<!-- TODO: batch -->
-
+![](https://img.shields.io/badge/Laravel-8.83.6-green)
+![](https://img.shields.io/badge/MySQL-8.0.29-green)
+![](https://img.shields.io/badge/Nginx-1.21.6-green)
 
 ## Description
-<!-- TODO: Write -->
+This is a portfolio.
+
+Management system of domain etc.
 
 ## Development
-<!-- TODO: Write -->
+```
+make build
+```
 
 
 ## Pages
