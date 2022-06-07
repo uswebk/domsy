@@ -19,8 +19,8 @@ final class AppHelper
      * @param integer $price
      * @return string
      */
-    public static function getPrice(int $price): string
+    public static function getPriceFormatFormat(int $price): string
     {
-        return '￥' . number_format($price);
+        return '¥' . number_format($price);
     }
 }

@@ -43,11 +43,11 @@
             </td>
 
             <td>
-              {{ AppHelper::getPrice($domainDealing->subtotal) }}
+              {{ AppHelper::getPriceFormat($domainDealing->subtotal) }}
             </td>
 
             <td>
-              {{ DateHelper::getFormattedDate($domainDealing->billing_date) }}
+              {{ DateHelper::getFormattedDateSlash($domainDealing->billing_date) }}
             </td>
 
             <td>

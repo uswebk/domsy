@@ -39,7 +39,7 @@
           </td>
 
           <td>
-            {{ AppHelper::getPrice($domain->price) }}
+            {{ AppHelper::getPriceFormat($domain->price) }}
           </td>
 
           <td>
@@ -55,15 +55,15 @@
           </td>
 
           <td>
-            {{ DateHelper::getFormattedDate($domain->purchased_at) }}
+            {{ DateHelper::getFormattedDateSlash($domain->purchased_at) }}
           </td>
 
           <td>
-            {{ DateHelper::getFormattedDate($domain->expired_at) }}
+            {{ DateHelper::getFormattedDateSlash($domain->expired_at) }}
           </td>
 
           <td>
-            {{ DateHelper::getFormattedDate($domain->canceled_at) }}
+            {{ DateHelper::getFormattedDateSlash($domain->canceled_at) }}
           </td>
 
           <td>

@@ -4,33 +4,25 @@ declare(strict_types=1);
 
 namespace App\Helpers;
 
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 
 final class DateHelper
 {
     /**
-     * @param \Illuminate\Support\Carbon|null $date
+     * @param \Carbon\Carbon $date
      * @return string
      */
-    public static function getFormattedDate(?\Illuminate\Support\Carbon $date): string
+    public static function getFormattedDateSlashSlash(\Carbon\Carbon $date): string
     {
-        if (! isset($date)) {
-            return '';
-        }
-
         return (Carbon::parse($date))->format('Y/m/d');
     }
 
     /**
-     * @param \Illuminate\Support\Carbon|null $date
+     * @param \Carbon\Carbon $date
      * @return string
      */
-    public static function getFormattedDateHyphen(?\Illuminate\Support\Carbon $date): string
+    public static function getFormattedDateSlashHyphen(\Carbon\Carbon $date): string
     {
-        if (! isset($date)) {
-            return '';
-        }
-
         return (Carbon::parse($date))->format('Y-m-d');
     }
 }
