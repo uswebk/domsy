@@ -27,6 +27,6 @@ make build
 * Registrar Management
 * Dealing / Billing Management
 
-## Batch
-* Notification Domain Expired
-* Add Billing From Dealing
+## Batches
+* Domain expiration notification
+* Add billing from dealing
