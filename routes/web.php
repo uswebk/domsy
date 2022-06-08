@@ -58,7 +58,7 @@ Route::middleware(['verified','auth'])->group(function () {
             Route::post('{registrar}/delete', 'RegistrarController@delete')->name('delete')->where('registrar', '[0-9]+');
         });
 
-        Route::prefix('client')->name('frontend.')->group(function () {
+        Route::prefix('client')->name('client.')->group(function () {
             Route::get('/', 'ClientController@index')->name('index');
             Route::get('new', 'ClientController@new')->name('new');
             Route::get('{client}/edit', 'ClientController@edit')->name('edit')->where('client', '[0-9]+');

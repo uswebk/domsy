@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Frontend\Client\StoreRequest;
-use App\Http\Requests\Frontend\Client\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\Client;
-use App\Infrastructures\Repositories\Client\ClientRepositoryInterface;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -19,10 +16,11 @@ class ClientController extends Controller
     protected $clientRepository;
 
     /**
-     * @param ClientRepositoryInterface $clientRepository
+     * @param \App\Infrastructures\Repositories\Client\ClientRepositoryInterface $clientRepository
      */
-    public function __construct(ClientRepositoryInterface $clientRepository)
-    {
+    public function __construct(
+        \App\Infrastructures\Repositories\Client\ClientRepositoryInterface $clientRepository
+    ) {
         parent::__construct();
 
         $this->middleware('can:owner,client')->except(['index', 'new', 'store']);
@@ -49,31 +47,25 @@ class ClientController extends Controller
     }
 
     /**
-     * @param Client $client
+     * @param \App\Infrastructures\Models\Eloquent\Client $client
      * @return \Illuminate\Contracts\View\View
      */
-    public function edit(Client $client): \Illuminate\Contracts\View\View
-    {
+    public function edit(
+        \App\Infrastructures\Models\Eloquent\Client $client
+    ): \Illuminate\Contracts\View\View {
         return view('frontend.client.edit', compact('client'));
     }
 
     /**
-     * @param UpdateRequest $request
-     * @param Client $client
+     * @param \App\Http\Requests\Frontend\Client\UpdateRequest $request
+     * @param \App\Infrastructures\Models\Eloquent\Client $client
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(
-        UpdateRequest $request,
-        Client $client
+        \App\Http\Requests\Frontend\Client\UpdateRequest $request,
+        \App\Infrastructures\Models\Eloquent\Client $client
     ): \Illuminate\Http\RedirectResponse {
-        $attributes = $request->only([
-            'name',
-            'name_kana',
-            'email',
-            'zip',
-            'address',
-            'phone_number',
-        ]);
+        $attributes = $request->makeInput();
 
         $client->fill($attributes);
 
@@ -83,20 +75,13 @@ class ClientController extends Controller
     }
 
     /**
-     * @param StoreRequest $request
+     * @param \App\Http\Requests\Frontend\Client\StoreRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreRequest $request): \Illuminate\Http\RedirectResponse
-    {
-        $attributes = $request->only([
-            'name',
-            'user_id',
-            'name_kana',
-            'email',
-            'zip',
-            'address',
-            'phone_number',
-        ]);
+    public function store(
+        \App\Http\Requests\Frontend\Client\StoreRequest $request
+    ): \Illuminate\Http\RedirectResponse {
+        $attributes = $request->makeInput();
 
         $this->clientRepository->store($attributes);
 

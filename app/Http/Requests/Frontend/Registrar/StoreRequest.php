@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 class StoreRequest extends Request
 {
+    /**
+     * @return array
+     */
     public function rules(): array
     {
         return [
@@ -18,10 +21,16 @@ class StoreRequest extends Request
         ];
     }
 
-    protected function passedValidation(): void
+    /**
+     * @return array
+     */
+    public function makeInput(): array
     {
-        $this->merge([
+        return [
+            'name' => $this->name,
             'user_id' => Auth::id(),
-        ]);
+            'link' => $this->link ?? '',
+            'note' => $this->note ?? '',
+        ];
     }
 }

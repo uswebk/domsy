@@ -9,9 +9,9 @@
 
     <h1 class='h4 m-1'>Client Create</h1>
 
-    <a href='{{ route('frontend.index') }}' class='btn btn-secondary btn-sm'> < </a>
+    <a href='{{ route('client.index') }}' class='btn btn-secondary btn-sm'> < </a>
 
-    {{ Form::open(['url' => route('frontend.store'), 'class' => 'w-50 p-3']) }}
+    {{ Form::open(['url' => route('client.store'), 'class' => 'w-50 p-3']) }}
     <div class='w-75 mt-2'>
       <div class='form-label'>{{ Form::label('client-name', 'Name') }}</div>
 

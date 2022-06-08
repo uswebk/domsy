@@ -6,8 +6,11 @@ namespace App\Http\Requests\Frontend\Client;
 
 use App\Http\Requests\Request;
 
-class UpdateRequest extends Request
+final class UpdateRequest extends Request
 {
+    /**
+     * @return array
+     */
     public function rules(): array
     {
         return [
@@ -17,6 +20,21 @@ class UpdateRequest extends Request
             'zip' => 'required|string|digits:7',
             'address' => 'required|string',
             'phone_number' => 'required|numeric',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function makeInput(): array
+    {
+        return [
+            'name' => $this->name,
+            'name_kana' => $this->name_kana,
+            'email' => $this->email,
+            'zip' => $this->zip,
+            'address' => $this->address,
+            'phone_number' => $this->phone_number,
         ];
     }
 }

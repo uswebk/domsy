@@ -8,7 +8,7 @@
 
     <a href='{{ route('registrar.index') }}' class='list-group-item list-group-item-action'> Registrars </a>
 
-    <a href='{{ route('frontend.index') }}' class='list-group-item list-group-item-action'> Clients </a>
+    <a href='{{ route('client.index') }}' class='list-group-item list-group-item-action'> Clients </a>
 
     <a href='{{ route('dealing.index') }}' class='list-group-item list-group-item-action'> Dealings </a>
 

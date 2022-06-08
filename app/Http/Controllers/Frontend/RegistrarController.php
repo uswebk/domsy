@@ -63,12 +63,7 @@ class RegistrarController extends Controller
         \App\Http\Requests\Frontend\Registrar\UpdateRequest $request,
         \App\Infrastructures\Models\Eloquent\Registrar $registrar
     ): \Illuminate\Http\RedirectResponse {
-        // TODO: make DTO
-        $attributes = $request->only([
-            'name',
-            'link',
-            'note',
-        ]);
+        $attributes = $request->makeInput();
 
         $registrar->fill($attributes);
 
@@ -88,13 +83,7 @@ class RegistrarController extends Controller
     public function store(
         \App\Http\Requests\Frontend\Registrar\StoreRequest $request
     ): \Illuminate\Http\RedirectResponse {
-        // TODO: make DTO
-        $attributes = $request->only([
-            'name',
-            'user_id',
-            'link',
-            'note',
-        ]);
+        $attributes = $request->makeInput();
 
         try {
             $this->registrarRepository->store($attributes);

@@ -8,8 +8,11 @@ use App\Http\Requests\Request;
 
 use Illuminate\Support\Facades\Auth;
 
-class StoreRequest extends Request
+final class StoreRequest extends Request
 {
+    /**
+     * @return array
+     */
     public function rules(): array
     {
         return [
@@ -22,10 +25,19 @@ class StoreRequest extends Request
         ];
     }
 
-    protected function passedValidation(): void
+    /**
+     * @return array
+     */
+    public function makeInput(): array
     {
-        $this->merge([
+        return [
             'user_id' => Auth::id(),
-        ]);
+            'name' => $this->name,
+            'name_kana' => $this->name_kana,
+            'email' => $this->email,
+            'zip' => $this->zip,
+            'address' => $this->address,
+            'phone_number' => $this->phone_number,
+        ];
     }
 }

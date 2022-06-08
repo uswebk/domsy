@@ -16,7 +16,7 @@
     <h1 class='h4 m-1'>Client List</h1>
 
     <div class='container'>
-      <a href='{{ route('frontend.new') }}' class='btn btn-primary btn-sm active' role='button' aria-pressed='true'>+</a>
+      <a href='{{ route('client.new') }}' class='btn btn-primary btn-sm active' role='button' aria-pressed='true'>+</a>
     </div>
 
     <table class='table table-hover mt-2'>
@@ -52,9 +52,9 @@
           </td>
 
           <td>
-            <a href='{{ route('frontend.edit', $client->id) }}' class='btn btn-primary btn-sm'> Edit</a>
+            <a href='{{ route('client.edit', $client->id) }}' class='btn btn-primary btn-sm'> Edit</a>
 
-            {{ Form::open(['url' => route('frontend.delete', $client->id), 'name' => 'delete-form']) }}
+            {{ Form::open(['url' => route('client.delete', $client->id), 'name' => 'delete-form']) }}
             {{ Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm']) }}
             {{ Form::close() }}
 
