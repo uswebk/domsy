@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\Frontend\Dealing;
 
 use App\Http\Requests\Request;
-use App\Infrastructures\Models\Eloquent\DomainDealing;
 use App\Infrastructures\Models\Interval;
+use App\Services\Application\InputData\DealingUpdateRequest;
 
 use Illuminate\Validation\Rule;
 
@@ -53,12 +53,10 @@ class UpdateRequest extends Request
     }
 
     /**
-     * @return \App\Infrastructures\Models\Eloquent\DomainDealing
+     * @return \App\Services\Application\InputData\DealingUpdateRequest
      */
-    public function makeInput(): \App\Infrastructures\Models\Eloquent\DomainDealing
+    public function makeInput(): \App\Services\Application\InputData\DealingUpdateRequest
     {
-        $validated = $this->validated();
-
-        return new DomainDealing($validated);
+        return new DealingUpdateRequest($this);
     }
 }

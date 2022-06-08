@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Frontend\Dns;
 
 use App\Http\Requests\Request;
-use App\Infrastructures\Models\Eloquent\Subdomain;
+use App\Services\Application\InputData\DnsStoreRequest;
 
 class StoreRequest extends Request
 {
@@ -25,18 +25,10 @@ class StoreRequest extends Request
     }
 
     /**
-     * @return \App\Infrastructures\Models\Eloquent\Subdomain
+     * @return \App\Services\Application\InputData\DnsStoreRequest
      */
-    public function makeInput(): \App\Infrastructures\Models\Eloquent\Subdomain
+    public function makeInput(): \App\Services\Application\InputData\DnsStoreRequest
     {
-        $validated = $this->validated();
-
-        if (! isset($this->prefix)) {
-            $validated = array_merge($validated, [
-                'prefix' => '',
-            ]);
-        }
-
-        return new Subdomain($validated);
+        return new DnsStoreRequest($this);
     }
 }

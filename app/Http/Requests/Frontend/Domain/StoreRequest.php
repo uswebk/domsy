@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Frontend\Domain;
 
 use App\Http\Requests\Request;
-use App\Infrastructures\Models\Eloquent\Domain;
-
-use Illuminate\Support\Facades\Auth;
+use App\Services\Application\InputData\DomainStoreRequest;
 
 class StoreRequest extends Request
 {
@@ -30,14 +28,10 @@ class StoreRequest extends Request
     }
 
     /**
-     * @return \App\Infrastructures\Models\Eloquent\Domain
+     * @return \App\Services\Application\InputData\DomainStoreRequest
      */
-    public function makeInput(): \App\Infrastructures\Models\Eloquent\Domain
+    public function makeInput(): \App\Services\Application\InputData\DomainStoreRequest
     {
-        $validated = array_merge($this->validated(), [
-            'user_id' => Auth::id(),
-        ]);
-
-        return new Domain($validated);
+        return new DomainStoreRequest($this);
     }
 }

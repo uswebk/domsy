@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Frontend\Domain;
 
 use App\Http\Requests\Request;
-use App\Infrastructures\Models\Eloquent\Domain;
+use App\Services\Application\InputData\DomainUpdateRequest;
 
 class UpdateRequest extends Request
 {
@@ -28,14 +28,10 @@ class UpdateRequest extends Request
     }
 
     /**
-     * @return \App\Infrastructures\Models\Eloquent\Domain
+     * @return \App\Services\Application\InputData\DomainUpdateRequest
      */
-    public function makeInput(): \App\Infrastructures\Models\Eloquent\Domain
+    public function makeInput(): \App\Services\Application\InputData\DomainUpdateRequest
     {
-        $validated = array_merge($this->validated(), [
-            'user_id' => Auth::id(),
-        ]);
-
-        return new Domain($validated);
+        return new DomainUpdateRequest($this);
     }
 }

@@ -6,17 +6,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Exceptions\Frontend\DomainNotExistsException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Frontend\Dns\StoreRequest;
-use App\Http\Requests\Frontend\Dns\UpdateRequest;
-use App\Infrastructures\Models\Eloquent\Domain;
-use App\Infrastructures\Models\Eloquent\Subdomain;
-use App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface;
-use App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface;
-use App\Services\Application\DnsStoreService;
 
 use Exception;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DnsController extends Controller
@@ -28,14 +20,14 @@ class DnsController extends Controller
     protected $subdomainRepository;
 
     /**
-     * @param Request $request
-     * @param EloquentDnsRecordTypeQueryServiceInterface $dnsRecordTypeQueryService
-     * @param SubdomainRepositoryInterface $subdomainRepository
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecordTypeQueryService
+     * @param \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
      */
     public function __construct(
-        Request $request,
-        EloquentDnsRecordTypeQueryServiceInterface $dnsRecordTypeQueryService,
-        SubdomainRepositoryInterface $subdomainRepository
+        \Illuminate\Http\Request $request,
+        \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecordTypeQueryService,
+        \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
     ) {
         parent::__construct();
 
@@ -60,9 +52,9 @@ class DnsController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Contracts\View\View
      */
-    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+    public function index(): \Illuminate\Contracts\View\View
     {
         $domains = Auth::user()->domains;
         $domains->load([
@@ -78,32 +70,34 @@ class DnsController extends Controller
     }
 
     /**
-     * @param Domain $domain
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @param \App\Infrastructures\Models\Eloquent\Domain $domain
+     * @return \Illuminate\Contracts\View\View
      */
-    public function new(Domain $domain): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-    {
+    public function new(
+        \App\Infrastructures\Models\Eloquent\Domain $domain
+    ): \Illuminate\Contracts\View\View {
         return view('frontend.dns.new', compact('domain'));
     }
 
     /**
-     * @param Subdomain $subdomain
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @return \Illuminate\Contracts\View\View
      */
-    public function edit(Subdomain $subdomain): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-    {
+    public function edit(
+        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+    ): \Illuminate\Contracts\View\View {
         return view('frontend.dns.edit', compact('subdomain'));
     }
 
     /**
-     * @param UpdateRequest $request
-     * @param Subdomain $subdomain
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     * @param \App\Http\Requests\Frontend\Dns\UpdateRequest $request
+     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(
-        UpdateRequest $request,
-        Subdomain $subdomain,
-    ): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse {
+        \App\Http\Requests\Frontend\Dns\UpdateRequest $request,
+        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain,
+    ): \Illuminate\Http\RedirectResponse {
         $attributes = $request->only([
             'subdomain',
             'type_id',
@@ -121,13 +115,13 @@ class DnsController extends Controller
     }
 
     /**
-     * @param StoreRequest $request
-     * @param DnsStoreService $dnsStoreService
+     * @param \App\Http\Requests\Frontend\Dns\StoreRequest $request
+     * @param \App\Services\Application\DnsStoreService $dnsStoreService
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function store(
-        StoreRequest $request,
-        DnsStoreService $dnsStoreService
+        \App\Http\Requests\Frontend\Dns\StoreRequest $request,
+        \App\Services\Application\DnsStoreService $dnsStoreService
     ): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse {
         $subdomainRequest = $request->makeInput();
         try {
@@ -144,11 +138,12 @@ class DnsController extends Controller
     }
 
     /**
-     * @param Subdomain $subdomain
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function delete(Subdomain $subdomain): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
-    {
+    public function delete(
+        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+    ): \Illuminate\Http\RedirectResponse {
         $this->subdomainRepository->delete($subdomain);
 
         return redirect()->route('dns.index', ['domain_id' => $this->domainIdQuery])

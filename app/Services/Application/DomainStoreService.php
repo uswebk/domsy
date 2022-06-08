@@ -41,7 +41,7 @@ final class DomainStoreService
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Domain $domainRequest
+     * @param \App\Services\Application\InputData\DomainStoreRequest $domainStoreRequest
      *
      * @throws DomainExistsException
      * @throws NotOwnerException
@@ -49,8 +49,9 @@ final class DomainStoreService
      * @return void
      */
     public function handle(
-        \App\Infrastructures\Models\Eloquent\Domain $domainRequest
+        \App\Services\Application\InputData\DomainStoreRequest $domainStoreRequest
     ): void {
+        $domainRequest = $domainStoreRequest->getInput();
         $userId = $domainRequest->user_id;
 
         try {

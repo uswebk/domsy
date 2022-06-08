@@ -63,7 +63,9 @@
           </td>
 
           <td>
-            {{ DateHelper::getFormattedDateSlash($domain->canceled_at) }}
+            @if(isset($domain->canceled_at))
+              {{ DateHelper::getFormattedDateSlash($domain->canceled_at) }}
+            @endif
           </td>
 
           <td>

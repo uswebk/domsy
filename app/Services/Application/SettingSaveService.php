@@ -24,7 +24,9 @@ final class SettingSaveService
     public function handle(
         \App\Services\Application\InputData\SettingSaveRequest $settingSaveRequest
     ): void {
-        foreach ($settingSaveRequest->userMailSettings as $userMailSetting) {
+        $userMailSettings = $settingSaveRequest->getInput();
+
+        foreach ($userMailSettings as $userMailSetting) {
             $this->userMailSettingRepository->updateOfUserIdAndMailCategoryIdEqual(
                 $userMailSetting->user_id,
                 $userMailSetting->mail_category_id,

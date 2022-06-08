@@ -5,10 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Frontend\Registrar\StoreRequest;
-use App\Http\Requests\Frontend\Registrar\UpdateRequest;
-use App\Infrastructures\Models\Eloquent\Registrar;
-use App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class RegistrarController extends Controller
@@ -17,8 +13,12 @@ class RegistrarController extends Controller
 
     protected $registrarRepository;
 
-    public function __construct(RegistrarRepositoryInterface $registrarRepository)
-    {
+    /**
+     * @param \App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
+     */
+    public function __construct(
+        \App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
+    ) {
         parent::__construct();
 
         $this->middleware('can:owner,registrar')->except(['index', 'new', 'store']);
@@ -26,36 +26,53 @@ class RegistrarController extends Controller
         $this->registrarRepository = $registrarRepository;
     }
 
-    public function index()
+    /**
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function index(): \Illuminate\Contracts\View\View
     {
         $registrars = Auth::user()->registrars;
 
         return view('frontend.registrar.index', compact('registrars'));
     }
 
-    public function new()
+    /**
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function new(): \Illuminate\Contracts\View\View
     {
         return view('frontend.registrar.new');
     }
 
-    public function edit(Registrar $registrar)
-    {
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\Registrar $registrar
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function edit(
+        \App\Infrastructures\Models\Eloquent\Registrar $registrar
+    ): \Illuminate\Contracts\View\View {
         return view('frontend.registrar.edit', compact('registrar'));
     }
 
+    /**
+     * @param \App\Http\Requests\Frontend\Registrar\UpdateRequest $request
+     * @param \App\Infrastructures\Models\Eloquent\Registrar $registrar
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(
-        UpdateRequest $request,
-        Registrar $registrar
-    ) {
+        \App\Http\Requests\Frontend\Registrar\UpdateRequest $request,
+        \App\Infrastructures\Models\Eloquent\Registrar $registrar
+    ): \Illuminate\Http\RedirectResponse {
+        // TODO: make DTO
         $attributes = $request->only([
             'name',
             'link',
             'note',
         ]);
 
-        try {
-            $registrar->fill($attributes);
+        $registrar->fill($attributes);
 
+        try {
             $this->registrarRepository->save($registrar);
         } catch (Exception $e) {
             return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Update');
@@ -64,10 +81,14 @@ class RegistrarController extends Controller
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Registrar Update!!');
     }
 
-    public function store(StoreRequest $request)
-    {
-
-        // Todo: make DTO
+    /**
+     * @param \App\Http\Requests\Frontend\Registrar\StoreRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(
+        \App\Http\Requests\Frontend\Registrar\StoreRequest $request
+    ): \Illuminate\Http\RedirectResponse {
+        // TODO: make DTO
         $attributes = $request->only([
             'name',
             'user_id',
@@ -84,8 +105,13 @@ class RegistrarController extends Controller
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Registrar Create!!');
     }
 
-    public function delete(Registrar $registrar)
-    {
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\Registrar $registrar
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function delete(
+        \App\Infrastructures\Models\Eloquent\Registrar $registrar
+    ): \Illuminate\Http\RedirectResponse {
         $this->registrarRepository->delete($registrar);
 
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Registrar Delete!!');

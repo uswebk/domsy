@@ -40,9 +40,7 @@ final class DealingUpdateService
     }
 
     /**
-     * Undocumented function
-     *
-     * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealingRequest
+     * @param \App\Services\Application\InputData\DealingUpdateRequest $dealingUpdateRequest
      * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
      *
      * @throws NotOwnerException
@@ -51,17 +49,22 @@ final class DealingUpdateService
      * @return void
      */
     public function handle(
-        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealingRequest,
+        \App\Services\Application\InputData\DealingUpdateRequest $dealingUpdateRequest,
         \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
     ): void {
+        $domainDealingRequest = $dealingUpdateRequest->getInput();
+
+        $clientId = $domainDealingRequest->client_id;
+        $domainId = $domainDealingRequest->domain_id;
+
         try {
-            if (isset($domainDealingRequest->client_id) &&
-            ! $this->clientHasService->isOwner($domainDealingRequest->client_id, $this->userId)) {
+            if (isset($clientId) &&
+            ! $this->clientHasService->isOwner($clientId, $this->userId)) {
                 throw new NotOwnerException();
             }
 
-            if (isset($domainDealingRequest->domain_id) &&
-            ! $this->domainExistsService->exists($domainDealingRequest->domain_id, $this->userId)) {
+            if (isset($domainId) &&
+            ! $this->domainExistsService->exists($domainId, $this->userId)) {
                 throw new DomainNotExistsException();
             }
 

@@ -28,15 +28,16 @@ final class DnsStoreService
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomainRequest
+     * @param \App\Services\Application\InputData\DnsStoreRequest $dnsStoreRequest
      *
      * @throws DomainNotExistsException
      *
      * @return void
      */
     public function handle(
-        \App\Infrastructures\Models\Eloquent\Subdomain $subdomainRequest
+        \App\Services\Application\InputData\DnsStoreRequest $dnsStoreRequest
     ): void {
+        $subdomainRequest = $dnsStoreRequest->getInput();
         $domainId = $subdomainRequest->domain_id;
 
         try {

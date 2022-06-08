@@ -56,7 +56,7 @@ final class DealingStoreService
     public function handle(
         \App\Services\Application\InputData\DealingStoreRequest $domainDealingRequest
     ): void {
-        $domainDealingInput = $domainDealingRequest->domainDealing;
+        $domainDealingInput = $domainDealingRequest->getInput();
         try {
             if (! $this->clientHasService->isOwner($domainDealingInput->client_id, $this->userId)) {
                 throw new NotOwnerException();

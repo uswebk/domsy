@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 final class SettingSaveRequest
 {
-    protected $userMailSettings;
+    private $userMailSettings;
 
     /**
      * @param \App\Http\Requests\Frontend\Setting\SaveRequest $saveRequest
@@ -42,5 +42,13 @@ final class SettingSaveRequest
 
             $this->userMailSettings->push($userMailSetting);
         }
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getInput(): \Illuminate\Database\Eloquent\Collection
+    {
+        return $this->userMailSettings;
     }
 }

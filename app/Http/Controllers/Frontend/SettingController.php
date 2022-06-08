@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Frontend\Setting\SaveRequest;
 
 use App\Infrastructures\Models\Eloquent\MailCategory;
-use App\Services\Application\SettingSaveService;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,9 +20,9 @@ class SettingController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Contracts\View\View
      */
-    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+    public function index(): \Illuminate\Contracts\View\View
     {
         $mailCategories = MailCategory::get();
         $user = Auth::user();
@@ -33,13 +31,13 @@ class SettingController extends Controller
     }
 
     /**
-     * @param SaveRequest $request
-     * @param SettingSaveService $settingSaveService
+     * @param \App\Http\Requests\Frontend\Setting\SaveRequest $request
+     * @param \App\Services\Application\SettingSaveService $settingSaveService
      * @return \Illuminate\Http\RedirectResponse
      */
     public function save(
-        SaveRequest $request,
-        SettingSaveService $settingSaveService
+        \App\Http\Requests\Frontend\Setting\SaveRequest $request,
+        \App\Services\Application\SettingSaveService $settingSaveService
     ): \Illuminate\Http\RedirectResponse {
         $settingSaveRequest = $request->makeInput();
 

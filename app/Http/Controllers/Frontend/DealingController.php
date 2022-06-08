@@ -5,12 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Frontend\Dealing\StoreRequest;
-use App\Http\Requests\Frontend\Dealing\UpdateRequest;
 use App\Infrastructures\Models\Eloquent\DomainDealing;
 use App\Infrastructures\Models\Interval;
-use App\Services\Application\DealingStoreService;
-use App\Services\Application\DealingUpdateService;
 
 use Exception;
 
@@ -42,9 +38,9 @@ class DealingController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Contracts\View\View
      */
-    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+    public function index(): \Illuminate\Contracts\View\View
     {
         $domains = Auth::user()->domains;
 
@@ -57,32 +53,32 @@ class DealingController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Contracts\View\View
      */
-    public function new(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+    public function new(): \Illuminate\Contracts\View\View
     {
         return view('frontend.dealing.new');
     }
 
     /**
      * @param DomainDealing $domainDealing
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Contracts\View\View
      */
-    public function edit(DomainDealing $domainDealing): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+    public function edit(DomainDealing $domainDealing): \Illuminate\Contracts\View\View
     {
         return view('frontend.dealing.edit', compact('domainDealing'));
     }
 
     /**
-     * @param UpdateRequest $request
-     * @param DomainDealing $domainDealing
-     * @param DealingUpdateService $dealingUpdateService
+     * @param \App\Http\Requests\Frontend\Dealing\UpdateRequest $request
+     * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
+     * @param \App\Services\Application\DealingUpdateService $dealingUpdateService
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(
-        UpdateRequest $request,
-        DomainDealing $domainDealing,
-        DealingUpdateService $dealingUpdateService
+        \App\Http\Requests\Frontend\Dealing\UpdateRequest $request,
+        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing,
+        \App\Services\Application\DealingUpdateService $dealingUpdateService
     ): \Illuminate\Http\RedirectResponse {
         $domainDealingRequest = $request->makeInput();
         try {
@@ -95,13 +91,13 @@ class DealingController extends Controller
     }
 
     /**
-     * @param StoreRequest $request
-     * @param DealingStoreService $dealingStoreService
+     * @param \App\Http\Requests\Frontend\Dealing\StoreRequest $request
+     * @param \App\Services\Application\DealingStoreService $dealingStoreService
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(
-        StoreRequest $request,
-        DealingStoreService $dealingStoreService
+        \App\Http\Requests\Frontend\Dealing\StoreRequest $request,
+        \App\Services\Application\DealingStoreService $dealingStoreService
     ): \Illuminate\Http\RedirectResponse {
         $domainDealingRequest = $request->makeInput();
         try {
@@ -114,11 +110,12 @@ class DealingController extends Controller
     }
 
     /**
-     * @param DomainDealing $domainDealing
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
+     * @return \Illuminate\Contracts\View\View
      */
-    public function detail(DomainDealing $domainDealing): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-    {
+    public function detail(
+        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
+    ): \Illuminate\Contracts\View\View {
         $this->authorize('owner', $domainDealing);
 
         $domainDealing->load(['domain','client']);

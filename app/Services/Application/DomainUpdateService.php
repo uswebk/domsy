@@ -30,7 +30,7 @@ final class DomainUpdateService
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Domain $domainRequest
+     * @param \App\Services\Application\InputData\DomainUpdateRequest $domainUpdateRequest
      * @param \App\Infrastructures\Models\Eloquent\Domain $domain
      *
      * @throws NotOwnerException
@@ -38,9 +38,10 @@ final class DomainUpdateService
      * @return void
      */
     public function handle(
-        \App\Infrastructures\Models\Eloquent\Domain $domainRequest,
+        \App\Services\Application\InputData\DomainUpdateRequest $domainUpdateRequest,
         \App\Infrastructures\Models\Eloquent\Domain $domain
     ): void {
+        $domainRequest = $domainUpdateRequest->getInput();
         try {
             if (!$this->registrarHasService->isOwner($domainRequest->registrar_id, Auth::id())) {
                 throw new NotOwnerException();
