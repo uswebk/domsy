@@ -17,7 +17,7 @@ class MailCategorySeeder extends Seeder
         MailCategory::create([
             'id' => 1,
             'name' => 'notification',
-            'annotation' => 'お知らせ',
+            'annotation' => 'News',
             'is_specify_number_days' => false,
             'default_days' => 0,
             'sort' => 10,
@@ -25,7 +25,7 @@ class MailCategorySeeder extends Seeder
         MailCategory::create([
             'id' => 2,
             'name' => 'domain_expiration',
-            'annotation' => 'ドメイン有効期限',
+            'annotation' => 'Domain Expiration',
             'is_specify_number_days' => true,
             'default_days' => 90,
             'sort' => 20,
