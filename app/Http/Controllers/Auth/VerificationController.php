@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Services\Application\Auth\EmailVerifyService;
-
 use Illuminate\Foundation\Auth\VerifiesEmails;
 
 class VerificationController extends Controller
@@ -15,8 +12,11 @@ class VerificationController extends Controller
 
     protected $emailVerifyService;
 
+    /**
+     * @param \App\Services\Application\Auth\EmailVerifyService $emailVerifyService
+     */
     public function __construct(
-        EmailVerifyService $emailVerifyService
+        \App\Services\Application\Auth\EmailVerifyService $emailVerifyService
     ) {
         $this->middleware('auth');
         $this->middleware('signed')->only('verify');
@@ -25,7 +25,10 @@ class VerificationController extends Controller
         $this->emailVerifyService = $emailVerifyService;
     }
 
-    public function verify()
+    /**
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function verify(): \Illuminate\Contracts\View\View
     {
         $this->emailVerifyService->handle();
 

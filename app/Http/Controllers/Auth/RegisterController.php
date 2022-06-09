@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\RegisterRequest;
-use App\Services\Application\Auth\RegisterService;
-
 use Exception;
 
 class RegisterController extends Controller
@@ -17,15 +13,23 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
-    public function index()
+    /**
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function index(): \Illuminate\Contracts\View\View
     {
         return view('auth.register');
     }
 
+    /**
+     * @param \App\Http\Requests\Auth\RegisterRequest $request
+     * @param \App\Services\Application\Auth\RegisterService $registerService
+     * @return \Illuminate\Contracts\View\View
+     */
     public function register(
-        RegisterRequest $request,
-        RegisterService $registerService
-    ) {
+        \App\Http\Requests\Auth\RegisterRequest $request,
+        \App\Services\Application\Auth\RegisterService $registerService
+    ): \Illuminate\Contracts\View\View {
         try {
             $registerService->handle(
                 $request->name,
