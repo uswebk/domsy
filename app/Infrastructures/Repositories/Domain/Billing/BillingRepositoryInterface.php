@@ -11,4 +11,14 @@ interface BillingRepositoryInterface
      * @return \App\Infrastructures\Models\Eloquent\DomainBilling
      */
     public function store(array $attributes): \App\Infrastructures\Models\Eloquent\DomainBilling;
+
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling
+     * @param boolean $isFixed
+     * @return void
+     */
+    public function updateIsFixed(
+        \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling,
+        bool $isFixed
+    );
 }

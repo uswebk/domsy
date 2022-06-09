@@ -18,4 +18,19 @@ final class BillingRepository implements BillingRepositoryInterface
 
         return $domainBilling;
     }
+
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling
+     * @param boolean $isFixed
+     * @return void
+     */
+    public function updateIsFixed(
+        \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling,
+        bool $isFixed
+    ) {
+        $domainBilling->is_fixed = $isFixed;
+        $domainBilling->save();
+
+        return $domainBilling;
+    }
 }
