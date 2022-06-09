@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call('\Database\Seeders\DnsRecordTypeSeeder');
         $this->call('\Database\Seeders\MailCategorySeeder');
         $this->call('\Database\Seeders\UserSeeder');
+        $this->call('\Database\Seeders\MenuTypeSeeder');
     }
 }
