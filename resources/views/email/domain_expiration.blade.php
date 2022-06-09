@@ -5,7 +5,7 @@
   Domain List <br>
 
   @foreach ($domains as $domain)
-    {{ $domain->name }} | {{ AppHelper::getPriceFormat($domain->price) }} | {{ DateHelper::getFormattedDateSlash($domain->expired_at) }}
+    {{ $domain->name }} | {{ AppHelper::getPriceFormat($domain->price) }} | {{ DateHelper::getDateStringSlash($domain->expired_at) }}
   @endforeach
 
 @endcomponent

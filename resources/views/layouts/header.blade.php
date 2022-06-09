@@ -1,6 +1,6 @@
 <nav class='navbar navbar-expand-md navbar-light bg-white shadow-sm'>
   <div class='container'>
-    <a class='navbar-brand' href='{{ url('/') }}'>
+    <a class='navbar-brand' href='{{ url('/') }}'  style='color: #5684d5; font-weight: bold'>
       {{ config('app.name', 'Laravel') }}
     </a>
     <button class='navbar-toggler' type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='{{ __('Toggle navigation') }}'>

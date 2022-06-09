@@ -47,7 +47,7 @@
             </td>
 
             <td>
-              {{ DateHelper::getFormattedDateSlash($domainDealing->billing_date) }}
+              {{ DateHelper::getDateStringSlash($domainDealing->billing_date) }}
             </td>
 
             <td>

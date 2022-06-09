@@ -55,16 +55,16 @@
           </td>
 
           <td>
-            {{ DateHelper::getFormattedDateSlash($domain->purchased_at) }}
+            {{ DateHelper::getDateStringSlash($domain->purchased_at) }}
           </td>
 
           <td>
-            {{ DateHelper::getFormattedDateSlash($domain->expired_at) }}
+            {{ DateHelper::getDateStringSlash($domain->expired_at) }}
           </td>
 
           <td>
             @if(isset($domain->canceled_at))
-              {{ DateHelper::getFormattedDateSlash($domain->canceled_at) }}
+              {{ DateHelper::getDateStringSlash($domain->canceled_at) }}
             @endif
           </td>
 

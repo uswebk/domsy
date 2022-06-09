@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Mails\Client;
 
+use Carbon\Carbon;
+
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\URL;
