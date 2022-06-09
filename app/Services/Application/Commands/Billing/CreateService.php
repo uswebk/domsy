@@ -8,6 +8,10 @@ use App\Helpers\DateHelper;
 use App\Infrastructures\Models\Eloquent\DomainBilling;
 use App\Infrastructures\Models\Interval;
 
+use Exception;
+
+use Illuminate\Support\Facades\DB;
+
 final class CreateService
 {
     private $billingRepository;
@@ -42,7 +46,6 @@ final class CreateService
             'total' => $domainDealing->getBillingAmount(),
             'billing_date' => $nextBillingDate,
             'is_fixed' => false,
-
         ]);
 
         $this->billingRepository->updateIsFixed($domainBilling, true);
@@ -75,7 +78,16 @@ final class CreateService
             \Illuminate\Database\Eloquent\Collection $domainBillings
         ) use ($executeDate) {
             foreach ($domainBillings as $domainBilling) {
-                $this->executeOfDomainBilling($domainBilling, $executeDate);
+                DB::beginTransaction();
+                try {
+                    $this->executeOfDomainBilling($domainBilling, $executeDate);
+
+                    DB::commit();
+                } catch (Exception $e) {
+                    DB::rollBack();
+
+                    throw $e;
+                }
             }
         });
     }
