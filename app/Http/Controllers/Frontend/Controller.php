@@ -23,6 +23,12 @@ class Controller extends BaseController
         });
     }
 
+    /**
+     * @param string $route
+     * @param string $messageType
+     * @param string $message
+     * @return \Illuminate\Http\RedirectResponse
+     */
     private function redirectWithMessageByRouteMessageType(
         string $route,
         string $messageType,
@@ -31,11 +37,21 @@ class Controller extends BaseController
         return redirect()->route($route)->with($messageType, $message);
     }
 
+    /**
+     * @param string $route
+     * @param string $message
+     * @return \Illuminate\Http\RedirectResponse
+     */
     protected function redirectWithGreetingMessageByRoute(string $route, string $message): \Illuminate\Http\RedirectResponse
     {
         return $this->redirectWithMessageByRouteMessageType($route, 'greeting', $message);
     }
 
+    /**
+     * @param string $route
+     * @param string $message
+     * @return \Illuminate\Http\RedirectResponse
+     */
     protected function redirectWithFailingMessageByRoute(string $route, string $message): \Illuminate\Http\RedirectResponse
     {
         return $this->redirectWithMessageByRouteMessageType($route, 'failing', $message);
