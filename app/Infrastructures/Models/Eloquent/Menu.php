@@ -17,6 +17,10 @@ class Menu extends BaseModel
         'sort',
     ];
 
+    protected $casts = [
+        'is_screen' => 'boolean',
+    ];
+
     protected $dates = [
         'updated_at',
         'created_at',
@@ -28,5 +32,13 @@ class Menu extends BaseModel
     public function menuType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Eloquent\MenuType', 'type_id');
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isScreen(): bool
+    {
+        return $this->is_screen;
     }
 }
