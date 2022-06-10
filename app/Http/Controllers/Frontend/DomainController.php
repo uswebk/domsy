@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Exceptions\Frontend\DomainExistsException;
 
-
 use Exception;
 
 use Illuminate\Support\Facades\Auth;
