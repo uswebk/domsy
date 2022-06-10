@@ -30,13 +30,10 @@ class RegisterController extends Controller
         \App\Http\Requests\Auth\RegisterRequest $request,
         \App\Services\Application\Auth\RegisterService $registerService
     ): \Illuminate\Contracts\View\View {
+        $registerRequest = $request->makeInput();
+
         try {
-            $registerService->handle(
-                $request->name,
-                $request->email,
-                $request->password,
-                $request->email_verify_token,
-            );
+            $registerService->handle($registerRequest);
         } catch (Exception $e) {
             return view('auth.register')
             ->with($request->all())

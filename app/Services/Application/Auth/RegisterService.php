@@ -33,28 +33,24 @@ final class RegisterService
     }
 
     /**
-     * @param string $name
-     * @param string $email
-     * @param string $password
-     * @param string $emailVerifyToken
+     * @param \App\Services\Application\InputData\AuthRegisterRequest $registerRequest
      * @return void
      */
     public function handle(
-        string $name,
-        string $email,
-        string $password,
-        string $emailVerifyToken,
+        \App\Services\Application\InputData\AuthRegisterRequest $registerRequest
     ): void {
+        $userRequest = $registerRequest->getInput();
+
         DB::beginTransaction();
         try {
             $code = $this->userLatestCodeRepository->next();
 
             $user = $this->userRepository->store([
-                'name' => $name,
+                'name' => $userRequest->name,
                 'code' => $code,
-                'email' => $email,
-                'password' => $password,
-                'email_verify_token' => $emailVerifyToken,
+                'email' => $userRequest->email,
+                'password' => $userRequest->password,
+                'email_verify_token' => $userRequest->email_verify_token,
             ]);
 
             $this->emailVerificationService->execute($user);

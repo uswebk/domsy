@@ -5,9 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Requests\Auth;
 
 use App\Http\Requests\Request;
+use App\Services\Application\InputData\AuthRegisterRequest;
 
-class RegisterRequest extends Request
+final class RegisterRequest extends Request
 {
+    /**
+     * @return array
+     */
     public function rules(): array
     {
         return [
@@ -17,11 +21,11 @@ class RegisterRequest extends Request
         ];
     }
 
-    protected function passedValidation(): void
+    /**
+     * @return \App\Services\Application\InputData\AuthRegisterRequest
+     */
+    public function makeInput(): \App\Services\Application\InputData\AuthRegisterRequest
     {
-        $this->merge([
-            'password' => \Hash::make($this->password),
-            'email_verify_token' => base64_encode($this->email),
-        ]);
+        return new AuthRegisterRequest($this);
     }
 }
