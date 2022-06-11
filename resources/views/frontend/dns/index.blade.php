@@ -38,7 +38,7 @@
           </dl>
         </li>
 
-        @foreach ($domain->subdomain as $subdomain)
+        @foreach ($domain->subdomains as $subdomain)
           <li class='list-group-item'>
             <dl class='row'>
               <dt class='col-3'>{{ $subdomain->full_domain_name }}</dt>

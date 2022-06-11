@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructures\Models\Eloquent;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -123,5 +124,23 @@ class User extends Authenticatable implements MustVerifyEmail
         $mailCategory = MailCategory::find($mailCategoryId);
 
         return $mailCategory->default_days;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getSubdomains(): \Illuminate\Database\Eloquent\Collection
+    {
+        $subdomains = new Collection();
+
+        foreach ($this->domains as $domain) {
+            $subdomains->push($domain->subdomains);
+        }
+
+        if (! $subdomains->isEmpty()) {
+            return $subdomains;
+        }
+
+        return new Collection();
     }
 }

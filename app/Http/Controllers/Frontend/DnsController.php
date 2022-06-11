@@ -58,8 +58,8 @@ class DnsController extends Controller
     {
         $domains = Auth::user()->domains;
         $domains->load([
-            'subdomain',
-            'subdomain.dnsRecordType'
+            'subdomains',
+            'subdomains.dnsRecordType'
         ]);
 
         if (isset($this->domainIdQuery)) {

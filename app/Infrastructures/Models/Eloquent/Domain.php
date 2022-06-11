@@ -55,7 +55,7 @@ class Domain extends BaseModel
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function subdomain(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function subdomains(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany('App\Infrastructures\Models\Eloquent\Subdomain');
     }

@@ -1,0 +1,38 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Services\Domain\Subdomain\DNS;
+
+use App\Infrastructures\Models\DnsRecord;
+
+use Illuminate\Support\Collection;
+
+final class MakeDnsRecordService
+{
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @return \Illuminate\Support\Collection
+     */
+    public function make(
+        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+    ): \Illuminate\Support\Collection {
+        $name = $subdomain->getFullDomainName();
+
+        $dnsRecordCollection = new Collection();
+
+        $dnsValues = [];
+        $dnsValues = array_merge($dnsValues, dns_get_record($name, DNS_NS));
+        $dnsValues = array_merge($dnsValues, dns_get_record($name, DNS_A));
+        $dnsValues = array_merge($dnsValues, dns_get_record($name, DNS_MX));
+        $dnsValues = array_merge($dnsValues, dns_get_record($name, DNS_AAAA));
+        $dnsValues = array_merge($dnsValues, dns_get_record($name, DNS_CNAME));
+        $dnsValues = array_merge($dnsValues, dns_get_record($name, DNS_TXT));
+
+        foreach ($dnsValues as $dnsValue) {
+            $dnsRecordCollection->push(new DnsRecord($dnsValue));
+        }
+
+        return $dnsRecordCollection;
+    }
+}

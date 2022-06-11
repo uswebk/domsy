@@ -39,4 +39,36 @@ final class SubdomainRepository implements SubdomainRepositoryInterface
     {
         $subdomain->delete();
     }
+
+    /**
+     * @param integer $domainId
+     * @param string $prefix
+     * @param integer $typeId
+     * @param string $value
+     * @param integer $ttl
+     * @param integer $priority
+     * @return \App\Infrastructures\Models\Eloquent\Subdomain
+     */
+    public function updateOfTtlPriority(
+        int $domainId,
+        int $typeId,
+        string $prefix,
+        string $value,
+        int $ttl,
+        int $priority
+    ): \App\Infrastructures\Models\Eloquent\Subdomain {
+        $subdomain = Subdomain::firstOrNew([
+            'domain_id' => $domainId,
+            'type_id' => $typeId,
+            'prefix' => $prefix,
+            'value' => $value,
+        ]);
+
+        $subdomain->ttl = $ttl;
+        $subdomain->priority = $priority;
+
+        $subdomain->save();
+
+        return $subdomain;
+    }
 }
