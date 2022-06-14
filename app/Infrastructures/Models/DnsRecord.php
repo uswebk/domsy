@@ -157,7 +157,9 @@ final class DnsRecord
     {
         $dnsTypeValueIndexes = $this->getDnsTypeValueIndexes();
 
-        $value = $dnsTypeValueIndexes[$this->type];
+        $index = $dnsTypeValueIndexes[$this->type];
+
+        $value = $this->{$index};
 
         if (isset($value)) {
             return $value;

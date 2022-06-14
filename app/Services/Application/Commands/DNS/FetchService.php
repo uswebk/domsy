@@ -11,7 +11,7 @@ final class FetchService
 {
     private $dnsRecodeTypeQueryService;
 
-    private $registrationService;
+    private $subdomainRepository;
 
     private $makeDnsRecordService;
 
@@ -19,11 +19,11 @@ final class FetchService
 
     public function __construct(
         \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService,
-        \App\Services\Domain\Subdomain\DNS\RegistrationService $registrationService,
+        \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
         \App\Services\Domain\Subdomain\DNS\MakeDnsRecordService $makeDnsRecordService
     ) {
         $this->dnsRecodeTypeQueryService = $dnsRecodeTypeQueryService;
-        $this->registrationService = $registrationService;
+        $this->subdomainRepository = $subdomainRepository;
         $this->makeDnsRecordService = $makeDnsRecordService;
     }
 
@@ -35,6 +35,43 @@ final class FetchService
         $dnsRecordTypes = $this->dnsRecodeTypeQueryService->getSortAll();
 
         $this->dnsTypes = $dnsRecordTypes->pluck('name', 'id')->toArray();
+    }
+
+    /**
+     * @param \App\Infrastructures\Models\DnsRecord $dnsRecord
+     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @return void
+     */
+    private function executeOfDnsRecordBySubdomain(
+        \App\Infrastructures\Models\DnsRecord $dnsRecord,
+        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+    ): void {
+        if (in_array($dnsRecord->getType(), $this->dnsTypes)) {
+            $this->subdomainRepository->updateOfTtlPriority(
+                $subdomain->domain_id,
+                $dnsRecord->getTypeId(),
+                $subdomain->prefix,
+                $dnsRecord->getValue(),
+                $dnsRecord->getTtl(),
+                $dnsRecord->getPriority(),
+            );
+        }
+    }
+
+    /**
+     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @return void
+     */
+    private function executeOfSubdomain(
+        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+    ): void {
+        $subdomain->delete();
+
+        $dnsRecords = $this->makeDnsRecordService->make($subdomain);
+
+        foreach ($dnsRecords as $dnsRecord) {
+            $this->executeOfDnsRecordBySubdomain($dnsRecord, $subdomain);
+        }
     }
 
     /**
@@ -51,16 +88,7 @@ final class FetchService
         DB::beginTransaction();
         try {
             foreach ($subdomainCollapse as $subdomain) {
-                $dnsRecords = $this->makeDnsRecordService->make($subdomain);
-
-                $domainId = $subdomain->domain_id;
-                $prefix = $subdomain->prefix;
-
-                $subdomain->delete();
-
-                foreach ($dnsRecords as $dnsRecord) {
-                    $this->registrationService->execute($dnsRecord, $domainId, $prefix, $this->dnsTypes);
-                }
+                $this->executeOfSubdomain($subdomain);
             }
 
             DB::commit();
