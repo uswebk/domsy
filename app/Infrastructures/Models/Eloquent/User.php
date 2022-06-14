@@ -137,10 +137,6 @@ class User extends Authenticatable implements MustVerifyEmail
             $subdomains->push($domain->subdomains);
         }
 
-        if (! $subdomains->isEmpty()) {
-            return $subdomains;
-        }
-
-        return new Collection();
+        return $subdomains;
     }
 }

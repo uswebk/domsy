@@ -13,12 +13,16 @@ final class Fetch extends Command
 
     private $fetchService;
 
+    private $userQueryService;
+
     public function __construct(
-        \App\Services\Application\Commands\DNS\FetchService $fetchService
+        \App\Services\Application\Commands\DNS\FetchService $fetchService,
+        \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $userQueryService
     ) {
         parent::__construct();
 
         $this->fetchService = $fetchService;
+        $this->userQueryService = $userQueryService;
     }
 
     /**
@@ -29,13 +33,13 @@ final class Fetch extends Command
         $userId = $this->argument('userId');
 
         if (isset($userId)) {
-            $user = User::findOrFail($userId);
+            $user = $this->userQueryService->findById((int) $userId);
 
             $subdomains = $user->getSubdomains();
 
             $this->fetchService->handle($subdomains);
         } else {
-            // 自動取得設定ユーザーのみ対象(chunk)
+            // TODO: 自動取得設定ユーザーのみ対象(chunk)
             // User::where()->get()->chunk(1000, function ($users) {
             //     foreach ($users as $user) {
             //         $subdomains = $user->getSubdomains();

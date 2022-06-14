@@ -9,6 +9,15 @@ use App\Infrastructures\Models\Eloquent\User;
 final class EloquentUserQueryService implements EloquentUserQueryServiceInterface
 {
     /**
+     * @param integer $id
+     * @return \App\Infrastructures\Models\Eloquent\User
+     */
+    public function findById(int $id): \App\Infrastructures\Models\Eloquent\User
+    {
+        return User::findOrFail($id);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getActiveUsers(): \Illuminate\Database\Eloquent\Collection
