@@ -24,6 +24,17 @@ final class DnsRecord
 
     private $entries;
 
+    private const DNS_TYPE_VALUE_INDEXES = [
+        'A' => 'ip',
+        'AAAA' => 'ipv6',
+        'MX' => 'target',
+        'CNAME' => 'target',
+        'NS' => 'target',
+        'PTR' => 'target',
+        'TXT' => 'target',
+        'SRV' => 'target',
+    ];
+
     /**
      * @param array $dnsRecord
      */
@@ -132,18 +143,26 @@ final class DnsRecord
     }
 
     /**
+     * @return array
+     */
+    public function getDnsTypeValueIndexes(): array
+    {
+        return self::DNS_TYPE_VALUE_INDEXES;
+    }
+
+    /**
      * @return string
      */
     public function getValue(): string
     {
-        if ($this->type === 'A') {
-            return $this->getIp();
+        $dnsTypeValueIndexes = $this->getDnsTypeValueIndexes();
+
+        $value = $dnsTypeValueIndexes[$this->type];
+
+        if (isset($value)) {
+            return $value;
         }
 
-        if ($this->type === 'TXT') {
-            return $this->getTxt();
-        }
-
-        return $this->getTarget();
+        return '';
     }
 }

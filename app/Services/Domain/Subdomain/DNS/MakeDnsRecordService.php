@@ -17,9 +17,8 @@ final class MakeDnsRecordService
     public function make(
         \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
     ): \Illuminate\Support\Collection {
-        $name = $subdomain->getFullDomainName();
-
         $dnsRecordCollection = new Collection();
+        $name = $subdomain->getFullDomainName();
 
         $dnsValues = [];
         $dnsValues = array_merge($dnsValues, dns_get_record($name, DNS_NS));
