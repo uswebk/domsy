@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
-class MenuType extends BaseModel
+final class MenuType extends BaseModel
 {
     public $timestamps = false;
 

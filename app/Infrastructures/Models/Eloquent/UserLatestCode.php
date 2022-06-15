@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
-class UserLatestCode extends BaseModel
+final class UserLatestCode extends BaseModel
 {
     protected $table = 'user_latest_code';
 

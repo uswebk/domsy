@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-
-class DomainBilling extends BaseModel
+final class DomainBilling extends BaseModel
 {
-    use HasFactory;
-
     protected $fillable = [
         'dealing_id',
         'total',

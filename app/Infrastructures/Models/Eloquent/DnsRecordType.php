@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
-class DnsRecordType extends BaseModel
+final class DnsRecordType extends BaseModel
 {
     public $timestamps = false;
 

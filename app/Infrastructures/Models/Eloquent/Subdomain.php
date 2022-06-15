@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
-class Subdomain extends BaseModel
+final class Subdomain extends BaseModel
 {
     protected $fillable = [
         'domain_id',

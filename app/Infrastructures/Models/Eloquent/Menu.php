@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
-class Menu extends BaseModel
+final class Menu extends BaseModel
 {
     protected $fillable = [
         'type_id',
