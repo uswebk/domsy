@@ -36,10 +36,12 @@ final class Interval
      * @return \Carbon\Carbon
      */
     public static function getDateByIntervalIntervalCategory(
-        \Carbon\Carbon $targetDate,
+        \Carbon\Carbon $_targetDate,
         int $interval,
         string $intervalCategory
     ): \Carbon\Carbon {
+        $targetDate = $_targetDate->copy();
+
         if ($intervalCategory == 'DAY') {
             return $targetDate->addDays($interval);
         }

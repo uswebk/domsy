@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 
 final class CreateService
 {
+    private $executeDate;
+
     private $billingRepository;
 
     private const CHUNK_SIZE = 1000;
@@ -26,22 +28,23 @@ final class CreateService
 
     /**
      * @param \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling
-     * @param \Carbon\Carbon $executeDate
      * @return void
      */
     private function executeOfDomainBilling(
-        \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling,
-        \Carbon\Carbon $executeDate
+        \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling
     ): void {
+        $targetDate = $this->executeDate->copy();
         $domainDealing = $domainBilling->domainDealing;
 
+        $hoge = $domainBilling->id;
+
         $nextBillingDate = Interval::getDateByIntervalIntervalCategory(
-            $executeDate,
+            $targetDate,
             $domainDealing->interval,
             $domainDealing->interval_category
         );
 
-        $this->billingRepository->store([
+        $this->billingRepository->firstOrCreate([
             'dealing_id' => $domainDealing->id,
             'total' => $domainDealing->getBillingAmount(),
             'billing_date' => $nextBillingDate,
@@ -52,18 +55,17 @@ final class CreateService
     }
 
     /**
-     * @param \Carbon\Carbon $executeDate
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    private function getQueryBuilderOfDomainBilling(
-        \Carbon\Carbon $executeDate
-    ): \Illuminate\Database\Eloquent\Builder {
-        $datetimeStartString = DateHelper::getDatetimeStartString($executeDate);
+    private function getQueryBuilderOfDomainBilling(): \Illuminate\Database\Eloquent\Builder
+    {
+        $datetimeStartString = DateHelper::getDatetimeStartString($this->executeDate);
 
         return DomainBilling::join('domain_dealings', 'domain_billings.dealing_id', '=', 'domain_dealings.id')
         ->where('domain_dealings.is_auto_update', '=', true)
         ->where('domain_dealings.is_halt', '=', false)
-        ->where('domain_billings.billing_date', '=', $datetimeStartString);
+        ->where('domain_billings.billing_date', '=', $datetimeStartString)
+        ->select('domain_billings.*');
     }
 
     /**
@@ -72,15 +74,17 @@ final class CreateService
      */
     public function handle(\Carbon\Carbon $executeDate): void
     {
-        $query = $this->getQueryBuilderOfDomainBilling($executeDate);
+        $this->executeDate = $executeDate;
+
+        $query = $this->getQueryBuilderOfDomainBilling();
 
         $query->chunk(self::CHUNK_SIZE, function (
             \Illuminate\Database\Eloquent\Collection $domainBillings
-        ) use ($executeDate) {
+        ) {
             foreach ($domainBillings as $domainBilling) {
                 DB::beginTransaction();
                 try {
-                    $this->executeOfDomainBilling($domainBilling, $executeDate);
+                    $this->executeOfDomainBilling($domainBilling);
 
                     DB::commit();
                 } catch (Exception $e) {

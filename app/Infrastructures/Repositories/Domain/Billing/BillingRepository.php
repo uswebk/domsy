@@ -20,6 +20,15 @@ final class BillingRepository implements BillingRepositoryInterface
     }
 
     /**
+     * @param array $attributes
+     * @return \App\Infrastructures\Models\Eloquent\DomainBilling
+     */
+    public function firstOrCreate(array $attributes): \App\Infrastructures\Models\Eloquent\DomainBilling
+    {
+        return DomainBilling::firstOrCreate($attributes);
+    }
+
+    /**
      * @param \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling
      * @param boolean $isFixed
      * @return void
@@ -28,6 +37,7 @@ final class BillingRepository implements BillingRepositoryInterface
         \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling,
         bool $isFixed
     ) {
+        $hoge = $domainBilling->id;
         $domainBilling->is_fixed = $isFixed;
         $domainBilling->save();
 

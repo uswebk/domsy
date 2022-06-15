@@ -13,6 +13,12 @@ interface BillingRepositoryInterface
     public function store(array $attributes): \App\Infrastructures\Models\Eloquent\DomainBilling;
 
     /**
+     * @param array $attributes
+     * @return \App\Infrastructures\Models\Eloquent\DomainBilling
+     */
+    public function firstOrCreate(array $attributes): \App\Infrastructures\Models\Eloquent\DomainBilling;
+
+    /**
      * @param \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling
      * @param boolean $isFixed
      * @return void
