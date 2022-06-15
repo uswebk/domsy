@@ -15,6 +15,10 @@ final class Fetch extends Command
 
     private $userQueryService;
 
+    /**
+     * @param \App\Services\Application\Commands\DNS\FetchService $fetchService
+     * @param \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $userQueryService
+     */
     public function __construct(
         \App\Services\Application\Commands\DNS\FetchService $fetchService,
         \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $userQueryService
