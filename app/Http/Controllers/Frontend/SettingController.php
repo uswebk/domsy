@@ -38,12 +38,12 @@ class SettingController extends Controller
 
     /**
      * @param \App\Http\Requests\Frontend\Setting\SaveMailRequest $request
-     * @param \App\Services\Application\SettingSaveService $settingSaveService
+     * @param \App\Services\Application\SettingMailSaveService $settingSaveService
      * @return \Illuminate\Http\RedirectResponse
      */
     public function saveMail(
         \App\Http\Requests\Frontend\Setting\SaveMailRequest $request,
-        \App\Services\Application\SettingSaveService $settingSaveService
+        \App\Services\Application\SettingMailSaveService $settingSaveService
     ): \Illuminate\Http\RedirectResponse {
         $settingMailSaveRequest = $request->makeInput();
 

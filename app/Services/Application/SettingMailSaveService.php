@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
-final class SettingSaveService
+final class SettingMailSaveService
 {
     private $userMailSettingRepository;
 
