@@ -37,18 +37,18 @@ class SettingController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Frontend\Setting\SaveRequest $request
+     * @param \App\Http\Requests\Frontend\Setting\SaveMailRequest $request
      * @param \App\Services\Application\SettingSaveService $settingSaveService
      * @return \Illuminate\Http\RedirectResponse
      */
     public function saveMail(
-        \App\Http\Requests\Frontend\Setting\SaveRequest $request,
+        \App\Http\Requests\Frontend\Setting\SaveMailRequest $request,
         \App\Services\Application\SettingSaveService $settingSaveService
     ): \Illuminate\Http\RedirectResponse {
-        $settingSaveRequest = $request->makeInput();
+        $settingMailSaveRequest = $request->makeInput();
 
         try {
-            $settingSaveService->handle($settingSaveRequest);
+            $settingSaveService->handle($settingMailSaveRequest);
         } catch (Exception $e) {
             return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Update');
         }

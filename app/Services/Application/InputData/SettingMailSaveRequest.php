@@ -10,15 +10,15 @@ use App\Infrastructures\Models\Eloquent\UserMailSetting;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
-final class SettingSaveRequest
+final class SettingMailSaveRequest
 {
     private $userMailSettings;
 
     /**
-     * @param \App\Http\Requests\Frontend\Setting\SaveRequest $saveRequest
+     * @param \App\Http\Requests\Frontend\Setting\SaveMailRequest $saveRequest
      */
     public function __construct(
-        \App\Http\Requests\Frontend\Setting\SaveRequest $saveRequest
+        \App\Http\Requests\Frontend\Setting\SaveMailRequest $saveRequest
     ) {
         $this->userMailSettings = new Collection();
 
