@@ -7,7 +7,7 @@
 
     <div class='d-flex justify-content-left flex-wrap'>
       @foreach ($menus as $menu)
-        @if($menu->isScreen())
+        @if ($menu->isScreen())
           <div class='card w-25 m-1'>
             <a href='{{ route($menu->route) }}' class='text-reset' style='text-decoration:none;'>
               <div class='card-body'>

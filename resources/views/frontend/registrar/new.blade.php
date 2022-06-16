@@ -9,7 +9,7 @@
 
     <h1 class='h4 m-1'>Registrar Create</h1>
 
-    <a href='{{ route('registrar.index') }}' class='btn btn-secondary btn-sm'> < </a>
+    <a href='{{ route('registrar.index') }}' class='btn btn-secondary btn-sm'> back </a>
 
     {{ Form::open(['url' => route('registrar.store'), 'class' => 'w-50 p-3']) }}
     <div class='w-75 mt-2'>
@@ -28,7 +28,7 @@
       <div class='form-label'>{{ Form::label('registrar-link', 'Registrar link') }}</div>
 
       <div>
-        {{ Form::text('link', old('link'), ['placeholder' => 'https://example.com','id' => 'registrar-link','class' => 'form-control']) }}
+        {{ Form::text('link', old('link'), ['placeholder' => 'https://example.com', 'id' => 'registrar-link', 'class' => 'form-control']) }}
       </div>
 
       @error('link')
@@ -40,7 +40,7 @@
       <div class='form-label'>{{ Form::label('registrar-note', 'Registrar note') }}</div>
 
       <div>
-        {{ Form::textarea('note', old('note'), ['rows' => '3','placeholder' => 'Remarks','id' => 'registrar-note','class' => 'form-control']) }}
+        {{ Form::textarea('note', old('note'), ['rows' => '3', 'placeholder' => 'Remarks', 'id' => 'registrar-note', 'class' => 'form-control']) }}
       </div>
 
       @error('note')

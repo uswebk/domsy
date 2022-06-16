@@ -16,8 +16,7 @@
     <h1 class='h4 m-1'>Dealings</h1>
 
     <div class='container'>
-      <a href='{{ route('dealing.new') }}' class='btn btn-primary btn-sm active' role='button'
-        aria-pressed='true'>+</a>
+      <a href='{{ route('dealing.new') }}' class='btn btn-primary btn-sm active' role='button' aria-pressed='true'>+</a>
     </div>
 
     <table class='table table-hover mt-2'>
@@ -30,9 +29,9 @@
         <th>Auto Update</th>
         <th>Action</th>
       </tr>
+
       @foreach ($domains as $domain)
         @foreach ($domain->domainDealings as $domainDealing)
-
           <tr>
             <td>
               {{ $domain->name }}

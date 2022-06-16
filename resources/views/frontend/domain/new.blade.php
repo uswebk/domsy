@@ -9,7 +9,7 @@
 
     <h1 class='h4 m-1'>Domain Create</h1>
 
-    <a href='{{ route('domain.index') }}' class='btn btn-secondary btn-sm'> < </a>
+    <a href='{{ route('domain.index') }}' class='btn btn-secondary btn-sm'> back </a>
 
     {{ Form::open(['url' => route('domain.store'), 'class' => 'w-50 p-3']) }}
 
@@ -17,7 +17,7 @@
       <div class='form-label'>{{ Form::label('domain-registrar_id', 'Registrar') }}</div>
 
       <div>
-        {{ Form::select('registrar_id', $registrarIds, old('registrar_id'), ['placeholder' => 'Select Registrar', 'id' => 'domain-registrar_id','class' => 'form-control w-50 d-inline']) }}
+        {{ Form::select('registrar_id', $registrarIds, old('registrar_id'), ['placeholder' => 'Select Registrar', 'id' => 'domain-registrar_id', 'class' => 'form-control w-50 d-inline']) }}
       </div>
 
       @error('registrar_id')
@@ -29,7 +29,7 @@
       <div class='form-label'>{{ Form::label('domain-name', 'Domain Name') }}</div>
 
       <div>
-        {{ Form::text('name', old('name'), ['placeholder' => 'example.com','id' => 'domain-name','class' => 'form-control']) }}
+        {{ Form::text('name', old('name'), ['placeholder' => 'example.com', 'id' => 'domain-name', 'class' => 'form-control']) }}
       </div>
 
       @error('name')
@@ -41,7 +41,7 @@
       <div>{{ Form::label('domain-price', 'Price') }}</div>
 
       <div>
-        {{ Form::number('price', old('price'), ['placeholder' => '1000','id' => 'domain-price','class' => 'form-control']) }}
+        {{ Form::number('price', old('price'), ['placeholder' => '1000', 'id' => 'domain-price', 'class' => 'form-control']) }}
       </div>
 
       @error('price')
@@ -87,7 +87,7 @@
 
     <div class='mt-2'>
       {{ Form::hidden('is_active', 0) }}
-      {{ Form::checkbox('is_active', '1', old('is_active', 1), ['id' => 'domain-is_active','class' => 'form-check-input']) }}
+      {{ Form::checkbox('is_active', '1', old('is_active', 1), ['id' => 'domain-is_active', 'class' => 'form-check-input']) }}
       {{ Form::label('domain-is_active', 'Active') }}
 
       @error('is_active')
@@ -97,7 +97,7 @@
 
     <div class='mt-2'>
       {{ Form::hidden('is_transferred', 0) }}
-      {{ Form::checkbox('is_transferred', '1', old('is_transferred'), ['id' => 'domain-is_transferred','class' => 'form-check-input']) }}
+      {{ Form::checkbox('is_transferred', '1', old('is_transferred'), ['id' => 'domain-is_transferred', 'class' => 'form-check-input']) }}
       {{ Form::label('domain-is_transferred', 'Transferred') }}
 
       @error('is_transferred')
@@ -107,7 +107,7 @@
 
     <div class='mt-2'>
       {{ Form::hidden('is_management_only', 0) }}
-      {{ Form::checkbox('is_management_only', '1', old('is_management_only'), ['id' => 'domain-is_management_only','class' => 'form-check-input']) }}
+      {{ Form::checkbox('is_management_only', '1', old('is_management_only'), ['id' => 'domain-is_management_only', 'class' => 'form-check-input']) }}
       {{ Form::label('domain-is_management_only', 'Management Only') }}
 
       @error('is_management_only')

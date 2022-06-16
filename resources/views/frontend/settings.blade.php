@@ -17,27 +17,34 @@
 
     {{ Form::open(['url' => route('settings.mail.save')]) }}
 
-      @foreach ($mailCategories as $mailCategory )
+    @foreach ($mailCategories as $mailCategory)
+      {{ Form::hidden($mailCategory->name . '[is_received]', 0) }}
+      {{ Form::checkbox(
+          $mailCategory->name . '[is_received]',
+          '1',
+          old($mailCategory->name, $user->isReceivedMailByMailCategoryId($mailCategory->id)),
+          ['id' => $mailCategory->name, 'class' => 'form-check-input'],
+      ) }}
+      {{ Form::label($mailCategory->name, $mailCategory->annotation) }}
 
-        {{ Form::hidden($mailCategory->name.'[is_received]', 0) }}
-        {{ Form::checkbox($mailCategory->name.'[is_received]', '1', old($mailCategory->name, $user->isReceivedMailByMailCategoryId($mailCategory->id) ), ['id' =>$mailCategory->name,'class' => 'form-check-input']) }}
-        {{ Form::label($mailCategory->name,  $mailCategory->annotation) }}
+      @if ($mailCategory->hasDays())
+        @php
+          $noticeNumberDays = $user->getMailSettingNoticeNumberDaysByMailCategoryId($mailCategory->id);
+        @endphp
 
-        @if($mailCategory->hasDays())
-
-          @php
-            $noticeNumberDays = $user->getMailSettingNoticeNumberDaysByMailCategoryId($mailCategory->id);
-          @endphp
-
-          {{ Form::number($mailCategory->name.'[notice_number_days]', old('notice_number_days', $noticeNumberDays), ['placeholder' => '1','id' => 'notice_number_days','class' => 'form-control w-25 d-inline']) }}
-          Days ago
-        @endif
-
-        <br>
-        @endforeach
+        {{ Form::number($mailCategory->name . '[notice_number_days]', old('notice_number_days', $noticeNumberDays), [
+            'placeholder' => '1',
+            'id' => 'notice_number_days',
+            'class' => 'form-control w-25 d-inline',
+        ]) }}
+        Days ago
+      @endif
 
       <br>
-      {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
+    @endforeach
+
+    <br>
+    {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
 
     {{ Form::close() }}
 
@@ -45,17 +52,21 @@
     <hr>
     {{ Form::open(['url' => route('settings.general.save')]) }}
 
-      @foreach ($generalSettingCategories as $generalSettingCategory )
-
-        {{ Form::hidden($generalSettingCategory->name.'[is_enabled]', 0) }}
-        {{ Form::checkbox($generalSettingCategory->name.'[is_enabled]', '1', old($generalSettingCategory->name, $user->isEnableGeneralSettingByGeneralId($generalSettingCategory->id) ),['id' =>$generalSettingCategory->name,'class' => 'form-check-input']) }}
-        {{ Form::label($generalSettingCategory->name,  $generalSettingCategory->annotation) }}
-
-        <br>
-      @endforeach
+    @foreach ($generalSettingCategories as $generalSettingCategory)
+      {{ Form::hidden($generalSettingCategory->name . '[is_enabled]', 0) }}
+      {{ Form::checkbox(
+          $generalSettingCategory->name . '[is_enabled]',
+          '1',
+          old($generalSettingCategory->name, $user->isEnableGeneralSettingByGeneralId($generalSettingCategory->id)),
+          ['id' => $generalSettingCategory->name, 'class' => 'form-check-input'],
+      ) }}
+      {{ Form::label($generalSettingCategory->name, $generalSettingCategory->annotation) }}
 
       <br>
-      {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
+    @endforeach
+
+    <br>
+    {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
 
     {{ Form::close() }}
   </div>

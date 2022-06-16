@@ -1,5 +1,5 @@
 <?php
-
+// Blade Formatter › Format: Indent Size
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 

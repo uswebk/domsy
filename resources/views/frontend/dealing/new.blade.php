@@ -9,7 +9,7 @@
 
     <h1 class='h4 m-1'>Dealing Create</h1>
 
-    <a href='{{ route('dealing.index') }}' class='btn btn-secondary btn-sm'> < </a>
+    <a href='{{ route('dealing.index') }}' class='btn btn-secondary btn-sm'> back </a>
 
     {{ Form::open(['url' => route('dealing.store'), 'class' => 'w-50 p-3']) }}
 
@@ -17,7 +17,7 @@
       <div class='form-label'>{{ Form::label('dealing-domain_id', 'Domain') }}</div>
 
       <div>
-        {{ Form::select('domain_id', $domainList, old('domain_id'), ['placeholder' => 'Select Domain','id' => 'dealing-domain_id','class' => 'form-control w-50 d-inline']) }}
+        {{ Form::select('domain_id', $domainList, old('domain_id'), ['placeholder' => 'Select Domain', 'id' => 'dealing-domain_id', 'class' => 'form-control w-50 d-inline']) }}
       </div>
 
       @error('domain_id')
@@ -29,7 +29,7 @@
       <div class='form-label'>{{ Form::label('dealing-client_id', 'Client') }}</div>
 
       <div>
-        {{ Form::select('client_id', $clientList, old('client_id'), ['placeholder' => 'Select Client', 'id' => 'dealing-client_id','class' => 'form-control w-50 d-inline']) }}
+        {{ Form::select('client_id', $clientList, old('client_id'), ['placeholder' => 'Select Client', 'id' => 'dealing-client_id', 'class' => 'form-control w-50 d-inline']) }}
       </div>
 
       @error('client_id')
@@ -72,13 +72,12 @@
       @enderror
     </div>
 
-
     <div class='w-50 mt-2'>
       <div class='form-label'>{{ Form::label('dealing-interval', 'Dealing interval') }}</div>
 
       <div>
-        {{ Form::number('interval', old('interval'), ['placeholder' => '1','id' => 'dealing-interval','class' => 'form-control w-25 d-inline']) }}
-        {{ Form::select('interval_category', $intervalCategories , old('interval_category'), ['id' => 'dealing-interval_category','class' => 'form-control w-50 d-inline']) }}
+        {{ Form::number('interval', old('interval'), ['placeholder' => '1', 'id' => 'dealing-interval', 'class' => 'form-control w-25 d-inline']) }}
+        {{ Form::select('interval_category', $intervalCategories, old('interval_category'), ['id' => 'dealing-interval_category', 'class' => 'form-control w-50 d-inline']) }}
       </div>
 
       @error('interval')
@@ -92,7 +91,7 @@
 
     <div class='mt-2'>
       {{ Form::hidden('is_auto_update', 0) }}
-      {{ Form::checkbox('is_auto_update', '1', old('is_auto_update', 1), ['id' => 'dealing-is_auto_update','class' => 'form-check-input']) }}
+      {{ Form::checkbox('is_auto_update', '1', old('is_auto_update', 1), ['id' => 'dealing-is_auto_update', 'class' => 'form-check-input']) }}
       {{ Form::label('dealing-is_auto_update', 'Auto Update') }}
 
       @error('is_auto_update')
@@ -102,7 +101,7 @@
 
     <div class='mt-2'>
       {{ Form::hidden('is_halt', 0) }}
-      {{ Form::checkbox('is_halt', '1', old('is_halt', 0), ['id' => 'dealing-is_halt','class' => 'form-check-input']) }}
+      {{ Form::checkbox('is_halt', '1', old('is_halt', 0), ['id' => 'dealing-is_halt', 'class' => 'form-check-input']) }}
       {{ Form::label('dealing-is_halt', 'Halt') }}
 
       @error('is_halt')
@@ -116,6 +115,5 @@
         {{ Form::close() }}
       </div>
     </div>
-
   </div>
 @endsection

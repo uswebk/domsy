@@ -57,7 +57,6 @@
             {{ Form::open(['url' => route('client.delete', $client->id), 'name' => 'delete-form']) }}
             {{ Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm']) }}
             {{ Form::close() }}
-
           </td>
         </tr>
       @endforeach

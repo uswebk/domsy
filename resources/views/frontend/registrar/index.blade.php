@@ -16,7 +16,8 @@
     <h1 class='h4 m-1'>Registrar List</h1>
 
     <div class='container'>
-      <a href='{{ route('registrar.new') }}' class='btn btn-primary btn-sm active' role='button' aria-pressed='true'>+</a>
+      <a href='{{ route('registrar.new') }}' class='btn btn-primary btn-sm active' role='button'
+        aria-pressed='true'>+</a>
     </div>
 
     <table class='table table-hover mt-2'>
@@ -45,9 +46,8 @@
             <a href='{{ route('registrar.edit', $registrar->id) }}' class='btn btn-primary btn-sm'> Edit</a>
 
             {{ Form::open(['url' => route('registrar.delete', $registrar->id), 'name' => 'delete-form']) }}
-              {{ Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm']) }}
+            {{ Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm']) }}
             {{ Form::close() }}
-
           </td>
         </tr>
       @endforeach

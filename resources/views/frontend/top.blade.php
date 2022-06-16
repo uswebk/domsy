@@ -7,33 +7,32 @@
 
   <title>Domsy</title>
 
-  <!-- Fonts -->
   <link href='https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap' rel='stylesheet'>
 
 
   <style>
     html {
-      width:100%;
-      height:100%;
+      width: 100%;
+      height: 100%;
       color: #5684d5;
     }
+
     body {
       font-family: 'Nunito', sans-serif;
       margin: 0;
-      height:100%;
+      height: 100%;
     }
 
-    .wrapper{
-      width:100%;
+    .wrapper {
+      width: 100%;
       height: 100%;
       background-color: #e8c46a;
     }
-
   </style>
 
-<link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'>
-<link href='{{ asset('css/app.css') }}' rel='stylesheet'>
-<script src='{{ asset('js/app.js') }}' defer></script>
+  <link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'>
+  <link href='{{ asset('css/app.css') }}' rel='stylesheet'>
+  <script src='{{ asset('js/app.js') }}' defer></script>
 
 </head>
 

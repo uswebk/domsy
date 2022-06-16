@@ -11,6 +11,5 @@
     <a href='{{ route('client.index') }}' class='list-group-item list-group-item-action'> Clients </a>
 
     <a href='{{ route('dealing.index') }}' class='list-group-item list-group-item-action'> Dealings </a>
-
   </div>
 </div>

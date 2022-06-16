@@ -49,8 +49,9 @@
 
               <dd class='col-3'>
                 <a href='{{ route('dns.edit', ['subdomain' => $subdomain->id, 'domain_id' => $domainIdQuery]) }}'
-                  class='btn btn-primary btn-sm'> Edit</a>
-                {{ Form::open(['url' => route('dns.delete', ['subdomain' => $subdomain->id, 'domain_id' => $domainIdQuery]),'name' => 'delete-form','class' => 'd-inline']) }}
+                  class='btn btn-primary btn-sm'> Edit
+                </a>
+                {{ Form::open(['url' => route('dns.delete', ['subdomain' => $subdomain->id, 'domain_id' => $domainIdQuery]), 'name' => 'delete-form', 'class' => 'd-inline']) }}
                 {{ Form::button('Delete', ['type' => 'submit', 'class' => 'btn btn-danger btn-sm']) }}
                 {{ Form::close() }}
               </dd>

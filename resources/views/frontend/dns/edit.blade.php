@@ -9,17 +9,17 @@
 
     <h1 class='h4 m-1'>DNS Edit</h1>
 
-    <a href='{{ route('dns.index', ['domain_id' => $domainIdQuery]) }}' class='btn btn-secondary btn-sm'> < </a>
+    <a href='{{ route('dns.index', ['domain_id' => $domainIdQuery]) }}' class='btn btn-secondary btn-sm'> back </a>
 
     <h2>{{ $subdomain->full_domain_name }}</h2>
 
-    {{ Form::open(['url' => route('dns.update', ['subdomain' => $subdomain->id, 'domain_id' => $domainIdQuery]),'class' => 'w-50 p-3']) }}
+    {{ Form::open(['url' => route('dns.update', ['subdomain' => $subdomain->id, 'domain_id' => $domainIdQuery]), 'class' => 'w-50 p-3']) }}
 
     <div class='w-25 mt-2'>
       <div class='form-label'>{{ Form::label('dns-subdomain', 'Subdomain') }}</div>
 
       <div>
-        {{ Form::text('prefix', old('prefix', $subdomain->prefix), ['placeholder' => 'www','id' => 'dns-subdomain','class' => 'form-control']) }}
+        {{ Form::text('prefix', old('prefix', $subdomain->prefix), ['placeholder' => 'www', 'id' => 'dns-subdomain', 'class' => 'form-control']) }}
         .{{ $subdomain->domain->name }}</div>
 
       @error('prefix')
@@ -66,7 +66,7 @@
       <div>{{ Form::label('dns-priority', 'Priority') }}</div>
 
       <div>
-        {{ Form::number('priority', old('priority', $subdomain->priority), ['id' => 'dns-priority','class' => 'form-control']) }}
+        {{ Form::number('priority', old('priority', $subdomain->priority), ['id' => 'dns-priority', 'class' => 'form-control']) }}
       </div>
 
       @error('priority')
@@ -76,10 +76,8 @@
 
     <div class='mt-5'>
       {{ Form::button('Update', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
-      <div>
-
-        {{ Form::close() }}
-      </div>
     </div>
+
+    {{ Form::close() }}
   </div>
 @endsection
