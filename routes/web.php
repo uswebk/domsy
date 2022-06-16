@@ -24,9 +24,12 @@ Route::middleware(['verified','auth'])->group(function () {
     Route::namespace('Frontend')->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
 
-        Route::get('settings', 'SettingController@index')->name('settings.index');
+        Route::prefix('settings')->name('settings.')->group(function () {
+            Route::get('/', 'SettingController@index')->name('index');
 
-        Route::post('settings', 'SettingController@save')->name('settings.save');
+            Route::post('mail', 'SettingController@saveMail')->name('mail.save');
+            Route::post('general', 'SettingController@saveGeneral')->name('general.save');
+        });
 
         Route::prefix('domain')->name('domain.')->group(function () {
             Route::get('/', 'DomainController@index')->name('index');

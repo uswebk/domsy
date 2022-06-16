@@ -15,7 +15,8 @@
 
     <h1>Setting</h1>
 
-    {{ Form::open(['url' => route('settings.save')]) }}
+    {{ Form::open(['url' => route('settings.mail.save')]) }}
+
       @foreach ($mailCategories as $mailCategory )
 
         {{ Form::hidden($mailCategory->name.'[is_received]', 0) }}
@@ -35,8 +36,26 @@
         <br>
         @endforeach
 
+      <br>
+      {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
+
+    {{ Form::close() }}
+
+    <br>
+    <hr>
+    {{ Form::open(['url' => route('settings.general.save')]) }}
+
+      @foreach ($generalSettingCategories as $generalSettingCategory )
+
+        {{ Form::hidden($generalSettingCategory->name.'[is_enabled]', 0) }}
+        {{ Form::checkbox($generalSettingCategory->name.'[is_enabled]', '1', old($generalSettingCategory->name, $user->isEnableGeneralSettingByGeneralId($generalSettingCategory->id) ),['id' =>$generalSettingCategory->name,'class' => 'form-check-input']) }}
+        {{ Form::label($generalSettingCategory->name,  $generalSettingCategory->annotation) }}
+
         <br>
-        {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
+      @endforeach
+
+      <br>
+      {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
 
     {{ Form::close() }}
   </div>

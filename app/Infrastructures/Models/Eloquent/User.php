@@ -75,6 +75,14 @@ final class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function generalSettings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Infrastructures\Models\Eloquent\UserGeneralSetting');
+    }
+
+    /**
      * @return \App\Infrastructures\Models\Eloquent\UserMailSetting|null
      */
     public function getReceiveDomainExpirationMailSetting(): ?\App\Infrastructures\Models\Eloquent\UserMailSetting
@@ -113,7 +121,7 @@ final class User extends Authenticatable implements MustVerifyEmail
      */
     public function getMailSettingNoticeNumberDaysByMailCategoryId(int $mailCategoryId): int
     {
-        $mailSetting = $this->mailSettings->where('mail_category_id', $mailCategoryId)
+        $mailSetting = $this->mailSettings->where('mail_category_id', '=', $mailCategoryId)
         ->first();
 
         if (isset($mailSetting)) {
@@ -123,6 +131,25 @@ final class User extends Authenticatable implements MustVerifyEmail
         $mailCategory = MailCategory::find($mailCategoryId);
 
         return $mailCategory->default_days;
+    }
+
+    /**
+     * @param integer $generalId
+     * @return boolean
+     */
+    public function isEnableGeneralSettingByGeneralId(int $generalId): bool
+    {
+        foreach ($this->generalSettings as $generalSetting) {
+            if ($generalSetting->general_id !== $generalId) {
+                continue;
+            }
+
+            if ($generalSetting->is_enabled) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
