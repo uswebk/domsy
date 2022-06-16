@@ -20,12 +20,14 @@ make build
 
 
 ## Pages
+* Top
 * Dashboard
 * Domain Management
 * DNS Management
 * Client Management
 * Registrar Management
 * Dealing / Billing Management
+* Settings
 
 ## Batches
 * Domain expiration notification
