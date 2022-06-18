@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-
 use App\Infrastructures\Models\Eloquent\DomainDealing;
 use App\Infrastructures\Models\Interval;
 
@@ -12,7 +11,7 @@ use Exception;
 
 use Illuminate\Support\Facades\Auth;
 
-class DealingController extends Controller
+final class DealingController extends Controller
 {
     protected const INDEX_ROUTE = 'dealing.index';
 

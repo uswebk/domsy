@@ -6,12 +6,11 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Exceptions\Frontend\DomainNotExistsException;
 
-
 use Exception;
 
 use Illuminate\Support\Facades\Auth;
 
-class DnsController extends Controller
+final class DnsController extends Controller
 {
     protected $domainIdQuery;
 

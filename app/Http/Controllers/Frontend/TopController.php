@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-
-
-class TopController extends Controller
+final class TopController extends Controller
 {
     /**
      * @return \Illuminate\Contracts\View\View

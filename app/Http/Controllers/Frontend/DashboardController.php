@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Infrastructures\Models\Eloquent\Menu;
 
-class DashboardController extends Controller
+final class DashboardController extends Controller
 {
     /**
      * @return \Illuminate\Contracts\View\View

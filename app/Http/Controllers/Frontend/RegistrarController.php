@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-
 use Illuminate\Support\Facades\Auth;
 
-class RegistrarController extends Controller
+final class RegistrarController extends Controller
 {
     protected const INDEX_ROUTE = 'registrar.index';
 

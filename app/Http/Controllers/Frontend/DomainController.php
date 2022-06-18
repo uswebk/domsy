@@ -10,7 +10,7 @@ use Exception;
 
 use Illuminate\Support\Facades\Auth;
 
-class DomainController extends Controller
+final class DomainController extends Controller
 {
     protected $domainRepository;
 

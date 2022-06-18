@@ -9,6 +9,7 @@ use App\Infrastructures\Queries\User\EloquentUserQueryService;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use Tests\TestCase;
 
 final class EloquentUserQueryServiceTest extends TestCase

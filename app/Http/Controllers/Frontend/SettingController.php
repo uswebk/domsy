@@ -6,11 +6,12 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Infrastructures\Models\Eloquent\GeneralSettingCategory;
 use App\Infrastructures\Models\Eloquent\MailCategory;
+
 use Exception;
 
 use Illuminate\Support\Facades\Auth;
 
-class SettingController extends Controller
+final class SettingController extends Controller
 {
     protected const INDEX_ROUTE = 'settings.index';
 

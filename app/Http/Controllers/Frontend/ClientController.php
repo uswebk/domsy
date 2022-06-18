@@ -8,7 +8,7 @@ use App\Infrastructures\Models\Eloquent\Client;
 
 use Illuminate\Support\Facades\Auth;
 
-class ClientController extends Controller
+final class ClientController extends Controller
 {
     protected const INDEX_ROUTE = 'client.index';
 
