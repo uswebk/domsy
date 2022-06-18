@@ -53,9 +53,9 @@
     {{ Form::open(['url' => route('settings.general.save')]) }}
 
     @foreach ($generalSettingCategories as $generalSettingCategory)
-      {{ Form::hidden($generalSettingCategory->name . '[is_enabled]', 0) }}
+      {{ Form::hidden($generalSettingCategory->name . '[enabled]', 0) }}
       {{ Form::checkbox(
-          $generalSettingCategory->name . '[is_enabled]',
+          $generalSettingCategory->name . '[enabled]',
           '1',
           old($generalSettingCategory->name, $user->isEnableGeneralSettingByGeneralId($generalSettingCategory->id)),
           ['id' => $generalSettingCategory->name, 'class' => 'form-check-input'],

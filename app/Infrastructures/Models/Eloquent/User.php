@@ -144,7 +144,7 @@ final class User extends Authenticatable implements MustVerifyEmail
                 continue;
             }
 
-            if ($generalSetting->is_enabled) {
+            if ($generalSetting->enabled) {
                 return true;
             }
         }

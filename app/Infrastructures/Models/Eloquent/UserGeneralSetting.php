@@ -9,13 +9,13 @@ final class UserGeneralSetting extends BaseModel
     protected $fillable = [
         'user_id',
         'general_id',
-        'is_enabled',
+        'enabled',
     ];
 
     protected $casts = [
         'user_id' => 'integer',
         'general_id' => 'integer',
-        'is_enabled' => 'boolean',
+        'enabled' => 'boolean',
     ];
 
     protected $dates = [
