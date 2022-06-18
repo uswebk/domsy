@@ -20,6 +20,9 @@ final class CreateService
 
     private const CHUNK_SIZE = 1000;
 
+    /**
+     * @param \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+     */
     public function __construct(
         \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
     ) {
