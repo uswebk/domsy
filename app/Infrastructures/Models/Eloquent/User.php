@@ -137,7 +137,7 @@ final class User extends Authenticatable implements MustVerifyEmail
      * @param integer $generalId
      * @return boolean
      */
-    public function isEnableGeneralSettingByGeneralId(int $generalId): bool
+    public function enableGeneralSettingByGeneralId(int $generalId): bool
     {
         foreach ($this->generalSettings as $generalSetting) {
             if ($generalSetting->general_id !== $generalId) {
@@ -146,6 +146,20 @@ final class User extends Authenticatable implements MustVerifyEmail
 
             if ($generalSetting->enabled) {
                 return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function enableDnsAutoFetch(): bool
+    {
+        foreach ($this->generalSettings as $generalSetting) {
+            if ($generalSetting->isDnsAutoFetch()) {
+                return $generalSetting->enabled;
             }
         }
 

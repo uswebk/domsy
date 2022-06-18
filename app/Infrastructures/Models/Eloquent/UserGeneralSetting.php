@@ -22,4 +22,20 @@ final class UserGeneralSetting extends BaseModel
         'updated_at' => 'integer',
         'created_at' => 'integer',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function generalSettingCategory(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Infrastructures\Models\Eloquent\GeneralSettingCategory', 'general_id');
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDnsAutoFetch(): bool
+    {
+        return $this->generalSettingCategory->isDnsAutoFetch();
+    }
 }

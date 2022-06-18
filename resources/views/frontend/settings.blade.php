@@ -57,7 +57,7 @@
       {{ Form::checkbox(
           $generalSettingCategory->name,
           '1',
-          old($generalSettingCategory->name, $user->isEnableGeneralSettingByGeneralId($generalSettingCategory->id)),
+          old($generalSettingCategory->name, $user->enableGeneralSettingByGeneralId($generalSettingCategory->id)),
           ['id' => $generalSettingCategory->name, 'class' => 'form-check-input'],
       ) }}
       {{ Form::label($generalSettingCategory->name, $generalSettingCategory->annotation) }}

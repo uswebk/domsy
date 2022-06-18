@@ -15,6 +15,8 @@ final class Fetch extends Command
 
     private $userQueryService;
 
+    private const CHUNK_SIZE = 1000;
+
     /**
      * @param \App\Services\Application\Commands\DNS\FetchService $fetchService
      * @param \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $userQueryService
@@ -43,14 +45,17 @@ final class Fetch extends Command
 
             $this->fetchService->handle($subdomains);
         } else {
-            // TODO: 自動取得設定ユーザーのみ対象(chunk)
-            // User::where()->get()->chunk(1000, function ($users) {
-            //     foreach ($users as $user) {
-            //         $subdomains = $user->getSubdomains();
+            User::chunk(self::CHUNK_SIZE, function ($users) {
+                foreach ($users as $user) {
+                    if (! $user->enableDnsAutoFetch()) {
+                        continue;
+                    }
 
-            //         $this->fetchService->handle($subdomains);
-            //     }
-            // });
+                    $subdomains = $user->getSubdomains();
+
+                    $this->fetchService->handle($subdomains);
+                }
+            });
         }
     }
 }
