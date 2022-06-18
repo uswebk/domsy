@@ -8,6 +8,13 @@ use App\Infrastructures\Models\Eloquent\UserMailSetting;
 
 final class UserMailSettingRepository implements UserMailSettingRepositoryInterface
 {
+    /**
+     * @param integer $userId
+     * @param integer $mailCategoryId
+     * @param boolean $isReceived
+     * @param integer $noticeNumberDays
+     * @return \App\Infrastructures\Models\Eloquent\UserMailSetting
+     */
     public function updateOfUserIdAndMailCategoryIdEqual(
         int $userId,
         int $mailCategoryId,

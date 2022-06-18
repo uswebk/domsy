@@ -16,6 +16,8 @@ use App\Infrastructures\Repositories\Registrar\RegistrarRepository;
 use App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface;
 use App\Infrastructures\Repositories\Subdomain\SubdomainRepository;
 use App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface;
+use App\Infrastructures\Repositories\User\UserGeneralSettingRepository;
+use App\Infrastructures\Repositories\User\UserGeneralSettingRepositoryInterface;
 use App\Infrastructures\Repositories\User\UserLatestCodeRepository;
 use App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface;
 use App\Infrastructures\Repositories\User\UserMailSettingRepository;
@@ -68,6 +70,10 @@ final class RepositoryProvider extends ServiceProvider
 
         $this->app->bind(UserRepositoryInterface::class, function () {
             return new UserRepository();
+        });
+
+        $this->app->bind(UserGeneralSettingRepositoryInterface::class, function () {
+            return new UserGeneralSettingRepository();
         });
     }
 

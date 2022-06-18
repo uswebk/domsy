@@ -17,7 +17,7 @@ class CreateUserGeneralSettings extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->comment('ユーザーID');
             $table->unsignedBigInteger('general_id')->comment('基本設定ID');
-            $table->unsignedBigInteger('enabled')->comment('有効・無効');
+            $table->boolean('enabled')->comment('有効・無効');
             $table->dateTime('updated_at')->comment('更新日');
             $table->dateTime('created_at')->comment('登録日');
 

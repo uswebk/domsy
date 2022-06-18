@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Infrastructures\Models\Eloquent\GeneralSettingCategory;
 use App\Infrastructures\Models\Eloquent\MailCategory;
-
 use Exception;
 
 use Illuminate\Support\Facades\Auth;
@@ -52,14 +51,26 @@ class SettingController extends Controller
         } catch (Exception $e) {
             return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Update');
         }
+
         return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Setting Update!!');
     }
 
-    // TODO: Validation
+    /**
+     * @param \App\Http\Requests\Frontend\Setting\SaveGeneralRequest $request
+     * @param \App\Services\Application\SettingGeneralSaveService $settingSaveService
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function saveGeneral(
-        \Illuminate\Http\Request $request
-    ) {
-        // TODO: Save Class
-        dd($request->all());
+        \App\Http\Requests\Frontend\Setting\SaveGeneralRequest $request,
+        \App\Services\Application\SettingGeneralSaveService $settingSaveService
+    ): \Illuminate\Http\RedirectResponse {
+        $settingGeneralSaveRequest = $request->makeInput();
+        try {
+            $settingSaveService->handle($settingGeneralSaveRequest);
+        } catch (Exception $e) {
+            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Update');
+        }
+
+        return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Setting Update!!');
     }
 }

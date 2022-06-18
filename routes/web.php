@@ -17,11 +17,8 @@ Route::namespace('Auth')->group(function () {
 
 Route::namespace('Frontend')->group(function () {
     Route::get('/', 'TopController@index')->name('top.index');
-});
 
-
-Route::middleware(['verified','auth'])->group(function () {
-    Route::namespace('Frontend')->group(function () {
+    Route::middleware(['verified','auth'])->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
 
         Route::prefix('settings')->name('settings.')->group(function () {
