@@ -2,9 +2,10 @@
 
 <div align="center">
 
-![](https://img.shields.io/badge/Laravel-8.83.6-green)
-![](https://img.shields.io/badge/MySQL-8.0.29-green)
-![](https://img.shields.io/badge/Nginx-1.21.6-green)
+![](https://img.shields.io/badge/Laravel-8.83.6-5684d5)
+![](https://img.shields.io/badge/PHP-8.0.19-5684d5)
+![](https://img.shields.io/badge/MySQL-8.0.29-5684d5)
+![](https://img.shields.io/badge/Nginx-1.21.6-5684d5)
 
 </div>
 
@@ -27,7 +28,7 @@ make build
 * Client Management
 * Registrar Management
 * Dealing / Billing Management
-* Settings
+* Settings( General / Mail )
 
 ## Batches
 * Domain expiration notification
