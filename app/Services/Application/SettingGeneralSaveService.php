@@ -18,7 +18,7 @@ final class SettingGeneralSaveService
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Services\Application\InputData\SettingGeneralSaveRequest $settingGeneralSaveRequest
      * @return void
      */
     public function handle(
