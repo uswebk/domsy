@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Console\Commands\DNS;
 
 use App\Infrastructures\Models\Eloquent\User;
+
 use Illuminate\Console\Command;
 
 final class Fetch extends Command

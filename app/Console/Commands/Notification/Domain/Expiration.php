@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Console\Commands\Notification\Domain;
 
 use Carbon\Carbon;
+
 use Illuminate\Console\Command;
 
-class Expiration extends Command
+final class Expiration extends Command
 {
     protected $signature = 'notification:domain_expiration {executeDate?}';
 
