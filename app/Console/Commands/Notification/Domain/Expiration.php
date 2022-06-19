@@ -10,7 +10,7 @@ use Illuminate\Console\Command;
 
 final class Expiration extends Command
 {
-    protected $signature = 'notification:domain_expiration {executeDate?}';
+    protected $signature = 'notification:domain_expiration {executeDate}';
 
     protected $expirationService;
 
@@ -30,13 +30,7 @@ final class Expiration extends Command
      */
     public function handle(): void
     {
-        $executeDateArgument = $this->argument('executeDate');
-
-        if (isset($executeDateArgument)) {
-            $executeDate = new Carbon($executeDateArgument);
-        } else {
-            $executeDate = new Carbon();
-        }
+        $executeDate = new Carbon($this->argument('executeDate'));
 
         $this->expirationService->handle($executeDate);
     }
