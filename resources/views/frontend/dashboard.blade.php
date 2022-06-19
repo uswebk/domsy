@@ -7,16 +7,19 @@
 
     <div class='d-flex justify-content-left flex-wrap'>
       @foreach ($menus as $menu)
-        @if ($menu->isScreen())
-          <div class='card w-25 m-1'>
-            <a href='{{ route($menu->route) }}' class='text-reset' style='text-decoration:none;'>
-              <div class='card-body'>
-                <h5 class='card-title'>{{ $menu->name }}</h5>
-                <p class='card-text' style='color:gray'>{{ $menu->description }}</p>
-              </div>
-            </a>
+        <div class='card w-25 m-1'>
+          <div class='card-body'>
+            <h5 class='card-title'>{{ $menu->name }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted"><!-- TODO:MenuDescription --></h6>
+            @foreach ($menu->menuItems as $menuItem)
+              @if ($menuItem->isScreen())
+                <a href='{{ route($menuItem->route) }}' class='card-link'>
+                  {{ $menuItem->name }}
+                </a>
+              @endif
+            @endforeach
           </div>
-        @endif
+        </div>
       @endforeach
     </div>
   </div>

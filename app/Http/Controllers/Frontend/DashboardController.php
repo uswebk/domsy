@@ -13,7 +13,9 @@ final class DashboardController extends Controller
      */
     public function index(): \Illuminate\Contracts\View\View
     {
-        $menus = Menu::where('is_screen', '=', true)->get();
+        // TODO: -> QueryService
+        $menus = Menu::with(['menuItems'])
+        ->where('is_nav', '=', true)->get();
 
         return view('frontend.dashboard', compact('menus'));
     }

@@ -31,6 +31,14 @@ final class Menu extends BaseModel
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function menuItems(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Infrastructures\Models\Eloquent\MenuItem', 'parent_id');
+    }
+
+    /**
      * @return boolean
      */
     public function isNav(): bool
