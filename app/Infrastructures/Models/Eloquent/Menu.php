@@ -9,16 +9,12 @@ final class Menu extends BaseModel
     protected $fillable = [
         'type_id',
         'name',
-        'controller',
-        'function',
-        'route',
-        'description',
-        'is_screen',
+        'is_nav',
         'sort',
     ];
 
     protected $casts = [
-        'is_screen' => 'boolean',
+        'is_nav' => 'boolean',
     ];
 
     protected $dates = [
@@ -37,8 +33,8 @@ final class Menu extends BaseModel
     /**
      * @return boolean
      */
-    public function isScreen(): bool
+    public function isNav(): bool
     {
-        return $this->is_screen;
+        return $this->is_nav;
     }
 }
