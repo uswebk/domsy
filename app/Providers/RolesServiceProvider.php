@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Infrastructures\Models\Eloquent\RoleItem;
+use App\Infrastructures\Models\Eloquent\MenuItem;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
@@ -30,8 +30,8 @@ final class RolesServiceProvider extends ServiceProvider
     public function boot()
     {
         try {
-            RoleItem::get()->map(function ($item) {
-                $route = $item->menuItem->route;
+            MenuItem::get()->map(function ($item) {
+                $route = $item->route;
 
                 Gate::define($route, function ($user) use ($route) {
                     return $user->hasRoleItem($route);

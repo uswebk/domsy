@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Auth;
 
+use App\Constants\CompanyConstants;
+use App\Constants\RoleConstants;
+
 use Exception;
 
 use Illuminate\Support\Facades\Auth;
@@ -45,9 +48,10 @@ final class RegisterService
         try {
             $code = $this->userLatestCodeRepository->next();
 
-            // TODO: role_id, company_id 追加 (Constants)
             $user = $this->userRepository->store([
                 'name' => $userRequest->name,
+                'company_id' => CompanyConstants::INDEPENDENT_COMPANY_ID,
+                'role_id' => RoleConstants::DEFAULT_ROLE_ID,
                 'code' => $code,
                 'email' => $userRequest->email,
                 'password' => $userRequest->password,

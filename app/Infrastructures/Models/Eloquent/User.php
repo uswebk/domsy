@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
+use App\Constants\RoleConstants;
+
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -112,6 +114,10 @@ final class User extends Authenticatable implements MustVerifyEmail
      */
     public function hasRoleItem(string $routeName): bool
     {
+        if ($this->role_id === RoleConstants::DEFAULT_ROLE_ID) {
+            return true;
+        }
+
         return $this->role->hasRoleItem($routeName);
     }
 
