@@ -34,3 +34,6 @@ make build
 * Domain expiration notification
 * Add billing from dealing
 * Auto pull DNS records
+
+## Others
+* Role Management
