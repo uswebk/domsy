@@ -45,6 +45,14 @@ final class User extends Authenticatable implements MustVerifyEmail
     ];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Infrastructures\Models\Eloquent\Role', 'role_id');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function domains(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -96,6 +104,15 @@ final class User extends Authenticatable implements MustVerifyEmail
         }
 
         return null;
+    }
+
+    /**
+     * @param string $routeName
+     * @return boolean
+     */
+    public function hasRoleItem(string $routeName): bool
+    {
+        return $this->role->hasRoleItem($routeName);
     }
 
     /**

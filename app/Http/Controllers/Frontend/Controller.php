@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Frontend;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -13,6 +15,8 @@ class Controller extends BaseController
 
     public function __construct()
     {
+        $this->middleware('role:' . \Route::currentRouteName());
+
         $this->middleware(function ($request, $next) {
             view()->share([
                 'greeting' => session('greeting'),

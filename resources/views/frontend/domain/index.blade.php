@@ -16,7 +16,9 @@
     <h1 class='h4 m-1'>Domain List</h1>
 
     <div class='container'>
-      <a href='{{ route('domain.new') }}' class='btn btn-primary btn-sm active' role='button' aria-pressed='true'>+</a>
+      @can('domain.new')
+        <a href='{{ route('domain.new') }}' class='btn btn-primary btn-sm active' role='button' aria-pressed='true'>+</a>
+      @endcan
     </div>
 
     <table class='table table-hover mt-2'>

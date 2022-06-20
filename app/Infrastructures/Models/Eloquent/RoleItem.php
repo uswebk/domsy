@@ -22,4 +22,20 @@ final class RoleItem extends BaseModel
     ];
 
     public $incrementing = false;
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Infrastructures\Models\Eloquent\Role', 'role_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function menuItem(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo('App\Infrastructures\Models\Eloquent\MenuItem', 'menu_item_id');
+    }
 }
