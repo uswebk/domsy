@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Infrastructures\Models\Eloquent\GeneralSettingCategory;
 use Illuminate\Database\Seeder;
 
-class GeneralSettingCategorySeeder extends Seeder
+final class GeneralSettingCategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,7 +19,7 @@ class GeneralSettingCategorySeeder extends Seeder
         GeneralSettingCategory::create([
             'id' => 1,
             'name' => 'dns_auto_fetch',
-            'annotation' => 'DNS Auto fetch',
+            'annotation' => 'DNS Auto Fetch',
             'sort' => 10,
         ]);
     }

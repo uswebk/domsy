@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Infrastructures\Models\Eloquent\DnsRecordType;
+
 use Illuminate\Database\Seeder;
 
-class DnsRecordTypeSeeder extends Seeder
+final class DnsRecordTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.

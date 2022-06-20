@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Infrastructures\Models\Eloquent\UserLatestCode;
+
 use Illuminate\Database\Seeder;
 
-class UserLatestCodeSeeder extends Seeder
+final class UserLatestCodeSeeder extends Seeder
 {
     /**
      * Run the database seeds.

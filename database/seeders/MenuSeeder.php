@@ -1,11 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace Database\Seeders;
 
 use App\Infrastructures\Models\Eloquent\Menu;
+
 use Illuminate\Database\Seeder;
 
-class MenuSeeder extends Seeder
+final class MenuSeeder extends Seeder
 {
     /**
      * Run the database seeds.

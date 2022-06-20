@@ -111,7 +111,7 @@ class MenuItemSeeder extends Seeder
             'function' => 'new',
             'route' => 'dns.new',
             'description' => 'DNS New Page View',
-            'is_screen' => 1,
+            'is_screen' => 0,
             'sort' => 90,
         ]);
 

@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Infrastructures\Models\Eloquent\MailCategory;
+
 use Illuminate\Database\Seeder;
 
-class MailCategorySeeder extends Seeder
+final class MailCategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.

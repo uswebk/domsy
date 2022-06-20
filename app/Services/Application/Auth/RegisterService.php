@@ -45,6 +45,7 @@ final class RegisterService
         try {
             $code = $this->userLatestCodeRepository->next();
 
+            // TODO: role_id, company_id 追加 (Constants)
             $user = $this->userRepository->store([
                 'name' => $userRequest->name,
                 'code' => $code,

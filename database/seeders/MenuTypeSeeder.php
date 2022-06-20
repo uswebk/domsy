@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Infrastructures\Models\Eloquent\MenuType;
+
 use Illuminate\Database\Seeder;
 
-class MenuTypeSeeder extends Seeder
+final class MenuTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
