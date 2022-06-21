@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Infrastructures\Models\Eloquent\GeneralSettingCategory;
+use App\Infrastructures\Models\GeneralSettingCategory;
 use Illuminate\Database\Seeder;
 
 final class GeneralSettingCategorySeeder extends Seeder

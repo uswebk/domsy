@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Registrar;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\ModelNotFoundException;
 
 final class HasService
 {

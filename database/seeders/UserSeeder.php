@@ -5,7 +5,7 @@ namespace Database\Seeders;
 
 use App\Constants\CompanyConstants;
 use App\Constants\RoleConstants;
-use App\Infrastructures\Models\Eloquent\User;
+use App\Infrastructures\Models\User;
 
 use Carbon\Carbon;
 

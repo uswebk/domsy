@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Infrastructures\Models\Eloquent;
+namespace Database\Factories\Infrastructures\Models;
 
 use App\Enums\Interval;
-use App\Infrastructures\Models\Eloquent\Client;
+use App\Infrastructures\Models\Client;
 
-use App\Infrastructures\Models\Eloquent\Domain;
-use App\Infrastructures\Models\Eloquent\DomainDealing;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Infrastructures\Models\Domain;
+use App\Infrastructures\Models\DomainDealing;
+use Illuminate\Database\Factories\Factory;
 
 final class DomainDealingFactory extends Factory
 {

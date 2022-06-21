@@ -12,11 +12,11 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        'App\Infrastructures\Models\Eloquent\Domain' => 'App\Policies\DomainPolicy',
-        'App\Infrastructures\Models\Eloquent\Subdomain' => 'App\Policies\DnsPolicy',
-        'App\Infrastructures\Models\Eloquent\Registrar' => 'App\Policies\RegistrarPolicy',
-        'App\Infrastructures\Models\Eloquent\Client' => 'App\Policies\ClientPolicy',
-        'App\Infrastructures\Models\Eloquent\DomainDealing' => 'App\Policies\DomainDealingPolicy',
+        'App\Infrastructures\Models\Domain' => 'App\Policies\DomainPolicy',
+        'App\Infrastructures\Models\Subdomain' => 'App\Policies\DnsPolicy',
+        'App\Infrastructures\Models\Registrar' => 'App\Policies\RegistrarPolicy',
+        'App\Infrastructures\Models\Client' => 'App\Policies\ClientPolicy',
+        'App\Infrastructures\Models\DomainDealing' => 'App\Policies\DomainDealingPolicy',
     ];
 
     /**

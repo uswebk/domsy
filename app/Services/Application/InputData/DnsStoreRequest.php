@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
-use App\Infrastructures\Models\Eloquent\Subdomain;
+use App\Infrastructures\Models\Subdomain;
 
 final class DnsStoreRequest
 {
@@ -28,9 +28,9 @@ final class DnsStoreRequest
     }
 
     /**
-     * @return \App\Infrastructures\Models\Eloquent\Subdomain
+     * @return \App\Infrastructures\Models\Subdomain
      */
-    public function getInput(): \App\Infrastructures\Models\Eloquent\Subdomain
+    public function getInput(): \App\Infrastructures\Models\Subdomain
     {
         return $this->subdomain;
     }

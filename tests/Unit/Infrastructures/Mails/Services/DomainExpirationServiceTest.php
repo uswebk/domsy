@@ -7,11 +7,11 @@ namespace Tests\Unit\Infrastructures\Mails\Services;
 use App\Infrastructures\Mails\Client\DomainExpiration;
 
 use App\Infrastructures\Mails\Services\DomainExpirationService;
-use App\Infrastructures\Models\Eloquent\Domain;
-use App\Infrastructures\Models\Eloquent\User;
-use App\Infrastructures\Models\Eloquent\UserMailSetting;
+use App\Infrastructures\Models\Domain;
+use App\Infrastructures\Models\User;
+use App\Infrastructures\Models\UserMailSetting;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 

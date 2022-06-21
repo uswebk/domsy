@@ -44,23 +44,23 @@ final class RegistrarController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Registrar $registrar
+     * @param \App\Infrastructures\Models\Registrar $registrar
      * @return \Illuminate\Contracts\View\View
      */
     public function edit(
-        \App\Infrastructures\Models\Eloquent\Registrar $registrar
+        \App\Infrastructures\Models\Registrar $registrar
     ): \Illuminate\Contracts\View\View {
         return view('frontend.registrar.edit', compact('registrar'));
     }
 
     /**
      * @param \App\Http\Requests\Frontend\Registrar\UpdateRequest $request
-     * @param \App\Infrastructures\Models\Eloquent\Registrar $registrar
+     * @param \App\Infrastructures\Models\Registrar $registrar
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(
         \App\Http\Requests\Frontend\Registrar\UpdateRequest $request,
-        \App\Infrastructures\Models\Eloquent\Registrar $registrar
+        \App\Infrastructures\Models\Registrar $registrar
     ): \Illuminate\Http\RedirectResponse {
         $attributes = $request->makeInput();
 
@@ -94,11 +94,11 @@ final class RegistrarController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Registrar $registrar
+     * @param \App\Infrastructures\Models\Registrar $registrar
      * @return \Illuminate\Http\RedirectResponse
      */
     public function delete(
-        \App\Infrastructures\Models\Eloquent\Registrar $registrar
+        \App\Infrastructures\Models\Registrar $registrar
     ): \Illuminate\Http\RedirectResponse {
         $this->registrarRepository->delete($registrar);
 

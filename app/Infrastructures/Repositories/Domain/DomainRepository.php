@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Repositories\Domain;
 
-use App\Infrastructures\Models\Eloquent\Domain;
+use App\Infrastructures\Models\Domain;
 
 final class DomainRepository implements DomainRepositoryInterface
 {
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Domain $domain
-     * @return \App\Infrastructures\Models\Eloquent\Domain
+     * @param \App\Infrastructures\Models\Domain $domain
+     * @return \App\Infrastructures\Models\Domain
      */
     public function save(
-        \App\Infrastructures\Models\Eloquent\Domain $domain
-    ): \App\Infrastructures\Models\Eloquent\Domain {
+        \App\Infrastructures\Models\Domain $domain
+    ): \App\Infrastructures\Models\Domain {
         $domain->save();
 
         return $domain;
@@ -22,9 +22,9 @@ final class DomainRepository implements DomainRepositoryInterface
 
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\Eloquent\Domain
+     * @return \App\Infrastructures\Models\Domain
      */
-    public function store(array $attributes): \App\Infrastructures\Models\Eloquent\Domain
+    public function store(array $attributes): \App\Infrastructures\Models\Domain
     {
         $domain = new Domain();
 
@@ -34,10 +34,10 @@ final class DomainRepository implements DomainRepositoryInterface
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Domain $domain
+     * @param \App\Infrastructures\Models\Domain $domain
      * @return void
      */
-    public function delete(\App\Infrastructures\Models\Eloquent\Domain $domain): void
+    public function delete(\App\Infrastructures\Models\Domain $domain): void
     {
         $domain->delete();
     }

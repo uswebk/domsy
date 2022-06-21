@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Infrastructures\Models\Eloquent;
+namespace Database\Factories\Infrastructures\Models;
 
-use App\Infrastructures\Models\Eloquent\MailCategory;
-use App\Infrastructures\Models\Eloquent\User;
-use App\Infrastructures\Models\Eloquent\UserMailSetting;
+use App\Infrastructures\Models\MailCategory;
+use App\Infrastructures\Models\User;
+use App\Infrastructures\Models\UserMailSetting;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Factories\Factory;
 
 class UserMailSettingFactory extends Factory
 {

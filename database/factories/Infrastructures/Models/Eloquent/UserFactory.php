@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Infrastructures\Models\Eloquent;
+namespace Database\Factories\Infrastructures\Models;
 
-use App\Infrastructures\Models\Eloquent\Company;
-use App\Infrastructures\Models\Eloquent\Role;
-use App\Infrastructures\Models\Eloquent\User;
+use App\Infrastructures\Models\Company;
+use App\Infrastructures\Models\Role;
+use App\Infrastructures\Models\User;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -43,7 +43,7 @@ final class UserFactory extends Factory
     /**
      * Indicate that the model's email address should be unverified.
      *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * @return \Illuminate\Database\Factories\Factory
      */
     public function unverified()
     {

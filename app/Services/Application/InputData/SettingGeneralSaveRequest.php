@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
-use App\Infrastructures\Models\Eloquent\GeneralSettingCategory;
-use App\Infrastructures\Models\Eloquent\UserGeneralSetting;
+use App\Infrastructures\Models\GeneralSettingCategory;
+use App\Infrastructures\Models\UserGeneralSetting;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Collection;
 use Illuminate\Support\Facades\Auth;
 
 final class SettingGeneralSaveRequest
@@ -34,9 +34,9 @@ final class SettingGeneralSaveRequest
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Collection
      */
-    public function getInput(): \Illuminate\Database\Eloquent\Collection
+    public function getInput(): \Illuminate\Database\Collection
     {
         return $this->userGeneralSettings;
     }

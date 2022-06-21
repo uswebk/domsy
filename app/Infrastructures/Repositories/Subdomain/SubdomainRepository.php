@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Repositories\Subdomain;
 
-use App\Infrastructures\Models\Eloquent\Subdomain;
+use App\Infrastructures\Models\Subdomain;
 
 final class SubdomainRepository implements SubdomainRepositoryInterface
 {
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
-     * @return \App\Infrastructures\Models\Eloquent\Subdomain
+     * @param \App\Infrastructures\Models\Subdomain $subdomain
+     * @return \App\Infrastructures\Models\Subdomain
      */
     public function save(
-        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
-    ): \App\Infrastructures\Models\Eloquent\Subdomain {
+        \App\Infrastructures\Models\Subdomain $subdomain
+    ): \App\Infrastructures\Models\Subdomain {
         $subdomain->save();
 
         return $subdomain;
@@ -22,9 +22,9 @@ final class SubdomainRepository implements SubdomainRepositoryInterface
 
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\Eloquent\Subdomain
+     * @return \App\Infrastructures\Models\Subdomain
      */
-    public function store(array $attributes): \App\Infrastructures\Models\Eloquent\Subdomain
+    public function store(array $attributes): \App\Infrastructures\Models\Subdomain
     {
         $domain = Subdomain::create($attributes);
 
@@ -32,10 +32,10 @@ final class SubdomainRepository implements SubdomainRepositoryInterface
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @param \App\Infrastructures\Models\Subdomain $subdomain
      * @return void
      */
-    public function delete(\App\Infrastructures\Models\Eloquent\Subdomain $subdomain): void
+    public function delete(\App\Infrastructures\Models\Subdomain $subdomain): void
     {
         $subdomain->delete();
     }
@@ -47,7 +47,7 @@ final class SubdomainRepository implements SubdomainRepositoryInterface
      * @param string $value
      * @param integer $ttl
      * @param integer $priority
-     * @return \App\Infrastructures\Models\Eloquent\Subdomain
+     * @return \App\Infrastructures\Models\Subdomain
      */
     public function updateOfTtlPriority(
         int $domainId,
@@ -56,7 +56,7 @@ final class SubdomainRepository implements SubdomainRepositoryInterface
         string $value,
         int $ttl,
         int $priority
-    ): \App\Infrastructures\Models\Eloquent\Subdomain {
+    ): \App\Infrastructures\Models\Subdomain {
         $subdomain = Subdomain::firstOrNew([
             'domain_id' => $domainId,
             'type_id' => $typeId,

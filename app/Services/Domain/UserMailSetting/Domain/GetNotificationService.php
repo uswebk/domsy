@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\UserMailSetting\Domain;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Collection;
 
 final class GetNotificationService
 {
@@ -41,13 +41,13 @@ final class GetNotificationService
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\UserMailSetting $domainExpirationMailSetting
-     * @param \App\Infrastructures\Models\Eloquent\User $user
+     * @param \App\Infrastructures\Models\UserMailSetting $domainExpirationMailSetting
+     * @param \App\Infrastructures\Models\User $user
      * @param \Carbon\Carbon $targetDate
      */
     public function __construct(
-        \App\Infrastructures\Models\Eloquent\UserMailSetting $domainExpirationMailSetting,
-        \App\Infrastructures\Models\Eloquent\User $user,
+        \App\Infrastructures\Models\UserMailSetting $domainExpirationMailSetting,
+        \App\Infrastructures\Models\User $user,
         \Carbon\Carbon $targetDate,
     ) {
         $this->notificationDomains = new Collection();
@@ -59,9 +59,9 @@ final class GetNotificationService
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Collection
      */
-    public function getDomains(): \Illuminate\Database\Eloquent\Collection
+    public function getDomains(): \Illuminate\Database\Collection
     {
         return $this->notificationDomains;
     }

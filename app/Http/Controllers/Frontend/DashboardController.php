@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Infrastructures\Models\Eloquent\Menu;
+use App\Infrastructures\Models\Menu;
 
 final class DashboardController extends Controller
 {

@@ -6,7 +6,7 @@ namespace Tests\Unit\Infrastructures\Mails\Services;
 
 use App\Infrastructures\Mails\Client\EmailVerification;
 use App\Infrastructures\Mails\Services\EmailVerificationService;
-use App\Infrastructures\Models\Eloquent\User;
+use App\Infrastructures\Models\User;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;

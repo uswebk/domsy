@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
-use App\Infrastructures\Models\Eloquent\DomainDealing;
+use App\Infrastructures\Models\DomainDealing;
 
 final class DealingStoreRequest
 {
@@ -20,9 +20,9 @@ final class DealingStoreRequest
     }
 
     /**
-     * @return \App\Infrastructures\Models\Eloquent\DomainDealing
+     * @return \App\Infrastructures\Models\DomainDealing
      */
-    public function getInput(): \App\Infrastructures\Models\Eloquent\DomainDealing
+    public function getInput(): \App\Infrastructures\Models\DomainDealing
     {
         return $this->domainDealing;
     }

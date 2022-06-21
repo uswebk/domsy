@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Domain;
 
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\ModelNotFoundException;
 
 final class NotExistsService
 {

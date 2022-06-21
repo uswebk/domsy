@@ -8,23 +8,23 @@ interface BillingRepositoryInterface
 {
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\Eloquent\DomainBilling
+     * @return \App\Infrastructures\Models\DomainBilling
      */
-    public function store(array $attributes): \App\Infrastructures\Models\Eloquent\DomainBilling;
+    public function store(array $attributes): \App\Infrastructures\Models\DomainBilling;
 
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\Eloquent\DomainBilling
+     * @return \App\Infrastructures\Models\DomainBilling
      */
-    public function firstOrCreate(array $attributes): \App\Infrastructures\Models\Eloquent\DomainBilling;
+    public function firstOrCreate(array $attributes): \App\Infrastructures\Models\DomainBilling;
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling
+     * @param \App\Infrastructures\Models\DomainBilling $domainBilling
      * @param boolean $isFixed
      * @return void
      */
     public function updateIsFixed(
-        \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling,
+        \App\Infrastructures\Models\DomainBilling $domainBilling,
         bool $isFixed
     );
 }

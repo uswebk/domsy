@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Infrastructures\Models\Eloquent\MenuItem;
+use App\Infrastructures\Models\MenuItem;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;

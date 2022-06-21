@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Infrastructures\Models\Eloquent;
+namespace Database\Factories\Infrastructures\Models;
 
-use App\Infrastructures\Models\Eloquent\Client;
-use App\Infrastructures\Models\Eloquent\User;
+use App\Infrastructures\Models\Client;
+use App\Infrastructures\Models\User;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Factories\Factory;
 
 class ClientFactory extends Factory
 {

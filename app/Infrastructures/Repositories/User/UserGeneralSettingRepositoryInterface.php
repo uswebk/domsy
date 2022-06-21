@@ -10,11 +10,11 @@ interface UserGeneralSettingRepositoryInterface
      * @param integer $userId
      * @param integer $generalId
      * @param boolean $enabled
-     * @return \App\Infrastructures\Models\Eloquent\UserGeneralSetting
+     * @return \App\Infrastructures\Models\UserGeneralSetting
      */
     public function updateOfUserIdAndGeneralIdEqual(
         int $userId,
         int $generalId,
         bool $enabled,
-    ): \App\Infrastructures\Models\Eloquent\UserGeneralSetting;
+    ): \App\Infrastructures\Models\UserGeneralSetting;
 }

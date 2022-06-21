@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Infrastructures\Models\Eloquent\MenuType;
+use App\Infrastructures\Models\MenuType;
 
 use Illuminate\Database\Seeder;
 

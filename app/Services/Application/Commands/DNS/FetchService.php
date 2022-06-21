@@ -39,12 +39,12 @@ final class FetchService
 
     /**
      * @param \App\Services\Domain\Subdomain\Dns\RecordService $dnsRecord
-     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @param \App\Infrastructures\Models\Subdomain $subdomain
      * @return void
      */
     private function executeOfDnsRecordBySubdomain(
         \App\Services\Domain\Subdomain\Dns\RecordService $dnsRecord,
-        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+        \App\Infrastructures\Models\Subdomain $subdomain
     ): void {
         if (in_array($dnsRecord->getType(), $this->dnsTypes)) {
             $this->subdomainRepository->updateOfTtlPriority(
@@ -59,11 +59,11 @@ final class FetchService
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @param \App\Infrastructures\Models\Subdomain $subdomain
      * @return void
      */
     private function executeOfSubdomain(
-        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+        \App\Infrastructures\Models\Subdomain $subdomain
     ): void {
         $subdomain->delete();
 
@@ -75,11 +75,11 @@ final class FetchService
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Collection $subdomains
+     * @param \Illuminate\Database\Collection $subdomains
      * @return void
      */
     public function handle(
-        \Illuminate\Database\Eloquent\Collection $subdomains
+        \Illuminate\Database\Collection $subdomains
     ): void {
         $this->initDnsRecodeTypeNames();
 

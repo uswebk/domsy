@@ -8,22 +8,22 @@ interface EloquentUserQueryServiceInterface
 {
     /**
      * @param integer $id
-     * @return \App\Infrastructures\Models\Eloquent\User
+     * @return \App\Infrastructures\Models\User
      */
-    public function findById(int $id): \App\Infrastructures\Models\Eloquent\User;
+    public function findById(int $id): \App\Infrastructures\Models\User;
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Collection
      */
-    public function getActiveUsers(): \Illuminate\Database\Eloquent\Collection;
+    public function getActiveUsers(): \Illuminate\Database\Collection;
 
     /**
      * @param integer $id
      * @param string $emailVerifyToken
-     * @return \App\Infrastructures\Models\Eloquent\User
+     * @return \App\Infrastructures\Models\User
      */
     public function firstByIdEmailVerifyToken(
         int $id,
         string $emailVerifyToken
-    ): \App\Infrastructures\Models\Eloquent\User;
+    ): \App\Infrastructures\Models\User;
 }

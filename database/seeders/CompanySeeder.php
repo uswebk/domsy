@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Constants\CompanyConstants;
-use App\Infrastructures\Models\Eloquent\Company;
+use App\Infrastructures\Models\Company;
 
 use Illuminate\Database\Seeder;
 

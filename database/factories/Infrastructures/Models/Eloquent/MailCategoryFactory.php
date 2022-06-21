@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Factories\Infrastructures\Models\Eloquent;
+namespace Database\Factories\Infrastructures\Models;
 
-use App\Infrastructures\Models\Eloquent\MailCategory;
+use App\Infrastructures\Models\MailCategory;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Factories\Factory;
 
 class MailCategoryFactory extends Factory
 {

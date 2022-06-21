@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Subdomain\DNS;
 
-use App\Infrastructures\Models\Eloquent\DnsRecordType;
+use App\Infrastructures\Models\DnsRecordType;
 
 final class RecordService
 {

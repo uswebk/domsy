@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Application\Commands\Billing;
 
 use App\Helpers\DateHelper;
-use App\Infrastructures\Models\Eloquent\DomainBilling;
+use App\Infrastructures\Models\DomainBilling;
 
 use Exception;
 
@@ -29,11 +29,11 @@ final class CreateService
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling
+     * @param \App\Infrastructures\Models\DomainBilling $domainBilling
      * @return void
      */
     private function executeOfDomainBilling(
-        \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling
+        \App\Infrastructures\Models\DomainBilling $domainBilling
     ): void {
         $domainDealing = $domainBilling->domainDealing;
 
@@ -48,9 +48,9 @@ final class CreateService
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return \Illuminate\Database\Builder
      */
-    private function getQueryBuilderOfDomainBilling(): \Illuminate\Database\Eloquent\Builder
+    private function getQueryBuilderOfDomainBilling(): \Illuminate\Database\Builder
     {
         $datetimeStartString = DateHelper::getDatetimeStartString($this->executeDate);
 
@@ -72,7 +72,7 @@ final class CreateService
         $query = $this->getQueryBuilderOfDomainBilling();
 
         $query->chunk(self::CHUNK_SIZE, function (
-            \Illuminate\Database\Eloquent\Collection $domainBillings
+            \Illuminate\Database\Collection $domainBillings
         ) {
             foreach ($domainBillings as $domainBilling) {
                 DB::beginTransaction();

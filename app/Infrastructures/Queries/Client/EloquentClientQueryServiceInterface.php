@@ -8,7 +8,7 @@ interface EloquentClientQueryServiceInterface
 {
     /**
      * @param integer $id
-     * @return \App\Infrastructures\Models\Eloquent\Client
+     * @return \App\Infrastructures\Models\Client
      */
-    public function findById(int $id): \App\Infrastructures\Models\Eloquent\Client;
+    public function findById(int $id): \App\Infrastructures\Models\Client;
 }

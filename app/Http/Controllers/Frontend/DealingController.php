@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Frontend;
 
 use App\Enums\Interval;
-use App\Infrastructures\Models\Eloquent\DomainDealing;
+use App\Infrastructures\Models\DomainDealing;
 
 use Exception;
 
@@ -71,13 +71,13 @@ final class DealingController extends Controller
 
     /**
      * @param \App\Http\Requests\Frontend\Dealing\UpdateRequest $request
-     * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
+     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
      * @param \App\Services\Application\DealingUpdateService $dealingUpdateService
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(
         \App\Http\Requests\Frontend\Dealing\UpdateRequest $request,
-        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing,
+        \App\Infrastructures\Models\DomainDealing $domainDealing,
         \App\Services\Application\DealingUpdateService $dealingUpdateService
     ): \Illuminate\Http\RedirectResponse {
         $domainDealingRequest = $request->makeInput();
@@ -110,11 +110,11 @@ final class DealingController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
+     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
      * @return \Illuminate\Contracts\View\View
      */
     public function detail(
-        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
+        \App\Infrastructures\Models\DomainDealing $domainDealing
     ): \Illuminate\Contracts\View\View {
         $this->authorize('owner', $domainDealing);
 

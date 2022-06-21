@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Infrastructures\Models\Eloquent\GeneralSettingCategory;
-use App\Infrastructures\Models\Eloquent\MailCategory;
+use App\Infrastructures\Models\GeneralSettingCategory;
+use App\Infrastructures\Models\MailCategory;
 
 use Exception;
 

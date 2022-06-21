@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Infrastructures\Models\Eloquent;
+namespace Database\Factories\Infrastructures\Models;
 
-use App\Infrastructures\Models\Eloquent\DomainBilling;
-use App\Infrastructures\Models\Eloquent\DomainDealing;
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Infrastructures\Models\DomainBilling;
+use App\Infrastructures\Models\DomainDealing;
+use Illuminate\Database\Factories\Factory;
 
 class DomainBillingFactory extends Factory
 {

@@ -69,33 +69,33 @@ final class DnsController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Domain $domain
+     * @param \App\Infrastructures\Models\Domain $domain
      * @return \Illuminate\Contracts\View\View
      */
     public function new(
-        \App\Infrastructures\Models\Eloquent\Domain $domain
+        \App\Infrastructures\Models\Domain $domain
     ): \Illuminate\Contracts\View\View {
         return view('frontend.dns.new', compact('domain'));
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @param \App\Infrastructures\Models\Subdomain $subdomain
      * @return \Illuminate\Contracts\View\View
      */
     public function edit(
-        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+        \App\Infrastructures\Models\Subdomain $subdomain
     ): \Illuminate\Contracts\View\View {
         return view('frontend.dns.edit', compact('subdomain'));
     }
 
     /**
      * @param \App\Http\Requests\Frontend\Dns\UpdateRequest $request
-     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @param \App\Infrastructures\Models\Subdomain $subdomain
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(
         \App\Http\Requests\Frontend\Dns\UpdateRequest $request,
-        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain,
+        \App\Infrastructures\Models\Subdomain $subdomain,
     ): \Illuminate\Http\RedirectResponse {
         $attributes = $request->only([
             'subdomain',
@@ -137,11 +137,11 @@ final class DnsController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @param \App\Infrastructures\Models\Subdomain $subdomain
      * @return \Illuminate\Http\RedirectResponse
      */
     public function delete(
-        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+        \App\Infrastructures\Models\Subdomain $subdomain
     ): \Illuminate\Http\RedirectResponse {
         $this->subdomainRepository->delete($subdomain);
 

@@ -9,11 +9,11 @@ use Illuminate\Support\Collection;
 final class MakeRecordService
 {
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+     * @param \App\Infrastructures\Models\Subdomain $subdomain
      * @return \Illuminate\Support\Collection
      */
     public function make(
-        \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
+        \App\Infrastructures\Models\Subdomain $subdomain
     ): \Illuminate\Support\Collection {
         $dnsRecordCollection = new Collection();
         $name = $subdomain->getFullDomainName();

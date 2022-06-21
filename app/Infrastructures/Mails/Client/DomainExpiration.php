@@ -15,11 +15,11 @@ final class DomainExpiration extends Notification
     private $domainNoticeNumberDays;
 
     /**
-     * @param \Illuminate\Database\Eloquent\Collection $domains
+     * @param \Illuminate\Database\Collection $domains
      * @param integer $domainNoticeNumberDays
      */
     public function __construct(
-        \Illuminate\Database\Eloquent\Collection $domains,
+        \Illuminate\Database\Collection $domains,
         int $domainNoticeNumberDays
     ) {
         $this->domains = $domains;

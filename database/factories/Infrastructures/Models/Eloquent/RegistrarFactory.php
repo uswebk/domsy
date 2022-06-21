@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Database\Factories\Infrastructures\Models\Eloquent;
+namespace Database\Factories\Infrastructures\Models;
 
-use App\Infrastructures\Models\Eloquent\Registrar;
-use App\Infrastructures\Models\Eloquent\User;
+use App\Infrastructures\Models\Registrar;
+use App\Infrastructures\Models\User;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Factories\Factory;
 
 class RegistrarFactory extends Factory
 {

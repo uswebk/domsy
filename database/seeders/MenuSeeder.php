@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Infrastructures\Models\Eloquent\Menu;
+use App\Infrastructures\Models\Menu;
 
 use Illuminate\Database\Seeder;
 

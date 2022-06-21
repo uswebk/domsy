@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
-use App\Infrastructures\Models\Eloquent\User;
+use App\Infrastructures\Models\User;
 
 use Illuminate\Support\Facades\Hash;
 
@@ -29,9 +29,9 @@ final class AuthRegisterRequest
     }
 
     /**
-     * @return \App\Infrastructures\Models\Eloquent\User
+     * @return \App\Infrastructures\Models\User
      */
-    public function getInput(): \App\Infrastructures\Models\Eloquent\User
+    public function getInput(): \App\Infrastructures\Models\User
     {
         return $this->user;
     }

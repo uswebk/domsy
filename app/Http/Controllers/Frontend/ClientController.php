@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Infrastructures\Models\Eloquent\Client;
+use App\Infrastructures\Models\Client;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -46,23 +46,23 @@ final class ClientController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Client $client
+     * @param \App\Infrastructures\Models\Client $client
      * @return \Illuminate\Contracts\View\View
      */
     public function edit(
-        \App\Infrastructures\Models\Eloquent\Client $client
+        \App\Infrastructures\Models\Client $client
     ): \Illuminate\Contracts\View\View {
         return view('frontend.client.edit', compact('client'));
     }
 
     /**
      * @param \App\Http\Requests\Frontend\Client\UpdateRequest $request
-     * @param \App\Infrastructures\Models\Eloquent\Client $client
+     * @param \App\Infrastructures\Models\Client $client
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(
         \App\Http\Requests\Frontend\Client\UpdateRequest $request,
-        \App\Infrastructures\Models\Eloquent\Client $client
+        \App\Infrastructures\Models\Client $client
     ): \Illuminate\Http\RedirectResponse {
         $attributes = $request->makeInput();
 

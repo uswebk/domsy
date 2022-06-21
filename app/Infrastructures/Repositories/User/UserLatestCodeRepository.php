@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Repositories\User;
 
-use App\Infrastructures\Models\Eloquent\UserLatestCode;
+use App\Infrastructures\Models\UserLatestCode;
 
 final class UserLatestCodeRepository implements UserLatestCodeRepositoryInterface
 {

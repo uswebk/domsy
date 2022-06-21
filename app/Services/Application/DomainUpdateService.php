@@ -31,7 +31,7 @@ final class DomainUpdateService
 
     /**
      * @param \App\Services\Application\InputData\DomainUpdateRequest $domainUpdateRequest
-     * @param \App\Infrastructures\Models\Eloquent\Domain $domain
+     * @param \App\Infrastructures\Models\Domain $domain
      *
      * @throws NotOwnerException
      *
@@ -39,7 +39,7 @@ final class DomainUpdateService
      */
     public function handle(
         \App\Services\Application\InputData\DomainUpdateRequest $domainUpdateRequest,
-        \App\Infrastructures\Models\Eloquent\Domain $domain
+        \App\Infrastructures\Models\Domain $domain
     ): void {
         $domainRequest = $domainUpdateRequest->getInput();
         try {

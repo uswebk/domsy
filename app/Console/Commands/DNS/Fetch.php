@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\DNS;
 
-use App\Infrastructures\Models\Eloquent\User;
+use App\Infrastructures\Models\User;
 
 use Illuminate\Console\Command;
 

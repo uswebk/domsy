@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\Domain\Client;
 
-use App\Infrastructures\Models\Eloquent\Client;
-use App\Infrastructures\Models\Eloquent\User;
+use App\Infrastructures\Models\Client;
+use App\Infrastructures\Models\User;
 use App\Infrastructures\Queries\Client\EloquentClientQueryServiceInterface;
 use App\Services\Domain\Client\HasService;
 

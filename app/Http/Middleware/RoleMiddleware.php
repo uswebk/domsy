@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Infrastructures\Models\Eloquent\MenuItem;
+use App\Infrastructures\Models\MenuItem;
 use Closure;
 
 final class RoleMiddleware

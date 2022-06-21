@@ -41,7 +41,7 @@ final class DealingUpdateService
 
     /**
      * @param \App\Services\Application\InputData\DealingUpdateRequest $dealingUpdateRequest
-     * @param \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
+     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
      *
      * @throws NotOwnerException
      * @throws DomainNotExistsException
@@ -50,7 +50,7 @@ final class DealingUpdateService
      */
     public function handle(
         \App\Services\Application\InputData\DealingUpdateRequest $dealingUpdateRequest,
-        \App\Infrastructures\Models\Eloquent\DomainDealing $domainDealing
+        \App\Infrastructures\Models\DomainDealing $domainDealing
     ): void {
         $domainDealingRequest = $dealingUpdateRequest->getInput();
 

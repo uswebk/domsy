@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
-use App\Infrastructures\Models\Eloquent\Domain;
+use App\Infrastructures\Models\Domain;
 use Illuminate\Support\Facades\Auth;
 
 final class DomainUpdateRequest
@@ -25,9 +25,9 @@ final class DomainUpdateRequest
     }
 
     /**
-     * @return \App\Infrastructures\Models\Eloquent\Domain
+     * @return \App\Infrastructures\Models\Domain
      */
-    public function getInput(): \App\Infrastructures\Models\Eloquent\Domain
+    public function getInput(): \App\Infrastructures\Models\Domain
     {
         return $this->domain;
     }

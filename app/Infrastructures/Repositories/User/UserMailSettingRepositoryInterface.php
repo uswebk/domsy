@@ -11,12 +11,12 @@ interface UserMailSettingRepositoryInterface
      * @param integer $mailCategoryId
      * @param boolean $isReceived
      * @param integer $noticeNumberDays
-     * @return \App\Infrastructures\Models\Eloquent\UserMailSetting
+     * @return \App\Infrastructures\Models\UserMailSetting
      */
     public function updateOfUserIdAndMailCategoryIdEqual(
         int $userId,
         int $mailCategoryId,
         bool $isReceived,
         int $noticeNumberDays
-    ): \App\Infrastructures\Models\Eloquent\UserMailSetting;
+    ): \App\Infrastructures\Models\UserMailSetting;
 }

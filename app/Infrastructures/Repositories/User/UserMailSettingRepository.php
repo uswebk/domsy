@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Repositories\User;
 
-use App\Infrastructures\Models\Eloquent\UserMailSetting;
+use App\Infrastructures\Models\UserMailSetting;
 
 final class UserMailSettingRepository implements UserMailSettingRepositoryInterface
 {
@@ -13,14 +13,14 @@ final class UserMailSettingRepository implements UserMailSettingRepositoryInterf
      * @param integer $mailCategoryId
      * @param boolean $isReceived
      * @param integer $noticeNumberDays
-     * @return \App\Infrastructures\Models\Eloquent\UserMailSetting
+     * @return \App\Infrastructures\Models\UserMailSetting
      */
     public function updateOfUserIdAndMailCategoryIdEqual(
         int $userId,
         int $mailCategoryId,
         bool $isReceived,
         int $noticeNumberDays
-    ): \App\Infrastructures\Models\Eloquent\UserMailSetting {
+    ): \App\Infrastructures\Models\UserMailSetting {
         $userMailSetting = UserMailSetting::firstOrNew([
             'user_id' => $userId,
             'mail_category_id' => $mailCategoryId,

@@ -58,24 +58,24 @@ final class DomainController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Domain $domain
+     * @param \App\Infrastructures\Models\Domain $domain
      * @return \Illuminate\Contracts\View\View
      */
     public function edit(
-        \App\Infrastructures\Models\Eloquent\Domain $domain
+        \App\Infrastructures\Models\Domain $domain
     ): \Illuminate\Contracts\View\View {
         return view('frontend.domain.edit', compact('domain'));
     }
 
     /**
      * @param \App\Http\Requests\Frontend\Domain\UpdateRequest $request
-     * @param \App\Infrastructures\Models\Eloquent\Domain $domain
+     * @param \App\Infrastructures\Models\Domain $domain
      * @param \App\Services\Application\DomainUpdateService $domainUpdateService
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(
         \App\Http\Requests\Frontend\Domain\UpdateRequest $request,
-        \App\Infrastructures\Models\Eloquent\Domain $domain,
+        \App\Infrastructures\Models\Domain $domain,
         \App\Services\Application\DomainUpdateService $domainUpdateService
     ): \Illuminate\Http\RedirectResponse {
         $domainRequest = $request->makeInput();
@@ -110,11 +110,11 @@ final class DomainController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Eloquent\Domain $domain
+     * @param \App\Infrastructures\Models\Domain $domain
      * @return \Illuminate\Http\RedirectResponse
      */
     public function delete(
-        \App\Infrastructures\Models\Eloquent\Domain $domain
+        \App\Infrastructures\Models\Domain $domain
     ): \Illuminate\Http\RedirectResponse {
         $this->domainRepository->delete($domain);
 
