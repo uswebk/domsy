@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
+use App\Constants\CompanyConstants;
 use App\Constants\RoleConstants;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -95,17 +96,11 @@ final class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return \App\Infrastructures\Models\Eloquent\UserMailSetting|null
+     * @return boolean
      */
-    public function getReceiveDomainExpirationMailSetting(): ?\App\Infrastructures\Models\Eloquent\UserMailSetting
+    public function isCompany(): bool
     {
-        foreach ($this->mailSettings as $mailSetting) {
-            if ($mailSetting->isDomainExpiration()) {
-                return $mailSetting;
-            }
-        }
-
-        return null;
+        return $this->company_id !== CompanyConstants::INDEPENDENT_COMPANY_ID;
     }
 
     /**
@@ -119,6 +114,20 @@ final class User extends Authenticatable implements MustVerifyEmail
         }
 
         return $this->role->hasRoleItem($routeName);
+    }
+
+    /**
+     * @return \App\Infrastructures\Models\Eloquent\UserMailSetting|null
+     */
+    public function getReceiveDomainExpirationMailSetting(): ?\App\Infrastructures\Models\Eloquent\UserMailSetting
+    {
+        foreach ($this->mailSettings as $mailSetting) {
+            if ($mailSetting->isDomainExpiration()) {
+                return $mailSetting;
+            }
+        }
+
+        return null;
     }
 
     /**
