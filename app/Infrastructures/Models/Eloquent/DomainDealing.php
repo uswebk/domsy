@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
+use App\Enums\Interval;
+
 final class DomainDealing extends BaseModel
 {
     protected $fillable = [
@@ -76,5 +78,41 @@ final class DomainDealing extends BaseModel
     public function getBillingAmount(): int
     {
         return $this->subtotal - $this->discount;
+    }
+
+    /**
+     * @param \Carbon\Carbon $targetDate
+     * @return \Carbon\Carbon
+     */
+    public function getNextBillingDateByTargetDate(
+        \Carbon\Carbon $targetDate
+    ): \Carbon\Carbon {
+        $billingDate = $targetDate->copy()->startOfDay();
+        $interval = $this->interval;
+        $intervalCategory = $this->interval_category;
+
+        if ($intervalCategory === Interval::DAY->name) {
+            return $billingDate->addDays($interval);
+        }
+
+        if ($intervalCategory === Interval::WEEK->name) {
+            return $billingDate->addWeeks($interval);
+        }
+
+        if ($intervalCategory === Interval::MONTH->name) {
+            return $billingDate->addMonths($interval);
+        }
+
+        if ($intervalCategory === Interval::YEAR->name) {
+            return $billingDate->addYears($interval);
+        }
+    }
+
+    /**
+     * @return \Carbon\Carbon
+     */
+    public function getNextBillingDate(): \Carbon\Carbon
+    {
+        return $this->getNextBillingDateByTargetDate($this->billing_date);
     }
 }

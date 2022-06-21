@@ -6,7 +6,6 @@ namespace App\Services\Application\Commands\Billing;
 
 use App\Helpers\DateHelper;
 use App\Infrastructures\Models\Eloquent\DomainBilling;
-use App\Infrastructures\Models\Interval;
 
 use Exception;
 
@@ -36,21 +35,12 @@ final class CreateService
     private function executeOfDomainBilling(
         \App\Infrastructures\Models\Eloquent\DomainBilling $domainBilling
     ): void {
-        $targetDate = $this->executeDate->copy();
         $domainDealing = $domainBilling->domainDealing;
-
-        $hoge = $domainBilling->id;
-
-        $nextBillingDate = Interval::getDateByIntervalIntervalCategory(
-            $targetDate,
-            $domainDealing->interval,
-            $domainDealing->interval_category
-        );
 
         $this->billingRepository->firstOrCreate([
             'dealing_id' => $domainDealing->id,
             'total' => $domainDealing->getBillingAmount(),
-            'billing_date' => $nextBillingDate,
+            'billing_date' => $domainDealing->getNextBillingDateByTargetDate($this->executeDate),
             'is_fixed' => false,
         ]);
 
