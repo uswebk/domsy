@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Subdomain\DNS;
 
-use App\Infrastructures\Models\DnsRecord;
-
 use Illuminate\Support\Collection;
 
-final class MakeDnsRecordService
+final class MakeRecordService
 {
     /**
      * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
@@ -29,7 +27,7 @@ final class MakeDnsRecordService
         $dnsValues = array_merge($dnsValues, dns_get_record($name, DNS_TXT));
 
         foreach ($dnsValues as $dnsValue) {
-            $dnsRecordCollection->push(new DnsRecord($dnsValue));
+            $dnsRecordCollection->push(new RecordService($dnsValue));
         }
 
         return $dnsRecordCollection;

@@ -13,18 +13,18 @@ final class FetchService
 
     private $subdomainRepository;
 
-    private $makeDnsRecordService;
+    private $makeRecordService;
 
     private $dnsTypes;
 
     public function __construct(
         \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService,
         \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
-        \App\Services\Domain\Subdomain\DNS\MakeDnsRecordService $makeDnsRecordService
+        \App\Services\Domain\Subdomain\DNS\MakeRecordService $makeRecordService
     ) {
         $this->dnsRecodeTypeQueryService = $dnsRecodeTypeQueryService;
         $this->subdomainRepository = $subdomainRepository;
-        $this->makeDnsRecordService = $makeDnsRecordService;
+        $this->makeRecordService = $makeRecordService;
     }
 
     /**
@@ -38,12 +38,12 @@ final class FetchService
     }
 
     /**
-     * @param \App\Infrastructures\Models\DnsRecord $dnsRecord
+     * @param \App\Services\Domain\Subdomain\Dns\RecordService $dnsRecord
      * @param \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
      * @return void
      */
     private function executeOfDnsRecordBySubdomain(
-        \App\Infrastructures\Models\DnsRecord $dnsRecord,
+        \App\Services\Domain\Subdomain\Dns\RecordService $dnsRecord,
         \App\Infrastructures\Models\Eloquent\Subdomain $subdomain
     ): void {
         if (in_array($dnsRecord->getType(), $this->dnsTypes)) {
@@ -67,7 +67,7 @@ final class FetchService
     ): void {
         $subdomain->delete();
 
-        $dnsRecords = $this->makeDnsRecordService->make($subdomain);
+        $dnsRecords = $this->makeRecordService->make($subdomain);
 
         foreach ($dnsRecords as $dnsRecord) {
             $this->executeOfDnsRecordBySubdomain($dnsRecord, $subdomain);

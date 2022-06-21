@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructures\Models;
+namespace App\Services\Domain\Subdomain\DNS;
 
 use App\Infrastructures\Models\Eloquent\DnsRecordType;
 
-final class DnsRecord
+final class RecordService
 {
     private $host;
 
