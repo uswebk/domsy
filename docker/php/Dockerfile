@@ -1,4 +1,4 @@
-FROM php:8.0-fpm
+FROM php:8.1.4-fpm
 
 RUN apt update \
     && apt install -y zlib1g-dev mariadb-client vim libzip-dev \

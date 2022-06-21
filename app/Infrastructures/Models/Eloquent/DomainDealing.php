@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models\Eloquent;
 
-use App\Infrastructures\Models\Interval;
-
 final class DomainDealing extends BaseModel
 {
     protected $fillable = [
@@ -78,17 +76,5 @@ final class DomainDealing extends BaseModel
     public function getBillingAmount(): int
     {
         return $this->subtotal - $this->discount;
-    }
-
-    /**
-     * @return \Carbon\Carbon
-     */
-    public function getNextBillingDate(): \Carbon\Carbon
-    {
-        return Interval::getDateByIntervalIntervalCategory(
-            $this->billing_date,
-            $this->interval,
-            $this->interval_category
-        );
     }
 }

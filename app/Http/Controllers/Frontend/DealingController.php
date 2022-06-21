@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Enums\Interval;
 use App\Infrastructures\Models\Eloquent\DomainDealing;
-use App\Infrastructures\Models\Interval;
 
 use Exception;
 
@@ -24,7 +24,7 @@ final class DealingController extends Controller
         $this->middleware(function ($request, $next) {
             $domainList = Auth::user()->domains->pluck('name', 'id')->toArray();
             $clientList = Auth::user()->clients->pluck('name', 'id')->toArray();
-            $intervalCategories = Interval::getIntervalList();
+            $intervalCategories = Interval::cases();
 
             view()->share([
                 'domainList' => $domainList,
@@ -41,6 +41,7 @@ final class DealingController extends Controller
      */
     public function index(): \Illuminate\Contracts\View\View
     {
+        // TODO: ApplicationService ->
         $domains = Auth::user()->domains;
 
         $domains->load([

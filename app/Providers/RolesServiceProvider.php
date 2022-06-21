@@ -38,7 +38,7 @@ final class RolesServiceProvider extends ServiceProvider
                 });
             });
         } catch (\Exception $e) {
-            Log::error(__FILE__ . ' (' . __LINE__ . ')' . PHP_EOL . $e->getMessage());
+            \Log::error(__FILE__ . ' (' . __LINE__ . ')' . PHP_EOL . $e->getMessage());
             return false;
         }
 

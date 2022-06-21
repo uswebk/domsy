@@ -81,7 +81,25 @@
 
       <div>
         {{ Form::number('interval', old('interval', $domainDealing->interval), ['placeholder' => '1', 'id' => 'dealing-interval', 'class' => 'form-control w-25 d-inline']) }}
-        {{ Form::select('interval_category', $intervalCategories, old('interval_category', $domainDealing->interval_category), ['id' => 'dealing-interval_category', 'class' => 'form-control w-50 d-inline']) }}
+        <select name="interval_category" class="form-control w-50 d-inline">
+          @foreach ($intervalCategories as $intervalCategory)
+            @if (old('interval_category') === $intervalCategory->name)
+              @php
+                $selected = 'selected';
+              @endphp
+            @elseif($domainDealing->interval_category === $intervalCategory->name)
+              @php
+                $selected = 'selected';
+              @endphp
+            @else
+              @php
+                $selected = '';
+              @endphp
+            @endif
+            <option value="{{ $intervalCategory->name }}" {{ $selected }}>{{ $intervalCategory->value }}
+            </option>
+          @endforeach
+        </select>
       </div>
 
       @error('interval')

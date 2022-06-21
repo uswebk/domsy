@@ -5,20 +5,21 @@ declare(strict_types=1);
 namespace App\Http\Requests\Frontend\Dealing;
 
 use App\Http\Requests\Request;
-use App\Infrastructures\Models\Interval;
+use App\Rules\Interval;
 use App\Services\Application\InputData\DealingUpdateRequest;
 
-use Illuminate\Validation\Rule;
-
-class UpdateRequest extends Request
+final class UpdateRequest extends Request
 {
+    /**
+     * @return array
+     */
     public function rules(): array
     {
         return [
             'subtotal' => 'required|integer',
             'discount' => 'required|integer',
             'interval' => 'required|integer',
-            'interval_category' => Rule::in(array_keys(Interval::getIntervalList())),
+            'interval_category' => new Interval(),
             'is_auto_update' => 'required|boolean',
             'is_halt' => 'required|boolean',
         ];

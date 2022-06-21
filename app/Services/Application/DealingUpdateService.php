@@ -28,7 +28,7 @@ final class DealingUpdateService
      * @param \App\Services\Domain\Domain\ExistsService $domainExistsService
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Dealing\Domain\DealingRepositoryInterface $dealingRepository,
+        \App\Infrastructures\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository,
         \App\Services\Domain\Client\HasService $clientHasService,
         \App\Services\Domain\Domain\ExistsService $domainExistsService
     ) {

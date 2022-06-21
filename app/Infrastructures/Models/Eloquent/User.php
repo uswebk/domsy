@@ -9,6 +9,7 @@ use App\Constants\RoleConstants;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -16,7 +17,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 final class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, Notifiable;
+    use HasFactory, HasApiTokens, Notifiable;
 
     protected $fillable = [
         'code',

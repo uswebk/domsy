@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Database\Factories\Infrastructures\Models\Eloquent;
 
+use App\Infrastructures\Models\Eloquent\Company;
+use App\Infrastructures\Models\Eloquent\Role;
 use App\Infrastructures\Models\Eloquent\User;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class UserFactory extends Factory
+final class UserFactory extends Factory
 {
     protected $model = User::class;
 
@@ -23,6 +25,8 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
+            'company_id' => Company::factory(),
+            'role_id' => Role::factory(),
             'code' => $this->faker->randomNumber(5),
             'email' => $this->faker->unique()->safeEmail,
             'email_verify_token' => Str::random(10),

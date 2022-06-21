@@ -23,6 +23,8 @@ final class DealingStoreService
 
     private $domainExistsService;
 
+    private $domainDealingNextBillingDateService;
+
     private $userId;
 
     /**
@@ -30,17 +32,20 @@ final class DealingStoreService
      * @param \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
      * @param \App\Services\Domain\Client\HasService $clientHasService
      * @param \App\Services\Domain\Domain\ExistsService $domainExistsService
+     * @param \App\Services\Domain\DomainDealing\NextBillingDateService $domainDealingNextBillingDateService
      */
     public function __construct(
         \App\Infrastructures\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository,
         \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository,
         \App\Services\Domain\Client\HasService $clientHasService,
-        \App\Services\Domain\Domain\ExistsService $domainExistsService
+        \App\Services\Domain\Domain\ExistsService $domainExistsService,
+        \App\Services\Domain\DomainDealing\NextBillingDateService $domainDealingNextBillingDateService,
     ) {
         $this->dealingRepository = $dealingRepository;
         $this->billingRepository = $billingRepository;
         $this->clientHasService = $clientHasService;
         $this->domainExistsService = $domainExistsService;
+        $this->domainDealingNextBillingDateService = $domainDealingNextBillingDateService;
 
         $this->userId = Auth::id();
     }
@@ -86,10 +91,12 @@ final class DealingStoreService
                 'is_halt' => $domainDealingInput->is_halt,
             ]);
 
+            $nextBillingDate = $this->domainDealingNextBillingDateService->get($domainDealing);
+
             $this->billingRepository->store([
                 'dealing_id' => $domainDealing->id,
                 'total' => $domainDealing->getBillingAmount(),
-                'billing_date' => $domainDealing->getNextBillingDate(),
+                'billing_date' => $nextBillingDate,
                 'is_fixed' => false,
                 'changed_at' => null,
             ]);
@@ -97,6 +104,8 @@ final class DealingStoreService
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
+
+            report($e);
 
             throw $e;
         }
