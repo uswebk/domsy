@@ -8,7 +8,7 @@ use App\Constants\RoleConstants;
 use Laravel\Sanctum\HasApiTokens;
 
 use App\Constants\CompanyConstants;
-use Illuminate\Database\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -202,9 +202,9 @@ final class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * @return \Illuminate\Database\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getSubdomains(): \Illuminate\Database\Collection
+    public function getSubdomains(): \Illuminate\Database\Eloquent\Collection
     {
         $subdomains = new Collection();
 

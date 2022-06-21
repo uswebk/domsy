@@ -7,7 +7,7 @@ namespace App\Infrastructures\Queries\Dns;
 interface EloquentDnsRecordTypeQueryServiceInterface
 {
     /**
-     * @return \Illuminate\Database\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getSortAll(): \Illuminate\Database\Collection;
+    public function getSortAll(): \Illuminate\Database\Eloquent\Collection;
 }

@@ -18,9 +18,9 @@ final class EloquentUserQueryService implements EloquentUserQueryServiceInterfac
     }
 
     /**
-     * @return \Illuminate\Database\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getActiveUsers(): \Illuminate\Database\Collection
+    public function getActiveUsers(): \Illuminate\Database\Eloquent\Collection
     {
         return User::whereNull('deleted_at')->get();
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\UserMailSetting\Domain;
 
-use Illuminate\Database\Collection;
+use Illuminate\Database\Eloquent\Collection;
 
 final class GetNotificationService
 {
@@ -59,9 +59,9 @@ final class GetNotificationService
     }
 
     /**
-     * @return \Illuminate\Database\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getDomains(): \Illuminate\Database\Collection
+    public function getDomains(): \Illuminate\Database\Eloquent\Collection
     {
         return $this->notificationDomains;
     }

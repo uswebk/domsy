@@ -13,9 +13,9 @@ interface EloquentUserQueryServiceInterface
     public function findById(int $id): \App\Infrastructures\Models\User;
 
     /**
-     * @return \Illuminate\Database\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getActiveUsers(): \Illuminate\Database\Collection;
+    public function getActiveUsers(): \Illuminate\Database\Eloquent\Collection;
 
     /**
      * @param integer $id

@@ -7,7 +7,7 @@ namespace App\Services\Application\InputData;
 use App\Infrastructures\Models\MailCategory;
 use App\Infrastructures\Models\UserMailSetting;
 
-use Illuminate\Database\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 final class SettingMailSaveRequest
@@ -45,9 +45,9 @@ final class SettingMailSaveRequest
     }
 
     /**
-     * @return \Illuminate\Database\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getInput(): \Illuminate\Database\Collection
+    public function getInput(): \Illuminate\Database\Eloquent\Collection
     {
         return $this->userMailSettings;
     }

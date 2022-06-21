@@ -72,7 +72,7 @@ final class CreateService
         $query = $this->getQueryBuilderOfDomainBilling();
 
         $query->chunk(self::CHUNK_SIZE, function (
-            \Illuminate\Database\Collection $domainBillings
+            \Illuminate\Database\Eloquent\Collection $domainBillings
         ) {
             foreach ($domainBillings as $domainBilling) {
                 DB::beginTransaction();

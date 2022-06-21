@@ -11,7 +11,7 @@ use App\Infrastructures\Models\Domain;
 use App\Infrastructures\Models\User;
 use App\Infrastructures\Models\UserMailSetting;
 
-use Illuminate\Database\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 

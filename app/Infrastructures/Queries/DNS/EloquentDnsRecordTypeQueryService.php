@@ -9,9 +9,9 @@ use App\Infrastructures\Models\DnsRecordType;
 final class EloquentDnsRecordTypeQueryService implements EloquentDnsRecordTypeQueryServiceInterface
 {
     /**
-     * @return \Illuminate\Database\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getSortAll(): \Illuminate\Database\Collection
+    public function getSortAll(): \Illuminate\Database\Eloquent\Collection
     {
         return DnsRecordType::orderBy('sort')->get();
     }

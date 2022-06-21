@@ -75,11 +75,11 @@ final class FetchService
     }
 
     /**
-     * @param \Illuminate\Database\Collection $subdomains
+     * @param \Illuminate\Database\Eloquent\Collection $subdomains
      * @return void
      */
     public function handle(
-        \Illuminate\Database\Collection $subdomains
+        \Illuminate\Database\Eloquent\Collection $subdomains
     ): void {
         $this->initDnsRecodeTypeNames();
 
