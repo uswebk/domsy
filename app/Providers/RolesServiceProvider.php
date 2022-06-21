@@ -30,10 +30,12 @@ final class RolesServiceProvider extends ServiceProvider
     public function boot()
     {
         try {
-            MenuItem::get()->map(function ($item) {
+            MenuItem::get()->map(function (
+                \App\Infrastructures\Models\MenuItem $item
+            ) {
                 $route = $item->route;
 
-                Gate::define($route, function ($user) use ($route) {
+                Gate::define($route, function (\App\Infrastructures\Models\User $user) use ($route) {
                     return $user->hasRoleItem($route);
                 });
             });

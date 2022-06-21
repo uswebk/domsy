@@ -17,7 +17,7 @@ final class Interval implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         foreach (EnumsInterval::cases() as $interval) {
             if ($interval->name === $value) {
@@ -32,7 +32,7 @@ final class Interval implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return 'interval category is illegal value';
     }

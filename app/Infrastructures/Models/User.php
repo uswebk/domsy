@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models;
 
-use App\Constants\RoleConstants;
-use Laravel\Sanctum\HasApiTokens;
-
 use App\Constants\CompanyConstants;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Constants\RoleConstants;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+use Laravel\Sanctum\HasApiTokens;
 
 final class User extends Authenticatable implements MustVerifyEmail
 {
