@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models;
 
-use App\Constants\CompanyConstants;
-use App\Constants\RoleConstants;
+use App\Constants\CompanyConstant;
+use App\Constants\RoleConstant;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Collection;
@@ -101,7 +101,7 @@ final class User extends Authenticatable implements MustVerifyEmail
      */
     public function isCompany(): bool
     {
-        return $this->company_id !== CompanyConstants::INDEPENDENT_COMPANY_ID;
+        return $this->company_id !== CompanyConstant::INDEPENDENT_COMPANY_ID;
     }
 
     /**
@@ -110,7 +110,7 @@ final class User extends Authenticatable implements MustVerifyEmail
      */
     public function hasRoleItem(string $routeName): bool
     {
-        if ($this->role_id === RoleConstants::DEFAULT_ROLE_ID) {
+        if ($this->role_id === RoleConstant::DEFAULT_ROLE_ID) {
             return true;
         }
 

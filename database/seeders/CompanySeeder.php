@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Constants\CompanyConstants;
+use App\Constants\CompanyConstant;
 use App\Infrastructures\Models\Company;
 
 use Illuminate\Database\Seeder;
@@ -19,7 +19,7 @@ final class CompanySeeder extends Seeder
     public function run()
     {
         Company::create([
-            'id' => CompanyConstants::INDEPENDENT_COMPANY_ID,
+            'id' => CompanyConstant::INDEPENDENT_COMPANY_ID,
             'name' => 'Domsy',
             'email' => 'info@domsy.com',
             'zip' => '0000000',

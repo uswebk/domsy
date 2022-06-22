@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Constants\CompanyConstants;
-use App\Constants\RoleConstants;
+use App\Constants\CompanyConstant;
+use App\Constants\RoleConstant;
 use App\Infrastructures\Models\Role;
 
 use Illuminate\Database\Seeder;
@@ -20,8 +20,8 @@ final class RoleSeeder extends Seeder
     public function run()
     {
         Role::create([
-            'id' => RoleConstants::DEFAULT_ROLE_ID,
-            'company_id' => CompanyConstants::INDEPENDENT_COMPANY_ID,
+            'id' => RoleConstant::DEFAULT_ROLE_ID,
+            'company_id' => CompanyConstant::INDEPENDENT_COMPANY_ID,
             'name' => 'Administrator',
         ]);
     }

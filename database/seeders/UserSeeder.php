@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Constants\CompanyConstants;
-use App\Constants\RoleConstants;
+use App\Constants\CompanyConstant;
+use App\Constants\RoleConstant;
 use App\Infrastructures\Models\User;
 
 use Carbon\Carbon;
@@ -22,8 +22,8 @@ final class UserSeeder extends Seeder
     {
         User::create([
             'code' => 100000,
-            'company_id' => CompanyConstants::INDEPENDENT_COMPANY_ID,
-            'role_id' => RoleConstants::DEFAULT_ROLE_ID,
+            'company_id' => CompanyConstant::INDEPENDENT_COMPANY_ID,
+            'role_id' => RoleConstant::DEFAULT_ROLE_ID,
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => '$2y$10$KqpJK5/P2CJUyh4ZSkple.jTh6wFluQNA3/9sIUusug3fUYk9b7hC',
