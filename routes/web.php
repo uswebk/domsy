@@ -1,5 +1,5 @@
 <?php
-// Blade Formatter › Format: Indent Size
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +10,12 @@ Route::namespace('Auth')->group(function () {
         Route::get('/', 'RegisterController@index')->name('index');
 
         Route::post('/', 'RegisterController@register')->name('register');
+    });
+
+    Route::prefix('corporation')->name('corporation.')->group(function () {
+        Route::get('register', 'CorporationController@index')->name('index');
+
+        Route::post('register', 'CorporationController@register')->name('register');
     });
 
     Route::get('email/verify/{id}/{hash}', 'VerificationController@verify')->name('verify');
