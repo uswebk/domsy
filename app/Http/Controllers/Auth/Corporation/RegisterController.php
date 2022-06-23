@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth\Corporation;
 
-final class CorporationController extends Controller
+use App\Http\Controllers\Auth\Controller;
+
+final class RegisterController extends Controller
 {
     public function __construct()
     {
@@ -20,15 +22,13 @@ final class CorporationController extends Controller
     }
 
     public function register(
-        \Illuminate\Http\Request $request,
-        \App\Services\Application\Auth\CorporationRegisterService $corporationRegisterService
+        \App\Http\Requests\Auth\Corporation\RegisterRequest $request,
+        \App\Services\Application\Auth\Corporation\RegisterService $registerService
     ): \Illuminate\Contracts\View\View {
+        $registerRequest = $request->makeInput();
 
-        // FormRequest
 
-        // getInputData
-
-        $corporationRegisterService->handle();
+        $registerService->handle($registerRequest);
 
         return view('auth.registered');
     }

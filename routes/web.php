@@ -12,10 +12,11 @@ Route::namespace('Auth')->group(function () {
         Route::post('/', 'RegisterController@register')->name('register');
     });
 
-    Route::prefix('corporation')->name('corporation.')->group(function () {
-        Route::get('register', 'CorporationController@index')->name('index');
+    Route::namespace('Corporation')->prefix('corporation')->name('corporation.')
+    ->group(function () {
+        Route::get('register', 'RegisterController@index')->name('index');
 
-        Route::post('register', 'CorporationController@register')->name('register');
+        Route::post('register', 'RegisterController@register')->name('register');
     });
 
     Route::get('email/verify/{id}/{hash}', 'VerificationController@verify')->name('verify');

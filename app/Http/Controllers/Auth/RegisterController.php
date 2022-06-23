@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth\Corporation;
 
 use Exception;
 
-class RegisterController extends Controller
+final class RegisterController extends Controller
 {
     public function __construct()
     {
