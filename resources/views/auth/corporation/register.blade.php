@@ -2,6 +2,7 @@
 
 @section('content')
   <form method='POST' action='{{ route('corporation.register') }}'>
+    @csrf
 
     <h6>Corporation</h6>
     <hr />

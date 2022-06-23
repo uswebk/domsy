@@ -20,8 +20,16 @@ final class CorporationController extends Controller
     }
 
     public function register(
-        \Illuminate\Http\Request $request
+        \Illuminate\Http\Request $request,
+        \App\Services\Application\Auth\CorporationRegisterService $corporationRegisterService
     ): \Illuminate\Contracts\View\View {
+
+        // FormRequest
+
+        // getInputData
+
+        $corporationRegisterService->handle();
+
         return view('auth.registered');
     }
 }
