@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
+use App\Infrastructures\Models\Company;
+use App\Infrastructures\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 final class AuthCorporationRegisterRequest
 {
     private $company;
@@ -16,6 +20,13 @@ final class AuthCorporationRegisterRequest
     public function __construct(
         \App\Http\Requests\Auth\Corporation\RegisterRequest $registerRequest
     ) {
+        $validated = $registerRequest->validated();
+
+        $validated['individual']['password'] = Hash::make($registerRequest['individual']['password']);
+        $validated['individual']['email_verify_token'] = base64_encode($registerRequest['individual']['email']);
+
+        $this->company = new Company($validated['corporation']);
+        $this->user = new User($validated['individual']);
     }
 
     /**

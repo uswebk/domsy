@@ -32,14 +32,12 @@ final class RegisterService
     public function handle(
         \App\Services\Application\InputData\AuthCorporationRegisterRequest $registerRequest
     ): void {
-        // Company 登録
         $companyRequest = $registerRequest->getInputCompany();
-        // Repository
-
-        // ユーザー登録
-        $code = $this->userLatestCodeRepository->next();
 
         $userRequest = $registerRequest->getInputUser();
+
+        $code = $this->userLatestCodeRepository->next();
+
         $user = $this->userRepository->store([
             'name' => $userRequest->name,
             'company_id' => CompanyConstant::INDEPENDENT_COMPANY_ID, // 追加したcompany_idを取得
