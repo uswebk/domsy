@@ -13,26 +13,44 @@ final class RegisterService
 
     private $userLatestCodeRepository;
 
+    private $companyRepository;
+
     private $emailVerificationService;
 
+    /**
+     * @param \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
+     * @param \App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository
+     * @param \App\Infrastructures\Repositories\Company\CompanyRepositoryInterface $companyRepository
+     * @param \App\Infrastructures\Mails\Services\EmailVerificationService $emailVerificationService
+     */
     public function __construct(
         \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository,
         \App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository,
+        \App\Infrastructures\Repositories\Company\CompanyRepositoryInterface $companyRepository,
         \App\Infrastructures\Mails\Services\EmailVerificationService $emailVerificationService
     ) {
         $this->userRepository = $userRepository;
+        $this->companyRepository = $companyRepository;
         $this->userLatestCodeRepository = $userLatestCodeRepository;
         $this->emailVerificationService = $emailVerificationService;
     }
 
     /**
-     * @param \App\Services\Application\InputData\AuthCorporationRegisterRequest $registerRequest
+     * @param \App\Services\Application\InputData\Auth\CorporationRegisterRequest $registerRequest
      * @return void
      */
     public function handle(
-        \App\Services\Application\InputData\AuthCorporationRegisterRequest $registerRequest
+        \App\Services\Application\InputData\Auth\CorporationRegisterRequest $registerRequest
     ): void {
         $companyRequest = $registerRequest->getInputCompany();
+
+        $company = $this->companyRepository->store([
+            'name' => $companyRequest->name,
+            'email' => $companyRequest->email,
+            'zip' => $companyRequest->zip,
+            'address' => $companyRequest->address,
+            'phone_number' => $companyRequest->phone_number,
+        ]);
 
         $userRequest = $registerRequest->getInputUser();
 
@@ -40,7 +58,7 @@ final class RegisterService
 
         $user = $this->userRepository->store([
             'name' => $userRequest->name,
-            'company_id' => CompanyConstant::INDEPENDENT_COMPANY_ID, // 追加したcompany_idを取得
+            'company_id' => $company->id,
             'role_id' => RoleConstant::DEFAULT_ROLE_ID,
             'code' => $code,
             'email' => $userRequest->email,

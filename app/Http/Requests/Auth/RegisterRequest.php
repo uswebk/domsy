@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Auth;
 
 use App\Http\Requests\Request;
-use App\Services\Application\InputData\AuthRegisterRequest;
+use App\Services\Application\InputData\Auth\RegisterRequest as AuthRegisterRequest;
 
 final class RegisterRequest extends Request
 {
@@ -22,9 +22,9 @@ final class RegisterRequest extends Request
     }
 
     /**
-     * @return \App\Services\Application\InputData\AuthRegisterRequest
+     * @return \App\Services\Application\InputData\Auth\RegisterRequest
      */
-    public function makeInput(): \App\Services\Application\InputData\AuthRegisterRequest
+    public function makeInput(): \App\Services\Application\InputData\Auth\RegisterRequest
     {
         return new AuthRegisterRequest($this);
     }

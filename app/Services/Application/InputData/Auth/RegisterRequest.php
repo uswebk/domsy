@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application\InputData;
+namespace App\Services\Application\InputData\Auth;
 
 use App\Infrastructures\Models\User;
 
 use Illuminate\Support\Facades\Hash;
 
-final class AuthRegisterRequest
+final class RegisterRequest
 {
     private $user;
 

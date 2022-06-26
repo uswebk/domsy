@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Auth\Corporation;
 
 use App\Http\Requests\Request;
-use App\Services\Application\InputData\AuthCorporationRegisterRequest;
+use App\Services\Application\InputData\Auth\CorporationRegisterRequest;
 
 final class RegisterRequest extends Request
 {
@@ -27,10 +27,10 @@ final class RegisterRequest extends Request
     }
 
     /**
-     * @return \App\Services\Application\InputData\AuthCorporationRegisterRequest
+     * @return \App\Services\Application\InputData\Auth\CorporationRegisterRequest
      */
-    public function makeInput(): \App\Services\Application\InputData\AuthCorporationRegisterRequest
+    public function makeInput(): \App\Services\Application\InputData\Auth\CorporationRegisterRequest
     {
-        return new AuthCorporationRegisterRequest($this);
+        return new CorporationRegisterRequest($this);
     }
 }
