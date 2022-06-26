@@ -11,6 +11,15 @@ use App\Services\Application\InputData\DealingUpdateRequest;
 final class UpdateRequest extends Request
 {
     /**
+     * @param \App\Rules\HasClient $hasClientRule
+     */
+    public function __construct(
+        \App\Rules\HasClient $hasClientRule,
+    ) {
+        $this->hasClientRule = $hasClientRule;
+    }
+
+    /**
      * @return array
      */
     public function rules(): array
@@ -38,7 +47,7 @@ final class UpdateRequest extends Request
             return $domainDealing->isUnclaimed();
         });
 
-        $validator->sometimes('client_id', 'required|integer', function ($input) {
+        $validator->sometimes('client_id', $this->hasClientRule, function ($input) {
             $domainDealing = $this->route()->parameter('domainDealing');
 
             return $domainDealing->isUnclaimed();

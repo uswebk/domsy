@@ -11,4 +11,11 @@ interface EloquentClientQueryServiceInterface
      * @return \App\Infrastructures\Models\Client
      */
     public function findById(int $id): \App\Infrastructures\Models\Client;
+
+    /**
+     * @param integer $id
+     * @param integer $userId
+     * @return \App\Infrastructures\Models\Client
+     */
+    public function firstByIdUserId(int $id, int $userId): \App\Infrastructures\Models\Client;
 }

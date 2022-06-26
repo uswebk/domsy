@@ -58,10 +58,6 @@ final class DealingStoreService
     ): void {
         $domainDealingInput = $domainDealingRequest->getInput();
         try {
-            if (! $this->clientHasService->isOwner($domainDealingInput->client_id, $this->userId)) {
-                throw new NotOwnerException();
-            }
-
             if (! $this->domainExistsService->exists($domainDealingInput->domain_id, $this->userId)) {
                 throw new DomainNotExistsException();
             }

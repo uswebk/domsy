@@ -16,4 +16,15 @@ final class EloquentClientQueryService implements EloquentClientQueryServiceInte
     {
         return Client::findOrFail($id);
     }
+
+    /**
+     * @param integer $id
+     * @param integer $userId
+     * @return \App\Infrastructures\Models\Client
+     */
+    public function firstByIdUserId(int $id, int $userId): \App\Infrastructures\Models\Client
+    {
+        return Client::where('id', '=', $id)->where('user_id', '=', $userId)
+        ->firstOrFail();
+    }
 }
