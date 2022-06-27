@@ -27,9 +27,13 @@ final class RegisterController extends Controller
     ): \Illuminate\Contracts\View\View {
         $registerRequest = $request->makeInput();
 
-
-        $registerService->handle($registerRequest);
-
+        try {
+            $registerService->handle($registerRequest);
+        } catch (Exception $e) {
+            return view('auth.corporation.register')
+            ->with($request->all())
+            ->with('error', $e->getMessage());
+        }
         return view('auth.registered');
     }
 }

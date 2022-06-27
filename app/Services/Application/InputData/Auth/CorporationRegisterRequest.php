@@ -25,8 +25,10 @@ final class CorporationRegisterRequest
 
         $this->company = new Company($validated['corporation']);
 
-        $validated['individual']['password'] = Hash::make($registerRequest['individual']['password']);
-        $validated['individual']['email_verify_token'] = base64_encode($registerRequest['individual']['email']);
+        $validated['individual']['name'] = $validated['name'];
+        $validated['individual']['email'] = $validated['email'];
+        $validated['individual']['password'] = Hash::make($registerRequest['password']);
+        $validated['individual']['email_verify_token'] = base64_encode($registerRequest['email']);
 
         $this->user = new User($validated['individual']);
     }

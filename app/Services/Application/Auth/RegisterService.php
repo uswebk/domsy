@@ -36,11 +36,11 @@ final class RegisterService
     }
 
     /**
-     * @param \App\Services\Application\InputData\AuthRegisterRequest $registerRequest
+     * @param \App\Services\Application\InputData\Auth\RegisterRequest $registerRequest
      * @return void
      */
     public function handle(
-        \App\Services\Application\InputData\AuthRegisterRequest $registerRequest
+        \App\Services\Application\InputData\Auth\RegisterRequest $registerRequest
     ): void {
         $userRequest = $registerRequest->getInput();
 
