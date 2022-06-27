@@ -5,26 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Requests\Frontend\Dealing;
 
 use App\Http\Requests\Request;
+use App\Rules\HasClient;
+use App\Rules\Interval;
 use App\Services\Application\InputData\DealingStoreRequest;
 
 final class StoreRequest extends Request
 {
-    private $hasClientRule;
-
-    private $intervalRule;
-
-    /**
-     * @param \App\Rules\HasClient $hasClientRule
-     * @param \App\Rules\Interval $intervalRule
-     */
-    public function __construct(
-        \App\Rules\HasClient $hasClientRule,
-        \App\Rules\Interval $intervalRule
-    ) {
-        $this->hasClientRule = $hasClientRule;
-        $this->intervalRule = $intervalRule;
-    }
-
     /**
      * @return array
      */
@@ -32,12 +18,12 @@ final class StoreRequest extends Request
     {
         return [
             'domain_id' => 'required|integer',
-            'client_id' => $this->hasClientRule,
+            'client_id' => new HasClient(),
             'subtotal' => 'required|integer',
             'discount' => 'nullable|integer',
             'billing_date' => 'required|date_format:Y-m-d|after:yesterday',
             'interval' => 'required|integer',
-            'interval_category' => $this->intervalRule,
+            'interval_category' => new Interval(),
             'is_auto_update' => 'required|boolean',
             'is_halt' => 'required|boolean',
         ];

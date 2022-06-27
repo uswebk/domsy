@@ -2,23 +2,13 @@
 
 namespace App\Rules;
 
+use App\Infrastructures\Models\Client;
+
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 
 final class HasClient implements Rule
 {
-    private $eloquentClientQueryService;
-
-    /**
-     * @param \App\Infrastructures\Queries\Client\EloquentClientQueryServiceInterface $eloquentClientQueryService
-     */
-    public function __construct(
-        \App\Infrastructures\Queries\Client\EloquentClientQueryServiceInterface $eloquentClientQueryService
-    ) {
-        $this->eloquentClientQueryService = $eloquentClientQueryService;
-    }
-
     /**
      * Determine if the validation rule passes.
      *
@@ -28,13 +18,10 @@ final class HasClient implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        try {
-            $this->eloquentClientQueryService->firstByIdUserId($value, Auth::id());
-        } catch (ModelNotFoundException $e) {
-            return false;
-        }
+        $client = Client::where('id', '=', $value)->where('user_id', '=', Auth::id())
+        ->first();
 
-        return true;
+        return isset($client);
     }
 
     /**
