@@ -4,36 +4,26 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
-use App\Exceptions\Frontend\NotOwnerException;
-
 use Exception;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 final class DomainUpdateService
 {
     private $domainRepository;
 
-    private $registrarHasService;
-
     /**
      * @param \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
-     * @param \App\Services\Domain\Registrar\HasService $registrarHasService
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository,
-        \App\Services\Domain\Registrar\HasService $registrarHasService
+        \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
     ) {
         $this->domainRepository = $domainRepository;
-        $this->registrarHasService = $registrarHasService;
     }
 
     /**
      * @param \App\Services\Application\InputData\DomainUpdateRequest $domainUpdateRequest
      * @param \App\Infrastructures\Models\Domain $domain
-     *
-     * @throws NotOwnerException
      *
      * @return void
      */
@@ -42,15 +32,6 @@ final class DomainUpdateService
         \App\Infrastructures\Models\Domain $domain
     ): void {
         $domainRequest = $domainUpdateRequest->getInput();
-        try {
-            if (!$this->registrarHasService->isOwner($domainRequest->registrar_id, Auth::id())) {
-                throw new NotOwnerException();
-            }
-        } catch (NotOwnerException $e) {
-            Log::info($e->getMessage());
-
-            throw $e;
-        }
 
         DB::beginTransaction();
         try {

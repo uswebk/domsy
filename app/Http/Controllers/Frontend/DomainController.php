@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Exceptions\Frontend\DomainExistsException;
-
 use Exception;
 
 use Illuminate\Support\Facades\Auth;
@@ -100,8 +98,6 @@ final class DomainController extends Controller
         $domainRequest = $request->makeInput();
         try {
             $domainStoreService->handle($domainRequest);
-        } catch (DomainExistsException $e) {
-            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, $e->getMessage());
         } catch (Exception $e) {
             return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Create');
         }

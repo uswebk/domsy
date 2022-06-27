@@ -5,20 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Requests\Frontend\Dealing;
 
 use App\Http\Requests\Request;
+use App\Rules\ClientOwner;
+use App\Rules\DomainOwner;
 use App\Rules\Interval;
 use App\Services\Application\InputData\DealingUpdateRequest;
 
 final class UpdateRequest extends Request
 {
-    /**
-     * @param \App\Rules\HasClient $hasClientRule
-     */
-    public function __construct(
-        \App\Rules\HasClient $hasClientRule,
-    ) {
-        $this->hasClientRule = $hasClientRule;
-    }
-
     /**
      * @return array
      */
@@ -41,13 +34,13 @@ final class UpdateRequest extends Request
     public function withValidator(
         \Illuminate\Contracts\Validation\Validator $validator
     ): \Illuminate\Contracts\Validation\Validator {
-        $validator->sometimes('domain_id', 'required|integer', function ($input) {
+        $validator->sometimes('domain_id', new DomainOwner(), function ($input) {
             $domainDealing = $this->route()->parameter('domainDealing');
 
             return $domainDealing->isUnclaimed();
         });
 
-        $validator->sometimes('client_id', $this->hasClientRule, function ($input) {
+        $validator->sometimes('client_id', new ClientOwner(), function ($input) {
             $domainDealing = $this->route()->parameter('domainDealing');
 
             return $domainDealing->isUnclaimed();

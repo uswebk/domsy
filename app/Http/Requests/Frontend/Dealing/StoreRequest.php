@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\Frontend\Dealing;
 
 use App\Http\Requests\Request;
-use App\Rules\HasClient;
+use App\Rules\ClientOwner;
+use App\Rules\DomainOwner;
 use App\Rules\Interval;
 use App\Services\Application\InputData\DealingStoreRequest;
 
@@ -17,8 +18,8 @@ final class StoreRequest extends Request
     public function rules(): array
     {
         return [
-            'domain_id' => 'required|integer',
-            'client_id' => new HasClient(),
+            'domain_id' => new DomainOwner(),
+            'client_id' => new ClientOwner(),
             'subtotal' => 'required|integer',
             'discount' => 'nullable|integer',
             'billing_date' => 'required|date_format:Y-m-d|after:yesterday',

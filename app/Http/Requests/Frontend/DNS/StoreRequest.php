@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Frontend\Dns;
 
 use App\Http\Requests\Request;
+use App\Rules\DomainOwner;
 use App\Services\Application\InputData\DnsStoreRequest;
 
 class StoreRequest extends Request
@@ -16,7 +17,7 @@ class StoreRequest extends Request
     {
         return [
             'prefix' => 'nullable|string',
-            'domain_id' => 'required|integer',
+            'domain_id' => new DomainOwner(),
             'type_id' => 'required|integer',
             'value' => 'nullable|string',
             'ttl' => 'nullable|integer',

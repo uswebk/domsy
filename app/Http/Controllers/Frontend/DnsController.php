@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Exceptions\Frontend\DomainNotExistsException;
-
 use Exception;
 
 use Illuminate\Support\Facades\Auth;
@@ -125,15 +123,15 @@ final class DnsController extends Controller
         $subdomainRequest = $request->makeInput();
         try {
             $dnsStoreService->handle($subdomainRequest);
-        } catch (DomainNotExistsException $e) {
+
+            return redirect()->route('dns.index', ['domain_id' => $this->domainIdQuery])
+            ->with('greeting', 'Update!!');
+        } catch (Exception $e) {
+            report($e);
+
             return redirect()->route('dns.index', ['domain_id' => $this->domainIdQuery])
             ->with('failing', $e->getMessage());
-        } catch (Exception $e) {
-            throw $e;
         }
-
-        return redirect()->route('dns.index', ['domain_id' => $this->domainIdQuery])
-        ->with('greeting', 'Update!!');
     }
 
     /**

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\Frontend\Domain;
 
 use App\Http\Requests\Request;
+use App\Rules\DomainNameExists;
+use App\Rules\RegistrarOwner;
 use App\Services\Application\InputData\DomainUpdateRequest;
 
 class UpdateRequest extends Request
@@ -15,8 +17,8 @@ class UpdateRequest extends Request
     public function rules(): array
     {
         return [
-            'registrar_id' => 'required|integer',
-            'name' => 'required|string',
+            'registrar_id' => new RegistrarOwner(),
+            'name' => new DomainNameExists(),
             'price' => 'required|integer',
             'is_active' => 'required|boolean',
             'is_transferred' => 'required|boolean',
