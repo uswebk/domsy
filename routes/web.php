@@ -86,3 +86,9 @@ Route::namespace('Frontend')->group(function () {
         });
     });
 });
+
+// Front Test
+Route::namespace('Temporarily')->prefix('tmp')->name('tmp.')
+->group(function () {
+    Route::get('vue', 'VueTestController@index')->name('index');
+});
