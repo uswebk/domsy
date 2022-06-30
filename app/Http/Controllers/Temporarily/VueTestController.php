@@ -8,6 +8,6 @@ final class VueTestController
 {
     public function index()
     {
-        //
+        return view('tmp.vue.index');
     }
 }
