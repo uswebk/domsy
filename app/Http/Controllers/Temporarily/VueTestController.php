@@ -10,4 +10,11 @@ final class VueTestController
     {
         return view('tmp.vue.index');
     }
+
+    public function api()
+    {
+        return response()->json(
+            ['test' => 'ok'],
+        );
+    }
 }
