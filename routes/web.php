@@ -84,6 +84,10 @@ Route::namespace('Frontend')->group(function () {
             Route::post('store', 'DealingController@store')->name('store');
             Route::post('{domainDealing}/update', 'DealingController@update')->name('update')->where('domainDealing', '[0-9]+');
         });
+
+        Route::prefix('account')->name('account.')->group(function () {
+            Route::get('/', 'AccountController@index')->name('index');
+        });
     });
 });
 
