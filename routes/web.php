@@ -27,6 +27,7 @@ Route::namespace('Frontend')->group(function () {
 
     Route::middleware(['verified','auth'])->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
+        Route::get('dashboard/menus', 'DashboardController@getMenus')->name('dashboard.menus');
 
         Route::prefix('settings')->name('settings.')->group(function () {
             Route::get('/', 'SettingController@index')->name('index');

@@ -15,9 +15,10 @@ export default {
     },
     methods: {
         execute () {
-            axios.get('/tmp/api').then((response) => {
-                this.response = response.data.test;
-
+            console.log('test');
+            axios.get('/api/dashboard').then((response) => {
+                this.response = response.data;
+                console.log(response.data);
             }).catch((error) => {
                 console.error(error);
             });
