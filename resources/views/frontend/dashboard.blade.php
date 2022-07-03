@@ -5,8 +5,10 @@
 
     <h3>- Dashboard</h3>
 
+    <dashboard-page></dashboard-page>
+
     <div class='d-flex justify-content-left flex-wrap'>
-      @foreach ($menus as $menu)
+      {{-- @foreach ($menus as $menu)
         <div class='card w-25 m-1'>
           <div class='card-body'>
             <h5 class='card-title'>{{ $menu->name }}</h5>
@@ -20,7 +22,7 @@
             @endforeach
           </div>
         </div>
-      @endforeach
+      @endforeach --}}
     </div>
   </div>
 @endsection
