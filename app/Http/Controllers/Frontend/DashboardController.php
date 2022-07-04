@@ -4,23 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Resources\MenuResource;
-use App\Infrastructures\Models\Menu;
-
 final class DashboardController extends Controller
 {
     /**
-     * @return \Illuminate\Contracts\View\View
+     * @param \App\Services\Application\DashboardIndexService $applicationService
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function index()
-    {
-        // TODO: -> ApplicationService
-        $menus = Menu::with(['menuItems' => function ($query) {
-            $query->where('is_screen', '=', true);
-        }])->where('is_nav', '=', true)->get();
-
+    public function index(
+        \App\Services\Application\DashboardIndexService $applicationService
+    ) {
         return view('frontend.dashboard', [
-            'menus' => json_encode(MenuResource::collection($menus)),
+            'applicationService' => $applicationService,
         ]);
     }
 }

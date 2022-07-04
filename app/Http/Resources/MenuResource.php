@@ -10,7 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 final class MenuResource extends JsonResource
 {
     /**
-     * @param [type] $request
+     * @param $request
      * @return array
      */
     public function toArray($request): array
@@ -19,7 +19,6 @@ final class MenuResource extends JsonResource
 
         foreach ($this->menuItems as $menuItem) {
             $menuItem->route_name = route($menuItem->route);
-
             $menuItems->push($menuItem);
         }
 
