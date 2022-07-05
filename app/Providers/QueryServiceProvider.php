@@ -10,6 +10,8 @@ use App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryService;
 use App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface;
 use App\Infrastructures\Queries\Domain\EloquentDomainQueryService;
 use App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface;
+use App\Infrastructures\Queries\Menu\EloquentMenuQueryService;
+use App\Infrastructures\Queries\Menu\EloquentMenuQueryServiceInterface;
 use App\Infrastructures\Queries\Registrar\EloquentRegistrarQueryService;
 use App\Infrastructures\Queries\Registrar\EloquentRegistrarQueryServiceInterface;
 use App\Infrastructures\Queries\User\EloquentUserQueryService;
@@ -44,6 +46,10 @@ final class QueryServiceProvider extends ServiceProvider
 
         $this->app->bind(EloquentUserQueryServiceInterface::class, function () {
             return new EloquentUserQueryService();
+        });
+
+        $this->app->bind(EloquentMenuQueryServiceInterface::class, function () {
+            return new EloquentMenuQueryService();
         });
     }
 

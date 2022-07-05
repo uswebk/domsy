@@ -5,19 +5,15 @@ declare(strict_types=1);
 namespace App\Services\Application;
 
 use App\Http\Resources\MenuResource;
-use App\Infrastructures\Models\Menu;
 
 final class DashboardIndexService
 {
     private $menus;
 
-    public function __construct()
-    {
-        // use QueryService
-        // getWithMenuItemsDisplayOnDashboard
-        $this->menus = Menu::with(['menuItems' => function ($query) {
-            $query->where('is_screen', '=', true);
-        }])->where('is_nav', '=', true)->get();
+    public function __construct(
+        \App\Infrastructures\Queries\Menu\EloquentMenuQueryServiceInterface $eloquentMenuQueryService
+    ) {
+        $this->menus = $eloquentMenuQueryService->getWithMenuItemsDisplayOnDashboard();
     }
 
     /**
