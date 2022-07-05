@@ -15,8 +15,7 @@ export default {
     },
     methods: {
         execute () {
-            console.log('test');
-            axios.get('/api/dashboard').then((response) => {
+            axios.get('/api/menus').then((response) => {
                 this.response = response.data;
                 console.log(response.data);
             }).catch((error) => {

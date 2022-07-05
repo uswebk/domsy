@@ -27,7 +27,6 @@ Route::namespace('Frontend')->group(function () {
 
     Route::middleware(['verified','auth'])->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
-        Route::get('dashboard/menus', 'DashboardController@getMenus')->name('dashboard.menus');
 
         Route::prefix('settings')->name('settings.')->group(function () {
             Route::get('/', 'SettingController@index')->name('index');
@@ -92,12 +91,18 @@ Route::namespace('Frontend')->group(function () {
     });
 });
 
+Route::namespace('Api')->prefix('api')->name('api.')->group(function () {
+    Route::middleware(['verified','auth'])->group(function () {
+        Route::get('menus', 'MenuController@getMenus')->name('menu.menus');
+    });
+});
+
 // Front Test
-Route::middleware(['verified','auth'])->group(function () {
+// Route::middleware(['verified','auth'])->group(function () {
     Route::namespace('Temporarily')->prefix('tmp')->name('tmp.')
     ->group(function () {
         Route::get('vue', 'VueTestController@index')->name('index');
 
         Route::get('api', 'VueTestController@api')->name('api');
     });
-});
+// });
