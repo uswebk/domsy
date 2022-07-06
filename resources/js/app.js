@@ -19,9 +19,17 @@ window.Vue = require('vue').default;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+/**
+ * Page
+ */
 Vue.component('dashboard-page', require('./pages/Dashboard.vue').default);
+
+/**
+ * Component
+ */
+Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('test-component', require('./components/TestComponent.vue').default);
+Vue.component('registrar-add-new-button-component', require('./components/registrar/AddNewButton.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

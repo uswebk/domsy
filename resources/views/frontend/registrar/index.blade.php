@@ -15,10 +15,7 @@
 
     <h1 class='h4 m-1'>Registrar List</h1>
 
-    <div class='container'>
-      <a href='{{ route('registrar.new') }}' class='btn btn-primary btn-sm active' role='button'
-        aria-pressed='true'>+</a>
-    </div>
+    <registrar-add-button-component></registrar-add-button-component>
 
     <table class='table table-hover mt-2'>
       <tr>
