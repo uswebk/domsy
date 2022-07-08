@@ -23,6 +23,7 @@ window.Vue = require('vue').default;
  * Page
  */
 Vue.component('dashboard-page', require('./pages/Dashboard.vue').default);
+Vue.component('account-page', require('./pages/Account.vue').default);
 
 /**
  * Component
