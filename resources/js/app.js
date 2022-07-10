@@ -4,9 +4,12 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 require('./bootstrap');
 
 window.Vue = require('vue').default;
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 
 /**
  * The following block of code may be used to automatically register your

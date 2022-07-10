@@ -25,36 +25,36 @@
             </tr>
         </table>
 
-        <div class="form-container container" v-show="modal">
-            <form>
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <div class="form-row">
-                        <div class="col">
-                            <input
-                                v-model="user.name"
-                                type="text"
-                                class="form-control"
-                                placeholder="Name"
-                            />
+        <b-modal v-model="modal" hide-footer>
+            <div class="form-container container">
+                <form>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <div class="form-row">
+                            <div class="col">
+                                <b-form-input v-model="userName" placeholder="Name"></b-form-input>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input
-                        v-model="user.email"
-                        type="email"
-                        class="form-control"
-                        id="email"
-                        placeholder="domsy@example.com"
-                    />
-                </div>
-                <div class="btn-container">
-                    <button type="submit" class="btn btn-primary">更新</button>
-                </div>
-            </form>
-        </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input
+                            v-model="userEmail"
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            placeholder="domsy@example.com"
+                        />
+                    </div>
+                    <br>
+                    <div class="btn-container">
+                        <button type="submit" class="btn btn-primary">
+                            更新
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </b-modal>
     </div>
 </template>
 
@@ -68,6 +68,8 @@ export default {
             user: "",
             users: {},
             roles: {},
+            userName:'',
+            userEmail:'',
         };
     },
     methods: {
@@ -78,7 +80,8 @@ export default {
             this.modal = false;
         },
         editModal(user) {
-            this.user = user;
+            this.userName = user.name;
+            this.userEmail = user.email;
             this.modal = true;
         },
         async getUsers() {
