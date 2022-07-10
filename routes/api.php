@@ -17,3 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware(['verified','auth'])->group(function () {
+    Route::namespace('Api')->group(function () {
+        Route::get('menus', 'MenuController@getMenus');
+        Route::get('roles', 'RoleController@getRoles');
+        Route::get('users', 'UserController@getUsers');
+    });
+});

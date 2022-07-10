@@ -25,14 +25,17 @@
             </tr>
         </table>
 
-        <b-modal v-model="modal" hide-footer>
+        <b-modal v-model="modal" hide-footer centered>
             <div class="form-container container">
                 <form>
                     <div class="form-group">
                         <label for="name">Name</label>
                         <div class="form-row">
                             <div class="col">
-                                <b-form-input v-model="userName" placeholder="Name"></b-form-input>
+                                <b-form-input
+                                    v-model="userName"
+                                    placeholder="Name"
+                                ></b-form-input>
                             </div>
                         </div>
                     </div>
@@ -46,9 +49,13 @@
                             placeholder="domsy@example.com"
                         />
                     </div>
-                    <br>
+                    <br />
                     <div class="btn-container">
-                        <button type="submit" class="btn btn-primary">
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            @click="updateUser()"
+                        >
                             更新
                         </button>
                     </div>
@@ -68,8 +75,8 @@ export default {
             user: "",
             users: {},
             roles: {},
-            userName:'',
-            userEmail:'',
+            userName: "",
+            userEmail: "",
         };
     },
     methods: {
@@ -83,6 +90,9 @@ export default {
             this.userName = user.name;
             this.userEmail = user.email;
             this.modal = true;
+        },
+        updateUser() {
+            console.log("update!");
         },
         async getUsers() {
             const result = await axios.get("api/users");

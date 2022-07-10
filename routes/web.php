@@ -93,9 +93,6 @@ Route::namespace('Frontend')->group(function () {
 
 Route::namespace('Api')->prefix('api')->name('api.')->group(function () {
     Route::middleware(['verified','auth'])->group(function () {
-        Route::get('menus', 'MenuController@getMenus')->name('menu.menus');
-        Route::get('roles', 'RoleController@getRoles')->name('role.roles');
-        Route::get('users', 'UserController@getUsers')->name('user.users');
     });
 });
 
