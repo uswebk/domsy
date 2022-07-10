@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\UserResource;
 use App\Infrastructures\Models\User;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
-final class AccountController extends Controller
+final class UserController
 {
-    /**
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function index()
+    public function getUsers()
     {
         $user = User::find(Auth::id());
 
@@ -22,6 +21,9 @@ final class AccountController extends Controller
 
         $users = User::where('company_id', '=', $user->company_id)->get();
 
-        return view('frontend.account.index', compact('users'));
+        return response()->json(
+            UserResource::collection($users),
+            Response::HTTP_OK
+        );
     }
 }

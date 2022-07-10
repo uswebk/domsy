@@ -25,7 +25,7 @@ final class MenuResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'menu_items' => $menuItems->toArray(),
+            'menu_items' => $menuItems->toArray(), // TODO:Resource
         ];
     }
 }

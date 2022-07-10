@@ -10,11 +10,13 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@mdi/font": "^6.9.96",
         "@popperjs/core": "^2.10.2",
         "axios": "^0.21",
         "bootstrap": "^5.1.3",
         "browser-sync": "^2.27.9",
         "browser-sync-webpack-plugin": "^2.3.0",
+        "deepmerge": "^4.2.2",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-prettier": "^4.0.0",
         "laravel-mix": "^6.0.6",
@@ -22,13 +24,14 @@
         "postcss": "^8.1.14",
         "prettier": "^2.6.2",
         "resolve-url-loader": "^3.1.2",
-        "sass": "^1.32.11",
-        "sass-loader": "^11.0.1",
+        "sass": "~1.32",
+        "sass-loader": "^11.1.1",
         "vue": "^2.6.12",
         "vue-loader": "^15.9.8",
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "jquery": "^3.6.0"
+        "jquery": "^3.6.0",
+        "vuetify": "^2.6.7"
     }
 }

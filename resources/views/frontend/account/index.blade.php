@@ -5,5 +5,7 @@
 @endsection
 
 @section('content')
-  <account-page></account-page>
-@endsection
+  <div class="container m-0">
+    <h1 class="h4 m-1">- Account</h1>
+    <account-page></account-page>
+  @endsection
