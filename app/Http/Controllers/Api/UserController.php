@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\UserResource;
 use App\Infrastructures\Models\User;
+
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,6 +24,20 @@ final class UserController
 
         return response()->json(
             UserResource::collection($users),
+            Response::HTTP_OK
+        );
+    }
+
+    public function update(\Illuminate\Http\Request $request, User $user)
+    {
+        $data = $request->all();
+
+        $user->fill($data)->save();
+
+        return response()->json(
+            [
+            'message' => 'Success!',
+            ],
             Response::HTTP_OK
         );
     }

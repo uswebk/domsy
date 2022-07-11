@@ -1,5 +1,11 @@
 <template>
     <div>
+        <b-alert variant="success" v-show="showSuccessAlert" show>
+            {{ successMessage }}
+        </b-alert>
+        <b-alert variant="danger" v-show="showErrorAlert" show>
+            {{ errorMessage }}
+        </b-alert>
         <table class="table table-hover mt-2">
             <tr>
                 <th>Name</th>
@@ -51,13 +57,9 @@
                     </div>
                     <br />
                     <div class="btn-container">
-                        <button
-                            type="submit"
-                            class="btn btn-primary"
-                            @click="updateUser()"
-                        >
-                            更新
-                        </button>
+                        <span class="btn btn-primary" @click="updateUser()">
+                            Update
+                        </span>
                     </div>
                 </form>
             </div>
@@ -72,43 +74,82 @@ export default {
     data() {
         return {
             modal: false,
-            user: "",
             users: {},
             roles: {},
+            userId: null,
             userName: "",
             userEmail: "",
+            successMessage: "",
+            errorMessage: "",
+            showSuccessAlert: false,
+            showErrorAlert: false,
         };
     },
+
     methods: {
         openModal() {
             this.modal = true;
         },
+
         closeModal() {
             this.modal = false;
         },
+
         editModal(user) {
+            this.userId = user.id;
             this.userName = user.name;
             this.userEmail = user.email;
             this.modal = true;
         },
-        updateUser() {
-            console.log("update!");
+
+        async updateUser() {
+            const requestBody = {
+                name: this.userName,
+                email: this.userEmail,
+            };
+
+            const result = await axios.put(
+                "api/users/" + this.userId,
+                requestBody
+            );
+
+            if (result.status === 200) {
+                this.successMessage = result.data.message;
+                this.showSuccessAlert = true;
+            } else {
+                this.errorMessage = result.data.message;
+                this.showErrorAlert = true;
+            }
+
+            this.getUsers();
+
+            this.modal = false;
         },
+
         async getUsers() {
             const result = await axios.get("api/users");
             this.users = result.data;
         },
+
         async getRoles() {
             const result = await axios.get("api/roles");
             this.roles = result.data;
         },
+
         async initialize() {
             this.getUsers();
             this.getRoles();
         },
     },
+
     created() {
         this.initialize();
     },
 };
 </script>
+
+<style>
+.modal-backdrop {
+    opacity: 0.5;
+}
+</style>

@@ -22,6 +22,11 @@ Route::middleware(['verified','auth'])->group(function () {
     Route::namespace('Api')->group(function () {
         Route::get('menus', 'MenuController@getMenus');
         Route::get('roles', 'RoleController@getRoles');
-        Route::get('users', 'UserController@getUsers');
+
+        Route::prefix('users')->group(function () {
+            Route::get('/', 'UserController@getUsers');
+            Route::put('/{user}', 'UserController@update')->where('user', '[0-9]+');
+            ;
+        });
     });
 });

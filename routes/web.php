@@ -91,17 +91,9 @@ Route::namespace('Frontend')->group(function () {
     });
 });
 
-Route::namespace('Api')->prefix('api')->name('api.')->group(function () {
-    Route::middleware(['verified','auth'])->group(function () {
-    });
+Route::namespace('Temporarily')->prefix('tmp')->name('tmp.')
+->group(function () {
+    Route::get('vue', 'VueTestController@index')->name('index');
+
+    Route::get('api', 'VueTestController@api')->name('api');
 });
-
-// Front Test
-// Route::middleware(['verified','auth'])->group(function () {
-    Route::namespace('Temporarily')->prefix('tmp')->name('tmp.')
-    ->group(function () {
-        Route::get('vue', 'VueTestController@index')->name('index');
-
-        Route::get('api', 'VueTestController@api')->name('api');
-    });
-// });
