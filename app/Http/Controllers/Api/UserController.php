@@ -28,8 +28,10 @@ final class UserController
         );
     }
 
-    public function update(\Illuminate\Http\Request $request, User $user)
-    {
+    public function update(
+        \App\Http\Requests\Api\User\UpdateRequest $request,
+        User $user
+    ) {
         $data = $request->all();
 
         $user->fill($data)->save();
