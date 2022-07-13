@@ -6,7 +6,7 @@
         <b-alert variant="danger" v-show="showErrorAlert" show>
             {{ errorMessage }}
         </b-alert>
-        <table class="table table-hover mt-2">
+        <table class="table mt-2">
             <tr>
                 <th>Name</th>
                 <th>Email</th>
@@ -22,10 +22,17 @@
                 <td>
                     <button
                         type="button"
-                        class="btn btn-light mr-1"
+                        class="btn mr-1"
                         @click="editModal(user)"
                     >
                         Edit
+                    </button>
+                    <button
+                        type="button"
+                        class="btn mr-1"
+                        @click="deleteUser(user)"
+                    >
+                        Delete
                     </button>
                 </td>
             </tr>
@@ -168,6 +175,10 @@ export default {
                     this.showErrorAlert = true;
                 }
             }
+        },
+
+        deleteUser(user){
+            console.log(user);
         },
 
         async getUsers() {

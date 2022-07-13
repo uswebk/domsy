@@ -23,8 +23,8 @@ final class UpdateRequest extends Request
     {
         return [
             'name' => 'required|string|max:255',
-            // 'email' => 'required|string|email|max:255|unique:users', //TODO: 自分以外の重複Check
-            'role_id' => 'required|integer',
+            // 'email' => 'required|string|email|max:255|unique:users', //TODO: 自分以外の重複Check Rule
+            'role_id' => 'required|integer', // TODO: Rule 所有ロール以外省く
         ];
     }
 }
