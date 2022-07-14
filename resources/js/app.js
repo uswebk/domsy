@@ -5,6 +5,8 @@
  */
 
 import Vuetify from 'vuetify';
+import 'vuetify/dist/vuetify.min.css';
+import '@mdi/font/css/materialdesignicons.css'
 
 window.Vue = require('vue').default;
 
@@ -30,6 +32,7 @@ Vue.component('account-page', require('./pages/Account.vue').default);
 /**
  * Component
  */
+Vue.component('header-component', require('./components/HeaderComponent.vue').default);
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('test-component', require('./components/TestComponent.vue').default);
 Vue.component('registrar-add-new-button-component', require('./components/registrar/AddNewButton.vue').default);

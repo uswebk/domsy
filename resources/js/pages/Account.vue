@@ -1,99 +1,101 @@
 <template>
   <div>
-    <b-alert variant="success" v-show="showSuccessAlert" show>
-      {{ successMessage }}
-    </b-alert>
-    <b-alert variant="danger" v-show="showErrorAlert" show>
-      {{ errorMessage }}
-    </b-alert>
-    <table class="table mt-2">
-      <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Action</th>
-      </tr>
-      <tr v-for="user in users" :key="user.id">
-        <td>
-          {{ user.name }}
-        </td>
-        <td>
-          {{ user.email }}
-        </td>
-        <td>
-          <button type="button" class="btn mr-1" @click="editModal(user)">
-            Edit
-          </button>
-          <button type="button" class="btn mr-1" @click="deleteUser(user)">
-            Delete
-          </button>
-        </td>
-      </tr>
-    </table>
+    <!-- <b-alert variant="success" v-show="showSuccessAlert" show>
+        {{ successMessage }}
+      </b-alert>
+      <b-alert variant="danger" v-show="showErrorAlert" show>
+        {{ errorMessage }}
+      </b-alert>
+      <table class="table mt-2">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Action</th>
+        </tr>
+        <tr v-for="user in users" :key="user.id">
+          <td>
+            {{ user.name }}
+          </td>
+          <td>
+            {{ user.email }}
+          </td>
+          <td>
+            <button type="button" class="btn mr-1" @click="editModal(user)">
+              Edit
+            </button>
+            <button type="button" class="btn mr-1" @click="deleteUser(user)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </table>
 
-    <b-modal v-model="modal" hide-footer centered>
-      <div class="form-container container">
-        <form>
-          <div class="form-group">
-            <label for="name">Name</label>
-            <div class="form-row">
-              <div class="col">
-                <b-form-input
-                  class="form-control"
-                  v-model="userName"
-                  placeholder="Name"
-                ></b-form-input>
-                <div v-if="errors.name">
-                  <p class="text-danger">
-                    {{ errors.name[0] }}
-                  </p>
+      <b-modal v-model="modal" hide-footer centered>
+        <div class="form-container container">
+          <form>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <div class="form-row">
+                <div class="col">
+                  <b-form-input
+                    class="form-control"
+                    v-model="userName"
+                    placeholder="Name"
+                  ></b-form-input>
+                  <div v-if="errors.name">
+                    <p class="text-danger">
+                      {{ errors.name[0] }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <div class="form-row">
-              <div class="col">
-                <b-form-input
-                  v-model="userEmail"
-                  type="email"
-                  placeholder="domsy@example.com"
-                ></b-form-input>
-                <div v-if="errors.email">
-                  <p class="text-danger">
-                    {{ errors.email[0] }}
-                  </p>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <div class="form-row">
+                <div class="col">
+                  <b-form-input
+                    v-model="userEmail"
+                    type="email"
+                    placeholder="domsy@example.com"
+                  ></b-form-input>
+                  <div v-if="errors.email">
+                    <p class="text-danger">
+                      {{ errors.email[0] }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="role">Role</label>
-            <div class="form-row">
-              <div class="col">
-                <b-form-select
-                  v-model="userRoleId"
-                  :options="roles"
-                  class="mb-3"
-                  value-field="id"
-                  text-field="name"
-                  disabled-field="notEnabled"
-                ></b-form-select>
-                <div v-if="errors.role_id">
-                  <p class="text-danger">
-                    {{ errors.role_id[0] }}
-                  </p>
+            <div class="form-group">
+              <label for="role">Role</label>
+              <div class="form-row">
+                <div class="col">
+                  <b-form-select
+                    v-model="userRoleId"
+                    :options="roles"
+                    class="mb-3"
+                    value-field="id"
+                    text-field="name"
+                    disabled-field="notEnabled"
+                  ></b-form-select>
+                  <div v-if="errors.role_id">
+                    <p class="text-danger">
+                      {{ errors.role_id[0] }}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <br />
-          <div class="btn-container">
-            <span class="btn btn-primary" @click="updateUser()"> Update </span>
-          </div>
-        </form>
-      </div>
-    </b-modal>
+            <br />
+            <div class="btn-container">
+              <span class="btn btn-primary" @click="updateUser()">
+                Update
+              </span>
+            </div>
+          </form>
+        </div>
+      </b-modal>-->
   </div>
 </template>
 

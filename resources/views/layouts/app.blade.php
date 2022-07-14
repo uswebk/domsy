@@ -19,12 +19,7 @@
 
 <body>
   <div id='app'>
-    {{-- @include('layouts.header')
-    <main class='py-4 d-flex justify-content-center' id='app'>
-      @yield('sidebar')
-    </main> --}}
-    @yield('content')
+    @yield('app')
   </div>
 </body>
-
 </html>
