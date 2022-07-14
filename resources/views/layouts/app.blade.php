@@ -18,12 +18,12 @@
 </head>
 
 <body>
-  <div>
-    @include('layouts.header')
+  <div id='app'>
+    {{-- @include('layouts.header')
     <main class='py-4 d-flex justify-content-center' id='app'>
       @yield('sidebar')
-      @yield('content')
-    </main>
+    </main> --}}
+    @yield('content')
   </div>
 </body>
 

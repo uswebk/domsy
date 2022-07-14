@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Auth;
 
 final class UserController
 {
-    public function getUsers()
-    {
+    public function getUsers(
+        \App\Services\Application\Api\User\GetUsersService $getUsersService
+    ) {
 
         // TODO: ApplicationServiceに移行
         $user = User::find(Auth::id());

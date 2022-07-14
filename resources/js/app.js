@@ -4,12 +4,11 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-require('./bootstrap');
+import Vuetify from 'vuetify';
 
 window.Vue = require('vue').default;
-Vue.use(BootstrapVue)
-Vue.use(IconsPlugin)
+
+Vue.use(Vuetify);
 
 /**
  * The following block of code may be used to automatically register your
@@ -43,4 +42,5 @@ Vue.component('registrar-add-new-button-component', require('./components/regist
 
 const app = new Vue({
     el: '#app',
+    vuetify: new Vuetify(),
 });

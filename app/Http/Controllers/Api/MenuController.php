@@ -18,8 +18,9 @@ final class MenuController
     ) {
         $menus = $eloquentMenuQueryService->getWithMenuItemsDisplayOnDashboard();
 
-        return response()->json([
-            'menus' => MenuResource::collection($menus),
-        ], Response::HTTP_OK);
+        return response()->json(
+            MenuResource::collection($menus),
+            Response::HTTP_OK
+        );
     }
 }
