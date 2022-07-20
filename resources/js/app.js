@@ -28,6 +28,7 @@ Vue.use(Vuetify);
  */
 Vue.component('dashboard-page', require('./pages/Dashboard.vue').default);
 Vue.component('account-page', require('./pages/Account.vue').default);
+Vue.component('login-page', require('./pages/Login.vue').default);
 
 /**
  * Component

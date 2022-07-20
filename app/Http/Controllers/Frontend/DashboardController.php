@@ -11,6 +11,7 @@ final class DashboardController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function index(
+        \Illuminate\Http\Request $request,
         \App\Services\Application\DashboardIndexService $applicationService
     ) {
         return view('frontend.dashboard', [
