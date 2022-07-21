@@ -18,6 +18,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+Route::namespace('Auth')->group(function () {
+    Route::post('register', 'RegisterController@register');
+    Route::post('login', 'LoginController@login');
+});
+
+
 Route::middleware(['verified','auth'])->group(function () {
     Route::namespace('Api')->group(function () {
         Route::get('menus', 'MenuController@getMenus');

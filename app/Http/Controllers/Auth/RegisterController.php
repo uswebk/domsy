@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use Exception;
+use Illuminate\Http\Response;
 
 final class RegisterController extends Controller
 {
@@ -24,22 +25,26 @@ final class RegisterController extends Controller
     /**
      * @param \App\Http\Requests\Auth\RegisterRequest $request
      * @param \App\Services\Application\Auth\RegisterService $registerService
-     * @return \Illuminate\Contracts\View\View
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function register(
         \App\Http\Requests\Auth\RegisterRequest $request,
         \App\Services\Application\Auth\RegisterService $registerService
-    ): \Illuminate\Contracts\View\View {
+    ) {
         $registerRequest = $request->makeInput();
 
         try {
             $registerService->handle($registerRequest);
         } catch (Exception $e) {
-            return view('auth.register')
-            ->with($request->all())
-            ->with('error', $e->getMessage());
+            return response()->json(
+                ['message' => $e->getMessage()],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
         }
 
-        return view('auth.registered');
+        return response()->json(
+            [],
+            Response::HTTP_OK
+        );
     }
 }
