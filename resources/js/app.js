@@ -41,7 +41,7 @@ Vue.component(
   require('./pages/auth/passwords/Reset.vue').default
 )
 
-Vue.component('top-page', require('./pages/frontend/Top.vue').default)
+Vue.component('top-page', require('./pages/frontend/TopPage.vue').default)
 Vue.component(
   'dashboard-page',
   require('./pages/frontend/DashboardPage.vue').default

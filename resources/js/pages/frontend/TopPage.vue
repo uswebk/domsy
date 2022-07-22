@@ -1,11 +1,8 @@
 <template>
   <v-app>
     <v-container class="grey lighten-5" fill-height fluid>
-      <v-row>
-        <v-col
-          class="row__img_row_box"
-          cols="6"
-        >
+      <v-row class="app__container_row">
+        <v-col class="row__img_row_box" cols="6">
           <v-img src="/image/domsy.jpg"></v-img>
         </v-col>
         <v-col cols="6" justify="center" align-self="center">
@@ -29,7 +26,10 @@
 </template>
 
 <style scoped>
-.row__img_row_box{
+.app__container_row {
+  background-color: #efefef;
+}
+.row__img_row_box {
   background-color: #e8c46a;
   border-top-right-radius: 40px;
   border-bottom-right-radius: 40px;

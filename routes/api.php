@@ -35,5 +35,7 @@ Route::middleware(['verified','auth'])->group(function () {
             Route::put('/{user}', 'UserController@update')->where('user', '[0-9]+');
             ;
         });
+
+        Route::get('me', 'MeController@get');
     });
 });
