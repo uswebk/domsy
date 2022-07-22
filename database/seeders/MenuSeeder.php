@@ -20,7 +20,8 @@ final class MenuSeeder extends Seeder
             'id' => 1,
             'type_id' => 3,
             'name' => 'Dashboard',
-            'is_nav' => 1,
+            'description' => '',
+            'is_nav' => 0,
             'sort' => 10,
         ]);
 
@@ -28,6 +29,7 @@ final class MenuSeeder extends Seeder
             'id' => 2,
             'type_id' => 1,
             'name' => 'Domains',
+            'description' => 'Register or renew your domain.',
             'is_nav' => 1,
             'sort' => 20,
         ]);
@@ -36,6 +38,7 @@ final class MenuSeeder extends Seeder
             'id' => 3,
             'type_id' => 1,
             'name' => 'DNS',
+            'description' => 'Set the DNS information of the registered domain',
             'is_nav' => 1,
             'sort' => 30,
         ]);
@@ -44,6 +47,7 @@ final class MenuSeeder extends Seeder
             'id' => 4,
             'type_id' => 2,
             'name' => 'Registrar',
+            'description' => 'Manage domain registrar information.',
             'is_nav' => 1,
             'sort' => 40,
         ]);
@@ -52,6 +56,7 @@ final class MenuSeeder extends Seeder
             'id' => 5,
             'type_id' => 2,
             'name' => 'Client',
+            'description' => 'Manage client information.',
             'is_nav' => 1,
             'sort' => 50,
         ]);
@@ -60,6 +65,7 @@ final class MenuSeeder extends Seeder
             'id' => 6,
             'type_id' => 2,
             'name' => 'Dealing',
+            'description' => 'Manage dealing information.',
             'is_nav' => 1,
             'sort' => 60,
         ]);
@@ -68,6 +74,7 @@ final class MenuSeeder extends Seeder
             'id' => 7,
             'type_id' => 3,
             'name' => 'Settings',
+            'description' => 'user setting',
             'is_nav' => 0,
             'sort' => 70,
         ]);

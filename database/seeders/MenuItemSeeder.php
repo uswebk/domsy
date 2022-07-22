@@ -21,7 +21,7 @@ class MenuItemSeeder extends Seeder
             'function' => 'index',
             'route' => 'dashboard.index',
             'description' => 'Dashboard List View',
-            'is_screen' => 1,
+            'is_screen' => 0,
             'sort' => 10,
         ]);
 
@@ -44,7 +44,7 @@ class MenuItemSeeder extends Seeder
             'function' => 'new',
             'route' => 'domain.new',
             'description' => 'Domains New Page View',
-            'is_screen' => 1,
+            'is_screen' => 0,
             'sort' => 30,
         ]);
 
@@ -178,7 +178,7 @@ class MenuItemSeeder extends Seeder
             'function' => 'new',
             'route' => 'registrar.new',
             'description' => 'Registrar New Page View',
-            'is_screen' => 1,
+            'is_screen' => 0,
             'sort' => 150,
         ]);
 
@@ -245,7 +245,7 @@ class MenuItemSeeder extends Seeder
             'function' => 'new',
             'route' => 'client.new',
             'description' => 'Client New Page View',
-            'is_screen' => 1,
+            'is_screen' => 0,
             'sort' => 210,
         ]);
 
@@ -312,7 +312,7 @@ class MenuItemSeeder extends Seeder
             'function' => 'new',
             'route' => 'dealing.new',
             'description' => 'Dealing New Page View',
-            'is_screen' => 1,
+            'is_screen' => 0,
             'sort' => 270,
         ]);
 

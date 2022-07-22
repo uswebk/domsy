@@ -4,13 +4,13 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import Vuetify from 'vuetify';
-import 'vuetify/dist/vuetify.min.css';
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
 import '@mdi/font/css/materialdesignicons.css'
 
-window.Vue = require('vue').default;
+window.Vue = require('vue').default
 
-Vue.use(Vuetify);
+Vue.use(Vuetify)
 
 /**
  * The following block of code may be used to automatically register your
@@ -26,23 +26,47 @@ Vue.use(Vuetify);
 /**
  * Page
  */
-Vue.component('auth-login-page', require('./pages/auth/Login.vue').default);
-Vue.component('auth-register-page', require('./pages/auth/Register.vue').default);
-Vue.component('auth-verify-page', require('./pages/auth/Verify.vue').default);
-Vue.component('auth-passwords-email-page', require('./pages/auth/passwords/Email.vue').default);
-Vue.component('auth-passwords-reset-page', require('./pages/auth/passwords/Reset.vue').default);
+Vue.component('auth-login-page', require('./pages/auth/Login.vue').default)
+Vue.component(
+  'auth-register-page',
+  require('./pages/auth/Register.vue').default
+)
+Vue.component('auth-verify-page', require('./pages/auth/Verify.vue').default)
+Vue.component(
+  'auth-passwords-email-page',
+  require('./pages/auth/passwords/Email.vue').default
+)
+Vue.component(
+  'auth-passwords-reset-page',
+  require('./pages/auth/passwords/Reset.vue').default
+)
 
-Vue.component('top-page', require('./pages/frontend/Top.vue').default);
-Vue.component('dashboard-page', require('./pages/frontend/Dashboard.vue').default);
-Vue.component('account-page', require('./pages/frontend/Account.vue').default);
+Vue.component('top-page', require('./pages/frontend/Top.vue').default)
+Vue.component(
+  'dashboard-page',
+  require('./pages/frontend/Dashboard.vue').default
+)
+Vue.component('account-page', require('./pages/frontend/Account.vue').default)
 
 /**
  * Component
  */
-Vue.component('header-component', require('./components/HeaderComponent.vue').default);
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('test-component', require('./components/TestComponent.vue').default);
-Vue.component('registrar-add-new-button-component', require('./components/registrar/AddNewButton.vue').default);
+Vue.component(
+  'header-component',
+  require('./components/HeaderComponent.vue').default
+)
+Vue.component(
+  'example-component',
+  require('./components/ExampleComponent.vue').default
+)
+Vue.component(
+  'test-component',
+  require('./components/TestComponent.vue').default
+)
+Vue.component(
+  'registrar-add-new-button-component',
+  require('./components/registrar/AddNewButton.vue').default
+)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -51,6 +75,6 @@ Vue.component('registrar-add-new-button-component', require('./components/regist
  */
 
 const app = new Vue({
-    el: '#app',
-    vuetify: new Vuetify(),
-});
+  el: '#app',
+  vuetify: new Vuetify(),
+})
