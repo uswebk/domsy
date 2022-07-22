@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-main>
     <div class="d-flex justify-content-left flex-wrap">
       <div class="card w-25 m-1" v-for="menu in menus" :key="menu.id">
         <div class="card-body">
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </v-main>
 </template>
 
 <script>

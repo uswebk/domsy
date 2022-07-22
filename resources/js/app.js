@@ -44,7 +44,7 @@ Vue.component(
 Vue.component('top-page', require('./pages/frontend/Top.vue').default)
 Vue.component(
   'dashboard-page',
-  require('./pages/frontend/Dashboard.vue').default
+  require('./pages/frontend/DashboardPage.vue').default
 )
 Vue.component('account-page', require('./pages/frontend/Account.vue').default)
 
