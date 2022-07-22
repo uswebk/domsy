@@ -70,8 +70,7 @@ final class EmailVerifyService
 
             DB::commit();
         } catch (AlreadyVerifiedException $e) {
-            Log::info($e->getMessage());
-
+            \Log::info($e->getMessage());
             throw $e;
         } catch (Exception $e) {
             DB::rollBack();

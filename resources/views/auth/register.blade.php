@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('app')
-  <register-page></register-page>
+  <auth-register-page></auth-register-page>
 @endsection

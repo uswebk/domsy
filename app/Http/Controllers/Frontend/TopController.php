@@ -7,9 +7,9 @@ namespace App\Http\Controllers\Frontend;
 final class TopController extends Controller
 {
     /**
-     * @return \Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function index(): \Illuminate\Contracts\View\View
+    public function index()
     {
         return view('frontend.top');
     }

@@ -1,10 +1,6 @@
 @extends('layouts.app')
 
-@section('content')
-  @if (isset($error))
-    {{ $error }}
-  @else
+@section('app')
     <p>Registerd!</p>
-    <a href='{{ url('/') }}' class='sg-btn'>Back To Top</a>
-  @endif
+    <a href='{{ url('/dashboard') }}' class='sg-btn'>Back To Dashboard</a>
 @endsection

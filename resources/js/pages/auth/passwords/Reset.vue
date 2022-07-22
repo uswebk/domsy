@@ -1,15 +1,16 @@
 <template>
   <v-app>
+    <v-alert dense text type="success" v-if="greetingMessage"
+      >{{ greetingMessage }}
+    </v-alert>
+
     <v-container>
       <v-card flat max-width="640" class="mx-auto" elevation="2" outlined>
         <v-card-title class="text-center pa-8">
-          <h4 class="fill-width">Register</h4>
+          <h4 class="fill-width">Reset Password</h4>
         </v-card-title>
         <v-form ref="form" class="pa-10">
-          <v-text-field v-model="name" label="Name" required></v-text-field>
-          <p class="red--text" v-text="errors.name" v-if="errors.name"></p>
-          <v-text-field v-model="email" label="Email" required></v-text-field>
-          <p class="red--text" v-text="errors.email" v-if="errors.email"></p>
+          <v-text-field v-model="email" label="Email" disabled></v-text-field>
           <v-text-field
             v-model="password"
             type="password"
@@ -24,6 +25,7 @@
             v-text="errors.password"
             v-if="errors.password"
           ></p>
+
           <v-text-field
             v-model="passwordConfirmation"
             type="password"
@@ -37,9 +39,10 @@
             v-text="errors.password_confirmation"
             v-if="errors.password_confirmation"
           ></p>
+
           <div class="my-5"></div>
-          <v-btn class="mr-4" color="primary" @click="register">
-            Register
+          <v-btn class="mr-4" color="primary" @click="reset()">
+            Reset Password
           </v-btn>
         </v-form>
       </v-card>
@@ -50,10 +53,21 @@
 <script>
 import axios from 'axios'
 export default {
+  props: {
+    token: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+  },
+
   data() {
     return {
-      name: '',
-      email: '',
+      greetingMessage: '',
+
       password: '',
       passwordConfirmation: '',
       errors: {},
@@ -61,16 +75,18 @@ export default {
   },
 
   methods: {
-    async register() {
+    async reset() {
       try {
-        const result = await axios.post('api/register', {
-          name: this.name,
+        await axios.post('/password/reset', {
+          token: this.token,
           email: this.email,
           password: this.password,
           password_confirmation: this.passwordConfirmation,
         })
 
-        location.href = '/email/verify'
+        this.greetingMessage = 'Password reset is complete'
+
+        setTimeout("location.href='/dashboard'", 1000)
       } catch (error) {
         var responseErrors = error.response.data.errors
         var errors = {}

@@ -26,10 +26,15 @@ Vue.use(Vuetify);
 /**
  * Page
  */
-Vue.component('dashboard-page', require('./pages/Dashboard.vue').default);
-Vue.component('account-page', require('./pages/Account.vue').default);
-Vue.component('login-page', require('./pages/Login.vue').default);
-Vue.component('register-page', require('./pages/Register.vue').default);
+Vue.component('auth-login-page', require('./pages/auth/Login.vue').default);
+Vue.component('auth-register-page', require('./pages/auth/Register.vue').default);
+Vue.component('auth-verify-page', require('./pages/auth/Verify.vue').default);
+Vue.component('auth-passwords-email-page', require('./pages/auth/passwords/Email.vue').default);
+Vue.component('auth-passwords-reset-page', require('./pages/auth/passwords/Reset.vue').default);
+
+Vue.component('top-page', require('./pages/frontend/Top.vue').default);
+Vue.component('dashboard-page', require('./pages/frontend/Dashboard.vue').default);
+Vue.component('account-page', require('./pages/frontend/Account.vue').default);
 
 /**
  * Component
