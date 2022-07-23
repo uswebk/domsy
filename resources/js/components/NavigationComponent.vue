@@ -11,7 +11,7 @@
             </v-list-item-icon>
           </v-list-item>
 
-          <v-list-item link>
+          <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="text-h6">
                 {{ user.name }}
@@ -24,9 +24,9 @@
         <v-divider></v-divider>
 
         <v-list nav dense v-for="menu in menus" :key="menu.id">
-          <v-list-item link :href="menu.index_route">
+          <v-list-item link :href="menu.url_path">
             <v-list-item-icon>
-              <v-icon>mdi-monitor-dashboard</v-icon>
+              <v-icon>{{ menu.icon }}</v-icon>
             </v-list-item-icon>
             <v-list-item-title>{{ menu.name }}</v-list-item-title>
           </v-list-item>
@@ -61,8 +61,6 @@ export default {
       const result = await axios.get('/api/menus')
 
       this.menus = result.data
-
-      console.log(this.menus)
     },
 
     async getUser() {

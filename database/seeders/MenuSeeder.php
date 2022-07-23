@@ -21,7 +21,9 @@ final class MenuSeeder extends Seeder
             'type_id' => 3,
             'name' => 'Dashboard',
             'description' => '',
-            'is_nav' => 0,
+            'url_path' => '/dashboard',
+            'icon' => 'mdi-monitor-dashboard',
+            'is_nav' => 1,
             'sort' => 10,
         ]);
 
@@ -30,6 +32,8 @@ final class MenuSeeder extends Seeder
             'type_id' => 1,
             'name' => 'Domains',
             'description' => 'Register or renew your domain.',
+            'url_path' => '/domain',
+            'icon' => 'mdi-database',
             'is_nav' => 1,
             'sort' => 20,
         ]);
@@ -39,6 +43,8 @@ final class MenuSeeder extends Seeder
             'type_id' => 1,
             'name' => 'DNS',
             'description' => 'Set the DNS information of the registered domain',
+            'url_path' => '/dns',
+            'icon' => 'mdi-web',
             'is_nav' => 1,
             'sort' => 30,
         ]);
@@ -48,6 +54,8 @@ final class MenuSeeder extends Seeder
             'type_id' => 2,
             'name' => 'Registrar',
             'description' => 'Manage domain registrar information.',
+            'url_path' => '/registrar',
+            'icon' => 'mdi-domain',
             'is_nav' => 1,
             'sort' => 40,
         ]);
@@ -57,6 +65,8 @@ final class MenuSeeder extends Seeder
             'type_id' => 2,
             'name' => 'Client',
             'description' => 'Manage client information.',
+            'url_path' => '/registrar',
+            'icon' => 'mdi-account-group',
             'is_nav' => 1,
             'sort' => 50,
         ]);
@@ -66,6 +76,8 @@ final class MenuSeeder extends Seeder
             'type_id' => 2,
             'name' => 'Dealing',
             'description' => 'Manage dealing information.',
+            'url_path' => '/dealing',
+            'icon' => 'mdi-note-edit',
             'is_nav' => 1,
             'sort' => 60,
         ]);
@@ -74,8 +86,10 @@ final class MenuSeeder extends Seeder
             'id' => 7,
             'type_id' => 3,
             'name' => 'Settings',
-            'description' => 'user setting',
-            'is_nav' => 0,
+            'description' => 'User setting',
+            'url_path' => '/settings',
+            'icon' => 'mdi-cog',
+            'is_nav' => 1,
             'sort' => 70,
         ]);
     }

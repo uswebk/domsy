@@ -18,6 +18,8 @@ final class MenuResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
+            'url_path' => $this->url_path,
+            'icon' => $this->icon,
             'menu_items' => MenuItemResource::collection($this->menuItems),
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
