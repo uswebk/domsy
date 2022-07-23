@@ -56,6 +56,10 @@ Vue.component(
   require('./components/HeaderComponent.vue').default
 )
 Vue.component(
+  'navigation-component',
+  require('./components/NavigationComponent.vue').default
+)
+Vue.component(
   'example-component',
   require('./components/ExampleComponent.vue').default
 )
