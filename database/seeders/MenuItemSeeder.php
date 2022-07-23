@@ -207,9 +207,9 @@ class MenuItemSeeder extends Seeder
         MenuItem::create([
             'parent_id' => 4,
             'name' => 'Update',
-            'controller' => 'App\Http\Controllers\Frontend\RegistrarController',
+            'controller' => 'App\Http\Controllers\Api\RegistrarController',
             'function' => 'update',
-            'route' => 'registrar.update',
+            'route' => 'api.registrar.update',
             'description' => 'Registrar Update',
             'is_screen' => 0,
             'sort' => 180,

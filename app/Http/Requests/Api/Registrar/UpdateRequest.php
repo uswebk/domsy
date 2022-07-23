@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\Registrar;
 
 use App\Http\Requests\Request;
-use Illuminate\Support\Facades\Auth;
 
-final class StoreRequest extends Request
+final class UpdateRequest extends Request
 {
     /**
      * @return boolean
@@ -36,7 +35,6 @@ final class StoreRequest extends Request
     {
         return [
             'name' => $this->name,
-            'user_id' => Auth::id(),
             'link' => $this->link ?? '',
             'note' => $this->note ?? '',
         ];

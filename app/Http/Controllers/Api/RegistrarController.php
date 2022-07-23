@@ -11,6 +11,22 @@ use Illuminate\Support\Facades\Auth;
 
 final class RegistrarController extends Controller
 {
+    private $registrarRepository;
+
+    /**
+     * @param \App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
+     */
+    public function __construct(
+        \App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
+    ) {
+        parent::__construct();
+
+        $this->registrarRepository = $registrarRepository;
+    }
+
+    /**
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     public function getRegistrars()
     {
         $registrars = Auth::user()->registrars;
@@ -22,17 +38,32 @@ final class RegistrarController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Registrar\StoreRequest $request
-     * @param \App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
-     * @return void
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function store(
         \App\Http\Requests\Api\Registrar\StoreRequest $request,
-        \App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
     ) {
         $attribute = $request->makeInput();
 
-        $registrarRepository->store($attribute);
+        $this->registrarRepository->store($attribute);
+
+        return response()->json(
+            [],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function update(
+        \App\Http\Requests\Api\Registrar\UpdateRequest $request,
+        \App\Infrastructures\Models\Registrar $registrar
+    ) {
+        $attributes = $request->makeInput();
+
+        $registrar->fill($attributes);
+        $this->registrarRepository->save($registrar);
 
         return response()->json(
             [],
