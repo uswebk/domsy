@@ -1,6 +1,8 @@
 <template>
   <v-app>
-    <v-alert dense text type="success" v-if="sendMailMessage">{{ sendMailMessage }} </v-alert>
+    <v-alert dense text type="success" v-if="sendMailMessage"
+      >{{ sendMailMessage }}
+    </v-alert>
     <v-container>
       <v-card flat max-width="640" class="mx-auto" elevation="2" outlined>
         <v-card-title class="text-center pa-8">
@@ -65,7 +67,7 @@ export default {
   methods: {
     async register() {
       try {
-        const result = await axios.post('api/register', {
+        await axios.post('api/register', {
           name: this.name,
           email: this.email,
           password: this.password,

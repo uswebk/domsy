@@ -26,13 +26,20 @@ Route::namespace('Auth')->group(function () {
 
 
 Route::middleware(['verified','auth'])->group(function () {
-    Route::namespace('Api')->group(function () {
+    Route::namespace('Api')->name('api.')->group(function () {
         Route::get('menus', 'MenuController@getMenus');
         Route::get('roles', 'RoleController@getRoles');
 
         Route::prefix('users')->group(function () {
             Route::get('/', 'UserController@getUsers');
             Route::put('/{user}', 'UserController@update')->where('user', '[0-9]+');
+            ;
+        });
+
+        Route::prefix('registrars')->name('registrar.')->group(function () {
+            Route::get('/', 'RegistrarController@getRegistrars');
+
+            Route::post('/', 'RegistrarController@store')->name('store');
             ;
         });
 

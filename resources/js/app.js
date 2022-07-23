@@ -47,6 +47,10 @@ Vue.component(
   require('./pages/frontend/DashboardPage.vue').default
 )
 Vue.component('account-page', require('./pages/frontend/Account.vue').default)
+Vue.component(
+  'registrar-page',
+  require('./pages/frontend/RegistrarPage.vue').default
+)
 
 /**
  * Component
