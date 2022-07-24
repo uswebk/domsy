@@ -285,9 +285,9 @@ class MenuItemSeeder extends Seeder
         MenuItem::create([
             'parent_id' => 5,
             'name' => 'Delete',
-            'controller' => 'App\Http\Controllers\Frontend\ClientController',
+            'controller' => 'App\Http\Controllers\Api\ClientController',
             'function' => 'delete',
-            'route' => 'client.delete',
+            'route' => 'api.client.delete',
             'description' => 'Client Delete',
             'is_screen' => 0,
             'sort' => 250,

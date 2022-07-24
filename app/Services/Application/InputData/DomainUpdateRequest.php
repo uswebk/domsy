@@ -12,10 +12,10 @@ final class DomainUpdateRequest
     private $domain;
 
     /**
-     * @param \App\Http\Requests\Frontend\Domain\UpdateRequest $updateRequest
+     * @param \App\Http\Requests\Api\Domain\UpdateRequest $updateRequest
      */
     public function __construct(
-        \App\Http\Requests\Frontend\Domain\UpdateRequest $updateRequest
+        \App\Http\Requests\Api\Domain\UpdateRequest $updateRequest
     ) {
         $validated = array_merge($updateRequest->validated(), [
             'user_id' => Auth::id(),

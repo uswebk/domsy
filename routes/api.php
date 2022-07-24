@@ -33,7 +33,13 @@ Route::middleware(['verified','auth'])->group(function () {
         Route::prefix('users')->group(function () {
             Route::get('/', 'UserController@getUsers');
             Route::put('/{user}', 'UserController@update')->where('user', '[0-9]+');
-            ;
+        });
+
+        Route::prefix('domains')->name('domain.')->group(function () {
+            Route::get('/', 'DomainController@getDomains');
+            Route::put('/{domain}', 'DomainController@update')->where('domain', '[0-9]+')->name('update');
+            Route::post('/', 'DomainController@store')->name('store');
+            Route::delete('/{domain}', 'DomainController@delete')->where('registrar', '[0-9]+')->name('delete');
         });
 
         Route::prefix('registrars')->name('registrar.')->group(function () {

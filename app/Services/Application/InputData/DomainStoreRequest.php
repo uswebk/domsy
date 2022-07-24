@@ -15,7 +15,7 @@ final class DomainStoreRequest
      * @param \App\Http\Requests\Frontend\Domain\StoreRequest $storeRequest
      */
     public function __construct(
-        \App\Http\Requests\Frontend\Domain\StoreRequest $storeRequest
+        \App\Http\Requests\Api\Domain\StoreRequest $storeRequest
     ) {
         $validated = array_merge($storeRequest->validated(), [
             'user_id' => Auth::id(),

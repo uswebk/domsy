@@ -57,6 +57,8 @@ Vue.component(
 
 Vue.component('client-page', require('./pages/frontend/ClientPage.vue').default)
 
+Vue.component('domain-page', require('./pages/frontend/DomainPage.vue').default)
+
 /**
  * Component
  */
