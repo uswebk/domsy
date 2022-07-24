@@ -21,6 +21,8 @@ final class RegistrarController extends Controller
     ) {
         parent::__construct();
 
+        $this->middleware('can:owner,registrar')->except(['getRegistrars','store']);
+
         $this->registrarRepository = $registrarRepository;
     }
 
@@ -64,6 +66,21 @@ final class RegistrarController extends Controller
 
         $registrar->fill($attributes);
         $this->registrarRepository->save($registrar);
+
+        return response()->json(
+            [],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @param \App\Infrastructures\Models\Registrar $registrar
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function delete(
+        \App\Infrastructures\Models\Registrar $registrar
+    ) {
+        $this->registrarRepository->delete($registrar);
 
         return response()->json(
             [],

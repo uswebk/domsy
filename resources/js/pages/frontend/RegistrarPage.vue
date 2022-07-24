@@ -38,14 +38,16 @@
                 <v-btn x-small color="primary" @click="edit(registrar)"
                   >edit</v-btn
                 >
-                <v-btn x-small>delete</v-btn>
+                <v-btn x-small @click="deleteRegistrar(registrar)"
+                  >delete</v-btn
+                >
               </td>
             </tr>
           </tbody>
         </template>
       </v-simple-table>
 
-      <!-- NewDialog -->
+      <!-- New Dialog -->
       <v-dialog v-model="newDialog" max-width="600px">
         <v-card>
           <v-card-title>
@@ -162,6 +164,29 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+      <!-- Delete Dialog -->
+      <v-dialog v-model="deleteDialog" max-width="290">
+        <v-card>
+          <v-card-title class="text-h5"> Deletion confirmation </v-card-title>
+
+          <v-card-text>
+            Do you want to delete the 「{{ registrar.name }}」 ?
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn color="gray darken-1" text @click="closeDeleteModal">
+              Close
+            </v-btn>
+
+            <v-btn color="red darken-1" text @click="deleteExecute">
+              Delete
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
   </v-main>
 </template>
@@ -177,6 +202,7 @@ export default {
       registrar: {},
       newDialog: false,
       editDialog: false,
+      deleteDialog: false,
       name: '',
       link: '',
       note: '',
@@ -194,6 +220,10 @@ export default {
       this.editDialog = true
     },
 
+    openDeleteModal() {
+      this.deleteDialog = true
+    },
+
     closeNewModal() {
       this.resetStoreError()
       this.newDialog = false
@@ -202,6 +232,10 @@ export default {
     closeEditModal() {
       this.resetUpdateError()
       this.editDialog = false
+    },
+
+    closeDeleteModal() {
+      this.deleteDialog = false
     },
 
     resetNewRegistrar() {
@@ -305,6 +339,33 @@ export default {
       }
     },
 
+    async deleteExecute() {
+      try {
+        const result = await axios.delete(
+          '/api/registrars/' + this.registrar.id
+        )
+
+        if (result.status === 200) {
+          this.greeting = 'Delete success'
+        }
+
+        this.initRegistrars()
+        this.closeDeleteModal()
+      } catch (error) {
+        const status = error.response.status
+
+        if (status === 403) {
+          this.alert = 'Illegal operation was performed.'
+          this.closeDeleteModal()
+        }
+
+        if (status >= 500) {
+          this.alert = 'Server Error'
+          this.closeDeleteModal()
+        }
+      }
+    },
+
     async initRegistrars() {
       const result = await axios.get('/api/registrars')
 
@@ -318,6 +379,14 @@ export default {
       this.registrar.note = registrar.note
 
       this.openEditModal()
+    },
+
+    async deleteRegistrar(registrar) {
+      this.resetGreeting()
+
+      this.registrar = registrar
+
+      this.openDeleteModal()
     },
   },
 

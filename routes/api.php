@@ -39,9 +39,8 @@ Route::middleware(['verified','auth'])->group(function () {
         Route::prefix('registrars')->name('registrar.')->group(function () {
             Route::get('/', 'RegistrarController@getRegistrars');
             Route::put('/{registrar}', 'RegistrarController@update')->where('registrar', '[0-9]+')->name('update');
-
             Route::post('/', 'RegistrarController@store')->name('store');
-            ;
+            Route::delete('/{registrar}', 'RegistrarController@delete')->where('registrar', '[0-9]+')->name('delete');
         });
 
         Route::get('me', 'MeController@get');
