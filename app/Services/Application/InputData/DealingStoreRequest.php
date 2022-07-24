@@ -11,10 +11,10 @@ final class DealingStoreRequest
     private $domainDealing;
 
     /**
-     * @param \App\Http\Requests\Frontend\Dealing\StoreRequest $storeRequest
+     * @param \App\Http\Requests\Api\Dealing\StoreRequest $storeRequest
      */
     public function __construct(
-        \App\Http\Requests\Frontend\Dealing\StoreRequest $storeRequest
+        \App\Http\Requests\Api\Dealing\StoreRequest $storeRequest
     ) {
         $this->domainDealing = new DomainDealing($storeRequest->validated());
     }

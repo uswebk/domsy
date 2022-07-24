@@ -61,6 +61,11 @@ Vue.component('domain-page', require('./pages/frontend/DomainPage.vue').default)
 
 Vue.component('dns-page', require('./pages/frontend/DnsPage.vue').default)
 
+Vue.component(
+  'dealing-page',
+  require('./pages/frontend/DealingPage.vue').default
+)
+
 /**
  * Component
  */

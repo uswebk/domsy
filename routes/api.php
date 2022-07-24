@@ -63,6 +63,11 @@ Route::middleware(['verified','auth'])->group(function () {
             Route::post('/', 'ClientController@store')->name('store');
             Route::delete('/{client}', 'ClientController@delete')->where('client', '[0-9]+')->name('delete');
         });
+        Route::prefix('dealings')->name('dealing.')->group(function () {
+            Route::get('/', 'DealingController@getDealings');
+            Route::put('/{domainDealing}', 'DealingController@update')->where('domainDealing', '[0-9]+')->name('update');
+            Route::post('/', 'DealingController@store')->name('store');
+        });
 
         Route::get('me', 'MeController@get');
     });

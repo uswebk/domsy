@@ -11,10 +11,10 @@ final class DealingUpdateRequest
     private $domainDealing;
 
     /**
-     * @param \App\Http\Requests\Frontend\Dealing\UpdateRequest $updateRequest
+     * @param \App\Http\Requests\Api\Dealing\UpdateRequest $updateRequest
      */
     public function __construct(
-        \App\Http\Requests\Frontend\Dealing\UpdateRequest $updateRequest
+        \App\Http\Requests\Api\Dealing\UpdateRequest $updateRequest
     ) {
         $this->domainDealing = new DomainDealing($updateRequest->validated());
     }
