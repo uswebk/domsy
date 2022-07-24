@@ -6,11 +6,6 @@ namespace App\Http\Controllers\Frontend;
 
 final class ClientController extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */

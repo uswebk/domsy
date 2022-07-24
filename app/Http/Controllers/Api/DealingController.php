@@ -9,10 +9,15 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
-final class DealingController
+final class DealingController extends Controller
 {
+    /**
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     public function getDealings()
     {
+
+        // TODO: ApplicationService化
         $domains = new Collection();
 
         $_domains = Auth::user()->domains;
@@ -37,6 +42,12 @@ final class DealingController
         );
     }
 
+    /**
+     * @param \App\Http\Requests\Api\Dealing\UpdateRequest $request
+     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Services\Application\DealingUpdateService $dealingUpdateService
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     public function update(
         \App\Http\Requests\Api\Dealing\UpdateRequest $request,
         \App\Infrastructures\Models\DomainDealing $domainDealing,
@@ -51,6 +62,11 @@ final class DealingController
         );
     }
 
+    /**
+     * @param \App\Http\Requests\Api\Dealing\StoreRequest $request
+     * @param \App\Services\Application\DealingStoreService $dealingStoreService
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     public function store(
         \App\Http\Requests\Api\Dealing\StoreRequest $request,
         \App\Services\Application\DealingStoreService $dealingStoreService

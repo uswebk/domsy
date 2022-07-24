@@ -4,122 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Enums\Interval;
-use App\Infrastructures\Models\DomainDealing;
-
-use Exception;
-
-use Illuminate\Support\Facades\Auth;
-
 final class DealingController extends Controller
 {
-    protected const INDEX_ROUTE = 'dealing.index';
-
-    public function __construct()
+    /**
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function index()
     {
-        parent::__construct();
-
-        $this->middleware('can:owner,domainDealing')->only(['edit']);
-
-        $this->middleware(function ($request, $next) {
-            $domainList = Auth::user()->domains->pluck('name', 'id')->toArray();
-            $clientList = Auth::user()->clients->pluck('name', 'id')->toArray();
-            $intervalCategories = Interval::cases();
-
-            view()->share([
-                'domainList' => $domainList,
-                'clientList' => $clientList,
-                'intervalCategories' => $intervalCategories,
-            ]);
-
-            return $next($request);
-        });
-    }
-
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function index(): \Illuminate\Contracts\View\View
-    {
-        // TODO: ApplicationService ->
-        $domains = Auth::user()->domains;
-
-        $domains->load([
-            'domainDealings',
-            'domainDealings.client',
-        ]);
-
-        return view('frontend.dealing.index', compact('domains'));
-    }
-
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function new(): \Illuminate\Contracts\View\View
-    {
-        return view('frontend.dealing.new');
-    }
-
-    /**
-     * @param DomainDealing $domainDealing
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function edit(DomainDealing $domainDealing): \Illuminate\Contracts\View\View
-    {
-        return view('frontend.dealing.edit', compact('domainDealing'));
-    }
-
-    /**
-     * @param \App\Http\Requests\Frontend\Dealing\UpdateRequest $request
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
-     * @param \App\Services\Application\DealingUpdateService $dealingUpdateService
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(
-        \App\Http\Requests\Frontend\Dealing\UpdateRequest $request,
-        \App\Infrastructures\Models\DomainDealing $domainDealing,
-        \App\Services\Application\DealingUpdateService $dealingUpdateService
-    ): \Illuminate\Http\RedirectResponse {
-        $domainDealingRequest = $request->makeInput();
-        try {
-            $dealingUpdateService->handle($domainDealingRequest, $domainDealing);
-        } catch (Exception $e) {
-            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Update');
-        }
-
-        return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Update Success!!');
-    }
-
-    /**
-     * @param \App\Http\Requests\Frontend\Dealing\StoreRequest $request
-     * @param \App\Services\Application\DealingStoreService $dealingStoreService
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(
-        \App\Http\Requests\Frontend\Dealing\StoreRequest $request,
-        \App\Services\Application\DealingStoreService $dealingStoreService
-    ): \Illuminate\Http\RedirectResponse {
-        $domainDealingRequest = $request->makeInput();
-        try {
-            $dealingStoreService->handle($domainDealingRequest);
-        } catch (Exception $e) {
-            return $this->redirectWithFailingMessageByRoute(self::INDEX_ROUTE, 'Failing Create');
-        }
-
-        return $this->redirectWithGreetingMessageByRoute(self::INDEX_ROUTE, 'Create Success!!');
-    }
-
-    /**
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function detail(
-        \App\Infrastructures\Models\DomainDealing $domainDealing
-    ): \Illuminate\Contracts\View\View {
-        $this->authorize('owner', $domainDealing);
-
-        $domainDealing->load(['domain','client']);
-
-        return view('frontend.dealing.detail', compact('domainDealing'));
+        return view('frontend.dealing.index');
     }
 }
