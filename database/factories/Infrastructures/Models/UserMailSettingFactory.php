@@ -8,11 +8,12 @@ use App\Infrastructures\Models\MailCategory;
 use App\Infrastructures\Models\User;
 use App\Infrastructures\Models\UserMailSetting;
 
-use Illuminate\Database\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class UserMailSettingFactory extends Factory
 {
     protected $model = UserMailSetting::class;
+
     /**
      * Define the model's default state.
      *

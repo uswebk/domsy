@@ -8,7 +8,7 @@ use App\Infrastructures\Models\Company;
 use App\Infrastructures\Models\Role;
 use App\Infrastructures\Models\User;
 
-use Illuminate\Database\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 

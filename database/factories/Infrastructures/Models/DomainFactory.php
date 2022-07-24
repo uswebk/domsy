@@ -8,11 +8,12 @@ use App\Infrastructures\Models\Domain;
 use App\Infrastructures\Models\Registrar;
 use App\Infrastructures\Models\User;
 
-use Illuminate\Database\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DomainFactory extends Factory
 {
     protected $model = Domain::class;
+
     /**
      * Define the model's default state.
      *

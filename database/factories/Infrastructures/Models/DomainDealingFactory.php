@@ -9,7 +9,7 @@ use App\Infrastructures\Models\Client;
 
 use App\Infrastructures\Models\Domain;
 use App\Infrastructures\Models\DomainDealing;
-use Illuminate\Database\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 final class DomainDealingFactory extends Factory
 {

@@ -43,6 +43,13 @@ Route::middleware(['verified','auth'])->group(function () {
             Route::delete('/{registrar}', 'RegistrarController@delete')->where('registrar', '[0-9]+')->name('delete');
         });
 
+        Route::prefix('clients')->name('client.')->group(function () {
+            Route::get('/', 'ClientController@getClients');
+            Route::put('/{client}', 'ClientController@update')->where('client', '[0-9]+')->name('update');
+            Route::post('/', 'ClientController@store')->name('store');
+            Route::delete('/{client}', 'ClientController@delete')->where('client', '[0-9]+')->name('delete');
+        });
+
         Route::get('me', 'MeController@get');
     });
 });

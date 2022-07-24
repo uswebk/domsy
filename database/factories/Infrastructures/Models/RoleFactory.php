@@ -7,7 +7,7 @@ namespace Database\Factories\Infrastructures\Models;
 use App\Infrastructures\Models\Company;
 use App\Infrastructures\Models\Role;
 
-use Illuminate\Database\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 final class RoleFactory extends Factory
 {

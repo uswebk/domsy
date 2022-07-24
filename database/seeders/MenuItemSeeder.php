@@ -171,16 +171,16 @@ class MenuItemSeeder extends Seeder
             'sort' => 140,
         ]);
 
-        MenuItem::create([
-            'parent_id' => 4,
-            'name' => 'New',
-            'controller' => 'App\Http\Controllers\Frontend\RegistrarController',
-            'function' => 'new',
-            'route' => 'registrar.new',
-            'description' => 'Registrar New Page View',
-            'is_screen' => 0,
-            'sort' => 150,
-        ]);
+        // MenuItem::create([
+        //     'parent_id' => 4,
+        //     'name' => 'New',
+        //     'controller' => 'App\Http\Controllers\Frontend\RegistrarController',
+        //     'function' => 'new',
+        //     'route' => 'registrar.new',
+        //     'description' => 'Registrar New Page View',
+        //     'is_screen' => 0,
+        //     'sort' => 150,
+        // ]);
 
         MenuItem::create([
             'parent_id' => 4,
@@ -193,16 +193,16 @@ class MenuItemSeeder extends Seeder
             'sort' => 160,
         ]);
 
-        MenuItem::create([
-            'parent_id' => 4,
-            'name' => 'Edit',
-            'controller' => 'App\Http\Controllers\Frontend\RegistrarController',
-            'function' => 'edit',
-            'route' => 'registrar.edit',
-            'description' => 'Registrar Edit Page View',
-            'is_screen' => 0,
-            'sort' => 170,
-        ]);
+        // MenuItem::create([
+        //     'parent_id' => 4,
+        //     'name' => 'Edit',
+        //     'controller' => 'App\Http\Controllers\Frontend\RegistrarController',
+        //     'function' => 'edit',
+        //     'route' => 'registrar.edit',
+        //     'description' => 'Registrar Edit Page View',
+        //     'is_screen' => 0,
+        //     'sort' => 170,
+        // ]);
 
         MenuItem::create([
             'parent_id' => 4,
@@ -218,9 +218,9 @@ class MenuItemSeeder extends Seeder
         MenuItem::create([
             'parent_id' => 4,
             'name' => 'Delete',
-            'controller' => 'App\Http\Controllers\Frontend\RegistrarController',
+            'controller' => 'App\Http\Controllers\Api\RegistrarController',
             'function' => 'delete',
-            'route' => 'registrar.delete',
+            'route' => 'api.registrar.delete',
             'description' => 'Registrar Delete',
             'is_screen' => 0,
             'sort' => 190,
@@ -238,45 +238,45 @@ class MenuItemSeeder extends Seeder
             'sort' => 200,
         ]);
 
-        MenuItem::create([
-            'parent_id' => 5,
-            'name' => 'New',
-            'controller' => 'App\Http\Controllers\Frontend\ClientController',
-            'function' => 'new',
-            'route' => 'client.new',
-            'description' => 'Client New Page View',
-            'is_screen' => 0,
-            'sort' => 210,
-        ]);
+        // MenuItem::create([
+        //     'parent_id' => 5,
+        //     'name' => 'New',
+        //     'controller' => 'App\Http\Controllers\Frontend\ClientController',
+        //     'function' => 'new',
+        //     'route' => 'client.new',
+        //     'description' => 'Client New Page View',
+        //     'is_screen' => 0,
+        //     'sort' => 210,
+        // ]);
 
         MenuItem::create([
             'parent_id' => 5,
             'name' => 'Create',
-            'controller' => 'App\Http\Controllers\Frontend\ClientController',
+            'controller' => 'App\Http\Controllers\Api\ClientController',
             'function' => 'store',
-            'route' => 'client.store',
+            'route' => 'api.client.store',
             'description' => 'Client Create',
             'is_screen' => 0,
             'sort' => 220,
         ]);
 
-        MenuItem::create([
-            'parent_id' => 5,
-            'name' => 'Edit',
-            'controller' => 'App\Http\Controllers\Frontend\ClientController',
-            'function' => 'edit',
-            'route' => 'client.edit',
-            'description' => 'Client Edit Page View',
-            'is_screen' => 0,
-            'sort' => 230,
-        ]);
+        // MenuItem::create([
+        //     'parent_id' => 5,
+        //     'name' => 'Edit',
+        //     'controller' => 'App\Http\Controllers\Frontend\ClientController',
+        //     'function' => 'edit',
+        //     'route' => 'client.edit',
+        //     'description' => 'Client Edit Page View',
+        //     'is_screen' => 0,
+        //     'sort' => 230,
+        // ]);
 
         MenuItem::create([
             'parent_id' => 5,
             'name' => 'Update',
-            'controller' => 'App\Http\Controllers\Frontend\ClientController',
+            'controller' => 'App\Http\Controllers\Api\ClientController',
             'function' => 'update',
-            'route' => 'client.update',
+            'route' => 'api.client.update',
             'description' => 'Client Update',
             'is_screen' => 0,
             'sort' => 240,

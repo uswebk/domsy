@@ -7,11 +7,12 @@ namespace Database\Factories\Infrastructures\Models;
 use App\Infrastructures\Models\Client;
 use App\Infrastructures\Models\User;
 
-use Illuminate\Database\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ClientFactory extends Factory
 {
     protected $model = Client::class;
+
     /**
      * Define the model's default state.
      *

@@ -32,6 +32,7 @@ Vue.component(
   require('./pages/auth/Register.vue').default
 )
 Vue.component('auth-verify-page', require('./pages/auth/Verify.vue').default)
+
 Vue.component(
   'auth-passwords-email-page',
   require('./pages/auth/passwords/Email.vue').default
@@ -42,15 +43,19 @@ Vue.component(
 )
 
 Vue.component('top-page', require('./pages/frontend/TopPage.vue').default)
+
 Vue.component(
   'dashboard-page',
   require('./pages/frontend/DashboardPage.vue').default
 )
 Vue.component('account-page', require('./pages/frontend/Account.vue').default)
+
 Vue.component(
   'registrar-page',
   require('./pages/frontend/RegistrarPage.vue').default
 )
+
+Vue.component('client-page', require('./pages/frontend/ClientPage.vue').default)
 
 /**
  * Component
