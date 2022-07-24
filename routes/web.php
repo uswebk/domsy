@@ -33,39 +33,10 @@ Route::namespace('Frontend')->group(function () {
             Route::post('general', 'SettingController@saveGeneral')->name('general.save');
         });
 
-        Route::prefix('domain')->name('domain.')->group(function () {
-            Route::get('/', 'DomainController@index')->name('index');
-            Route::get('new', 'DomainController@new')->name('new');
-            Route::get('{domain}/edit', 'DomainController@edit')->name('edit')->where('domain', '[0-9]+');
-
-            Route::post('store', 'DomainController@store')->name('store');
-            Route::post('{domain}/update', 'DomainController@update')->name('update')->where('domain', '[0-9]+');
-            Route::post('{domain}/delete', 'DomainController@delete')->name('delete')->where('domain', '[0-9]+');
-        });
-
-        Route::prefix('dns')->name('dns.')->group(function () {
-            Route::get('/', 'DnsController@index')->name('index');
-            Route::get('domain/{domain}/new', 'DnsController@new')->name('new')->where('domain', '[0-9]+');
-            Route::get('{subdomain}/edit', 'DnsController@edit')->name('edit')->where('subdomain', '[0-9]+');
-
-            Route::post('/store', 'DnsController@store')->name('store');
-            Route::post('{subdomain}/update', 'DnsController@update')->name('update')->where('subdomain', '[0-9]+');
-            Route::post('{subdomain}/delete', 'DnsController@delete')->name('delete')->where('subdomain', '[0-9]+');
-        });
-
-        Route::prefix('registrar')->name('registrar.')->group(function () {
-            Route::get('/', 'RegistrarController@index')->name('index');
-        });
-
-        Route::prefix('client')->name('client.')->group(function () {
-            Route::get('/', 'ClientController@index')->name('index');
-            Route::get('new', 'ClientController@new')->name('new');
-            Route::get('{client}/edit', 'ClientController@edit')->name('edit')->where('client', '[0-9]+');
-
-            Route::post('store', 'ClientController@store')->name('store');
-            Route::post('{client}/update', 'ClientController@update')->name('update')->where('client', '[0-9]+');
-            Route::post('{client}/delete', 'ClientController@delete')->name('delete')->where('client', '[0-9]+');
-        });
+        Route::get('domain', 'DomainController@index')->name('domain.index');
+        Route::get('dns', 'DnsController@index')->name('dns.index');
+        Route::get('registrar', 'RegistrarController@index')->name('registrar.index');
+        Route::get('client', 'ClientController@index')->name('client.index');
 
         Route::prefix('dealing')->name('dealing.')->group(function () {
             Route::get('/', 'DealingController@index')->name('index');

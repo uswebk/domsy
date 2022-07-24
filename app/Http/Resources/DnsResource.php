@@ -6,7 +6,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-final class DomainResource extends JsonResource
+final class DnsResource extends JsonResource
 {
     /**
      * @param $request
@@ -27,6 +27,7 @@ final class DomainResource extends JsonResource
             'canceled_at' => $this->canceled_at,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
+            'subdomains' => SubdomainResource::collection($this->subdomains),
         ];
     }
 }

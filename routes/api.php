@@ -29,6 +29,7 @@ Route::middleware(['verified','auth'])->group(function () {
     Route::namespace('Api')->name('api.')->group(function () {
         Route::get('menus', 'MenuController@getMenus');
         Route::get('roles', 'RoleController@getRoles');
+        Route::get('dns-record-type', 'DnsRecordTypeController@getDnsRecordType');
 
         Route::prefix('users')->group(function () {
             Route::get('/', 'UserController@getUsers');
@@ -39,7 +40,14 @@ Route::middleware(['verified','auth'])->group(function () {
             Route::get('/', 'DomainController@getDomains');
             Route::put('/{domain}', 'DomainController@update')->where('domain', '[0-9]+')->name('update');
             Route::post('/', 'DomainController@store')->name('store');
-            Route::delete('/{domain}', 'DomainController@delete')->where('registrar', '[0-9]+')->name('delete');
+            Route::delete('/{domain}', 'DomainController@delete')->where('domain', '[0-9]+')->name('delete');
+        });
+
+        Route::prefix('dns')->name('dns.')->group(function () {
+            Route::get('/', 'DnsController@getSubdomains');
+            Route::put('/{subdomain}', 'DnsController@update')->where('subdomain', '[0-9]+')->name('update');
+            Route::post('/', 'DnsController@store')->name('store');
+            Route::delete('/{subdomain}', 'DnsController@delete')->where('subdomain', '[0-9]+')->name('delete');
         });
 
         Route::prefix('registrars')->name('registrar.')->group(function () {
