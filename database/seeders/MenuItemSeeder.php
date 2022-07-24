@@ -305,48 +305,48 @@ class MenuItemSeeder extends Seeder
             'sort' => 500,
         ]);
 
-        MenuItem::create([
-            'parent_id' => 6,
-            'name' => 'New',
-            'controller' => 'App\Http\Controllers\Frontend\DealingController',
-            'function' => 'new',
-            'route' => 'dealing.new',
-            'description' => 'Dealing New Page View',
-            'is_screen' => 0,
-            'sort' => 270,
-        ]);
+        // MenuItem::create([
+        //     'parent_id' => 6,
+        //     'name' => 'New',
+        //     'controller' => 'App\Http\Controllers\Frontend\DealingController',
+        //     'function' => 'new',
+        //     'route' => 'dealing.new',
+        //     'description' => 'Dealing New Page View',
+        //     'is_screen' => 0,
+        //     'sort' => 270,
+        // ]);
 
         MenuItem::create([
             'parent_id' => 6,
             'name' => 'Create',
-            'controller' => 'App\Http\Controllers\Frontend\DealingController',
+            'controller' => 'App\Http\Controllers\Api\DealingController',
             'function' => 'store',
-            'route' => 'dealing.store',
+            'route' => 'api.dealing.store',
             'description' => 'Dealing Create',
             'is_screen' => 0,
-            'sort' => 280,
+            'sort' => 510,
         ]);
 
-        MenuItem::create([
-            'parent_id' => 6,
-            'name' => 'Edit',
-            'controller' => 'App\Http\Controllers\Frontend\DealingController',
-            'function' => 'edit',
-            'route' => 'dealing.edit',
-            'description' => 'Dealing Edit Page View',
-            'is_screen' => 0,
-            'sort' => 290,
-        ]);
+        // MenuItem::create([
+        //     'parent_id' => 6,
+        //     'name' => 'Edit',
+        //     'controller' => 'App\Http\Controllers\Frontend\DealingController',
+        //     'function' => 'edit',
+        //     'route' => 'dealing.edit',
+        //     'description' => 'Dealing Edit Page View',
+        //     'is_screen' => 0,
+        //     'sort' => 290,
+        // ]);
 
         MenuItem::create([
             'parent_id' => 6,
             'name' => 'Update',
-            'controller' => 'App\Http\Controllers\Frontend\DealingController',
+            'controller' => 'App\Http\Controllers\Api\DealingController',
             'function' => 'update',
-            'route' => 'dealing.update',
+            'route' => 'api.dealing.update',
             'description' => 'Client Update',
             'is_screen' => 0,
-            'sort' => 300,
+            'sort' => 520,
         ]);
     }
 }
