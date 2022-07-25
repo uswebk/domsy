@@ -286,6 +286,8 @@
 
 <script>
 import axios from 'axios'
+import { shortHyphenDate } from '../../modules/DateHelper'
+
 export default {
   data() {
     return {
@@ -522,20 +524,7 @@ export default {
     },
 
     formattedDate(dateTime) {
-      let date = new Date(dateTime)
-
-      if (dateTime === null) {
-        return null
-      }
-
-      let formattedDate =
-        date.getFullYear() +
-        '-' +
-        (date.getMonth() + 1).toString().padStart(2, '0') +
-        '-' +
-        date.getDate().toString().padStart(2, '0')
-
-      return formattedDate
+      return shortHyphenDate(dateTime)
     },
   },
 

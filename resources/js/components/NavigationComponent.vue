@@ -1,6 +1,6 @@
 <template>
   <div class="ma-4 pa-4">
-    <v-navigation-drawer permanent expand-on-hover app>
+    <v-navigation-drawer permanent app>
       <v-card>
         <v-list>
           <v-list-item>

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\Domain;
 
 use App\Http\Requests\Request;
+use App\Rules\DomainNameDuplicate;
 use App\Rules\RegistrarOwner;
 use App\Services\Application\InputData\DomainUpdateRequest;
 
@@ -17,7 +18,7 @@ final class UpdateRequest extends Request
     {
         return [
             'registrar_id' => new RegistrarOwner(),
-            'name' => 'required|string',
+            'name' => new DomainNameDuplicate($this->domain),
             'price' => 'required|integer',
             'is_active' => 'required|boolean',
             'is_transferred' => 'required|boolean',

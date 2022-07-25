@@ -77,18 +77,6 @@ Vue.component(
   'navigation-component',
   require('./components/NavigationComponent.vue').default
 )
-Vue.component(
-  'example-component',
-  require('./components/ExampleComponent.vue').default
-)
-Vue.component(
-  'test-component',
-  require('./components/TestComponent.vue').default
-)
-Vue.component(
-  'registrar-add-new-button-component',
-  require('./components/registrar/AddNewButton.vue').default
-)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

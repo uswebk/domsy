@@ -15,36 +15,55 @@
         <v-icon dark left> mdi-plus-circle </v-icon>New
       </v-btn>
 
-      <v-simple-table>
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left">Domain Name</th>
-              <th class="text-left">Client Name</th>
-              <th class="text-left">Subtotal</th>
-              <th class="text-left">First Billing Date</th>
-              <th class="text-left">Interval</th>
-              <th class="text-left">Auto Update</th>
-              <th class="text-left">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="dealing in dealings" :key="dealing.id">
-              <td>{{ dealing.domain }}</td>
-              <td>{{ dealing.client.name }}</td>
-              <td>{{ dealing.subtotal }}</td>
-              <td>{{ formattedDate(dealing.billing_date) }}</td>
-              <td>{{ dealing.interval }} {{ dealing.interval_category }}</td>
-              <td>{{ dealing.is_auto_update }}</td>
-              <td>
-                <v-btn x-small color="primary" @click="edit(dealing)"
-                  >edit</v-btn
-                >
-              </td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
+      <v-tabs v-model="tab">
+        <v-tab href="#active">Active</v-tab>
+        <v-tab href="#stop">Stop</v-tab>
+      </v-tabs>
+      <v-container class="py-1"></v-container>
+      <v-tabs-items v-model="tab">
+        <div v-for="(_dealing, index) in dealings" :key="_dealing.id">
+          <v-tab-item :value="index">
+            <v-simple-table>
+              <template v-slot:default>
+                <thead>
+                  <tr>
+                    <th class="text-left">Domain Name</th>
+                    <th class="text-left">Client Name</th>
+                    <th class="text-left">Subtotal</th>
+                    <th class="text-left">Discount</th>
+                    <th class="text-left">First Billing Date</th>
+                    <th class="text-left">Interval</th>
+                    <th class="text-center">Auto Update</th>
+                    <th class="text-left">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="dealing in _dealing" :key="dealing.id">
+                    <td>{{ dealing.domain }}</td>
+                    <td>{{ dealing.client.name }}</td>
+                    <td>{{ dealing.subtotal }}</td>
+                    <td>{{ dealing.discount }}</td>
+                    <td>{{ formattedDate(dealing.billing_date) }}</td>
+                    <td>
+                      {{ dealing.interval }} {{ dealing.interval_category }}
+                    </td>
+                    <td class="text-center">
+                      <span v-if="dealing.is_auto_update"
+                        ><v-icon small>mdi-checkbox-marked-circle</v-icon></span
+                      >
+                    </td>
+                    <td>
+                      <v-btn x-small color="primary" @click="edit(dealing)"
+                        >edit</v-btn
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+          </v-tab-item>
+        </div>
+      </v-tabs-items>
 
       <!-- New Dialog -->
       <v-dialog v-model="newDialog" max-width="600px">
@@ -314,18 +333,23 @@
 
 <script>
 import axios from 'axios'
+import { shortHyphenDate } from '../../modules/DateHelper'
+
 export default {
   data() {
     return {
       greeting: '',
       alert: '',
-      dealings: {},
+      tab: '',
+      dealings: {
+        active: {},
+        stop: {},
+      },
       dealing: {},
       domains: {},
       clients: {},
       dnsRecordTypes: {},
       intervalCategories: ['DAY', 'WEEK', 'MONTH', 'YEAR'],
-
       domain: {},
       subdomain: {},
       newDialog: false,
@@ -499,17 +523,23 @@ export default {
     async initDealings() {
       const result = await axios.get('/api/dealings')
 
-      let dealings = []
+      let dealings_actives = []
+      let dealings_stops = []
       for (let key in result.data) {
         for (let key2 in result.data[key].domain_dealings) {
           let dealing = result.data[key].domain_dealings[key2]
-          result.data[key].domain_dealings[key2]['domain'] =
-            result.data[key].name
-          dealings.push(dealing)
+          dealing.domain = result.data[key].name
+
+          if (dealing.is_halt) {
+            dealings_stops.push(dealing)
+          } else {
+            dealings_actives.push(dealing)
+          }
         }
       }
 
-      this.dealings = dealings
+      this.dealings.active = dealings_actives
+      this.dealings.stop = dealings_stops
     },
 
     async initDomains() {
@@ -543,20 +573,7 @@ export default {
     },
 
     formattedDate(dateTime) {
-      let date = new Date(dateTime)
-
-      if (dateTime === null) {
-        return null
-      }
-
-      let formattedDate =
-        date.getFullYear() +
-        '-' +
-        (date.getMonth() + 1).toString().padStart(2, '0') +
-        '-' +
-        date.getDate().toString().padStart(2, '0')
-
-      return formattedDate
+      return shortHyphenDate(dateTime)
     },
   },
 

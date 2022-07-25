@@ -6,7 +6,7 @@
       </h1>
 
       <div class="py-5"></div>
-      <v-alert dense text type="success" v-if="greeting">{{
+      <v-alert dense text type="success" dismissible v-if="greeting">{{
         greeting
       }}</v-alert>
       <v-alert dense text type="error" v-if="alert">{{ alert }}</v-alert>
@@ -15,41 +15,56 @@
         <v-icon dark left> mdi-plus-circle </v-icon>New
       </v-btn>
 
-      <v-simple-table>
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left">Name</th>
-              <th class="text-left">Price</th>
-              <th class="text-left">Active</th>
-              <th class="text-left">Transferred</th>
-              <th class="text-left">Management<br />Only</th>
-              <th class="text-left">Purchased<br />Date</th>
-              <th class="text-left">Expired<br />Date</th>
-              <th class="text-left">Canceled<br />Date</th>
-              <th class="text-left">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="domain in domains" :key="domain.id">
-              <td>{{ domain.name }}</td>
-              <td>{{ domain.price }}</td>
-              <td>{{ domain.is_active }}</td>
-              <td>{{ domain.is_transferred }}</td>
-              <td>{{ domain.is_management_only }}</td>
-              <td>{{ domain.purchased_at }}</td>
-              <td>{{ domain.expired_at }}</td>
-              <td>{{ domain.canceled_at }}</td>
-              <td>
-                <v-btn x-small color="primary" @click="edit(domain)"
-                  >edit</v-btn
-                >
-                <v-btn x-small @click="deleteDomain(domain)">delete</v-btn>
-              </td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
+      <v-tabs v-model="tab">
+        <v-tab href="#active">Active</v-tab>
+        <v-tab href="#notActive">NotActive</v-tab>
+        <v-tab href="#transferred">Transferred</v-tab>
+        <v-tab href="#managementOnly">ManagementOnly</v-tab>
+      </v-tabs>
+      <v-container class="py-1"></v-container>
+      <v-tabs-items v-model="tab">
+        <div v-for="(_domain, index) in domains" :key="_domain.id">
+          <v-tab-item :value="index">
+            <v-simple-table>
+              <template v-slot:default>
+                <thead>
+                  <tr>
+                    <th class="text-left">Name</th>
+                    <th class="text-left">Price</th>
+                    <th class="text-center">Active</th>
+                    <th class="text-left">Purchased<br />Date</th>
+                    <th class="text-left">Expired<br />Date</th>
+                    <th class="text-left">Canceled<br />Date</th>
+                    <th class="text-left">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="domain in _domain" :key="domain.id">
+                    <td>{{ domain.name }}</td>
+                    <td>{{ domain.price }}</td>
+                    <td class="text-center">
+                      <span v-if="domain.is_active"
+                        ><v-icon small>mdi-checkbox-marked-circle</v-icon></span
+                      >
+                    </td>
+                    <td>{{ formattedDate(domain.purchased_at) }}</td>
+                    <td>{{ formattedDate(domain.expired_at) }}</td>
+                    <td>{{ formattedDate(domain.canceled_at) }}</td>
+                    <td>
+                      <v-btn x-small color="primary" @click="edit(domain)"
+                        >edit</v-btn
+                      >
+                      <v-btn x-small @click="deleteDomain(domain)"
+                        >delete</v-btn
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+          </v-tab-item>
+        </div>
+      </v-tabs-items>
 
       <!-- New Dialog -->
       <v-dialog v-model="newDialog" max-width="600px">
@@ -333,12 +348,20 @@
 
 <script>
 import axios from 'axios'
+import { shortHyphenDate } from '../../modules/DateHelper'
+
 export default {
   data() {
     return {
       greeting: '',
       alert: '',
-      domains: {},
+      tab: '',
+      domains: {
+        active: {},
+        notActive: {},
+        managementOnly: {},
+        transferred: {},
+      },
       registrars: {},
       domain: {},
       newDialog: false,
@@ -536,7 +559,33 @@ export default {
     async initDomains() {
       const result = await axios.get('/api/domains')
 
-      this.domains = result.data
+      let activeDomains = []
+      let notActiveDomains = []
+      let managementOnlyDomains = []
+      let transferredDomains = []
+
+      for (let key in result.data) {
+        let domain = result.data[key]
+
+        if (domain.is_transferred) {
+          transferredDomains.push(domain)
+        }
+
+        if (domain.is_management_only) {
+          managementOnlyDomains.push(domain)
+        }
+
+        if (domain.is_active) {
+          activeDomains.push(domain)
+        } else {
+          notActiveDomains.push(domain)
+        }
+      }
+
+      this.domains.active = activeDomains
+      this.domains.transferred = transferredDomains
+      this.domains.notActive = notActiveDomains
+      this.domains.managementOnly = managementOnlyDomains
     },
 
     async initRegistrars() {
@@ -569,20 +618,7 @@ export default {
     },
 
     formattedDate(dateTime) {
-      let date = new Date(dateTime)
-
-      if (dateTime === null) {
-        return null
-      }
-
-      let formattedDate =
-        date.getFullYear() +
-        '-' +
-        (date.getMonth() + 1).toString().padStart(2, '0') +
-        '-' +
-        date.getDate().toString().padStart(2, '0')
-
-      return formattedDate
+      return shortHyphenDate(dateTime)
     },
   },
 
