@@ -6,6 +6,8 @@
 ![](https://img.shields.io/badge/PHP-8.0.19-5684d5)
 ![](https://img.shields.io/badge/MySQL-8.0.29-5684d5)
 ![](https://img.shields.io/badge/Nginx-1.21.6-5684d5)
+![](https://img.shields.io/badge/Vue-2.6.14-5684d5)
+![](https://img.shields.io/badge/Vuetify-2.6.7-5684d5)
 
 </div>
 
