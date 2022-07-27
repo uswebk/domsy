@@ -14,8 +14,11 @@ final class SettingGeneralSaveRequest
 {
     private $userGeneralSettings;
 
+    /**
+     * @param \App\Http\Requests\Api\Setting\SaveGeneralRequest $saveRequest
+     */
     public function __construct(
-        \App\Http\Requests\Frontend\Setting\SaveGeneralRequest $saveRequest
+        \App\Http\Requests\Api\Setting\SaveGeneralRequest $saveRequest
     ) {
         $this->userGeneralSettings = new Collection();
 
@@ -26,7 +29,7 @@ final class SettingGeneralSaveRequest
             $userGeneralSetting = new UserGeneralSetting([
                 'user_id' => Auth::id(),
                 'general_id' => $generalSettingCategory->id,
-                'enabled' => $generalSettingParameter[$generalSettingCategory->name],
+                'enabled' => $generalSettingParameter[$generalSettingCategory->name]['enabled'],
             ]);
 
             $this->userGeneralSettings->push($userGeneralSetting);

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Frontend\Setting;
+namespace App\Http\Requests\Api\Setting;
 
 use App\Http\Requests\Request;
 use App\Services\Application\InputData\SettingGeneralSaveRequest;
@@ -14,7 +14,9 @@ final class SaveGeneralRequest extends Request
      */
     public function rules(): array
     {
-        return [];
+        return [
+            '*.enabled' => 'boolean',
+        ];
     }
 
     /**

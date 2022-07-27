@@ -73,7 +73,9 @@ Route::middleware(['verified','auth'])->group(function () {
 
         Route::prefix('settings')->name('settings.')->group(function () {
             Route::get('/user-mails', 'SettingController@getMails');
+            Route::get('/user-generals', 'SettingController@getGenerals');
             Route::put('/user-mails', 'SettingController@saveMails');
+            Route::put('/user-generals', 'SettingController@saveGenerals');
         });
     });
 });

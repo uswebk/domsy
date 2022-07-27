@@ -6,6 +6,14 @@
       </h1>
 
       <div class="py-5"></div>
+      <v-alert dense text dismissible type="success" v-if="greeting">{{
+        greeting
+      }}</v-alert>
+      <v-alert dense text dismissible type="error" v-if="alert">{{
+        alert
+      }}</v-alert>
+
+      <div class="py-5"></div>
 
       <v-container>
         <p class="text-h6 ma-0">Mail</p>
@@ -22,9 +30,11 @@
                 :label="userMailSetting.annotation"
                 hide-details
               ></v-checkbox>
-              <ValidationErrorMessageComponent
-                :message="updateErrors[userMailSetting.name + '.is_received']"
-              />
+              <span v-if="updateErrors[userMailSetting.name + '.is_received']">
+                <ValidationErrorMessageComponent
+                  :message="updateErrors[userMailSetting.name + '.is_received']"
+                />
+              </span>
 
               <span v-if="userMailSetting.has_days" class="ml-5">
                 <span width="100px">
@@ -35,18 +45,26 @@
                     class="notice_number_days_text_field"
                     suffix="Days ago"
                   ></v-text-field>
-                  <ValidationErrorMessageComponent
-                    :message="
+                  <span
+                    v-if="
                       updateErrors[userMailSetting.name + '.notice_number_days']
                     "
-                  />
+                  >
+                    <ValidationErrorMessageComponent
+                      :message="
+                        updateErrors[
+                          userMailSetting.name + '.notice_number_days'
+                        ]
+                      "
+                    />
+                  </span>
                 </span>
               </span>
             </v-row>
 
             <v-row>
               <v-col cols="12" class="pa-0 mt-10">
-                <v-btn color="primary" @click="updateMail">Save</v-btn>
+                <v-btn color="primary" small @click="updateMail">Save</v-btn>
               </v-col>
             </v-row>
           </v-container>
@@ -56,6 +74,26 @@
 
         <p class="text-h6 ma-0">Batch</p>
         <v-divider></v-divider>
+        <v-form>
+          <v-container>
+            <v-row
+              v-for="generalSetting in generalSettings"
+              :key="generalSetting.id"
+            >
+              <v-checkbox
+                v-model="generalSetting.enabled"
+                :label="generalSetting.annotation"
+                hide-details
+              ></v-checkbox>
+            </v-row>
+
+            <v-row>
+              <v-col cols="12" class="pa-0 mt-10">
+                <v-btn color="primary" small @click="updateGeneral">Save</v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-form>
       </v-container>
     </v-container>
   </v-main>
@@ -70,13 +108,8 @@ export default {
       alert: '',
 
       userMailSettings: {},
+      generalSettings: {},
       updateErrors: {},
-
-      hoge: {
-        'fuga.toya': 'testdesu',
-      },
-
-      fuga: 'fuga',
     }
   },
 
@@ -92,14 +125,28 @@ export default {
       this.userMailSettings = userMailSettings
     },
 
+    async initGenerals() {
+      const result = await axios.get('/api/settings/user-generals')
+
+      let generalSettings = {}
+      for (let key in result.data) {
+        generalSettings[result.data[key].name] = result.data[key]
+      }
+
+      this.generalSettings = generalSettings
+    },
+
     async updateMail() {
       try {
         const result = await axios.put(
           '/api/settings/user-mails',
           this.userMailSettings
         )
+        if (result.status === 200) {
+          this.greeting = 'Update success'
+        }
 
-        console.log(result)
+        this.initSettings()
       } catch (error) {
         const status = error.response.status
 
@@ -111,7 +158,42 @@ export default {
         if (status === 422) {
           var responseErrors = error.response.data.errors
 
-          console.log(responseErrors)
+          var errors = {}
+          for (var key in responseErrors) {
+            errors[key] = responseErrors[key][0]
+          }
+          this.updateErrors = errors
+        }
+
+        if (status >= 500) {
+          this.alert = 'Server Error'
+          this.closeEditModal()
+        }
+      }
+    },
+
+    async updateGeneral() {
+      try {
+        const result = await axios.put(
+          '/api/settings/user-generals',
+          this.generalSettings
+        )
+        if (result.status === 200) {
+          this.greeting = 'Update success'
+        }
+
+        this.initGenerals()
+      } catch (error) {
+        const status = error.response.status
+
+        if (status === 403) {
+          this.alert = 'Illegal operation was performed.'
+          this.closeEditModal()
+        }
+
+        if (status === 422) {
+          var responseErrors = error.response.data.errors
+
           var errors = {}
           for (var key in responseErrors) {
             errors[key] = responseErrors[key][0]
@@ -129,6 +211,7 @@ export default {
 
   created() {
     this.initSettings()
+    this.initGenerals()
   },
 }
 </script>
