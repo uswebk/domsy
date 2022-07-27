@@ -6,10 +6,12 @@
       </h1>
 
       <div class="py-5"></div>
-      <v-alert dense text type="success" dismissible v-if="greeting">{{
+      <v-alert dense text dismissible type="success" v-if="greeting">{{
         greeting
       }}</v-alert>
-      <v-alert dense text type="error" v-if="alert">{{ alert }}</v-alert>
+      <v-alert dense text dismissible type="error" v-if="alert">{{
+        alert
+      }}</v-alert>
 
       <v-btn class="ma-2" color="primary" small @click="openNewModal">
         <v-icon dark left> mdi-plus-circle </v-icon>New

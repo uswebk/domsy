@@ -6,10 +6,12 @@
       </h1>
 
       <div class="py-5"></div>
-      <v-alert dense text type="success" v-if="greeting">{{
+      <v-alert dense text dismissible type="success" v-if="greeting">{{
         greeting
       }}</v-alert>
-      <v-alert dense text type="error" v-if="alert">{{ alert }}</v-alert>
+      <v-alert dense text dismissible type="error" v-if="alert">{{
+        alert
+      }}</v-alert>
 
       <div v-for="_dns in dns" :key="_dns.id" class="mb-4">
         <v-card>
