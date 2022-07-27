@@ -61,65 +61,49 @@
                       v-model="name"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.name"
-                      v-if="storeErrors.name"
-                    ></p>
-
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.name"
+                    />
                     <v-text-field
                       label="NameKana"
                       v-model="nameKana"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.name_kana"
-                      v-if="storeErrors.name_kana"
-                    ></p>
-
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.name_kana"
+                    />
                     <v-text-field
                       label="email"
                       v-model="email"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.email"
-                      v-if="storeErrors.email"
-                    ></p>
-
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.email"
+                    />
                     <v-text-field
                       label="Zip"
                       v-model="zip"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.zip"
-                      v-if="storeErrors.zip"
-                    ></p>
-
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.zip"
+                    />
                     <v-text-field
                       label="Address"
                       v-model="address"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.address"
-                      v-if="storeErrors.address"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.address"
+                    />
                     <v-text-field
                       label="TEL"
                       v-model="phoneNumber"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.phone_number"
-                      v-if="storeErrors.phone_number"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.phone_number"
+                    />
                   </v-col>
                 </v-row>
 
@@ -152,64 +136,49 @@
                       v-model="client.name"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.name"
-                      v-if="updateErrors.name"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.name"
+                    />
                     <v-text-field
                       label="NameKana"
                       v-model="client.nameKana"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.name_kana"
-                      v-if="updateErrors.name_kana"
-                    ></p>
-
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.name_kana"
+                    />
                     <v-text-field
                       label="email"
                       v-model="client.email"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.email"
-                      v-if="updateErrors.email"
-                    ></p>
-
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.email"
+                    />
                     <v-text-field
                       label="Zip"
                       v-model="client.zip"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.zip"
-                      v-if="updateErrors.zip"
-                    ></p>
-
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.zip"
+                    />
                     <v-text-field
                       label="Address"
                       v-model="client.address"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.address"
-                      v-if="updateErrors.address"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.address"
+                    />
                     <v-text-field
                       label="TEL"
                       v-model="client.phoneNumber"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.phone_number"
-                      v-if="updateErrors.phone_number"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.phone_number"
+                    />
                   </v-col>
                 </v-row>
 

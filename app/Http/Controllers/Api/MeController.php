@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Auth;
 
 final class MeController
 {
+    /**
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     public function get()
     {
         $user = User::find(Auth::id());

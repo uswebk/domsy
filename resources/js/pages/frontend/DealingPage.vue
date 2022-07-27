@@ -85,11 +85,9 @@
                       item-value="id"
                       label="Domain"
                     ></v-select>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.domain_id"
-                      v-if="storeErrors.domain_id"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.domain_id"
+                    />
                     <v-select
                       v-model="clientId"
                       :items="clients"
@@ -97,11 +95,9 @@
                       item-value="id"
                       label="Client"
                     ></v-select>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.client_id"
-                      v-if="storeErrors.client_id"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.client_id"
+                    />
                     <v-text-field
                       label="Subtotal"
                       v-model="subtotal"
@@ -109,11 +105,9 @@
                       prefix="¥"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.subtotal"
-                      v-if="storeErrors.subtotal"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.subtotal"
+                    />
                     <v-text-field
                       label="Discount"
                       v-model="discount"
@@ -121,22 +115,18 @@
                       prefix="¥"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.discount"
-                      v-if="storeErrors.discount"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.discount"
+                    />
                     <v-text-field
                       label="Billing Date"
                       v-model="billingDate"
                       type="date"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.billing_date"
-                      v-if="storeErrors.billing_date"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.billing_date"
+                    />
                   </v-col>
                   <v-col cols="2">
                     <v-text-field
@@ -145,11 +135,9 @@
                       type="number"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.interval"
-                      v-if="storeErrors.interval"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.interval"
+                    />
                   </v-col>
                   <v-col cols="4">
                     <v-select
@@ -157,30 +145,24 @@
                       :items="intervalCategories"
                       label="IntervalCategory"
                     ></v-select>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.client_id"
-                      v-if="storeErrors.client_id"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.client_id"
+                    />
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
                       v-model="isAutoUpdate"
                       label="AutoUpdate"
                     ></v-checkbox>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.is_auto_update"
-                      v-if="storeErrors.is_auto_update"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.is_auto_update"
+                    />
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox v-model="isHalt" label="Halt"></v-checkbox>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.is_halt"
-                      v-if="storeErrors.is_halt"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.is_halt"
+                    />
                   </v-col>
                 </v-row>
 
@@ -215,11 +197,9 @@
                       item-value="id"
                       label="Domain"
                     ></v-select>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.domain_id"
-                      v-if="updateErrors.domain_id"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.domain_id"
+                    />
                     <v-select
                       v-model="dealing.clientId"
                       :items="clients"
@@ -227,11 +207,9 @@
                       item-value="id"
                       label="Client"
                     ></v-select>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.client_id"
-                      v-if="updateErrors.client_id"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.client_id"
+                    />
                     <v-text-field
                       label="Subtotal"
                       v-model="dealing.subtotal"
@@ -239,11 +217,9 @@
                       prefix="¥"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.subtotal"
-                      v-if="updateErrors.subtotal"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.subtotal"
+                    />
                     <v-text-field
                       label="Discount"
                       v-model="dealing.discount"
@@ -251,22 +227,18 @@
                       prefix="¥"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.discount"
-                      v-if="updateErrors.discount"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.discount"
+                    />
                     <v-text-field
                       label="Billing Date"
                       v-model="dealing.billingDate"
                       type="date"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.billing_date"
-                      v-if="updateErrors.billing_date"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.billing_date"
+                    />
                   </v-col>
                   <v-col cols="2">
                     <v-text-field
@@ -275,11 +247,9 @@
                       type="number"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.interval"
-                      v-if="updateErrors.interval"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.interval"
+                    />
                   </v-col>
                   <v-col cols="4">
                     <v-select
@@ -287,33 +257,27 @@
                       :items="intervalCategories"
                       label="IntervalCategory"
                     ></v-select>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.client_id"
-                      v-if="updateErrors.client_id"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.client_id"
+                    />
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
                       v-model="dealing.isAutoUpdate"
                       label="AutoUpdate"
                     ></v-checkbox>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.is_auto_update"
-                      v-if="updateErrors.is_auto_update"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.is_auto_update"
+                    />
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
                       v-model="dealing.isHalt"
                       label="Halt"
                     ></v-checkbox>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.is_halt"
-                      v-if="updateErrors.is_halt"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.is_halt"
+                    />
                   </v-col>
                 </v-row>
 

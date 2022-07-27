@@ -70,11 +70,9 @@
                       v-model="prefix"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.prefix"
-                      v-if="storeErrors.prefix"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.prefix"
+                    />
                   </v-col>
                   <v-col cols="9">
                     <v-select
@@ -84,11 +82,9 @@
                       item-value="id"
                       label="Domain"
                     ></v-select>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.domain_id"
-                      v-if="storeErrors.domain_id"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.domain_id"
+                    />
                   </v-col>
                   <v-col cols="3">
                     <v-select
@@ -98,11 +94,9 @@
                       item-value="id"
                       label="DnsType"
                     ></v-select>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.type_id"
-                      v-if="storeErrors.type_id"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.type_id"
+                    />
                   </v-col>
                   <v-col cols="9">
                     <v-text-field
@@ -110,11 +104,9 @@
                       v-model="value"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.value"
-                      v-if="storeErrors.value"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.value"
+                    />
                   </v-col>
                   <v-col cols="6">
                     <v-text-field
@@ -123,11 +115,9 @@
                       type="number"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.ttl"
-                      v-if="storeErrors.ttl"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.ttl"
+                    />
                   </v-col>
                   <v-col cols="6">
                     <v-text-field
@@ -136,11 +126,9 @@
                       type="number"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.priority"
-                      v-if="storeErrors.priority"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.priority"
+                    />
                   </v-col>
                 </v-row>
 
@@ -173,11 +161,9 @@
                       v-model="subdomain.prefix"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.prefix"
-                      v-if="updateErrors.prefix"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.prefix"
+                    />
                   </v-col>
                   <v-col cols="9">
                     <v-select
@@ -187,11 +173,9 @@
                       item-value="id"
                       label="Domain"
                     ></v-select>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.domain_id"
-                      v-if="updateErrors.domain_id"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.domain_id"
+                    />
                   </v-col>
                   <v-col cols="3">
                     <v-select
@@ -201,11 +185,9 @@
                       item-value="id"
                       label="DnsType"
                     ></v-select>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.type_id"
-                      v-if="updateErrors.type_id"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.type_id"
+                    />
                   </v-col>
                   <v-col cols="9">
                     <v-text-field
@@ -213,11 +195,9 @@
                       v-model="subdomain.value"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.value"
-                      v-if="updateErrors.value"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.value"
+                    />
                   </v-col>
                   <v-col cols="6">
                     <v-text-field
@@ -226,11 +206,9 @@
                       type="number"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.ttl"
-                      v-if="updateErrors.ttl"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.ttl"
+                    />
                   </v-col>
                   <v-col cols="6">
                     <v-text-field
@@ -239,11 +217,9 @@
                       type="number"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.priority"
-                      v-if="updateErrors.priority"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.priority"
+                    />
                   </v-col>
                 </v-row>
 

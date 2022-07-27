@@ -65,33 +65,25 @@
                       v-model="name"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.name"
-                      v-if="storeErrors.name"
-                    ></p>
-
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.name"
+                    />
                     <v-text-field
                       label="Link"
                       v-model="link"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.link"
-                      v-if="storeErrors.link"
-                    ></p>
-
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.link"
+                    />
                     <v-textarea
                       label="Note"
                       v-model="note"
                       required
                     ></v-textarea>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.note"
-                      v-if="storeErrors.note"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.note"
+                    />
                   </v-col>
                 </v-row>
 
@@ -124,33 +116,25 @@
                       v-model="registrar.name"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.name"
-                      v-if="updateErrors.name"
-                    ></p>
-
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.name"
+                    />
                     <v-text-field
                       label="Link"
                       v-model="registrar.link"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.link"
-                      v-if="updateErrors.link"
-                    ></p>
-
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.link"
+                    />
                     <v-textarea
                       label="Note"
                       v-model="registrar.note"
                       required
                     ></v-textarea>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.note"
-                      v-if="updateErrors.note"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.note"
+                    />
                   </v-col>
                 </v-row>
 

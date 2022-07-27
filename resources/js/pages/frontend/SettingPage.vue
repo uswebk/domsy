@@ -22,6 +22,9 @@
                 :label="userMailSetting.annotation"
                 hide-details
               ></v-checkbox>
+              <ValidationErrorMessageComponent
+                :message="updateErrors[userMailSetting.name + '.is_received']"
+              />
 
               <span v-if="userMailSetting.has_days" class="ml-5">
                 <span width="100px">
@@ -32,15 +35,11 @@
                     class="notice_number_days_text_field"
                     suffix="Days ago"
                   ></v-text-field>
-                  <p
-                    class="red--text text-sm-body-2"
-                    v-text="
+                  <ValidationErrorMessageComponent
+                    :message="
                       updateErrors[userMailSetting.name + '.notice_number_days']
                     "
-                    v-if="
-                      updateErrors[userMailSetting.name + '.notice_number_days']
-                    "
-                  ></p>
+                  />
                 </span>
               </span>
             </v-row>

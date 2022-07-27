@@ -82,13 +82,12 @@
                     <v-text-field
                       label="Common Name"
                       v-model="name"
+                      hide-details
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.name"
-                      v-if="storeErrors.name"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.name"
+                    />
                     <v-select
                       v-model="registrarId"
                       :items="registrars"
@@ -96,11 +95,9 @@
                       item-value="id"
                       label="Registrar"
                     ></v-select>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.registrar_id"
-                      v-if="storeErrors.registrar_id"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.registrar_id"
+                    />
                     <v-text-field
                       label="Price"
                       v-model="price"
@@ -108,77 +105,63 @@
                       prefix="¥"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.price"
-                      v-if="storeErrors.price"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.price"
+                    />
                     <v-text-field
                       label="Purchased Date"
                       v-model="purchasedAt"
                       type="date"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.purchased_at"
-                      v-if="storeErrors.purchased_at"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.purchased_at"
+                    />
                     <v-text-field
                       label="Expired Date"
                       v-model="expiredAt"
                       type="date"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.expired_at"
-                      v-if="storeErrors.expired_at"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.expired_at"
+                    />
                     <v-text-field
                       label="Canceled Date"
                       v-model="canceledAt"
                       type="date"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.canceled_at"
-                      v-if="storeErrors.canceled_at"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.canceled_at"
+                    />
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
                       v-model="isActive"
                       label="isActive"
                     ></v-checkbox>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.is_active"
-                      v-if="storeErrors.is_active"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.is_active"
+                    />
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
                       v-model="isTransferred"
                       label="isTransferred"
                     ></v-checkbox>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.is_transferred"
-                      v-if="storeErrors.is_transferred"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.is_transferred"
+                    />
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
                       v-model="isManagementOnly"
                       label="isManagementOnly"
                     ></v-checkbox>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="storeErrors.is_management_only"
-                      v-if="storeErrors.is_management_only"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.is_management_only"
+                    />
                   </v-col>
                 </v-row>
 
@@ -209,25 +192,23 @@
                     <v-text-field
                       label="Common Name"
                       v-model="domain.name"
+                      hide-details
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.name"
-                      v-if="updateErrors.name"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.name"
+                    />
                     <v-select
                       v-model="domain.registrarId"
                       :items="registrars"
                       item-text="name"
                       item-value="id"
                       label="Registrar"
+                      hide-details
                     ></v-select>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.registrar_id"
-                      v-if="updateErrors.registrar_id"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.registrar_id"
+                    />
                     <v-text-field
                       label="Price"
                       v-model="domain.price"
@@ -235,77 +216,63 @@
                       prefix="¥"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.price"
-                      v-if="updateErrors.price"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.price"
+                    />
                     <v-text-field
                       label="Purchased Date"
                       v-model="domain.purchasedAt"
                       type="date"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.purchased_at"
-                      v-if="updateErrors.purchased_at"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.purchased_at"
+                    />
                     <v-text-field
                       label="Expired Date"
                       v-model="domain.expiredAt"
                       type="date"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.expired_at"
-                      v-if="updateErrors.expired_at"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.expired_at"
+                    />
                     <v-text-field
                       label="Canceled Date"
                       v-model="domain.canceledAt"
                       type="date"
                       required
                     ></v-text-field>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.canceled_at"
-                      v-if="updateErrors.canceled_at"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.canceled_at"
+                    />
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
                       v-model="domain.isActive"
                       label="isActive"
                     ></v-checkbox>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.is_active"
-                      v-if="updateErrors.is_active"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.is_active"
+                    />
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
                       v-model="domain.isTransferred"
                       label="isTransferred"
                     ></v-checkbox>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.is_transferred"
-                      v-if="updateErrors.is_transferred"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.is_transferred"
+                    />
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
                       v-model="domain.isManagementOnly"
                       label="isManagementOnly"
                     ></v-checkbox>
-                    <p
-                      class="red--text text-sm-body-2"
-                      v-text="updateErrors.is_management_only"
-                      v-if="updateErrors.is_management_only"
-                    ></p>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.is_management_only"
+                    />
                   </v-col>
                 </v-row>
 
@@ -351,8 +318,13 @@
 <script>
 import axios from 'axios'
 import { shortHyphenDate } from '../../modules/DateHelper'
+import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
 
 export default {
+  components: {
+    ValidationErrorMessageComponent,
+  },
+
   data() {
     return {
       greeting: '',
