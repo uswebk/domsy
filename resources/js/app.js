@@ -27,9 +27,10 @@ Vue.use(Vuetify)
  * Page
  */
 Vue.component('auth-login-page', require('./pages/auth/Login.vue').default)
+
 Vue.component(
   'auth-register-page',
-  require('./pages/auth/Register.vue').default
+  require('./pages/auth/RegisterPage.vue').default
 )
 Vue.component('auth-verify-page', require('./pages/auth/Verify.vue').default)
 

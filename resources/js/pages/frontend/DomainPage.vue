@@ -94,6 +94,7 @@
                       item-text="name"
                       item-value="id"
                       label="Registrar"
+                      hide-details
                     ></v-select>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.registrar_id"
@@ -104,6 +105,7 @@
                       type="number"
                       prefix="¥"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.price"
@@ -113,6 +115,7 @@
                       v-model="purchasedAt"
                       type="date"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.purchased_at"
@@ -122,6 +125,7 @@
                       v-model="expiredAt"
                       type="date"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.expired_at"
@@ -131,6 +135,7 @@
                       v-model="canceledAt"
                       type="date"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.canceled_at"
@@ -140,6 +145,7 @@
                     <v-checkbox
                       v-model="isActive"
                       label="isActive"
+                      hide-details
                     ></v-checkbox>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.is_active"
@@ -149,6 +155,7 @@
                     <v-checkbox
                       v-model="isTransferred"
                       label="isTransferred"
+                      hide-details
                     ></v-checkbox>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.is_transferred"
@@ -158,6 +165,7 @@
                     <v-checkbox
                       v-model="isManagementOnly"
                       label="isManagementOnly"
+                      hide-details
                     ></v-checkbox>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.is_management_only"
@@ -215,6 +223,7 @@
                       type="number"
                       prefix="¥"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.price"
@@ -224,6 +233,7 @@
                       v-model="domain.purchasedAt"
                       type="date"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.purchased_at"
@@ -233,6 +243,7 @@
                       v-model="domain.expiredAt"
                       type="date"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.expired_at"
@@ -242,6 +253,7 @@
                       v-model="domain.canceledAt"
                       type="date"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.canceled_at"
@@ -251,6 +263,7 @@
                     <v-checkbox
                       v-model="domain.isActive"
                       label="isActive"
+                      hide-details
                     ></v-checkbox>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.is_active"
@@ -260,6 +273,7 @@
                     <v-checkbox
                       v-model="domain.isTransferred"
                       label="isTransferred"
+                      hide-details
                     ></v-checkbox>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.is_transferred"
@@ -269,6 +283,7 @@
                     <v-checkbox
                       v-model="domain.isManagementOnly"
                       label="isManagementOnly"
+                      hide-details
                     ></v-checkbox>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.is_management_only"

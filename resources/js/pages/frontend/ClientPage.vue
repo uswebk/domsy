@@ -60,6 +60,7 @@
                       label="Name"
                       v-model="name"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.name"
@@ -68,6 +69,7 @@
                       label="NameKana"
                       v-model="nameKana"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.name_kana"
@@ -76,6 +78,7 @@
                       label="email"
                       v-model="email"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.email"
@@ -84,6 +87,7 @@
                       label="Zip"
                       v-model="zip"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.zip"
@@ -92,6 +96,7 @@
                       label="Address"
                       v-model="address"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.address"
@@ -100,6 +105,7 @@
                       label="TEL"
                       v-model="phoneNumber"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.phone_number"
@@ -135,6 +141,7 @@
                       label="Name"
                       v-model="client.name"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.name"
@@ -143,6 +150,7 @@
                       label="NameKana"
                       v-model="client.nameKana"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.name_kana"
@@ -151,6 +159,7 @@
                       label="email"
                       v-model="client.email"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.email"
@@ -159,6 +168,7 @@
                       label="Zip"
                       v-model="client.zip"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.zip"
@@ -167,6 +177,7 @@
                       label="Address"
                       v-model="client.address"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.address"
@@ -175,6 +186,7 @@
                       label="TEL"
                       v-model="client.phoneNumber"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.phone_number"
@@ -223,7 +235,13 @@
 
 <script>
 import axios from 'axios'
+import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
+
 export default {
+  components: {
+    ValidationErrorMessageComponent,
+  },
+
   data() {
     return {
       greeting: '',

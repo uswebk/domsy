@@ -6,7 +6,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-final class UserResource extends JsonResource
+final class CompanyResource extends JsonResource
 {
     /**
      * @param $request
@@ -16,11 +16,6 @@ final class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'code' => $this->code,
-            'role_id' => $this->role_id,
-            'company_id' => $this->company_id,
-            'is_company' => $this->isCompany(),
-            'company' => new CompanyResource($this->company),
             'name' => $this->name,
             'email' => $this->email,
             'updated_at' => $this->updated_at,

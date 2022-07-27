@@ -40,10 +40,10 @@
                 <span width="100px">
                   <v-text-field
                     v-model="userMailSetting.notice_number_days"
-                    hide-details
                     type="number"
                     class="notice_number_days_text_field"
                     suffix="Days ago"
+                    hide-details
                   ></v-text-field>
                   <span
                     v-if="
@@ -101,7 +101,13 @@
 
 <script>
 import axios from 'axios'
+import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
+
 export default {
+  components: {
+    ValidationErrorMessageComponent,
+  },
+
   data() {
     return {
       greeting: '',

@@ -47,4 +47,18 @@ final class RegisterController extends Controller
             Response::HTTP_OK
         );
     }
+
+    public function corporationRegister(
+        \App\Http\Requests\Auth\Corporation\RegisterRequest $request,
+        \App\Services\Application\Auth\Corporation\RegisterService $registerService
+    ) {
+        $registerRequest = $request->makeInput();
+
+        $registerService->handle($registerRequest);
+
+        return response()->json(
+            [],
+            Response::HTTP_OK
+        );
+    }
 }

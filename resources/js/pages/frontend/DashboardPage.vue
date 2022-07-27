@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   data() {
     return {
@@ -13,16 +12,8 @@ export default {
     }
   },
 
-  methods: {
-    async getMenus() {
-      const result = await axios.get('/api/menus')
+  methods: {},
 
-      this.menus = result.data
-    },
-  },
-
-  created() {
-    this.getMenus()
-  },
+  created() {},
 }
 </script>

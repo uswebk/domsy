@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::namespace('Auth')->group(function () {
     Route::post('register', 'RegisterController@register');
+    Route::post('corporation/register', 'RegisterController@corporationRegister');
     Route::post('login', 'LoginController@login');
 });
 

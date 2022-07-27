@@ -84,6 +84,7 @@
                       item-text="name"
                       item-value="id"
                       label="Domain"
+                      hide-details
                     ></v-select>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.domain_id"
@@ -94,6 +95,7 @@
                       item-text="name"
                       item-value="id"
                       label="Client"
+                      hide-details
                     ></v-select>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.client_id"
@@ -104,6 +106,7 @@
                       type="number"
                       prefix="¥"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.subtotal"
@@ -114,6 +117,7 @@
                       type="number"
                       prefix="¥"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.discount"
@@ -123,6 +127,7 @@
                       v-model="billingDate"
                       type="date"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.billing_date"
@@ -134,6 +139,7 @@
                       v-model="interval"
                       type="number"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.interval"
@@ -144,6 +150,7 @@
                       v-model="intervalCategory"
                       :items="intervalCategories"
                       label="IntervalCategory"
+                      hide-details
                     ></v-select>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.client_id"
@@ -153,13 +160,18 @@
                     <v-checkbox
                       v-model="isAutoUpdate"
                       label="AutoUpdate"
+                      hide-details
                     ></v-checkbox>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.is_auto_update"
                     />
                   </v-col>
                   <v-col cols="3">
-                    <v-checkbox v-model="isHalt" label="Halt"></v-checkbox>
+                    <v-checkbox
+                      v-model="isHalt"
+                      label="Halt"
+                      hide-details
+                    ></v-checkbox>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.is_halt"
                     />
@@ -196,6 +208,7 @@
                       item-text="name"
                       item-value="id"
                       label="Domain"
+                      hide-details
                     ></v-select>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.domain_id"
@@ -206,6 +219,7 @@
                       item-text="name"
                       item-value="id"
                       label="Client"
+                      hide-details
                     ></v-select>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.client_id"
@@ -216,6 +230,7 @@
                       type="number"
                       prefix="¥"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.subtotal"
@@ -226,6 +241,7 @@
                       type="number"
                       prefix="¥"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.discount"
@@ -235,6 +251,7 @@
                       v-model="dealing.billingDate"
                       type="date"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.billing_date"
@@ -246,6 +263,7 @@
                       v-model="dealing.interval"
                       type="number"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.interval"
@@ -256,6 +274,7 @@
                       v-model="dealing.intervalCategory"
                       :items="intervalCategories"
                       label="IntervalCategory"
+                      hide-details
                     ></v-select>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.client_id"
@@ -265,6 +284,7 @@
                     <v-checkbox
                       v-model="dealing.isAutoUpdate"
                       label="AutoUpdate"
+                      hide-details
                     ></v-checkbox>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.is_auto_update"
@@ -274,6 +294,7 @@
                     <v-checkbox
                       v-model="dealing.isHalt"
                       label="Halt"
+                      hide-details
                     ></v-checkbox>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.is_halt"
@@ -300,8 +321,13 @@
 <script>
 import axios from 'axios'
 import { shortHyphenDate } from '../../modules/DateHelper'
+import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
 
 export default {
+  components: {
+    ValidationErrorMessageComponent,
+  },
+
   data() {
     return {
       greeting: '',

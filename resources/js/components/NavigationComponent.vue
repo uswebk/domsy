@@ -5,7 +5,7 @@
         <v-list>
           <v-list-item>
             <v-list-item-icon>
-              <v-avatar color="#e8c46a" size="28">
+              <v-avatar color="#e8c46a" size="32">
                 <span class="white--text text-h6">{{ avatarName }}</span>
               </v-avatar>
             </v-list-item-icon>
@@ -15,6 +15,9 @@
             <v-list-item-content>
               <v-list-item-title class="text-h6">
                 {{ user.name }}
+                <span class="text-subtitle-2" v-if="user.is_company">
+                  (<v-icon small>mdi-domain</v-icon> {{ user.company.name }})
+                </span>
               </v-list-item-title>
               <v-list-item-subtitle>{{ user.email }} </v-list-item-subtitle>
             </v-list-item-content>

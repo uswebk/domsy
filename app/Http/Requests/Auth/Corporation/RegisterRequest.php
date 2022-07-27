@@ -15,7 +15,7 @@ final class RegisterRequest extends Request
     public function rules(): array
     {
         return [
-            'corporation.name' => 'required|string|max:1',
+            'corporation.name' => 'required|string',
             'corporation.email' => 'required|string|email|max:255',
             'corporation.zip' => 'required|string|digits:7',
             'corporation.address' => 'required|string',

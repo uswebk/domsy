@@ -64,6 +64,7 @@
                       label="Name"
                       v-model="name"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.name"
@@ -72,6 +73,7 @@
                       label="Link"
                       v-model="link"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.link"
@@ -80,6 +82,7 @@
                       label="Note"
                       v-model="note"
                       required
+                      hide-details
                     ></v-textarea>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.note"
@@ -115,6 +118,7 @@
                       label="Name"
                       v-model="registrar.name"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.name"
@@ -123,6 +127,7 @@
                       label="Link"
                       v-model="registrar.link"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.link"
@@ -131,6 +136,7 @@
                       label="Note"
                       v-model="registrar.note"
                       required
+                      hide-details
                     ></v-textarea>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.note"
@@ -179,7 +185,13 @@
 
 <script>
 import axios from 'axios'
+import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
+
 export default {
+  components: {
+    ValidationErrorMessageComponent,
+  },
+
   data() {
     return {
       greeting: '',

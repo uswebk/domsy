@@ -69,6 +69,7 @@
                       label="Prefix"
                       v-model="prefix"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.prefix"
@@ -81,6 +82,7 @@
                       item-text="name"
                       item-value="id"
                       label="Domain"
+                      hide-details
                     ></v-select>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.domain_id"
@@ -93,6 +95,7 @@
                       item-text="name"
                       item-value="id"
                       label="DnsType"
+                      hide-details
                     ></v-select>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.type_id"
@@ -103,6 +106,7 @@
                       label="Value"
                       v-model="value"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.value"
@@ -114,6 +118,7 @@
                       v-model="ttl"
                       type="number"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.ttl"
@@ -125,6 +130,7 @@
                       v-model="priority"
                       type="number"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="storeErrors.priority"
@@ -160,6 +166,7 @@
                       label="Prefix"
                       v-model="subdomain.prefix"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.prefix"
@@ -172,6 +179,7 @@
                       item-text="name"
                       item-value="id"
                       label="Domain"
+                      hide-details
                     ></v-select>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.domain_id"
@@ -184,6 +192,7 @@
                       item-text="name"
                       item-value="id"
                       label="DnsType"
+                      hide-details
                     ></v-select>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.type_id"
@@ -194,6 +203,7 @@
                       label="Value"
                       v-model="subdomain.value"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.value"
@@ -205,6 +215,7 @@
                       v-model="subdomain.ttl"
                       type="number"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.ttl"
@@ -216,6 +227,7 @@
                       v-model="subdomain.priority"
                       type="number"
                       required
+                      hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
                       :message="updateErrors.priority"
@@ -265,8 +277,13 @@
 <script>
 import axios from 'axios'
 import { shortHyphenDate } from '../../modules/DateHelper'
+import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
 
 export default {
+  components: {
+    ValidationErrorMessageComponent,
+  },
+
   data() {
     return {
       greeting: '',
