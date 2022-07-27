@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
-@section('sidebar')
-  @include('layouts.sidebar')
-@endsection
+@section('app')
+<v-app>
+  <navigation-component></navigation-component>
+  <setting-page></setting-page>
+</v-app>
 
-@section('content')
-  <div class='container'>
+  {{-- <div class='container'>
 
     @if (isset($greeting))
       <div class='alert alert-primary' role='alert'>{{ $greeting }}</div>
@@ -69,5 +70,5 @@
     {{ Form::button('Save', ['type' => 'submit', 'class' => 'btn btn-primary']) }}
 
     {{ Form::close() }}
-  </div>
+  </div> --}}
 @endsection

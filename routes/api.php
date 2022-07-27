@@ -27,6 +27,7 @@ Route::namespace('Auth')->group(function () {
 
 Route::middleware(['verified','auth'])->group(function () {
     Route::namespace('Api')->name('api.')->group(function () {
+        Route::get('me', 'MeController@get');
         Route::get('menus', 'MenuController@getMenus');
         Route::get('roles', 'RoleController@getRoles');
         Route::get('dns-record-type', 'DnsRecordTypeController@getDnsRecordType');
@@ -63,12 +64,16 @@ Route::middleware(['verified','auth'])->group(function () {
             Route::post('/', 'ClientController@store')->name('store');
             Route::delete('/{client}', 'ClientController@delete')->where('client', '[0-9]+')->name('delete');
         });
+
         Route::prefix('dealings')->name('dealing.')->group(function () {
             Route::get('/', 'DealingController@getDealings');
             Route::put('/{domainDealing}', 'DealingController@update')->where('domainDealing', '[0-9]+')->name('update');
             Route::post('/', 'DealingController@store')->name('store');
         });
 
-        Route::get('me', 'MeController@get');
+        Route::prefix('settings')->name('settings.')->group(function () {
+            Route::get('/user-mails', 'SettingController@getMails');
+            Route::put('/user-mails', 'SettingController@saveMails');
+        });
     });
 });

@@ -66,6 +66,11 @@ Vue.component(
   require('./pages/frontend/DealingPage.vue').default
 )
 
+Vue.component(
+  'setting-page',
+  require('./pages/frontend/SettingPage.vue').default
+)
+
 /**
  * Component
  */
