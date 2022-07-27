@@ -21,7 +21,7 @@ class MenuItemSeeder extends Seeder
             'function' => 'index',
             'route' => 'dashboard.index',
             'description' => 'Dashboard List View',
-            'is_screen' => 0,
+            'is_screen' => 1,
             'sort' => 10,
         ]);
 
@@ -37,17 +37,6 @@ class MenuItemSeeder extends Seeder
             'sort' => 100,
         ]);
 
-        // MenuItem::create([
-        //     'parent_id' => 2,
-        //     'name' => 'New',
-        //     'controller' => 'App\Http\Controllers\Frontend\DomainController',
-        //     'function' => 'new',
-        //     'route' => 'domain.new',
-        //     'description' => 'Domains New Page View',
-        //     'is_screen' => 0,
-        //     'sort' => 30,
-        // ]);
-
         MenuItem::create([
             'parent_id' => 2,
             'name' => 'Create',
@@ -58,17 +47,6 @@ class MenuItemSeeder extends Seeder
             'is_screen' => 0,
             'sort' => 110,
         ]);
-
-        // MenuItem::create([
-        //     'parent_id' => 2,
-        //     'name' => 'Edit',
-        //     'controller' => 'App\Http\Controllers\Frontend\DomainController',
-        //     'function' => 'edit',
-        //     'route' => 'domain.edit',
-        //     'description' => 'Domains Edit Page View',
-        //     'is_screen' => 0,
-        //     'sort' => 50,
-        // ]);
 
         MenuItem::create([
             'parent_id' => 2,
@@ -104,17 +82,6 @@ class MenuItemSeeder extends Seeder
             'sort' => 200,
         ]);
 
-        // MenuItem::create([
-        //     'parent_id' => 3,
-        //     'name' => 'New',
-        //     'controller' => 'App\Http\Controllers\Frontend\DnsController',
-        //     'function' => 'new',
-        //     'route' => 'dns.new',
-        //     'description' => 'DNS New Page View',
-        //     'is_screen' => 0,
-        //     'sort' => 90,
-        // ]);
-
         MenuItem::create([
             'parent_id' => 3,
             'name' => 'Create',
@@ -125,17 +92,6 @@ class MenuItemSeeder extends Seeder
             'is_screen' => 0,
             'sort' => 210,
         ]);
-
-        // MenuItem::create([
-        //     'parent_id' => 3,
-        //     'name' => 'Edit',
-        //     'controller' => 'App\Http\Controllers\Frontend\DnsController',
-        //     'function' => 'edit',
-        //     'route' => 'dns.edit',
-        //     'description' => 'DNS Edit Page View',
-        //     'is_screen' => 0,
-        //     'sort' => 110,
-        // ]);
 
         MenuItem::create([
             'parent_id' => 3,
@@ -171,17 +127,6 @@ class MenuItemSeeder extends Seeder
             'sort' => 300,
         ]);
 
-        // MenuItem::create([
-        //     'parent_id' => 4,
-        //     'name' => 'New',
-        //     'controller' => 'App\Http\Controllers\Frontend\RegistrarController',
-        //     'function' => 'new',
-        //     'route' => 'registrar.new',
-        //     'description' => 'Registrar New Page View',
-        //     'is_screen' => 0,
-        //     'sort' => 150,
-        // ]);
-
         MenuItem::create([
             'parent_id' => 4,
             'name' => 'Create',
@@ -192,17 +137,6 @@ class MenuItemSeeder extends Seeder
             'is_screen' => 0,
             'sort' => 310,
         ]);
-
-        // MenuItem::create([
-        //     'parent_id' => 4,
-        //     'name' => 'Edit',
-        //     'controller' => 'App\Http\Controllers\Frontend\RegistrarController',
-        //     'function' => 'edit',
-        //     'route' => 'registrar.edit',
-        //     'description' => 'Registrar Edit Page View',
-        //     'is_screen' => 0,
-        //     'sort' => 170,
-        // ]);
 
         MenuItem::create([
             'parent_id' => 4,
@@ -238,17 +172,6 @@ class MenuItemSeeder extends Seeder
             'sort' => 400,
         ]);
 
-        // MenuItem::create([
-        //     'parent_id' => 5,
-        //     'name' => 'New',
-        //     'controller' => 'App\Http\Controllers\Frontend\ClientController',
-        //     'function' => 'new',
-        //     'route' => 'client.new',
-        //     'description' => 'Client New Page View',
-        //     'is_screen' => 0,
-        //     'sort' => 210,
-        // ]);
-
         MenuItem::create([
             'parent_id' => 5,
             'name' => 'Create',
@@ -259,17 +182,6 @@ class MenuItemSeeder extends Seeder
             'is_screen' => 0,
             'sort' => 410,
         ]);
-
-        // MenuItem::create([
-        //     'parent_id' => 5,
-        //     'name' => 'Edit',
-        //     'controller' => 'App\Http\Controllers\Frontend\ClientController',
-        //     'function' => 'edit',
-        //     'route' => 'client.edit',
-        //     'description' => 'Client Edit Page View',
-        //     'is_screen' => 0,
-        //     'sort' => 230,
-        // ]);
 
         MenuItem::create([
             'parent_id' => 5,
@@ -305,17 +217,6 @@ class MenuItemSeeder extends Seeder
             'sort' => 500,
         ]);
 
-        // MenuItem::create([
-        //     'parent_id' => 6,
-        //     'name' => 'New',
-        //     'controller' => 'App\Http\Controllers\Frontend\DealingController',
-        //     'function' => 'new',
-        //     'route' => 'dealing.new',
-        //     'description' => 'Dealing New Page View',
-        //     'is_screen' => 0,
-        //     'sort' => 270,
-        // ]);
-
         MenuItem::create([
             'parent_id' => 6,
             'name' => 'Create',
@@ -327,17 +228,6 @@ class MenuItemSeeder extends Seeder
             'sort' => 510,
         ]);
 
-        // MenuItem::create([
-        //     'parent_id' => 6,
-        //     'name' => 'Edit',
-        //     'controller' => 'App\Http\Controllers\Frontend\DealingController',
-        //     'function' => 'edit',
-        //     'route' => 'dealing.edit',
-        //     'description' => 'Dealing Edit Page View',
-        //     'is_screen' => 0,
-        //     'sort' => 290,
-        // ]);
-
         MenuItem::create([
             'parent_id' => 6,
             'name' => 'Update',
@@ -347,6 +237,17 @@ class MenuItemSeeder extends Seeder
             'description' => 'Client Update',
             'is_screen' => 0,
             'sort' => 520,
+        ]);
+
+        MenuItem::create([
+            'parent_id' => 7,
+            'name' => 'List',
+            'controller' => 'App\Http\Controllers\Frontend\SettingController',
+            'function' => 'index',
+            'route' => 'settings.index',
+            'description' => 'Setting Index',
+            'is_screen' => 1,
+            'sort' => 600,
         ]);
     }
 }

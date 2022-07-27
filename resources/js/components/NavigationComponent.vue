@@ -24,11 +24,11 @@
         <v-divider></v-divider>
 
         <v-list nav dense v-for="menu in menus" :key="menu.id">
-          <v-list-item link :href="menu.url_path">
+          <v-list-item link :href="menu.route_name">
             <v-list-item-icon>
               <v-icon>{{ menu.icon }}</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>{{ menu.name }}</v-list-item-title>
+            <v-list-item-title>{{ menu.menu_name }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-card>

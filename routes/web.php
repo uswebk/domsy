@@ -13,8 +13,6 @@ Route::namespace('Auth')->group(function () {
     Route::namespace('Corporation')->prefix('corporation')->name('corporation.')
     ->group(function () {
         Route::get('register', 'RegisterController@index')->name('index');
-
-        Route::post('register', 'RegisterController@register')->name('register');
     });
 
     Route::get('email/verify/{id}/{hash}', 'VerificationController@verify')->name('verify');
@@ -25,19 +23,12 @@ Route::namespace('Frontend')->group(function () {
 
     Route::middleware(['verified','auth'])->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
-
-        Route::prefix('settings')->name('settings.')->group(function () {
-            Route::get('/', 'SettingController@index')->name('index');
-
-            Route::post('mail', 'SettingController@saveMail')->name('mail.save');
-            Route::post('general', 'SettingController@saveGeneral')->name('general.save');
-        });
-
         Route::get('domain', 'DomainController@index')->name('domain.index');
         Route::get('dns', 'DnsController@index')->name('dns.index');
         Route::get('registrar', 'RegistrarController@index')->name('registrar.index');
         Route::get('client', 'ClientController@index')->name('client.index');
         Route::get('dealing', 'DealingController@index')->name('dealing.index');
         Route::get('account', 'AccountController@index')->name('account.index');
+        Route::get('settings', 'SettingController@index')->name('settings.index');
     });
 });

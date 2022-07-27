@@ -18,7 +18,6 @@ class CreateMenusTable extends Migration
             $table->unsignedBigInteger('type_id');
             $table->string('name')->comment('メニュー名');
             $table->string('description')->comment('メニュー詳細説明');
-            $table->string('url_path')->comment('リンク');
             $table->string('icon')->comment('アイコン');
             $table->boolean('is_nav')->comment('ナビゲーション有無');
             $table->unsignedInteger('sort')->comment('並び順');

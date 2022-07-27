@@ -17,7 +17,9 @@ final class MenuItemResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'route' => $this->name,
+            'menu_name' => $this->menu->name,
+            'icon' => $this->menu->icon,
+            'route' => $this->route,
             'route_name' => route($this->route),
             'description' => $this->description,
             'is_screen' => $this->is_screen,
