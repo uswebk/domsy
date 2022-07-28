@@ -10,8 +10,15 @@ use App\Infrastructures\Models\Role;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
-final class RoleController
+final class RoleController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->middleware('can:owner,role')->except(['getRoles','store']);
+    }
+
     /**
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
@@ -32,7 +39,7 @@ final class RoleController
     /**
      * @param \App\Http\Requests\Api\Role\StoreRequest $request
      * @param \App\Services\Application\RoleStoreService $roleStoreService
-     * @return void
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function store(
         \App\Http\Requests\Api\Role\StoreRequest $request,
@@ -47,6 +54,12 @@ final class RoleController
         );
     }
 
+    /**
+     * @param \App\Http\Requests\Api\Role\UpdateRequest $request
+     * @param \App\Services\Application\RoleUpdateService $roleUpdateService
+     * @param \App\Infrastructures\Models\Role $role
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     public function update(
         \App\Http\Requests\Api\Role\UpdateRequest $request,
         \App\Services\Application\RoleUpdateService $roleUpdateService,
@@ -55,6 +68,21 @@ final class RoleController
         $attribute = $request->makeInput();
 
         $roleUpdateService->handle($attribute, $role);
+
+        return response()->json(
+            [],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @param \App\Infrastructures\Models\Role $role
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function delete(
+        \App\Infrastructures\Models\Role $role
+    ) {
+        $role->delete();
 
         return response()->json(
             [],

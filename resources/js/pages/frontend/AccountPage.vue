@@ -79,7 +79,7 @@
                       <v-btn x-small color="primary" @click="editRole(role)"
                         >edit</v-btn
                       >
-                      <v-btn x-small @click="deleteUser(role)">delete</v-btn>
+                      <v-btn x-small @click="deleteRole(role)">delete</v-btn>
                     </span>
                   </td>
                 </tr>
@@ -361,6 +361,29 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+      <!-- Delete Dialog -->
+      <v-dialog v-model="deleteRoleDialog" max-width="290">
+        <v-card>
+          <v-card-title class="text-h5"> Deletion confirmation </v-card-title>
+
+          <v-card-text>
+            Do you want to delete the 「{{ role.name }}」 ?
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn color="gray darken-1" text @click="closeDeleteRoleModal">
+              Close
+            </v-btn>
+
+            <v-btn color="red darken-1" text @click="deleteRoleExecute">
+              Delete
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
   </v-main>
 </template>
@@ -450,6 +473,10 @@ export default {
 
     closeDeleteModal() {
       this.deleteDialog = false
+    },
+
+    closeDeleteRoleModal() {
+      this.deleteRoleDialog = false
     },
 
     resetNewUser() {
@@ -667,6 +694,31 @@ export default {
       }
     },
 
+    async deleteRoleExecute() {
+      try {
+        const result = await axios.delete('/api/roles/' + this.role.id)
+
+        if (result.status === 200) {
+          this.greeting = 'Delete success'
+        }
+
+        this.initRoles()
+        this.closeDeleteRoleModal()
+      } catch (error) {
+        const status = error.response.status
+
+        if (status === 403) {
+          this.alert = 'Illegal operation was performed.'
+          this.closeDeleteRoleModal()
+        }
+
+        if (status >= 500) {
+          this.alert = 'Server Error'
+          this.closeDeleteRoleModal()
+        }
+      }
+    },
+
     edit(user) {
       this.user.id = user.id
       this.user.name = user.name
@@ -695,6 +747,16 @@ export default {
       this.user = user
 
       this.openDeleteModal()
+    },
+
+    async deleteRole(role) {
+      this.resetGreeting()
+
+      console.log(role)
+      this.role.id = role.id
+      this.role.name = role.name
+
+      this.openDeleteRoleModal()
     },
 
     async initUsers() {

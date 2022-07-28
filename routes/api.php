@@ -37,6 +37,7 @@ Route::middleware(['verified','auth'])->group(function () {
             Route::get('/', 'RoleController@getRoles');
             Route::post('/', 'RoleController@store')->name('store');
             Route::put('/{role}', 'RoleController@update')->name('update');
+            Route::delete('/{role}', 'RoleController@delete')->name('delete');
         });
 
         Route::prefix('users')->name('user.')->group(function () {
