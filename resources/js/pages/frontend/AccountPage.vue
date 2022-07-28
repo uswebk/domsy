@@ -14,39 +14,80 @@
         alert
       }}</v-alert>
 
-      <v-btn class="ma-2" color="primary" small @click="openNewModal">
-        <v-icon dark left> mdi-plus-circle </v-icon>New
-      </v-btn>
+      <v-tabs v-model="tab">
+        <v-tab href="#account">Account</v-tab>
+        <v-tab href="#role">Role</v-tab>
+      </v-tabs>
 
-      <v-simple-table>
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left">Name</th>
-              <th class="text-left">Email</th>
-              <th class="text-left">Role</th>
-              <th class="text-center">Verified</th>
-              <th class="text-left">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="user in users" :key="user.id">
-              <td>{{ user.name }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.role.name }}</td>
-              <td class="text-center">
-                <span v-if="user.email_verified_at"
-                  ><v-icon small>mdi-checkbox-marked-circle</v-icon></span
-                >
-              </td>
-              <td>
-                <v-btn x-small color="primary" @click="edit(user)">edit</v-btn>
-                <v-btn x-small @click="deleteUser(user)">delete</v-btn>
-              </td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
+      <v-container class="py-1"></v-container>
+      <v-tabs-items v-model="tab">
+        <v-tab-item value="account">
+          <v-btn class="ma-2" color="primary" small @click="openNewModal">
+            <v-icon dark left> mdi-plus-circle </v-icon>New
+          </v-btn>
+
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">Name</th>
+                  <th class="text-left">Email</th>
+                  <th class="text-left">Role</th>
+                  <th class="text-center">Verified</th>
+                  <th class="text-left">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="user in users" :key="user.id">
+                  <td>{{ user.name }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.role.name }}</td>
+                  <td class="text-center">
+                    <span v-if="user.email_verified_at"
+                      ><v-icon small>mdi-checkbox-marked-circle</v-icon></span
+                    >
+                  </td>
+                  <td>
+                    <v-btn x-small color="primary" @click="edit(user)"
+                      >edit</v-btn
+                    >
+                    <v-btn x-small @click="deleteUser(user)">delete</v-btn>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-tab-item>
+        <v-tab-item value="role">
+          <v-btn class="ma-2" color="primary" small @click="openNewRoleModal">
+            <v-icon dark left> mdi-plus-circle </v-icon>New
+          </v-btn>
+
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">Name</th>
+                  <th class="text-left">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="role in roles" :key="role.id">
+                  <td>{{ role.name }}</td>
+                  <td>
+                    <span v-if="role.id !== 1">
+                      <v-btn x-small color="primary" @click="editRole(role)"
+                        >edit</v-btn
+                      >
+                      <v-btn x-small @click="deleteUser(role)">delete</v-btn>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-tab-item>
+      </v-tabs-items>
 
       <!-- New Dialog -->
       <v-dialog v-model="newDialog" max-width="600px">
@@ -218,6 +259,108 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+      <!-- Role New Dialog -->
+      <v-dialog v-model="newRoleDialog" max-width="600px">
+        <v-card>
+          <v-card-title>
+            <span class="text-h6">Role Create</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-form ref="form" lazy-validation>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      class="mt-5"
+                      label="Role Name"
+                      v-model="newRoleName"
+                      required
+                      hide-details
+                    ></v-text-field>
+                    <ValidationErrorMessageComponent
+                      :message="storeErrors.name"
+                    />
+                  </v-col>
+                  <div class="my-10"></div>
+                  <v-col
+                    cols="6"
+                    v-for="menuItem in menuItems"
+                    :key="menuItem.id"
+                  >
+                    <v-switch
+                      v-model="newRoles[menuItem.id]"
+                      :label="menuItem.description"
+                    >
+                    </v-switch>
+                  </v-col>
+                </v-row>
+
+                <div class="my-5"></div>
+
+                <v-btn color="primary" @click="storeRole">Create</v-btn>
+              </v-form>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="closeNewRoleModal">
+              Close
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <!-- Role Update Dialog -->
+      <v-dialog v-model="editRoleDialog" max-width="600px">
+        <v-card>
+          <v-card-title>
+            <span class="text-h6">Role Update</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-form ref="form" lazy-validation>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      class="mt-5"
+                      label="Role Name"
+                      v-model="role.name"
+                      required
+                      hide-details
+                    ></v-text-field>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.name"
+                    />
+                  </v-col>
+                  <div class="my-10"></div>
+                  <v-col
+                    cols="6"
+                    v-for="menuItem in menuItems"
+                    :key="menuItem.id"
+                  >
+                    <v-switch
+                      v-model="role.roleItems[menuItem.id]"
+                      :label="menuItem.description"
+                    >
+                    </v-switch>
+                  </v-col>
+                </v-row>
+
+                <div class="my-5"></div>
+
+                <v-btn color="primary" @click="updateRole">Update</v-btn>
+              </v-form>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="closeEditRoleModal">
+              Close
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
   </v-main>
 </template>
@@ -235,15 +378,25 @@ export default {
     return {
       greeting: '',
       alert: '',
+      tab: '',
       newDialog: false,
       editDialog: false,
       deleteDialog: false,
+      newRoleDialog: false,
+      editRoleDialog: false,
+      deleteRoleDialog: false,
       storeErrors: {},
       updateErrors: {},
       errors: {},
       users: {},
       user: {},
       roles: {},
+      role: {
+        roleItems: {},
+      },
+      menuItems: {},
+      newRoles: {},
+      newRoleName: '',
       name: '',
       email: '',
       roleId: null,
@@ -257,8 +410,20 @@ export default {
       this.newDialog = true
     },
 
+    openNewRoleModal() {
+      this.newRoleDialog = true
+    },
+
     openEditModal() {
       this.editDialog = true
+    },
+
+    openEditRoleModal() {
+      this.editRoleDialog = true
+    },
+
+    openDeleteRoleModal() {
+      this.deleteRoleDialog = true
     },
 
     openDeleteModal() {
@@ -270,9 +435,17 @@ export default {
       this.newDialog = false
     },
 
+    closeNewRoleModal() {
+      this.newRoleDialog = false
+    },
+
     closeEditModal() {
       this.resetUpdateError()
       this.editDialog = false
+    },
+
+    closeEditRoleModal() {
+      this.editRoleDialog = false
     },
 
     closeDeleteModal() {
@@ -285,6 +458,11 @@ export default {
       this.roleId = ''
       this.password = ''
       this.passwordConfirmation = ''
+    },
+
+    resetNewRoles() {
+      this.newRoles = {}
+      this.newRoleName = ''
     },
 
     resetGreeting() {
@@ -344,6 +522,47 @@ export default {
       this.resetNewUser()
     },
 
+    async storeRole() {
+      this.resetGreeting()
+
+      try {
+        const result = await axios.post('/api/roles', {
+          name: this.newRoleName,
+          roles: this.newRoles,
+        })
+
+        if (result.status === 200) {
+          this.greeting = 'Create success'
+        }
+
+        this.initRoles()
+        this.closeNewRoleModal()
+      } catch (error) {
+        const status = error.response.status
+
+        if (status === 403) {
+          this.alert = 'Illegal operation was performed.'
+          this.closeNewRoleModal()
+        }
+
+        if (status === 422) {
+          var responseErrors = error.response.data.errors
+          var errors = {}
+          for (var key in responseErrors) {
+            errors[key] = responseErrors[key][0]
+          }
+          this.storeErrors = errors
+        }
+
+        if (status >= 500) {
+          this.alert = 'Server Error'
+          this.closeNewRoleModal()
+        }
+      }
+
+      this.resetNewRoles()
+    },
+
     async update() {
       this.resetGreeting()
 
@@ -384,6 +603,45 @@ export default {
       }
     },
 
+    async updateRole() {
+      this.resetGreeting()
+
+      try {
+        const result = await axios.put('/api/roles/' + this.role.id, {
+          name: this.role.name,
+          roles: this.role.roleItems,
+        })
+
+        if (result.status === 200) {
+          this.greeting = 'Update success'
+        }
+
+        this.initRoles()
+        this.closeEditRoleModal()
+      } catch (error) {
+        const status = error.response.status
+
+        if (status === 403) {
+          this.alert = 'Illegal operation was performed.'
+          this.closeEditRoleModal()
+        }
+
+        if (status === 422) {
+          var responseErrors = error.response.data.errors
+          var errors = {}
+          for (var key in responseErrors) {
+            errors[key] = responseErrors[key][0]
+          }
+          this.storeErrors = errors
+        }
+
+        if (status >= 500) {
+          this.alert = 'Server Error'
+          this.closeEditRoleModal()
+        }
+      }
+    },
+
     async deleteExecute() {
       try {
         const result = await axios.delete('/api/accounts/' + this.user.id)
@@ -418,6 +676,19 @@ export default {
       this.openEditModal()
     },
 
+    editRole(role) {
+      this.role = {}
+      this.role.roleItems = {}
+
+      this.role.id = role.id
+      this.role.name = role.name
+      for (let key in role.role_items) {
+        this.role.roleItems[role.role_items[key].menu_item_id] = true
+      }
+
+      this.openEditRoleModal()
+    },
+
     async deleteUser(user) {
       this.resetGreeting()
 
@@ -437,9 +708,16 @@ export default {
       this.roles = result.data
     },
 
+    async initMenuItems() {
+      const result = await axios.get('api/menu-items')
+
+      this.menuItems = result.data
+    },
+
     async initialize() {
       this.initUsers()
       this.initRoles()
+      this.initMenuItems()
     },
   },
   created() {

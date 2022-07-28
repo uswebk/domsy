@@ -30,10 +30,16 @@ Route::middleware(['verified','auth'])->group(function () {
     Route::namespace('Api')->name('api.')->group(function () {
         Route::get('me', 'MeController@get');
         Route::get('menus', 'MenuController@getMenus');
-        Route::get('roles', 'RoleController@getRoles');
+        Route::get('menu-items', 'MenuController@getMenuItems');
         Route::get('dns-record-type', 'DnsRecordTypeController@getDnsRecordType');
 
-        Route::prefix('users')->group(function () {
+        Route::prefix('roles')->name('role.')->group(function () {
+            Route::get('/', 'RoleController@getRoles');
+            Route::post('/', 'RoleController@store')->name('store');
+            Route::put('/{role}', 'RoleController@update')->name('update');
+        });
+
+        Route::prefix('users')->name('user.')->group(function () {
             Route::get('/', 'UserController@getUsers');
         });
 

@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Auth;
 
 final class RoleController
 {
+    /**
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     public function getRoles()
     {
         $user = Auth::user();
@@ -22,6 +25,39 @@ final class RoleController
 
         return response()->json(
             RoleResource::collection($roles),
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @param \App\Http\Requests\Api\Role\StoreRequest $request
+     * @param \App\Services\Application\RoleStoreService $roleStoreService
+     * @return void
+     */
+    public function store(
+        \App\Http\Requests\Api\Role\StoreRequest $request,
+        \App\Services\Application\RoleStoreService $roleStoreService
+    ) {
+        $attribute = $request->makeInput();
+        $roleStoreService->handle($attribute);
+
+        return response()->json(
+            [],
+            Response::HTTP_OK
+        );
+    }
+
+    public function update(
+        \App\Http\Requests\Api\Role\UpdateRequest $request,
+        \App\Services\Application\RoleUpdateService $roleUpdateService,
+        \App\Infrastructures\Models\Role $role
+    ) {
+        $attribute = $request->makeInput();
+
+        $roleUpdateService->handle($attribute, $role);
+
+        return response()->json(
+            [],
             Response::HTTP_OK
         );
     }

@@ -6,7 +6,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-final class RoleResource extends JsonResource
+final class RoleItemResource extends JsonResource
 {
     /**
      * @param $request
@@ -15,9 +15,8 @@ final class RoleResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'role_items' => RoleItemResource::collection($this->roleItems),
+            'role_id' => $this->role_id,
+            'menu_item_id' => $this->menu_item_id,
         ];
     }
 }

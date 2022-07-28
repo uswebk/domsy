@@ -16,6 +16,10 @@ use App\Infrastructures\Repositories\Domain\DomainRepository;
 use App\Infrastructures\Repositories\Domain\DomainRepositoryInterface;
 use App\Infrastructures\Repositories\Registrar\RegistrarRepository;
 use App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface;
+use App\Infrastructures\Repositories\Role\RoleItemRepository;
+use App\Infrastructures\Repositories\Role\RoleItemRepositoryInterface;
+use App\Infrastructures\Repositories\Role\RoleRepository;
+use App\Infrastructures\Repositories\Role\RoleRepositoryInterface;
 use App\Infrastructures\Repositories\Subdomain\SubdomainRepository;
 use App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface;
 use App\Infrastructures\Repositories\User\UserGeneralSettingRepository;
@@ -60,6 +64,14 @@ final class RepositoryProvider extends ServiceProvider
 
         $this->app->bind(RegistrarRepositoryInterface::class, function () {
             return new RegistrarRepository();
+        });
+
+        $this->app->bind(RoleRepositoryInterface::class, function () {
+            return new RoleRepository();
+        });
+
+        $this->app->bind(RoleItemRepositoryInterface::class, function () {
+            return new RoleItemRepository();
         });
 
         $this->app->bind(SubdomainRepositoryInterface::class, function () {
