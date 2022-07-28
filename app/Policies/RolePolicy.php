@@ -12,7 +12,8 @@ final class RolePolicy
 
     /**
      * @param \App\Infrastructures\Models\User $user
-     * @param \App\Infrastructures\Models\User $_user
+     * @param \App\Infrastructures\Models\role $role
+     * @return boolean
      */
     public function owner(
         \App\Infrastructures\Models\User $user,
