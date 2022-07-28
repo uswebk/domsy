@@ -19,6 +19,14 @@ final class UserRepository implements UserRepositoryInterface
 
         return $user;
     }
+    public function delete(
+        \App\Infrastructures\Models\User $user
+    ): \App\Infrastructures\Models\User {
+
+        $user->fill(['deleted_at' => now()])->save();
+
+        return $user;
+    }
 
     /**
      * @param array $attributes
@@ -30,4 +38,6 @@ final class UserRepository implements UserRepositoryInterface
 
         return $user;
     }
+
+
 }

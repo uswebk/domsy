@@ -20,8 +20,6 @@ final class AccountController extends Controller
             abort(403);
         }
 
-        $users = User::where('company_id', '=', $user->company_id)->get();
-
-        return view('frontend.account.index', compact('users'));
+        return view('frontend.account.index');
     }
 }

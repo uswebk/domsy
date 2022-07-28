@@ -249,5 +249,39 @@ class MenuItemSeeder extends Seeder
             'is_screen' => 1,
             'sort' => 600,
         ]);
+
+        /* Account */
+        MenuItem::create([
+            'parent_id' => 8,
+            'name' => 'List',
+            'controller' => 'App\Http\Controllers\Frontend\AccountController',
+            'function' => 'index',
+            'route' => 'account.index',
+            'description' => 'Account Index',
+            'is_screen' => 1,
+            'sort' => 700,
+        ]);
+
+        MenuItem::create([
+            'parent_id' => 8,
+            'name' => 'Create',
+            'controller' => 'App\Http\Controllers\Api\AccountController',
+            'function' => 'store',
+            'route' => 'api.accounts.store',
+            'description' => 'Account Create & Send Mail',
+            'is_screen' => 0,
+            'sort' => 710,
+        ]);
+
+        MenuItem::create([
+            'parent_id' => 8,
+            'name' => 'Create',
+            'controller' => 'App\Http\Controllers\Api\AccountController',
+            'function' => 'update',
+            'route' => 'api.accounts.update',
+            'description' => 'Account Update',
+            'is_screen' => 0,
+            'sort' => 720,
+        ]);
     }
 }

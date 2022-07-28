@@ -17,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Infrastructures\Models\Registrar' => 'App\Policies\RegistrarPolicy',
         'App\Infrastructures\Models\Client' => 'App\Policies\ClientPolicy',
         'App\Infrastructures\Models\DomainDealing' => 'App\Policies\DomainDealingPolicy',
+        'App\Infrastructures\Models\User' => 'App\Policies\UserPolicy',
     ];
 
     /**

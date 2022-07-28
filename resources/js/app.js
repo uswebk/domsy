@@ -49,7 +49,10 @@ Vue.component(
   'dashboard-page',
   require('./pages/frontend/DashboardPage.vue').default
 )
-Vue.component('account-page', require('./pages/frontend/Account.vue').default)
+Vue.component(
+  'account-page',
+  require('./pages/frontend/AccountPage.vue').default
+)
 
 Vue.component(
   'registrar-page',

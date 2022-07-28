@@ -35,41 +35,46 @@ Route::middleware(['verified','auth'])->group(function () {
 
         Route::prefix('users')->group(function () {
             Route::get('/', 'UserController@getUsers');
-            Route::put('/{user}', 'UserController@update')->where('user', '[0-9]+');
+        });
+
+        Route::prefix('accounts')->name('account.')->group(function () {
+            Route::post('/', 'AccountController@store')->name('store');
+            Route::put('/{user}', 'AccountController@update')->where('user', '[0-9]+')->name('update');
+            Route::delete('/{user}', 'AccountController@delete')->where('user', '[0-9]+')->name('delete');
         });
 
         Route::prefix('domains')->name('domain.')->group(function () {
             Route::get('/', 'DomainController@getDomains');
-            Route::put('/{domain}', 'DomainController@update')->where('domain', '[0-9]+')->name('update');
             Route::post('/', 'DomainController@store')->name('store');
+            Route::put('/{domain}', 'DomainController@update')->where('domain', '[0-9]+')->name('update');
             Route::delete('/{domain}', 'DomainController@delete')->where('domain', '[0-9]+')->name('delete');
         });
 
         Route::prefix('dns')->name('dns.')->group(function () {
             Route::get('/', 'DnsController@getSubdomains');
-            Route::put('/{subdomain}', 'DnsController@update')->where('subdomain', '[0-9]+')->name('update');
             Route::post('/', 'DnsController@store')->name('store');
+            Route::put('/{subdomain}', 'DnsController@update')->where('subdomain', '[0-9]+')->name('update');
             Route::delete('/{subdomain}', 'DnsController@delete')->where('subdomain', '[0-9]+')->name('delete');
         });
 
         Route::prefix('registrars')->name('registrar.')->group(function () {
             Route::get('/', 'RegistrarController@getRegistrars');
-            Route::put('/{registrar}', 'RegistrarController@update')->where('registrar', '[0-9]+')->name('update');
             Route::post('/', 'RegistrarController@store')->name('store');
+            Route::put('/{registrar}', 'RegistrarController@update')->where('registrar', '[0-9]+')->name('update');
             Route::delete('/{registrar}', 'RegistrarController@delete')->where('registrar', '[0-9]+')->name('delete');
         });
 
         Route::prefix('clients')->name('client.')->group(function () {
             Route::get('/', 'ClientController@getClients');
-            Route::put('/{client}', 'ClientController@update')->where('client', '[0-9]+')->name('update');
             Route::post('/', 'ClientController@store')->name('store');
+            Route::put('/{client}', 'ClientController@update')->where('client', '[0-9]+')->name('update');
             Route::delete('/{client}', 'ClientController@delete')->where('client', '[0-9]+')->name('delete');
         });
 
         Route::prefix('dealings')->name('dealing.')->group(function () {
             Route::get('/', 'DealingController@getDealings');
-            Route::put('/{domainDealing}', 'DealingController@update')->where('domainDealing', '[0-9]+')->name('update');
             Route::post('/', 'DealingController@store')->name('store');
+            Route::put('/{domainDealing}', 'DealingController@update')->where('domainDealing', '[0-9]+')->name('update');
         });
 
         Route::prefix('settings')->name('settings.')->group(function () {

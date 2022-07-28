@@ -2,7 +2,7 @@
 
 @section('app')
   <v-app>
-    <header-component></header-component>
+    <navigation-component></navigation-component>
     <account-page></account-page>
   </v-app>
 @endsection

@@ -23,6 +23,8 @@ final class UserResource extends JsonResource
             'company' => new CompanyResource($this->company),
             'name' => $this->name,
             'email' => $this->email,
+            'role' => new RoleResource($this->role),
+            'email_verified_at' => $this->email_verified_at,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
         ];

@@ -13,6 +13,12 @@ interface UserRepositoryInterface
     public function save(\App\Infrastructures\Models\User $user): \App\Infrastructures\Models\User;
 
     /**
+     * @param \App\Infrastructures\Models\User $user
+     * @return \App\Infrastructures\Models\User
+     */
+    public function delete(\App\Infrastructures\Models\User $user): \App\Infrastructures\Models\User;
+
+    /**
      * @param array $attributes
      * @return \App\Infrastructures\Models\User
      */
