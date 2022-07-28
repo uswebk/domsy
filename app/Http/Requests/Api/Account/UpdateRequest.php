@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Api\Account;
 
+use App\Http\Requests\Request;
 use App\Rules\Email;
 use App\Rules\RoleOwner;
-use App\Http\Requests\Request;
+use App\Rules\RoleRequiredAdmin;
 
 final class UpdateRequest extends Request
 {
@@ -26,7 +27,7 @@ final class UpdateRequest extends Request
         return [
             'name' => 'required|string|max:255',
             'email' => ['email','max:255',new Email($this->user)],
-            'role_id' => new RoleOwner(),
+            'role_id' => [new RoleOwner(), new RoleRequiredAdmin()],
         ];
     }
 
