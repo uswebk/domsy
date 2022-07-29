@@ -6,7 +6,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\MenuItemResource;
 use App\Infrastructures\Models\MenuItem;
+use App\Infrastructures\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 final class MenuController
 {
@@ -17,7 +20,20 @@ final class MenuController
     public function getMenus(
         \App\Infrastructures\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
     ) {
-        $menuItems = $eloquentMenuItemQueryService->getNavigationItems();
+        $user = User::find(Auth::id());
+
+        $menuItems = new Collection();
+        $_menuItems = $eloquentMenuItemQueryService->getNavigationItems();
+
+        if ($user->isCompany()) {
+            $menuItems = $_menuItems;
+        } else {
+            foreach ($_menuItems as $menuItem) {
+                if ($menuItem->menu->type_id !== 4) {
+                    $menuItems->push($menuItem);
+                }
+            }
+        }
 
         return response()->json(
             MenuItemResource::collection($menuItems),

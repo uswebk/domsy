@@ -15,4 +15,13 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
+    public function credentials(\Illuminate\Http\Request $request): array
+    {
+        return array_merge($request->only($this->username(), 'password'), ['deleted_at' => null]);
+    }
 }

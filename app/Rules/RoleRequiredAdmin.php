@@ -6,12 +6,21 @@ namespace App\Rules;
 
 use App\Constants\CompanyConstant;
 
-use App\Infrastructures\Models\Role;
+use App\Infrastructures\Models\User;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
 
 final class RoleRequiredAdmin implements Rule
 {
+    private $user;
+
+    /**
+     * @param \App\Infrastructures\Models\User $user
+     */
+    public function __construct(\App\Infrastructures\Models\User $user)
+    {
+        $this->user = $user;
+    }
+
     /**
      * @param  string  $attribute
      * @param  mixed  $value
@@ -23,12 +32,13 @@ final class RoleRequiredAdmin implements Rule
             return true;
         }
 
-        $user = Auth::user();
-        $role = Role::where('id', '=', CompanyConstant::INDEPENDENT_COMPANY_ID)
-        ->where('company_id', '=', $user->company_id)
+        $user = User::where('id', '!=', $this->user->id)
+        ->where('role_id', '=', CompanyConstant::INDEPENDENT_COMPANY_ID)
+        ->where('company_id', '=', $this->user->company_id)
+        ->whereNull('deleted_at')
         ->first();
 
-        return isset($role);
+        return isset($user);
     }
 
     /**

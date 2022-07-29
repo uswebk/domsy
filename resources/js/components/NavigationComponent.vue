@@ -9,14 +9,14 @@
                 <span class="white--text text-h6">{{ avatarName }}</span>
               </v-avatar>
             </v-list-item-icon>
+            <v-list-item-title>{{ user.name }}</v-list-item-title>
           </v-list-item>
 
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="text-h6">
-                {{ user.name }}
-                <span class="text-subtitle-2" v-if="user.is_company">
-                  (<v-icon small>mdi-domain</v-icon> {{ user.company.name }})
+                <span class="text-caption" v-if="user.is_company">
+                  <v-icon small>mdi-domain</v-icon> {{ user.company.name }}
                 </span>
               </v-list-item-title>
               <v-list-item-subtitle>{{ user.email }} </v-list-item-subtitle>
@@ -26,14 +26,16 @@
 
         <v-divider></v-divider>
 
-        <v-list nav dense v-for="menu in menus" :key="menu.id">
-          <v-list-item link :href="menu.route_name">
-            <v-list-item-icon>
-              <v-icon>{{ menu.icon }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>{{ menu.menu_name }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
+        <span v-for="menu in menus" :key="menu.id">
+          <v-list nav dense v-if="menu.has_role">
+            <v-list-item link :href="menu.route_name">
+              <v-list-item-icon>
+                <v-icon>{{ menu.icon }}</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>{{ menu.menu_name }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </span>
       </v-card>
 
       <template v-slot:append>

@@ -48,6 +48,11 @@ final class RegisterController extends Controller
         );
     }
 
+    /**
+     * @param \App\Http\Requests\Auth\Corporation\RegisterRequest $request
+     * @param \App\Services\Application\Auth\Corporation\RegisterService $registerService
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     public function corporationRegister(
         \App\Http\Requests\Auth\Corporation\RegisterRequest $request,
         \App\Services\Application\Auth\Corporation\RegisterService $registerService

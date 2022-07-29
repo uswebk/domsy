@@ -234,7 +234,7 @@ class MenuItemSeeder extends Seeder
             'controller' => 'App\Http\Controllers\Api\DealingController',
             'function' => 'update',
             'route' => 'api.dealing.update',
-            'description' => 'Client Update',
+            'description' => 'Dealing Update',
             'is_screen' => 0,
             'sort' => 520,
         ]);
@@ -245,7 +245,7 @@ class MenuItemSeeder extends Seeder
             'controller' => 'App\Http\Controllers\Frontend\SettingController',
             'function' => 'index',
             'route' => 'settings.index',
-            'description' => 'Setting Index',
+            'description' => 'User Setting',
             'is_screen' => 1,
             'sort' => 600,
         ]);
@@ -257,7 +257,7 @@ class MenuItemSeeder extends Seeder
             'controller' => 'App\Http\Controllers\Frontend\AccountController',
             'function' => 'index',
             'route' => 'account.index',
-            'description' => 'Account Index',
+            'description' => 'Account List View',
             'is_screen' => 1,
             'sort' => 700,
         ]);
@@ -267,8 +267,8 @@ class MenuItemSeeder extends Seeder
             'name' => 'Create',
             'controller' => 'App\Http\Controllers\Api\AccountController',
             'function' => 'store',
-            'route' => 'api.accounts.store',
-            'description' => 'Account Create & Send Mail',
+            'route' => 'api.account.store',
+            'description' => 'Account Create',
             'is_screen' => 0,
             'sort' => 710,
         ]);
@@ -278,10 +278,54 @@ class MenuItemSeeder extends Seeder
             'name' => 'Create',
             'controller' => 'App\Http\Controllers\Api\AccountController',
             'function' => 'update',
-            'route' => 'api.accounts.update',
+            'route' => 'api.account.update',
             'description' => 'Account Update',
             'is_screen' => 0,
             'sort' => 720,
+        ]);
+
+        MenuItem::create([
+            'parent_id' => 8,
+            'name' => 'Delete',
+            'controller' => 'App\Http\Controllers\Api\AccountController',
+            'function' => 'delete',
+            'route' => 'api.account.delete',
+            'description' => 'Account Delete',
+            'is_screen' => 0,
+            'sort' => 730,
+        ]);
+
+        MenuItem::create([
+            'parent_id' => 8,
+            'name' => 'Create',
+            'controller' => 'App\Http\Controllers\Api\RoleController',
+            'function' => 'store',
+            'route' => 'api.role.store',
+            'description' => 'Role Create',
+            'is_screen' => 0,
+            'sort' => 740,
+        ]);
+
+        MenuItem::create([
+            'parent_id' => 8,
+            'name' => 'Update',
+            'controller' => 'App\Http\Controllers\Api\RoleController',
+            'function' => 'update',
+            'route' => 'api.role.update',
+            'description' => 'Role Update',
+            'is_screen' => 0,
+            'sort' => 750,
+        ]);
+
+        MenuItem::create([
+            'parent_id' => 8,
+            'name' => 'Delete',
+            'controller' => 'App\Http\Controllers\Api\RoleController',
+            'function' => 'delete',
+            'route' => 'api.role.delete',
+            'description' => 'Role Delete',
+            'is_screen' => 0,
+            'sort' => 760,
         ]);
     }
 }

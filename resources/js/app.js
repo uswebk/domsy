@@ -79,10 +79,6 @@ Vue.component(
  * Component
  */
 Vue.component(
-  'header-component',
-  require('./components/HeaderComponent.vue').default
-)
-Vue.component(
   'navigation-component',
   require('./components/NavigationComponent.vue').default
 )

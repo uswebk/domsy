@@ -27,7 +27,7 @@ final class UpdateRequest extends Request
         return [
             'name' => 'required|string|max:255',
             'email' => ['email','max:255',new Email($this->user)],
-            'role_id' => [new RoleOwner(), new RoleRequiredAdmin()],
+            'role_id' => [new RoleOwner(), new RoleRequiredAdmin($this->user)],
         ];
     }
 

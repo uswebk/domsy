@@ -10,11 +10,6 @@ Route::namespace('Auth')->group(function () {
         Route::get('/', 'RegisterController@index')->name('index');
     });
 
-    Route::namespace('Corporation')->prefix('corporation')->name('corporation.')
-    ->group(function () {
-        Route::get('register', 'RegisterController@index')->name('index');
-    });
-
     Route::get('email/verify/{id}/{hash}', 'VerificationController@verify')->name('verify');
 });
 

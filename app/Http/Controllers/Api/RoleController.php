@@ -36,6 +36,12 @@ final class RoleController extends Controller
         );
     }
 
+    public function has(
+        \Illuminate\Http\Request $request
+    ) {
+        $routeName = $request->route_name;
+    }
+
     /**
      * @param \App\Http\Requests\Api\Role\StoreRequest $request
      * @param \App\Services\Application\RoleStoreService $roleStoreService
