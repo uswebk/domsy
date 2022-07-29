@@ -34,6 +34,9 @@ make build
 * Registrar Management
 * Dealing / Billing Management
 * Settings( General / Mail )
+* Account
+<img width="1331" alt="image" src="https://user-images.githubusercontent.com/50518919/181744977-1ae65689-b6dd-4606-ae4e-6c46f3601088.png">
+
 
 ## Batches
 * Domain expiration notification
