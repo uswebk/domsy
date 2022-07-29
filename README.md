@@ -24,6 +24,9 @@ make build
 
 ## Pages
 * Top
+<img width="1494" alt="image" src="https://user-images.githubusercontent.com/50518919/181744197-c6f58d33-52b9-4804-81d1-7999b3c7ef16.png">
+
+
 * Dashboard
 * Domain Management
 * DNS Management
