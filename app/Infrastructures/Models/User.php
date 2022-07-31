@@ -223,4 +223,26 @@ final class User extends Authenticatable implements MustVerifyEmail
 
         return $subdomains;
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getMembers(): \Illuminate\Database\Eloquent\Collection
+    {
+        if ($this->isCompany()) {
+            return $this->company->users;
+        }
+
+        return  new Collection();
+    }
+
+    /**
+     * @return array
+     */
+    public function getMemberIds(): array
+    {
+        $users = $this->getMembers();
+
+        return $users->pluck('id')->toArray();
+    }
 }

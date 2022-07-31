@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\RegistrarResource;
-
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 
 final class RegistrarController extends Controller
 {
@@ -21,7 +19,7 @@ final class RegistrarController extends Controller
     ) {
         parent::__construct();
 
-        $this->middleware('can:owner,registrar')->except(['getRegistrars','store']);
+        $this->middleware('can:owner,registrar')->except(['fetch','store']);
 
         $this->registrarRepository = $registrarRepository;
     }
@@ -29,12 +27,11 @@ final class RegistrarController extends Controller
     /**
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function getRegistrars()
-    {
-        $registrars = Auth::user()->registrars;
-
+    public function fetch(
+        \App\Services\Application\RegistrarFetchService $registrarFetchService
+    ) {
         return response()->json(
-            RegistrarResource::collection($registrars),
+            $registrarFetchService->getResponse(),
             Response::HTTP_OK
         );
     }
@@ -47,10 +44,10 @@ final class RegistrarController extends Controller
     ) {
         $attribute = $request->makeInput();
 
-        $this->registrarRepository->store($attribute);
+        $registrar = $this->registrarRepository->store($attribute);
 
         return response()->json(
-            [],
+            new RegistrarResource($registrar),
             Response::HTTP_OK
         );
     }
@@ -65,10 +62,10 @@ final class RegistrarController extends Controller
         $attributes = $request->makeInput();
 
         $registrar->fill($attributes);
-        $this->registrarRepository->save($registrar);
+        $registrar = $this->registrarRepository->save($registrar);
 
         return response()->json(
-            [],
+            new RegistrarResource($registrar),
             Response::HTTP_OK
         );
     }

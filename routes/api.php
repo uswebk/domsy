@@ -67,7 +67,7 @@ Route::middleware(['verified','auth'])->group(function () {
         });
 
         Route::prefix('registrars')->name('registrar.')->group(function () {
-            Route::get('/', 'RegistrarController@getRegistrars');
+            Route::get('/', 'RegistrarController@fetch')->name('fetch');
             Route::post('/', 'RegistrarController@store')->name('store');
             Route::put('/{registrar}', 'RegistrarController@update')->where('registrar', '[0-9]+')->name('update');
             Route::delete('/{registrar}', 'RegistrarController@delete')->where('registrar', '[0-9]+')->name('delete');

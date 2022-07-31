@@ -19,6 +19,10 @@ final class RegistrarPolicy
         \App\Infrastructures\Models\User $user,
         \App\Infrastructures\Models\Registrar $registrar
     ): bool {
-        return $user->id == $registrar->user_id;
+        if ($user->isCompany()) {
+            return in_array($registrar->user_id, $user->getMemberIds());
+        } else {
+            return $user->id == $registrar->user_id;
+        }
     }
 }
