@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Rules;
 
-use App\Enums\Interval as EnumsInterval;
-
+use App\Infrastructures\Models\DnsRecordType;
 use Illuminate\Contracts\Validation\Rule;
 
-final class Interval implements Rule
+final class DnsType implements Rule
 {
     /**
      * Determine if the validation rule passes.
@@ -19,13 +18,10 @@ final class Interval implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        foreach (EnumsInterval::cases() as $interval) {
-            if ($interval->name === $value) {
-                return true;
-            }
-        }
+        $dnsRecordTypes = DnsRecordType::get();
+        $dnsRecordTypeIds = $dnsRecordTypes->pluck('id')->toArray();
 
-        return false;
+        return in_array($value, $dnsRecordTypeIds);
     }
 
     /**
@@ -35,6 +31,6 @@ final class Interval implements Rule
      */
     public function message(): string
     {
-        return 'interval category is illegal value';
+        return 'DNS Type is illegal value';
     }
 }

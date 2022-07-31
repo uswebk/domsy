@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\DNS;
 
 use App\Http\Requests\Request;
+use App\Rules\DnsType;
 use App\Rules\DomainOwner;
 
 final class UpdateRequest extends Request
@@ -17,7 +18,7 @@ final class UpdateRequest extends Request
         return [
             'prefix' => 'nullable|string',
             'domain_id' => new DomainOwner(),
-            'type_id' => 'required|integer', // TODO:: バリデーション
+            'type_id' => new DnsType(),
             'value' => 'nullable|string',
             'ttl' => 'nullable|integer',
             'priority' => 'nullable|integer',
