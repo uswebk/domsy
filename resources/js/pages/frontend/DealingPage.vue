@@ -13,6 +13,14 @@
         alert
       }}</v-alert>
 
+      <v-progress-linear
+        v-show="!finishInitialize"
+        color="yellow darken-2"
+        indeterminate
+        rounded
+        height="6"
+      ></v-progress-linear>
+
       <v-btn
         v-if="canStore"
         class="ma-2"
@@ -398,6 +406,7 @@ export default {
       greeting: '',
       alert: '',
       tab: '',
+      finishInitialize: false,
       canStore: false,
       canUpdate: false,
       dealings: {
@@ -623,6 +632,8 @@ export default {
         '/api/roles/user/?has=api.dealings.update'
       )
       this.canUpdate = canUpdateResult.data
+
+      this.finishInitialize = true
     },
 
     async edit(dealing) {

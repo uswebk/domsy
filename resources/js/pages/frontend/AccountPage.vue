@@ -14,6 +14,14 @@
         alert
       }}</v-alert>
 
+      <v-progress-linear
+        v-show="!finishInitialize"
+        color="yellow darken-2"
+        indeterminate
+        rounded
+        height="6"
+      ></v-progress-linear>
+
       <v-tabs v-model="tab">
         <v-tab href="#account">Account</v-tab>
         <v-tab href="#role">Role</v-tab>
@@ -441,6 +449,7 @@ export default {
       newRoleDialog: false,
       editRoleDialog: false,
       deleteRoleDialog: false,
+      finishInitialize: false,
       storeErrors: {},
       updateErrors: {},
       errors: {},
@@ -846,7 +855,9 @@ export default {
       this.initUsers()
       this.initRoles()
       this.initMenuItems()
-      this.initRoleOperation()
+      await this.initRoleOperation()
+
+      this.finishInitialize = true
     },
   },
   created() {

@@ -13,6 +13,14 @@
         alert
       }}</v-alert>
 
+      <v-progress-linear
+        v-show="!finishInitialize"
+        color="yellow darken-2"
+        indeterminate
+        rounded
+        height="6"
+      ></v-progress-linear>
+
       <v-btn
         v-if="canStore"
         class="ma-2"
@@ -378,6 +386,7 @@ export default {
     return {
       greeting: '',
       alert: '',
+      finishInitialize: false,
       tab: '',
       canStore: false,
       canUpdate: false,
@@ -636,6 +645,8 @@ export default {
         '/api/roles/user/?has=api.domains.delete'
       )
       this.canDelete = canDeleteResult.data
+
+      this.finishInitialize = true
     },
 
     edit(domain) {

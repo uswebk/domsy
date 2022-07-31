@@ -13,6 +13,14 @@
         alert
       }}</v-alert>
 
+      <v-progress-linear
+        v-show="!finishInitialize"
+        color="yellow darken-2"
+        indeterminate
+        rounded
+        height="6"
+      ></v-progress-linear>
+
       <div v-for="_dns in dns" :key="_dns.id" class="mb-4">
         <v-card>
           <v-card-title>{{ _dns.name }}</v-card-title>
@@ -317,6 +325,7 @@ export default {
     return {
       greeting: '',
       alert: '',
+      finishInitialize: false,
       canStore: false,
       canUpdate: false,
       canDelete: false,
@@ -540,6 +549,8 @@ export default {
         '/api/roles/user/?has=api.dns.delete'
       )
       this.canDelete = canDeleteResult.data
+
+      this.finishInitialize = true
     },
 
     async edit(subdomain) {
