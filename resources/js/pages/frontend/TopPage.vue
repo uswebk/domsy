@@ -1,5 +1,10 @@
 <template>
   <v-app>
+    <v-progress-linear
+      v-show="viewProgress"
+      indeterminate
+      color="yellow darken-2"
+    ></v-progress-linear>
     <v-container style="padding: 0" fill-height fluid>
       <v-row style="height: 100%; padding: 0">
         <v-col
@@ -26,7 +31,7 @@
 
         <v-col cols="7" justify="center" align-self="center">
           <v-row>
-            <v-col>
+            <v-col v-if="isLoginCheck">
               <v-btn v-if="isLogin" color="primary" href="/dashboard">
                 <v-icon dark left> mdi-monitor-dashboard </v-icon>Dashboard
               </v-btn>
@@ -114,25 +119,24 @@ export default {
       password: '',
       remember: false,
       errors: {},
+      isLogin: false,
+      isLoginCheck: false,
+      viewProgress: false,
     }
-  },
-
-  props: {
-    isLogin: {
-      type: Boolean,
-    },
   },
 
   methods: {
     async login() {
       try {
+        this.viewProgress = true
+
         const result = await axios.post('api/login', {
           email: this.email,
           password: this.password,
           remember: this.remember,
         })
 
-        if (result.status === 200) {
+        if (result.status === 200 || result.status === 204) {
           location.href = '/dashboard'
         }
       } catch (error) {
@@ -145,7 +149,25 @@ export default {
 
         this.errors = errors
       }
+      this.viewProgress = false
     },
+
+    async initIsLogin() {
+      try {
+        const result = await axios.get('api/me')
+        if (result.status === 200) {
+          this.isLogin = true
+        }
+      } catch (error) {
+        this.isLogin = false
+      }
+
+      this.isLoginCheck = true
+    },
+  },
+
+  created() {
+    this.initIsLogin()
   },
 }
 </script>

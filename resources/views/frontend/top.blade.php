@@ -17,7 +17,7 @@
 
 <body>
   <div id="app">
-    <top-page :is-login=@json(Auth::check())></top-page>
+    <top-page></top-page>
   </div>
 </body>
 </html>
