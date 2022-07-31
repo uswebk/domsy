@@ -13,7 +13,7 @@ final class DnsRecordTypeController
      * @param \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $eloquentDnsRecordTypeQueryService
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function getDnsRecordType(
+    public function fetch(
         \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $eloquentDnsRecordTypeQueryService
     ) {
         $dnsRecordType = $eloquentDnsRecordTypeQueryService->getSortAll();

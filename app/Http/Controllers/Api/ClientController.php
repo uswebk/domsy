@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\ClientResource;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 
 final class ClientController extends Controller
 {
@@ -20,20 +18,20 @@ final class ClientController extends Controller
     ) {
         parent::__construct();
 
-        $this->middleware('can:owner,client')->except(['getClients','store']);
+        $this->middleware('can:owner,client')->except(['fetch','store']);
 
         $this->clientRepository = $clientRepository;
     }
 
     /**
+     * @param \App\Services\Application\ClientFetchService $clientFetchService
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function getClients()
-    {
-        $clients = Auth::user()->clients;
-
+    public function fetch(
+        \App\Services\Application\ClientFetchService $clientFetchService
+    ) {
         return response()->json(
-            ClientResource::collection($clients),
+            $clientFetchService->getResponseData(),
             Response::HTTP_OK
         );
     }

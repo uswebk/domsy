@@ -4,25 +4,26 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
-use App\Http\Resources\DomainResource;
-use App\Infrastructures\Models\Domain;
+use App\Http\Resources\UserResource;
 use App\Infrastructures\Models\User;
+
 use Illuminate\Support\Facades\Auth;
 
-final class DomainFetchService
+final class UserFetchService
 {
-    private $domains;
+    private $users;
 
     public function __construct()
     {
         $user = User::find(Auth::id());
 
-        if ($user->isCompany()) {
-            //TODO: Query Service
-            $this->domains = Domain::whereIn('user_id', $user->getMemberIds())->get();
-        } else {
-            $this->domains = $user->domains;
+        if (! $user->isCompany()) {
+            abort(403);
         }
+
+        //TODO: Query Service
+        $this->users = User::where('company_id', '=', $user->company_id)
+        ->whereNull('deleted_at')->get();
     }
 
     /**
@@ -30,6 +31,6 @@ final class DomainFetchService
      */
     public function getResponseData(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return DomainResource::collection($this->domains);
+        return UserResource::collection($this->users);
     }
 }

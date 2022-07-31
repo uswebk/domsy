@@ -4,40 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\DealingResource;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 
 final class DealingController extends Controller
 {
     /**
+     * @param \App\Services\Application\DealingFetchService $dealingFetchService
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function getDealings()
-    {
-
-        // TODO: ApplicationService化
-        $domains = new Collection();
-
-        $_domains = Auth::user()->domains;
-
-        $_domains->load([
-            'domainDealings',
-            'domainDealings.client',
-        ]);
-
-        foreach ($_domains as $domain) {
-            if ($domain->domainDealings->isEmpty()) {
-                continue;
-            }
-
-            $domains->push($domain);
-        }
-
-
+    public function fetch(
+        \App\Services\Application\DealingFetchService $dealingFetchService
+    ) {
         return response()->json(
-            DealingResource::collection($domains),
+            $dealingFetchService->getResponseData(),
             Response::HTTP_OK
         );
     }

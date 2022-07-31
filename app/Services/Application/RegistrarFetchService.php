@@ -18,9 +18,10 @@ final class RegistrarFetchService
         $user = User::find(Auth::id());
 
         if ($user->isCompany()) {
+            //TODO: Query Service
             $this->registrars = Registrar::whereIn('user_id', $user->getMemberIds())->get();
         } else {
-            $this->registrars = Auth::user()->registrars;
+            $this->registrars = $user->registrars;
         }
     }
 

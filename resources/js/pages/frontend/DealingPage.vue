@@ -70,7 +70,7 @@
       <!-- New Dialog -->
       <v-dialog v-model="newDialog" max-width="600px">
         <v-card>
-          <v-card-title>
+          <v-card-title class="pl-8">
             <span class="text-h6">Dealing Create</span>
           </v-card-title>
           <v-card-text>
@@ -79,6 +79,7 @@
                 <v-row>
                   <v-col cols="12">
                     <v-select
+                      class="mt-5"
                       v-model="domainId"
                       :items="domains"
                       item-text="name"
@@ -90,6 +91,7 @@
                       :message="storeErrors.domain_id"
                     />
                     <v-select
+                      class="mt-5"
                       v-model="clientId"
                       :items="clients"
                       item-text="name"
@@ -101,6 +103,7 @@
                       :message="storeErrors.client_id"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Subtotal"
                       v-model="subtotal"
                       type="number"
@@ -112,6 +115,7 @@
                       :message="storeErrors.subtotal"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Discount"
                       v-model="discount"
                       type="number"
@@ -123,6 +127,7 @@
                       :message="storeErrors.discount"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Billing Date"
                       v-model="billingDate"
                       type="date"
@@ -135,6 +140,7 @@
                   </v-col>
                   <v-col cols="2">
                     <v-text-field
+                      class="mt-5"
                       label="Interval"
                       v-model="interval"
                       type="number"
@@ -147,17 +153,19 @@
                   </v-col>
                   <v-col cols="4">
                     <v-select
+                      class="mt-5"
                       v-model="intervalCategory"
                       :items="intervalCategories"
                       label="IntervalCategory"
                       hide-details
                     ></v-select>
                     <ValidationErrorMessageComponent
-                      :message="storeErrors.client_id"
+                      :message="storeErrors.interval_category"
                     />
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
+                      class="mt-5"
                       v-model="isAutoUpdate"
                       label="AutoUpdate"
                       hide-details
@@ -168,6 +176,7 @@
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
+                      class="mt-5"
                       v-model="isHalt"
                       label="Halt"
                       hide-details
@@ -177,6 +186,8 @@
                     />
                   </v-col>
                 </v-row>
+
+                <div class="my-5"></div>
 
                 <v-btn color="primary" @click="store">Create</v-btn>
               </v-form>
@@ -194,7 +205,7 @@
       <!-- Update Dialog -->
       <v-dialog v-model="editDialog" max-width="600px">
         <v-card>
-          <v-card-title>
+          <v-card-title class="pl-8">
             <span class="text-h6"> Dealing Edit</span>
           </v-card-title>
           <v-card-text>
@@ -203,6 +214,7 @@
                 <v-row>
                   <v-col cols="12">
                     <v-select
+                      class="mt-5"
                       v-model="dealing.domainId"
                       :items="domains"
                       item-text="name"
@@ -214,6 +226,7 @@
                       :message="updateErrors.domain_id"
                     />
                     <v-select
+                      class="mt-5"
                       v-model="dealing.clientId"
                       :items="clients"
                       item-text="name"
@@ -225,6 +238,7 @@
                       :message="updateErrors.client_id"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Subtotal"
                       v-model="dealing.subtotal"
                       type="number"
@@ -236,6 +250,7 @@
                       :message="updateErrors.subtotal"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Discount"
                       v-model="dealing.discount"
                       type="number"
@@ -247,6 +262,7 @@
                       :message="updateErrors.discount"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Billing Date"
                       v-model="dealing.billingDate"
                       type="date"
@@ -259,6 +275,7 @@
                   </v-col>
                   <v-col cols="2">
                     <v-text-field
+                      class="mt-5"
                       label="Interval"
                       v-model="dealing.interval"
                       type="number"
@@ -271,17 +288,19 @@
                   </v-col>
                   <v-col cols="4">
                     <v-select
+                      class="mt-5"
                       v-model="dealing.intervalCategory"
                       :items="intervalCategories"
                       label="IntervalCategory"
                       hide-details
                     ></v-select>
                     <ValidationErrorMessageComponent
-                      :message="updateErrors.client_id"
+                      :message="updateErrors.interval_category"
                     />
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
+                      class="mt-5"
                       v-model="dealing.isAutoUpdate"
                       label="AutoUpdate"
                       hide-details
@@ -292,6 +311,7 @@
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
+                      class="mt-5"
                       v-model="dealing.isHalt"
                       label="Halt"
                       hide-details
@@ -301,6 +321,8 @@
                     />
                   </v-col>
                 </v-row>
+
+                <div class="my-5"></div>
 
                 <v-btn color="primary" @click="update">Update</v-btn>
               </v-form>

@@ -13,8 +13,6 @@
         alert
       }}</v-alert>
 
-      <div class="py-5"></div>
-
       <v-container>
         <p class="text-h6 ma-0">Mail</p>
         <v-divider></v-divider>

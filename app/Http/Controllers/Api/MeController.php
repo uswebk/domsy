@@ -15,7 +15,7 @@ final class MeController
     /**
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function get()
+    public function fetch()
     {
         $user = User::find(Auth::id());
 

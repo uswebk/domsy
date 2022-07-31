@@ -6,37 +6,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\MenuItemResource;
 use App\Infrastructures\Models\MenuItem;
-use App\Infrastructures\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 
 final class MenuController
 {
     /**
-     * @param \App\Infrastructures\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
+     * @param \App\Services\Application\MenuFetchService $menuFetchService
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function getMenus(
-        \App\Infrastructures\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
+    public function fetch(
+        \App\Services\Application\MenuFetchService $menuFetchService
     ) {
-        $user = User::find(Auth::id());
-
-        $menuItems = new Collection();
-        $_menuItems = $eloquentMenuItemQueryService->getNavigationItems();
-
-        if ($user->isCompany()) {
-            $menuItems = $_menuItems;
-        } else {
-            foreach ($_menuItems as $menuItem) {
-                if ($menuItem->menu->type_id !== 4) {
-                    $menuItems->push($menuItem);
-                }
-            }
-        }
-
         return response()->json(
-            MenuItemResource::collection($menuItems),
+            $menuFetchService->getResponseData(),
             Response::HTTP_OK
         );
     }
@@ -44,7 +26,7 @@ final class MenuController
     /**
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function getMenuItems()
+    public function fetchItems()
     {
         $menuItems = MenuItem::with(['menu'])->get();
 

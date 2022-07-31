@@ -564,12 +564,14 @@ export default {
 
         this.initRoles()
         this.closeNewRoleModal()
+        this.resetNewRoles()
       } catch (error) {
         const status = error.response.status
 
         if (status === 403) {
           this.alert = 'Illegal operation was performed.'
           this.closeNewRoleModal()
+          this.resetNewRoles()
         }
 
         if (status === 422) {
@@ -584,10 +586,9 @@ export default {
         if (status >= 500) {
           this.alert = 'Server Error'
           this.closeNewRoleModal()
+          this.resetNewRoles()
         }
       }
-
-      this.resetNewRoles()
     },
 
     async update() {
@@ -771,7 +772,7 @@ export default {
     },
 
     async initMenuItems() {
-      const result = await axios.get('api/menu-items')
+      const result = await axios.get('api/menus/items')
 
       this.menuItems = result.data
     },

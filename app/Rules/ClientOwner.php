@@ -6,6 +6,7 @@ namespace App\Rules;
 
 use App\Infrastructures\Models\Client;
 
+use App\Infrastructures\Models\User;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,8 +19,15 @@ final class ClientOwner implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        $client = Client::where('id', '=', $value)->where('user_id', '=', Auth::id())
-        ->first();
+        $user = User::find(Auth::id());
+
+        if ($user->isCompany()) {
+            $client = Client::where('id', $value)->whereIn('user_id', $user->getMemberIds())
+            ->first();
+        } else {
+            $client = Client::where('id', '=', $value)->where('user_id', '=', $user->id)
+            ->first();
+        }
 
         return isset($client);
     }

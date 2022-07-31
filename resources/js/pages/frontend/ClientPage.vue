@@ -48,7 +48,7 @@
       <!-- New Dialog -->
       <v-dialog v-model="newDialog" max-width="600px">
         <v-card>
-          <v-card-title>
+          <v-card-title class="pl-8">
             <span class="text-h6">Client Create</span>
           </v-card-title>
           <v-card-text>
@@ -57,6 +57,7 @@
                 <v-row>
                   <v-col cols="12">
                     <v-text-field
+                      class="mt-5"
                       label="Name"
                       v-model="name"
                       required
@@ -66,6 +67,7 @@
                       :message="storeErrors.name"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="NameKana"
                       v-model="nameKana"
                       required
@@ -75,6 +77,7 @@
                       :message="storeErrors.name_kana"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="email"
                       v-model="email"
                       required
@@ -84,6 +87,7 @@
                       :message="storeErrors.email"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Zip"
                       v-model="zip"
                       required
@@ -93,6 +97,7 @@
                       :message="storeErrors.zip"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Address"
                       v-model="address"
                       required
@@ -102,6 +107,7 @@
                       :message="storeErrors.address"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="TEL"
                       v-model="phoneNumber"
                       required
@@ -112,6 +118,8 @@
                     />
                   </v-col>
                 </v-row>
+
+                <div class="my-5"></div>
 
                 <v-btn color="primary" @click="store">Create</v-btn>
               </v-form>
@@ -129,7 +137,7 @@
       <!-- Update Dialog -->
       <v-dialog v-model="editDialog" max-width="600px">
         <v-card>
-          <v-card-title>
+          <v-card-title class="pl-8">
             <span class="text-h6">Client Edit</span>
           </v-card-title>
           <v-card-text>
@@ -138,6 +146,7 @@
                 <v-row>
                   <v-col cols="12">
                     <v-text-field
+                      class="mt-5"
                       label="Name"
                       v-model="client.name"
                       required
@@ -147,6 +156,7 @@
                       :message="updateErrors.name"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="NameKana"
                       v-model="client.nameKana"
                       required
@@ -156,6 +166,7 @@
                       :message="updateErrors.name_kana"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="email"
                       v-model="client.email"
                       required
@@ -165,6 +176,7 @@
                       :message="updateErrors.email"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Zip"
                       v-model="client.zip"
                       required
@@ -174,6 +186,7 @@
                       :message="updateErrors.zip"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Address"
                       v-model="client.address"
                       required
@@ -183,6 +196,7 @@
                       :message="updateErrors.address"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="TEL"
                       v-model="client.phoneNumber"
                       required
@@ -193,6 +207,8 @@
                     />
                   </v-col>
                 </v-row>
+
+                <div class="my-5"></div>
 
                 <v-btn color="primary" @click="update">Update</v-btn>
               </v-form>

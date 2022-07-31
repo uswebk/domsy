@@ -19,6 +19,10 @@ final class ClientPolicy
         \App\Infrastructures\Models\User $user,
         \App\Infrastructures\Models\Client $client
     ): bool {
+        if ($user->isCompany()) {
+            return in_array($client->user_id, $user->getMemberIds());
+        }
+
         return $user->id == $client->user_id;
     }
 }

@@ -28,25 +28,25 @@ Route::namespace('Auth')->group(function () {
 
 Route::middleware(['verified','auth'])->group(function () {
     Route::namespace('Api')->name('api.')->group(function () {
-        Route::get('me', 'MeController@get');
-        Route::get('menus', 'MenuController@getMenus');
-        Route::get('menu-items', 'MenuController@getMenuItems');
-        Route::get('dns-record-type', 'DnsRecordTypeController@getDnsRecordType');
+        Route::get('me', 'MeController@fetch')->name('me.fetch');
+        Route::get('menus', 'MenuController@fetch')->name('menus.fetch');
+        Route::get('menus/items', 'MenuController@fetchItems')->name('menus.items.fetch');
+        Route::get('dns-record-type', 'DnsRecordTypeController@fetch')->name('dns-record-type.fetch');
 
         Route::prefix('roles')->name('roles.')->group(function () {
-            Route::get('/', 'RoleController@getRoles');
-            Route::get('/user', 'RoleController@has');
+            Route::get('/', 'RoleController@fetch')->name('fetch');
+            Route::get('/user', 'RoleController@has')->name('has');
 
             Route::post('/', 'RoleController@store')->name('store');
             Route::put('/{role}', 'RoleController@update')->name('update');
             Route::delete('/{role}', 'RoleController@delete')->name('delete');
         });
 
-        Route::prefix('users')->name('user.')->group(function () {
-            Route::get('/', 'UserController@getUsers');
+        Route::prefix('users')->name('users.')->group(function () {
+            Route::get('/', 'UserController@fetch');
         });
 
-        Route::prefix('accounts')->name('account.')->group(function () {
+        Route::prefix('accounts')->name('accounts.')->group(function () {
             Route::post('/', 'AccountController@store')->name('store');
             Route::put('/{user}', 'AccountController@update')->where('user', '[0-9]+')->name('update');
             Route::delete('/{user}', 'AccountController@delete')->where('user', '[0-9]+')->name('delete');
@@ -73,15 +73,15 @@ Route::middleware(['verified','auth'])->group(function () {
             Route::delete('/{registrar}', 'RegistrarController@delete')->where('registrar', '[0-9]+')->name('delete');
         });
 
-        Route::prefix('clients')->name('client.')->group(function () {
-            Route::get('/', 'ClientController@getClients');
+        Route::prefix('clients')->name('clients.')->group(function () {
+            Route::get('/', 'ClientController@fetch')->name('fetch');
             Route::post('/', 'ClientController@store')->name('store');
             Route::put('/{client}', 'ClientController@update')->where('client', '[0-9]+')->name('update');
             Route::delete('/{client}', 'ClientController@delete')->where('client', '[0-9]+')->name('delete');
         });
 
-        Route::prefix('dealings')->name('dealing.')->group(function () {
-            Route::get('/', 'DealingController@getDealings');
+        Route::prefix('dealings')->name('dealings.')->group(function () {
+            Route::get('/', 'DealingController@fetch');
             Route::post('/', 'DealingController@store')->name('store');
             Route::put('/{domainDealing}', 'DealingController@update')->where('domainDealing', '[0-9]+')->name('update');
         });
