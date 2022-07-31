@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Infrastructures\Models\User;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 final class RoleController extends Controller
 {
@@ -12,7 +14,7 @@ final class RoleController extends Controller
     {
         parent::__construct();
 
-        $this->middleware('can:owner,role')->except(['fetch','store']);
+        $this->middleware('can:owner,role')->except(['fetch','store','user']);
     }
 
     /**
@@ -28,10 +30,20 @@ final class RoleController extends Controller
         );
     }
 
-    public function has(
-        \Illuminate\Http\Request $request
+    /**
+     * @param \App\Http\Requests\Api\Role\UserRequest $request
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function user(
+        \App\Http\Requests\Api\Role\UserRequest $request
     ) {
-        $routeName = $request->route_name;
+        $user = User::find(Auth::id());
+        $routeName = $request->has;
+
+        return response()->json(
+            $user->hasRoleItem($routeName),
+            Response::HTTP_OK
+        );
     }
 
     /**

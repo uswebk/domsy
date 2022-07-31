@@ -13,7 +13,13 @@
         alert
       }}</v-alert>
 
-      <v-btn class="ma-2" color="primary" small @click="openNewModal">
+      <v-btn
+        v-if="canStore"
+        class="ma-2"
+        color="primary"
+        small
+        @click="openNewModal"
+      >
         <v-icon dark left> mdi-plus-circle </v-icon>New
       </v-btn>
 
@@ -37,10 +43,17 @@
               </td>
               <td>{{ registrar.note }}</td>
               <td>
-                <v-btn x-small color="primary" @click="edit(registrar)"
+                <v-btn
+                  v-if="canUpdate"
+                  x-small
+                  color="primary"
+                  @click="edit(registrar)"
                   >edit</v-btn
                 >
-                <v-btn x-small @click="deleteRegistrar(registrar)"
+                <v-btn
+                  v-if="canDelete"
+                  x-small
+                  @click="deleteRegistrar(registrar)"
                   >delete</v-btn
                 >
               </td>
@@ -206,6 +219,9 @@ export default {
     return {
       greeting: '',
       alert: '',
+      canStore: false,
+      canUpdate: false,
+      canDelete: false,
       registrars: {},
       registrar: {},
       newDialog: false,
@@ -380,6 +396,23 @@ export default {
       this.registrars = result.data
     },
 
+    async initRoleOperation() {
+      let canStoreResult = await axios.get(
+        '/api/roles/user/?has=api.registrar.store'
+      )
+      this.canStore = canStoreResult.data
+
+      let canUpdateResult = await axios.get(
+        '/api/roles/user/?has=api.registrar.update'
+      )
+      this.canUpdate = canUpdateResult.data
+
+      let canDeleteResult = await axios.get(
+        '/api/roles/user/?has=api.registrar.delete'
+      )
+      this.canDelete = canDeleteResult.data
+    },
+
     edit(registrar) {
       this.registrar.id = registrar.id
       this.registrar.name = registrar.name
@@ -400,6 +433,7 @@ export default {
 
   created() {
     this.initRegistrars()
+    this.initRoleOperation()
   },
 }
 </script>

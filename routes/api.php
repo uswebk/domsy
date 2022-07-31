@@ -35,7 +35,7 @@ Route::middleware(['verified','auth'])->group(function () {
 
         Route::prefix('roles')->name('roles.')->group(function () {
             Route::get('/', 'RoleController@fetch')->name('fetch');
-            Route::get('/user', 'RoleController@has')->name('has');
+            Route::get('/user', 'RoleController@user')->name('user');
 
             Route::post('/', 'RoleController@store')->name('store');
             Route::put('/{role}', 'RoleController@update')->name('update');

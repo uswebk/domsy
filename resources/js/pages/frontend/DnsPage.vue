@@ -16,7 +16,13 @@
       <div v-for="_dns in dns" :key="_dns.id" class="mb-4">
         <v-card>
           <v-card-title>{{ _dns.name }}</v-card-title>
-          <v-btn class="ma-2" color="primary" small @click="openNewModal(_dns)">
+          <v-btn
+            v-if="canStore"
+            class="ma-2"
+            color="primary"
+            small
+            @click="openNewModal(_dns)"
+          >
             <v-icon dark left> mdi-plus-circle </v-icon>New
           </v-btn>
 
@@ -40,10 +46,17 @@
                   <td>{{ subdomain.ttl }}</td>
                   <td>{{ subdomain.priority }}</td>
                   <td>
-                    <v-btn x-small color="primary" @click="edit(subdomain)"
+                    <v-btn
+                      v-if="canUpdate"
+                      x-small
+                      color="primary"
+                      @click="edit(subdomain)"
                       >edit</v-btn
                     >
-                    <v-btn x-small @click="deleteSubDomain(subdomain)"
+                    <v-btn
+                      v-if="canDelete"
+                      x-small
+                      @click="deleteSubDomain(subdomain)"
                       >delete</v-btn
                     >
                   </td>
@@ -304,6 +317,9 @@ export default {
     return {
       greeting: '',
       alert: '',
+      canStore: false,
+      canUpdate: false,
+      canDelete: false,
       dns: {},
       newDns: {},
       domains: {},
@@ -511,6 +527,21 @@ export default {
       this.dnsRecordTypes = result.data
     },
 
+    async initRoleOperation() {
+      let canStoreResult = await axios.get('/api/roles/user/?has=api.dns.store')
+      this.canStore = canStoreResult.data
+
+      let canUpdateResult = await axios.get(
+        '/api/roles/user/?has=api.dns.update'
+      )
+      this.canUpdate = canUpdateResult.data
+
+      let canDeleteResult = await axios.get(
+        '/api/roles/user/?has=api.dns.delete'
+      )
+      this.canDelete = canDeleteResult.data
+    },
+
     async edit(subdomain) {
       await this.initDomains()
       await this.initDnsRecordType()
@@ -541,6 +572,7 @@ export default {
 
   created() {
     this.initDns()
+    this.initRoleOperation()
   },
 }
 </script>

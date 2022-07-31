@@ -22,7 +22,13 @@
       <v-container class="py-1"></v-container>
       <v-tabs-items v-model="tab">
         <v-tab-item value="account">
-          <v-btn class="ma-2" color="primary" small @click="openNewModal">
+          <v-btn
+            v-if="canStore"
+            class="ma-2"
+            color="primary"
+            small
+            @click="openNewModal"
+          >
             <v-icon dark left> mdi-plus-circle </v-icon>New
           </v-btn>
 
@@ -48,10 +54,16 @@
                     >
                   </td>
                   <td>
-                    <v-btn x-small color="primary" @click="edit(user)"
+                    <v-btn
+                      v-if="canUpdate"
+                      x-small
+                      color="primary"
+                      @click="edit(user)"
                       >edit</v-btn
                     >
-                    <v-btn x-small @click="deleteUser(user)">delete</v-btn>
+                    <v-btn v-if="canDelete" x-small @click="deleteUser(user)"
+                      >delete</v-btn
+                    >
                   </td>
                 </tr>
               </tbody>
@@ -59,7 +71,13 @@
           </v-simple-table>
         </v-tab-item>
         <v-tab-item value="role">
-          <v-btn class="ma-2" color="primary" small @click="openNewRoleModal">
+          <v-btn
+            v-if="canRoleStore"
+            class="ma-2"
+            color="primary"
+            small
+            @click="openNewRoleModal"
+          >
             <v-icon dark left> mdi-plus-circle </v-icon>New
           </v-btn>
 
@@ -76,10 +94,19 @@
                   <td>{{ role.name }}</td>
                   <td>
                     <span v-if="role.id !== 1">
-                      <v-btn x-small color="primary" @click="editRole(role)"
+                      <v-btn
+                        v-if="canRoleUpdate"
+                        x-small
+                        color="primary"
+                        @click="editRole(role)"
                         >edit</v-btn
                       >
-                      <v-btn x-small @click="deleteRole(role)">delete</v-btn>
+                      <v-btn
+                        v-if="canRoleDelete"
+                        x-small
+                        @click="deleteRole(role)"
+                        >delete</v-btn
+                      >
                     </span>
                   </td>
                 </tr>
@@ -402,6 +429,12 @@ export default {
       greeting: '',
       alert: '',
       tab: '',
+      canStore: false,
+      canUpdate: false,
+      canDelete: false,
+      canRoleStore: false,
+      canRoleUpdate: false,
+      canRoleDelete: false,
       newDialog: false,
       editDialog: false,
       deleteDialog: false,
@@ -775,6 +808,38 @@ export default {
       const result = await axios.get('api/menus/items')
 
       this.menuItems = result.data
+    },
+
+    async initRoleOperation() {
+      let canStoreResult = await axios.get(
+        '/api/roles/user/?has=api.accounts.store'
+      )
+      this.canStore = canStoreResult.data
+
+      let canUpdateResult = await axios.get(
+        '/api/roles/user/?has=api.accounts.update'
+      )
+      this.canUpdate = canUpdateResult.data
+
+      let canDeleteResult = await axios.get(
+        '/api/roles/user/?has=api.accounts.delete'
+      )
+      this.canDelete = canDeleteResult.data
+
+      let canRoleStoreResult = await axios.get(
+        '/api/roles/user/?has=api.roles.store'
+      )
+      this.canRoleStore = canRoleStoreResult.data
+
+      let canRoleUpdateResult = await axios.get(
+        '/api/roles/user/?has=api.roles.update'
+      )
+      this.canRoleUpdate = canRoleUpdateResult.data
+
+      let canRoleDeleteResult = await axios.get(
+        '/api/roles/user/?has=api.roles.delete'
+      )
+      this.canRoleDelete = canRoleDeleteResult.data
     },
 
     async initialize() {

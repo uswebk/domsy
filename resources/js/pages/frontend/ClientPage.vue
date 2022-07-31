@@ -13,7 +13,13 @@
         alert
       }}</v-alert>
 
-      <v-btn class="ma-2" color="primary" small @click="openNewModal">
+      <v-btn
+        v-if="canStore"
+        class="ma-2"
+        color="primary"
+        small
+        @click="openNewModal"
+      >
         <v-icon dark left> mdi-plus-circle </v-icon>New
       </v-btn>
 
@@ -35,10 +41,16 @@
               <td>{{ client.zip }} / {{ client.address }}</td>
               <td>{{ client.phone_number }}</td>
               <td>
-                <v-btn x-small color="primary" @click="edit(client)"
+                <v-btn
+                  v-if="canUpdate"
+                  x-small
+                  color="primary"
+                  @click="edit(client)"
                   >edit</v-btn
                 >
-                <v-btn x-small @click="deleteClient(client)">delete</v-btn>
+                <v-btn v-if="canDelete" x-small @click="deleteClient(client)"
+                  >delete</v-btn
+                >
               </td>
             </tr>
           </tbody>
@@ -262,6 +274,9 @@ export default {
     return {
       greeting: '',
       alert: '',
+      canStore: false,
+      canUpdate: false,
+      canDelete: false,
       clients: {},
       client: {},
       newDialog: false,
@@ -446,6 +461,23 @@ export default {
       this.clients = result.data
     },
 
+    async initRoleOperation() {
+      let canStoreResult = await axios.get(
+        '/api/roles/user/?has=api.clients.store'
+      )
+      this.canStore = canStoreResult.data
+
+      let canUpdateResult = await axios.get(
+        '/api/roles/user/?has=api.clients.update'
+      )
+      this.canUpdate = canUpdateResult.data
+
+      let canDeleteResult = await axios.get(
+        '/api/roles/user/?has=api.clients.delete'
+      )
+      this.canDelete = canDeleteResult.data
+    },
+
     edit(client) {
       this.client.id = client.id
       this.client.name = client.name
@@ -469,6 +501,7 @@ export default {
 
   created() {
     this.initClients()
+    this.initRoleOperation()
   },
 }
 </script>

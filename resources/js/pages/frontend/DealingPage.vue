@@ -13,7 +13,13 @@
         alert
       }}</v-alert>
 
-      <v-btn class="ma-2" color="primary" small @click="openNewModal()">
+      <v-btn
+        v-if="canStore"
+        class="ma-2"
+        color="primary"
+        small
+        @click="openNewModal()"
+      >
         <v-icon dark left> mdi-plus-circle </v-icon>New
       </v-btn>
 
@@ -55,7 +61,11 @@
                       >
                     </td>
                     <td>
-                      <v-btn x-small color="primary" @click="edit(dealing)"
+                      <v-btn
+                        v-if="canUpdate"
+                        x-small
+                        color="primary"
+                        @click="edit(dealing)"
                         >edit</v-btn
                       >
                     </td>
@@ -355,6 +365,8 @@ export default {
       greeting: '',
       alert: '',
       tab: '',
+      canStore: false,
+      canUpdate: false,
       dealings: {
         active: {},
         stop: {},
@@ -568,6 +580,18 @@ export default {
       this.clients = result.data
     },
 
+    async initRoleOperation() {
+      let canStoreResult = await axios.get(
+        '/api/roles/user/?has=api.dealings.store'
+      )
+      this.canStore = canStoreResult.data
+
+      let canUpdateResult = await axios.get(
+        '/api/roles/user/?has=api.dealings.update'
+      )
+      this.canUpdate = canUpdateResult.data
+    },
+
     async edit(dealing) {
       await this.initDomains()
       await this.initClients()
@@ -593,6 +617,7 @@ export default {
 
   created() {
     this.initDealings()
+    this.initRoleOperation()
   },
 }
 </script>

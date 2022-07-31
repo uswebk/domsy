@@ -13,7 +13,13 @@
         alert
       }}</v-alert>
 
-      <v-btn class="ma-2" color="primary" small @click="openNewModal">
+      <v-btn
+        v-if="canStore"
+        class="ma-2"
+        color="primary"
+        small
+        @click="openNewModal"
+      >
         <v-icon dark left> mdi-plus-circle </v-icon>New
       </v-btn>
 
@@ -53,10 +59,17 @@
                     <td>{{ formattedDate(domain.expired_at) }}</td>
                     <td>{{ formattedDate(domain.canceled_at) }}</td>
                     <td>
-                      <v-btn x-small color="primary" @click="edit(domain)"
+                      <v-btn
+                        v-if="canUpdate"
+                        x-small
+                        color="primary"
+                        @click="edit(domain)"
                         >edit</v-btn
                       >
-                      <v-btn x-small @click="deleteDomain(domain)"
+                      <v-btn
+                        v-if="canDelete"
+                        x-small
+                        @click="deleteDomain(domain)"
                         >delete</v-btn
                       >
                     </td>
@@ -366,6 +379,9 @@ export default {
       greeting: '',
       alert: '',
       tab: '',
+      canStore: false,
+      canUpdate: false,
+      canDelete: false,
       domains: {
         active: {},
         notActive: {},
@@ -605,6 +621,23 @@ export default {
       this.registrars = result.data
     },
 
+    async initRoleOperation() {
+      let canStoreResult = await axios.get(
+        '/api/roles/user/?has=api.domains.store'
+      )
+      this.canStore = canStoreResult.data
+
+      let canUpdateResult = await axios.get(
+        '/api/roles/user/?has=api.domains.update'
+      )
+      this.canUpdate = canUpdateResult.data
+
+      let canDeleteResult = await axios.get(
+        '/api/roles/user/?has=api.domains.delete'
+      )
+      this.canDelete = canDeleteResult.data
+    },
+
     edit(domain) {
       this.domain.id = domain.id
       this.domain.name = domain.name
@@ -635,6 +668,7 @@ export default {
 
   created() {
     this.initDomains()
+    this.initRoleOperation()
   },
 }
 </script>
