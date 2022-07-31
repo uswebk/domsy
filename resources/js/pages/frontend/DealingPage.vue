@@ -372,16 +372,103 @@
             </v-btn>
             <v-toolbar-title> Dealing Detail</v-toolbar-title>
           </v-toolbar>
+          <v-container>
+            <v-card-text>
+              <v-list three-line subheader>
+                <v-subheader>{{ dealing.domain }}</v-subheader>
+                <v-card-title>Billing</v-card-title>
+
+                <div
+                  v-for="billing in dealing.domain_billings"
+                  :key="billing.id"
+                >
+                  <v-divider></v-divider>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title>{{
+                        formattedDate(billing.billing_date)
+                      }}</v-list-item-title>
+                      <v-list-item-subtitle
+                        >Total Price:{{ billing.total }}</v-list-item-subtitle
+                      >
+                    </v-list-item-content>
+                    <v-list-item-action v-if="!billing.is_fixed"
+                      ><v-list-item-action-text
+                        ><span @click="editBilling(billing)"
+                          >Edit</span
+                        ></v-list-item-action-text
+                      ></v-list-item-action
+                    >
+                  </v-list-item>
+                </div>
+              </v-list>
+              <v-divider></v-divider>
+            </v-card-text>
+          </v-container>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="closeDetailModal">
+              Close
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+      <!-- Billing Dialog -->
+      <v-dialog v-model="editBillingDialog" max-width="300px">
+        <v-card>
+          <v-card-title class="pl-8">
+            <span class="text-h6">Billing Edit</span>
+          </v-card-title>
           <v-card-text>
             <v-container>
               <v-form ref="form" lazy-validation>
-                <v-row> </v-row>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      class="mt-5"
+                      label="Billing Date"
+                      v-model="billing.billingDate"
+                      type="date"
+                      required
+                      hide-details
+                    ></v-text-field>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.billing_date"
+                    />
+                    <v-text-field
+                      class="mt-5"
+                      label="Total"
+                      v-model="billing.total"
+                      type="number"
+                      prefix="¥"
+                      required
+                      hide-details
+                    ></v-text-field>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.total"
+                    />
+                    <v-checkbox
+                      class="mt-5"
+                      v-model="billing.isFixed"
+                      label="isFixed"
+                      hide-details
+                    ></v-checkbox>
+                    <ValidationErrorMessageComponent
+                      :message="updateErrors.is_fixed"
+                    />
+                  </v-col>
+                </v-row>
+
+                <div class="my-5"></div>
+
+                <v-btn color="primary" @click="update">Update</v-btn>
               </v-form>
             </v-container>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeDetailModal">
+            <v-btn color="blue darken-1" text @click="closeBillingEditModal">
               Close
             </v-btn>
           </v-card-actions>
@@ -419,6 +506,7 @@ export default {
       dnsRecordTypes: {},
       intervalCategories: ['DAY', 'WEEK', 'MONTH', 'YEAR'],
       domain: {},
+      billing: {},
       subdomain: {},
       newDialog: false,
       prefix: '',
@@ -436,6 +524,7 @@ export default {
       updateErrors: {},
       editDialog: false,
       detailDialog: false,
+      editBillingDialog: false,
     }
   },
 
@@ -449,6 +538,10 @@ export default {
 
     async openEditModal() {
       this.editDialog = true
+    },
+
+    async openBillingEditModal() {
+      this.editBillingDialog = true
     },
 
     openDetailModal() {
@@ -467,6 +560,10 @@ export default {
 
     closeDetailModal() {
       this.detailDialog = false
+    },
+
+    async closeBillingEditModal() {
+      this.editBillingDialog = false
     },
 
     resetNewDealing() {
@@ -658,6 +755,15 @@ export default {
       this.dealing = dealing
 
       this.openDetailModal()
+    },
+
+    async editBilling(billing) {
+      this.billing.id = billing.id
+      this.billing.billingDate = this.formattedDate(billing.billing_date)
+      this.billing.total = billing.total
+      this.billing.isFixed = billing.is_fixed
+
+      this.openBillingEditModal()
     },
 
     formattedDate(dateTime) {

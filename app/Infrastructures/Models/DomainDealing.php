@@ -57,6 +57,14 @@ final class DomainDealing extends BaseModel
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function domainBillings(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Infrastructures\Models\DomainBilling', 'dealing_id');
+    }
+
+    /**
      * @return boolean
      */
     public function isBilled(): bool

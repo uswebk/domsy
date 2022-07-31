@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\BillingResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 final class DomainDealingResource extends JsonResource
@@ -28,6 +29,7 @@ final class DomainDealingResource extends JsonResource
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
             'client' => new ClientResource($this->client),
+            'domain_billings' => BillingResource::collection($this->domainBillings),
         ];
     }
 }
