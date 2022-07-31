@@ -240,6 +240,17 @@ class MenuItemSeeder extends Seeder
         ]);
 
         MenuItem::create([
+            'parent_id' => 6,
+            'name' => 'Detail',
+            'controller' => 'App\Http\Controllers\Api\DealingController',
+            'function' => 'detail',
+            'route' => 'api.dealings.detail',
+            'description' => 'Dealing Detail',
+            'is_screen' => 0,
+            'sort' => 530,
+        ]);
+
+        MenuItem::create([
             'parent_id' => 7,
             'name' => 'List',
             'controller' => 'App\Http\Controllers\Frontend\SettingController',

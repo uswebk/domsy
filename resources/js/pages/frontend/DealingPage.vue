@@ -68,6 +68,9 @@
                         @click="edit(dealing)"
                         >edit</v-btn
                       >
+                      <v-btn x-small color="primary" @click="detail(dealing)"
+                        >detail</v-btn
+                      >
                     </td>
                   </tr>
                 </tbody>
@@ -346,6 +349,36 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+      <!-- Detail Dialog -->
+      <v-dialog
+        v-model="detailDialog"
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
+      >
+        <v-card>
+          <v-toolbar dark color="primary">
+            <v-btn icon dark @click="closeDetailModal">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <v-toolbar-title> Dealing Detail</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-container>
+              <v-form ref="form" lazy-validation>
+                <v-row> </v-row>
+              </v-form>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="closeDetailModal">
+              Close
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
   </v-main>
 </template>
@@ -393,7 +426,7 @@ export default {
       storeErrors: {},
       updateErrors: {},
       editDialog: false,
-      deleteDialog: false,
+      detailDialog: false,
     }
   },
 
@@ -409,8 +442,8 @@ export default {
       this.editDialog = true
     },
 
-    openDeleteModal() {
-      this.deleteDialog = true
+    openDetailModal() {
+      this.detailDialog = true
     },
 
     closeNewModal() {
@@ -423,8 +456,8 @@ export default {
       this.editDialog = false
     },
 
-    closeDeleteModal() {
-      this.deleteDialog = false
+    closeDetailModal() {
+      this.detailDialog = false
     },
 
     resetNewDealing() {
@@ -608,6 +641,12 @@ export default {
       this.dealing.isHalt = dealing.is_halt
 
       this.openEditModal()
+    },
+
+    async detail(dealing) {
+      this.dealing = dealing
+
+      this.openDetailModal()
     },
 
     formattedDate(dateTime) {
