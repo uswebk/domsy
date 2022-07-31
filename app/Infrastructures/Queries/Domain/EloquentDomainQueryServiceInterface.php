@@ -19,4 +19,10 @@ interface EloquentDomainQueryServiceInterface
      * @return \App\Infrastructures\Models\Domain
      */
     public function getFirstByUserIdName(int $userId, string $name): \App\Infrastructures\Models\Domain;
+
+    /**
+     * @param array $userIds
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getByUserIds(array $userIds): \Illuminate\Database\Eloquent\Collection;
 }

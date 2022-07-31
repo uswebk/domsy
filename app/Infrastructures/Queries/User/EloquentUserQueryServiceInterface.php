@@ -18,6 +18,12 @@ interface EloquentUserQueryServiceInterface
     public function getActiveUsers(): \Illuminate\Database\Eloquent\Collection;
 
     /**
+     * @param integer $companyId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getActiveUsersByCompanyId(int $companyId): \Illuminate\Database\Eloquent\Collection;
+
+    /**
      * @param integer $id
      * @param string $emailVerifyToken
      * @return \App\Infrastructures\Models\User

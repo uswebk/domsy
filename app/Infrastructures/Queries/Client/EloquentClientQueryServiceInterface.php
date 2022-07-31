@@ -18,4 +18,10 @@ interface EloquentClientQueryServiceInterface
      * @return \App\Infrastructures\Models\Client
      */
     public function firstByIdUserId(int $id, int $userId): \App\Infrastructures\Models\Client;
+
+    /**
+     * @param array $userIds
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getByUserIds(array $userIds): \Illuminate\Database\Eloquent\Collection;
 }

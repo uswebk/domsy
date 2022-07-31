@@ -15,6 +15,9 @@ final class MenuFetchService
 {
     private $menuItems;
 
+    /**
+     * @param \App\Infrastructures\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
+     */
     public function __construct(
         \App\Infrastructures\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
     ) {

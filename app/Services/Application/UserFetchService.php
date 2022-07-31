@@ -13,17 +13,19 @@ final class UserFetchService
 {
     private $users;
 
-    public function __construct()
-    {
+    /**
+     * @param \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
+     */
+    public function __construct(
+        \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
+    ) {
         $user = User::find(Auth::id());
 
         if (! $user->isCompany()) {
             abort(403);
         }
 
-        //TODO: Query Service
-        $this->users = User::where('company_id', '=', $user->company_id)
-        ->whereNull('deleted_at')->get();
+        $this->users = $eloquentUserQueryService->getActiveUsersByCompanyId($user->company_id);
     }
 
     /**

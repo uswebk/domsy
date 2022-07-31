@@ -26,6 +26,15 @@ final class EloquentUserQueryService implements EloquentUserQueryServiceInterfac
     }
 
     /**
+     * @param integer $companyId
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getActiveUsersByCompanyId(int $companyId): \Illuminate\Database\Eloquent\Collection
+    {
+        return User::where('company_id', '=', $companyId)->whereNull('deleted_at')->get();
+    }
+
+    /**
      * @param integer $id
      * @param string $emailVerifyToken
      * @return \App\Infrastructures\Models\User

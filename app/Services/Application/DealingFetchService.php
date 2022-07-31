@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Application;
 
 use App\Http\Resources\DealingResource;
-use App\Infrastructures\Models\Domain;
 use App\Infrastructures\Models\User;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -15,15 +14,18 @@ final class DealingFetchService
 {
     private $domains;
 
-    public function __construct()
-    {
+    /**
+     * @param \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+     */
+    public function __construct(
+        \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+    ) {
         $user = User::find(Auth::id());
 
         $this->domains = new Collection();
 
         if ($user->isCompany()) {
-            //TODO: Query Service
-            $domains = Domain::whereIn('user_id', $user->getMemberIds())->get();
+            $domains = $eloquentDomainQueryService->getByUserIds($user->getMemberIds());
         } else {
             $domains = $user->domains;
         }

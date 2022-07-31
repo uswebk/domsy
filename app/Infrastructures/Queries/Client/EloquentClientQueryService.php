@@ -27,4 +27,13 @@ final class EloquentClientQueryService implements EloquentClientQueryServiceInte
         return Client::where('id', '=', $id)->where('user_id', '=', $userId)
         ->firstOrFail();
     }
+
+    /**
+     * @param array $userIds
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getByUserIds(array $userIds): \Illuminate\Database\Eloquent\Collection
+    {
+        return Client::whereIn('user_id', $userIds)->get();
+    }
 }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Application;
 
 use App\Http\Resources\RegistrarResource;
-use App\Infrastructures\Models\Registrar;
 use App\Infrastructures\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,13 +12,16 @@ final class RegistrarFetchService
 {
     private $registrars;
 
-    public function __construct()
-    {
+    /**
+     * @param \App\Infrastructures\Queries\Registrar\EloquentRegistrarQueryServiceInterface $eloquentRegistrarQueryServiceInterface
+     */
+    public function __construct(
+        \App\Infrastructures\Queries\Registrar\EloquentRegistrarQueryServiceInterface $eloquentRegistrarQueryServiceInterface
+    ) {
         $user = User::find(Auth::id());
 
         if ($user->isCompany()) {
-            //TODO: Query Service
-            $this->registrars = Registrar::whereIn('user_id', $user->getMemberIds())->get();
+            $this->registrars = $eloquentRegistrarQueryServiceInterface->getByUserIds($user->getMemberIds());
         } else {
             $this->registrars = $user->registrars;
         }

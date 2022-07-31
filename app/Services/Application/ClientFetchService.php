@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Application;
 
 use App\Http\Resources\ClientResource;
-use App\Infrastructures\Models\Client;
 use App\Infrastructures\Models\User;
 
 use Illuminate\Support\Facades\Auth;
@@ -14,13 +13,16 @@ final class ClientFetchService
 {
     private $clients;
 
-    public function __construct()
-    {
+    /**
+     * @param \App\Infrastructures\Queries\Client\EloquentClientQueryServiceInterface $eloquentClientQueryService
+     */
+    public function __construct(
+        \App\Infrastructures\Queries\Client\EloquentClientQueryServiceInterface $eloquentClientQueryService
+    ) {
         $user = User::find(Auth::id());
 
         if ($user->isCompany()) {
-            //TODO: Query Service
-            $this->clients = Client::whereIn('user_id', $user->getMemberIds())->get();
+            $this->clients = $eloquentClientQueryService->getByUserIds($user->getMemberIds());
         } else {
             $this->clients = $user->clients;
         }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services\Application;
 
 use App\Http\Resources\DomainResource;
-use App\Infrastructures\Models\Domain;
 use App\Infrastructures\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,13 +12,16 @@ final class DomainFetchService
 {
     private $domains;
 
-    public function __construct()
-    {
+    /**
+     * @param \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+     */
+    public function __construct(
+        \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+    ) {
         $user = User::find(Auth::id());
 
         if ($user->isCompany()) {
-            //TODO: Query Service
-            $this->domains = Domain::whereIn('user_id', $user->getMemberIds())->get();
+            $this->domains = $eloquentDomainQueryService->getByUserIds($user->getMemberIds());
         } else {
             $this->domains = $user->domains;
         }

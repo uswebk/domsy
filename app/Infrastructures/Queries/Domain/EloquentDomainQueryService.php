@@ -29,4 +29,13 @@ final class EloquentDomainQueryService implements EloquentDomainQueryServiceInte
         return Domain::where('name', $name)->where('user_id', $userId)
         ->firstOrFail();
     }
+
+    /**
+     * @param array $userIds
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getByUserIds(array $userIds): \Illuminate\Database\Eloquent\Collection
+    {
+        return Domain::whereIn('user_id', $userIds)->get();
+    }
 }
