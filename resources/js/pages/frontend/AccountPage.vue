@@ -846,6 +846,7 @@ export default {
       this.initUsers()
       this.initRoles()
       this.initMenuItems()
+      this.initRoleOperation()
     },
   },
   created() {
