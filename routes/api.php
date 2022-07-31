@@ -33,7 +33,7 @@ Route::middleware(['verified','auth'])->group(function () {
         Route::get('menu-items', 'MenuController@getMenuItems');
         Route::get('dns-record-type', 'DnsRecordTypeController@getDnsRecordType');
 
-        Route::prefix('roles')->name('role.')->group(function () {
+        Route::prefix('roles')->name('roles.')->group(function () {
             Route::get('/', 'RoleController@getRoles');
             Route::get('/user', 'RoleController@has');
 
@@ -52,21 +52,21 @@ Route::middleware(['verified','auth'])->group(function () {
             Route::delete('/{user}', 'AccountController@delete')->where('user', '[0-9]+')->name('delete');
         });
 
-        Route::prefix('domains')->name('domain.')->group(function () {
-            Route::get('/', 'DomainController@getDomains');
+        Route::prefix('domains')->name('domains.')->group(function () {
+            Route::get('/', 'DomainController@fetch')->name('fetch');
             Route::post('/', 'DomainController@store')->name('store');
             Route::put('/{domain}', 'DomainController@update')->where('domain', '[0-9]+')->name('update');
             Route::delete('/{domain}', 'DomainController@delete')->where('domain', '[0-9]+')->name('delete');
         });
 
         Route::prefix('dns')->name('dns.')->group(function () {
-            Route::get('/', 'DnsController@getSubdomains');
+            Route::get('/', 'DnsController@fetch')->name('fetch');
             Route::post('/', 'DnsController@store')->name('store');
             Route::put('/{subdomain}', 'DnsController@update')->where('subdomain', '[0-9]+')->name('update');
             Route::delete('/{subdomain}', 'DnsController@delete')->where('subdomain', '[0-9]+')->name('delete');
         });
 
-        Route::prefix('registrars')->name('registrar.')->group(function () {
+        Route::prefix('registrars')->name('registrars.')->group(function () {
             Route::get('/', 'RegistrarController@fetch')->name('fetch');
             Route::post('/', 'RegistrarController@store')->name('store');
             Route::put('/{registrar}', 'RegistrarController@update')->where('registrar', '[0-9]+')->name('update');

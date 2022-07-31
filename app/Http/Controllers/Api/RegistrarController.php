@@ -25,13 +25,14 @@ final class RegistrarController extends Controller
     }
 
     /**
+     * @param \App\Services\Application\RegistrarFetchService $registrarFetchService
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
     public function fetch(
         \App\Services\Application\RegistrarFetchService $registrarFetchService
     ) {
         return response()->json(
-            $registrarFetchService->getResponse(),
+            $registrarFetchService->getResponseData(),
             Response::HTTP_OK
         );
     }

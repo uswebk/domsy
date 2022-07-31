@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\DnsResource;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 
 final class DnsController extends Controller
 {
@@ -20,24 +18,20 @@ final class DnsController extends Controller
     ) {
         parent::__construct();
 
-        $this->middleware('can:owner,subdomain')->only(['update','delete']);
+        $this->middleware('can:owner,subdomain')->except(['fetch', 'store']);
 
         $this->subdomainRepository = $subdomainRepository;
     }
 
     /**
+     * @param \App\Services\Application\DnsFetchService $dnsFetchService
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function getSubdomains()
-    {
-        $domains = Auth::user()->domains;
-        $domains->load([
-            'subdomains',
-            'subdomains.dnsRecordType'
-        ]);
-
+    public function fetch(
+        \App\Services\Application\DnsFetchService $dnsFetchService
+    ) {
         return response()->json(
-            DnsResource::collection($domains),
+            $dnsFetchService->getResponseData(),
             Response::HTTP_OK
         );
     }

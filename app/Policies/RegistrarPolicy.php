@@ -21,8 +21,8 @@ final class RegistrarPolicy
     ): bool {
         if ($user->isCompany()) {
             return in_array($registrar->user_id, $user->getMemberIds());
-        } else {
-            return $user->id == $registrar->user_id;
         }
+
+        return $user->id == $registrar->user_id;
     }
 }

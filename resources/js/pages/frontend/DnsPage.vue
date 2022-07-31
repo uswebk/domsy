@@ -57,7 +57,7 @@
       <!-- New Dialog -->
       <v-dialog v-model="newDialog" max-width="600px">
         <v-card>
-          <v-card-title>
+          <v-card-title class="pl-8">
             <span class="text-h6">DNS Create</span>
           </v-card-title>
           <v-card-text>
@@ -66,6 +66,7 @@
                 <v-row>
                   <v-col cols="3">
                     <v-text-field
+                      class="mt-5"
                       label="Prefix"
                       v-model="prefix"
                       required
@@ -77,6 +78,7 @@
                   </v-col>
                   <v-col cols="9">
                     <v-select
+                      class="mt-5"
                       v-model="domainId"
                       :items="domains"
                       item-text="name"
@@ -90,6 +92,7 @@
                   </v-col>
                   <v-col cols="3">
                     <v-select
+                      class="mt-5"
                       v-model="dnsRecordTypeId"
                       :items="dnsRecordTypes"
                       item-text="name"
@@ -103,6 +106,7 @@
                   </v-col>
                   <v-col cols="9">
                     <v-text-field
+                      class="mt-5"
                       label="Value"
                       v-model="value"
                       required
@@ -114,6 +118,7 @@
                   </v-col>
                   <v-col cols="6">
                     <v-text-field
+                      class="mt-5"
                       label="TTL"
                       v-model="ttl"
                       type="number"
@@ -126,6 +131,7 @@
                   </v-col>
                   <v-col cols="6">
                     <v-text-field
+                      class="mt-5"
                       label="Priority"
                       v-model="priority"
                       type="number"
@@ -137,6 +143,8 @@
                     />
                   </v-col>
                 </v-row>
+
+                <div class="my-5"></div>
 
                 <v-btn color="primary" @click="store">Create</v-btn>
               </v-form>
@@ -154,7 +162,7 @@
       <!-- Update Dialog -->
       <v-dialog v-model="editDialog" max-width="600px">
         <v-card>
-          <v-card-title>
+          <v-card-title class="pl-8">
             <span class="text-h6"> DNS Edit</span>
           </v-card-title>
           <v-card-text>
@@ -163,6 +171,7 @@
                 <v-row>
                   <v-col cols="3">
                     <v-text-field
+                      class="mt-5"
                       label="Prefix"
                       v-model="subdomain.prefix"
                       required
@@ -174,6 +183,7 @@
                   </v-col>
                   <v-col cols="9">
                     <v-select
+                      class="mt-5"
                       v-model="subdomain.domainId"
                       :items="domains"
                       item-text="name"
@@ -187,6 +197,7 @@
                   </v-col>
                   <v-col cols="3">
                     <v-select
+                      class="mt-5"
                       v-model="subdomain.typeId"
                       :items="dnsRecordTypes"
                       item-text="name"
@@ -200,6 +211,7 @@
                   </v-col>
                   <v-col cols="9">
                     <v-text-field
+                      class="mt-5"
                       label="Value"
                       v-model="subdomain.value"
                       required
@@ -211,6 +223,7 @@
                   </v-col>
                   <v-col cols="6">
                     <v-text-field
+                      class="mt-5"
                       label="TTL"
                       v-model="subdomain.ttl"
                       type="number"
@@ -223,6 +236,7 @@
                   </v-col>
                   <v-col cols="6">
                     <v-text-field
+                      class="mt-5"
                       label="Priority"
                       v-model="subdomain.priority"
                       type="number"
@@ -234,6 +248,8 @@
                     />
                   </v-col>
                 </v-row>
+
+                <div class="my-5"></div>
 
                 <v-btn color="primary" @click="update">Update</v-btn>
               </v-form>

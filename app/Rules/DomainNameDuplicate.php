@@ -6,6 +6,7 @@ namespace App\Rules;
 
 use App\Infrastructures\Models\Domain;
 
+use App\Infrastructures\Models\User;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,8 +29,15 @@ final class DomainNameDuplicate implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        $domain = Domain::where('name', $value)->where('user_id', Auth::id())
-        ->first();
+        $user = User::find(Auth::id());
+
+        if ($user->isCompany()) {
+            $domain = Domain::where('name', $value)->whereIn('user_id', $user->getMemberIds())
+            ->first();
+        } else {
+            $domain = Domain::where('name', $value)->where('user_id', $user->id)
+            ->first();
+        }
 
         if (isset($domain) && $domain->id !== $this->domain->id) {
             return false;

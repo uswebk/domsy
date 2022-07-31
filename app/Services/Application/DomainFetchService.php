@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
-use App\Http\Resources\RegistrarResource;
-use App\Infrastructures\Models\Registrar;
+use App\Http\Resources\DomainResource;
+use App\Infrastructures\Models\Domain;
 use App\Infrastructures\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-final class RegistrarFetchService
+final class DomainFetchService
 {
-    private $registrars;
+    private $domains;
 
     public function __construct()
     {
         $user = User::find(Auth::id());
 
         if ($user->isCompany()) {
-            $this->registrars = Registrar::whereIn('user_id', $user->getMemberIds())->get();
+            $this->domains = Domain::whereIn('user_id', $user->getMemberIds())->get();
         } else {
-            $this->registrars = Auth::user()->registrars;
+            $this->domains = Auth::user()->domains;
         }
     }
 
@@ -29,6 +29,6 @@ final class RegistrarFetchService
      */
     public function getResponseData(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return RegistrarResource::collection($this->registrars);
+        return DomainResource::collection($this->domains);
     }
 }

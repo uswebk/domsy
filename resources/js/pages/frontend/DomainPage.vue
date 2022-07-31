@@ -71,7 +71,7 @@
       <!-- New Dialog -->
       <v-dialog v-model="newDialog" max-width="600px">
         <v-card>
-          <v-card-title>
+          <v-card-title class="pl-8">
             <span class="text-h6">Domain Create</span>
           </v-card-title>
           <v-card-text>
@@ -80,6 +80,7 @@
                 <v-row>
                   <v-col cols="12">
                     <v-text-field
+                      class="mt-5"
                       label="Common Name"
                       v-model="name"
                       hide-details
@@ -89,6 +90,7 @@
                       :message="storeErrors.name"
                     />
                     <v-select
+                      class="mt-5"
                       v-model="registrarId"
                       :items="registrars"
                       item-text="name"
@@ -100,6 +102,7 @@
                       :message="storeErrors.registrar_id"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Price"
                       v-model="price"
                       type="number"
@@ -111,6 +114,7 @@
                       :message="storeErrors.price"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Purchased Date"
                       v-model="purchasedAt"
                       type="date"
@@ -121,6 +125,7 @@
                       :message="storeErrors.purchased_at"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Expired Date"
                       v-model="expiredAt"
                       type="date"
@@ -131,10 +136,10 @@
                       :message="storeErrors.expired_at"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Canceled Date"
                       v-model="canceledAt"
                       type="date"
-                      required
                       hide-details
                     ></v-text-field>
                     <ValidationErrorMessageComponent
@@ -143,6 +148,7 @@
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
+                      class="mt-5"
                       v-model="isActive"
                       label="isActive"
                       hide-details
@@ -153,6 +159,7 @@
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
+                      class="mt-5"
                       v-model="isTransferred"
                       label="isTransferred"
                       hide-details
@@ -163,6 +170,7 @@
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
+                      class="mt-5"
                       v-model="isManagementOnly"
                       label="isManagementOnly"
                       hide-details
@@ -172,6 +180,8 @@
                     />
                   </v-col>
                 </v-row>
+
+                <div class="my-5"></div>
 
                 <v-btn color="primary" @click="store">Create</v-btn>
               </v-form>
@@ -189,7 +199,7 @@
       <!-- Update Dialog -->
       <v-dialog v-model="editDialog" max-width="600px">
         <v-card>
-          <v-card-title>
+          <v-card-title class="pl-8">
             <span class="text-h6">Domain Edit</span>
           </v-card-title>
           <v-card-text>
@@ -198,6 +208,7 @@
                 <v-row>
                   <v-col cols="12">
                     <v-text-field
+                      class="mt-5"
                       label="Common Name"
                       v-model="domain.name"
                       hide-details
@@ -207,6 +218,7 @@
                       :message="updateErrors.name"
                     />
                     <v-select
+                      class="mt-5"
                       v-model="domain.registrarId"
                       :items="registrars"
                       item-text="name"
@@ -218,6 +230,7 @@
                       :message="updateErrors.registrar_id"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Price"
                       v-model="domain.price"
                       type="number"
@@ -229,6 +242,7 @@
                       :message="updateErrors.price"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Purchased Date"
                       v-model="domain.purchasedAt"
                       type="date"
@@ -239,6 +253,7 @@
                       :message="updateErrors.purchased_at"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Expired Date"
                       v-model="domain.expiredAt"
                       type="date"
@@ -249,6 +264,7 @@
                       :message="updateErrors.expired_at"
                     />
                     <v-text-field
+                      class="mt-5"
                       label="Canceled Date"
                       v-model="domain.canceledAt"
                       type="date"
@@ -261,6 +277,7 @@
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
+                      class="mt-5"
                       v-model="domain.isActive"
                       label="isActive"
                       hide-details
@@ -271,6 +288,7 @@
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
+                      class="mt-5"
                       v-model="domain.isTransferred"
                       label="isTransferred"
                       hide-details
@@ -281,6 +299,7 @@
                   </v-col>
                   <v-col cols="3">
                     <v-checkbox
+                      class="mt-5"
                       v-model="domain.isManagementOnly"
                       label="isManagementOnly"
                       hide-details
@@ -290,6 +309,8 @@
                     />
                   </v-col>
                 </v-row>
+
+                <div class="my-5"></div>
 
                 <v-btn color="primary" @click="update">Update</v-btn>
               </v-form>
@@ -448,12 +469,14 @@ export default {
 
         this.initDomains()
         this.closeNewModal()
+        this.resetNewDomain()
       } catch (error) {
         const status = error.response.status
 
         if (status === 403) {
           this.alert = 'Illegal operation was performed.'
           this.closeNewModal()
+          this.resetNewDomain()
         }
 
         if (status === 422) {
@@ -468,10 +491,9 @@ export default {
         if (status >= 500) {
           this.alert = 'Server Error'
           this.closeNewModal()
+          this.resetNewDomain()
         }
       }
-
-      this.resetNewDomain()
     },
 
     async update() {

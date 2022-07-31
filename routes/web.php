@@ -18,12 +18,12 @@ Route::namespace('Frontend')->group(function () {
 
     Route::middleware(['verified','auth'])->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
-        Route::get('domain', 'DomainController@index')->name('domain.index');
+        Route::get('domains', 'DomainController@index')->name('domains.index');
         Route::get('dns', 'DnsController@index')->name('dns.index');
-        Route::get('registrar', 'RegistrarController@index')->name('registrar.index');
-        Route::get('client', 'ClientController@index')->name('client.index');
-        Route::get('dealing', 'DealingController@index')->name('dealing.index');
-        Route::get('account', 'AccountController@index')->name('account.index');
+        Route::get('registrars', 'RegistrarController@index')->name('registrars.index');
+        Route::get('clients', 'ClientController@index')->name('clients.index');
+        Route::get('dealings', 'DealingController@index')->name('dealings.index');
+        Route::get('accounts', 'AccountController@index')->name('accounts.index');
         Route::get('settings', 'SettingController@index')->name('settings.index');
     });
 });

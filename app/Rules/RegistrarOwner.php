@@ -6,6 +6,7 @@ namespace App\Rules;
 
 use App\Infrastructures\Models\Registrar;
 
+use App\Infrastructures\Models\User;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,8 +19,17 @@ final class RegistrarOwner implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        $registrar = Registrar::where('id', '=', $value)->where('user_id', '=', Auth::id())
-        ->first();
+        $user = User::find(Auth::id());
+
+        if ($user->isCompany()) {
+            $registrar = Registrar::where('id', '=', $value)
+            ->whereIn('user_id', $user->getMemberIds())
+            ->first();
+        } else {
+            $registrar = Registrar::where('id', '=', $value)->where('user_id', '=', Auth::id())
+            ->first();
+        }
+
 
         return isset($registrar);
     }

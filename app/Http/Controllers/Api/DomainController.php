@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\DomainResource;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 
 final class DomainController extends Controller
 {
@@ -14,18 +12,18 @@ final class DomainController extends Controller
     {
         parent::__construct();
 
-        $this->middleware('can:owner,domain')->except(['getDomains', 'store']);
+        $this->middleware('can:owner,domain')->except(['fetch', 'store']);
     }
 
     /**
+     * @param \App\Services\Application\DomainFetchService $domainFetchService
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function getDomains()
-    {
-        $domains = Auth::user()->domains;
-
+    public function fetch(
+        \App\Services\Application\DomainFetchService $domainFetchService
+    ) {
         return response()->json(
-            DomainResource::collection($domains),
+            $domainFetchService->getResponseData(),
             Response::HTTP_OK
         );
     }

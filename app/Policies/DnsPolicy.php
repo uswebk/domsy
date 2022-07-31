@@ -19,6 +19,10 @@ final class DnsPolicy
         \App\Infrastructures\Models\User $user,
         \App\Infrastructures\Models\Subdomain $subdomain
     ): bool {
+        if ($user->isCompany()) {
+            return in_array($subdomain->domain->user_id, $user->getMemberIds());
+        }
+
         return $user->id == $subdomain->domain->user_id;
     }
 }

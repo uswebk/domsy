@@ -19,6 +19,10 @@ final class DomainPolicy
         \App\Infrastructures\Models\User $user,
         \App\Infrastructures\Models\Domain $domain
     ): bool {
+        if ($user->isCompany()) {
+            return in_array($domain->user_id, $user->getMemberIds());
+        }
+
         return $user->id == $domain->user_id;
     }
 }
