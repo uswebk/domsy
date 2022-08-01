@@ -82,7 +82,12 @@
             <span class="text-h6">DNS Create</span>
           </v-card-title>
           <v-card-text>
-            <v-container>
+            <v-progress-linear
+              v-if="dialogLoading"
+              color="info"
+              indeterminate
+            ></v-progress-linear>
+            <v-container v-if="!dialogLoading">
               <v-form ref="form" lazy-validation>
                 <v-row>
                   <v-col cols="3">
@@ -187,7 +192,12 @@
             <span class="text-h6"> DNS Edit</span>
           </v-card-title>
           <v-card-text>
-            <v-container>
+            <v-progress-linear
+              v-if="dialogLoading"
+              color="info"
+              indeterminate
+            ></v-progress-linear>
+            <v-container v-if="!dialogLoading">
               <v-form ref="form" lazy-validation>
                 <v-row>
                   <v-col cols="3">
@@ -326,6 +336,7 @@ export default {
       greeting: '',
       alert: '',
       finishInitialize: false,
+      dialogLoading: false,
       canStore: false,
       canUpdate: false,
       canDelete: false,
@@ -352,13 +363,16 @@ export default {
 
   methods: {
     async openNewModal(domain) {
+      this.dialogLoading = true
+
+      this.newDialog = true
       await this.initDomains()
       await this.initDnsRecordType()
 
       this.newDns = domain
       this.domainId = domain.id
 
-      this.newDialog = true
+      this.dialogLoading = false
     },
 
     async openEditModal() {
@@ -554,6 +568,10 @@ export default {
     },
 
     async edit(subdomain) {
+      this.dialogLoading = true
+
+      this.openEditModal()
+
       await this.initDomains()
       await this.initDnsRecordType()
 
@@ -565,7 +583,7 @@ export default {
       this.subdomain.ttl = subdomain.ttl
       this.subdomain.priority = subdomain.priority
 
-      this.openEditModal()
+      this.dialogLoading = false
     },
 
     async deleteSubDomain(subdomain) {

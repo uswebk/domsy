@@ -96,12 +96,16 @@
             <span class="text-h6">Domain Create</span>
           </v-card-title>
           <v-card-text>
-            <v-container>
+            <v-progress-linear
+              v-if="dialogLoading"
+              color="info"
+              indeterminate
+            ></v-progress-linear>
+            <v-container v-if="!dialogLoading">
               <v-form ref="form" lazy-validation>
                 <v-row>
                   <v-col cols="12">
                     <v-text-field
-                      class="mt-5"
                       label="Common Name"
                       v-model="name"
                       hide-details
@@ -224,12 +228,16 @@
             <span class="text-h6">Domain Edit</span>
           </v-card-title>
           <v-card-text>
-            <v-container>
+            <v-progress-linear
+              v-if="dialogLoading"
+              color="info"
+              indeterminate
+            ></v-progress-linear>
+            <v-container v-if="!dialogLoading">
               <v-form ref="form" lazy-validation>
                 <v-row>
                   <v-col cols="12">
                     <v-text-field
-                      class="mt-5"
                       label="Common Name"
                       v-model="domain.name"
                       hide-details
@@ -387,6 +395,7 @@ export default {
       greeting: '',
       alert: '',
       finishInitialize: false,
+      dialogLoading: false,
       tab: '',
       canStore: false,
       canUpdate: false,
@@ -418,15 +427,21 @@ export default {
 
   methods: {
     async openNewModal() {
+      this.dialogLoading = true
+      this.newDialog = true
+
       await this.initRegistrars()
 
-      this.newDialog = true
+      this.dialogLoading = false
     },
 
     async openEditModal() {
+      this.dialogLoading = true
+      this.editDialog = true
+
       await this.initRegistrars()
 
-      this.editDialog = true
+      this.dialogLoading = false
     },
 
     openDeleteModal() {

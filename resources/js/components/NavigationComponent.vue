@@ -9,17 +9,24 @@
                 <span class="white--text text-h6">{{ avatarName }}</span>
               </v-avatar>
             </v-list-item-icon>
-            <v-list-item-title>{{ user.name }}</v-list-item-title>
+            <v-list-item-title>{{ user.name }} </v-list-item-title>
           </v-list-item>
 
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-title class="text-h6">
+              <v-list-item-subtitle>{{ user.email }} </v-list-item-subtitle>
+
+              <v-list-item-title
+                class="text-h6"
+                style="text-overflow: inherit; white-space: unset"
+              >
                 <span class="text-caption" v-if="user.is_company">
-                  <v-icon small>mdi-domain</v-icon> {{ user.company.name }}
+                  <v-icon small>mdi-domain</v-icon>
+                  {{ user.company.name }} /
+                  <v-icon small>mdi-card-account-details</v-icon>
+                  {{ user.role.name }}
                 </span>
               </v-list-item-title>
-              <v-list-item-subtitle>{{ user.email }} </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -72,6 +79,7 @@ export default {
       const result = await axios.get('api/me')
 
       this.user = result.data
+      console.log(this.user.role.name)
       this.avatarName = result.data.name.charAt(0)
     },
 

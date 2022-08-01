@@ -99,12 +99,16 @@
             <span class="text-h6">Dealing Create</span>
           </v-card-title>
           <v-card-text>
-            <v-container>
+            <v-progress-linear
+              v-if="dialogLoading"
+              color="info"
+              indeterminate
+            ></v-progress-linear>
+            <v-container v-if="!dialogLoading">
               <v-form ref="form" lazy-validation>
                 <v-row>
                   <v-col cols="12">
                     <v-select
-                      class="mt-5"
                       v-model="domainId"
                       :items="domains"
                       item-text="name"
@@ -232,12 +236,16 @@
             <span class="text-h6"> Dealing Edit</span>
           </v-card-title>
           <v-card-text>
-            <v-container>
+            <v-progress-linear
+              v-if="dialogLoading"
+              color="info"
+              indeterminate
+            ></v-progress-linear>
+            <v-container v-if="!dialogLoading">
               <v-form ref="form" lazy-validation>
                 <v-row>
                   <v-col cols="12">
                     <v-select
-                      class="mt-5"
                       v-model="dealing.domainId"
                       :items="domains"
                       item-text="name"
@@ -497,6 +505,7 @@ export default {
       alert: '',
       tab: '',
       finishInitialize: false,
+      dialogLoading: false,
       canStore: false,
       canUpdate: false,
       canDetail: false,
@@ -535,10 +544,13 @@ export default {
 
   methods: {
     async openNewModal() {
+      this.dialogLoading = true
+      this.newDialog = true
+
       await this.initDomains()
       await this.initClients()
 
-      this.newDialog = true
+      this.dialogLoading = false
     },
 
     async openEditModal() {
@@ -794,8 +806,7 @@ export default {
     },
 
     async edit(dealing) {
-      await this.initDomains()
-      await this.initClients()
+      this.dialogLoading = true
 
       this.dealing.id = dealing.id
       this.dealing.domainId = dealing.domain_id
@@ -809,6 +820,11 @@ export default {
       this.dealing.isHalt = dealing.is_halt
 
       this.openEditModal()
+
+      await this.initDomains()
+      await this.initClients()
+
+      this.dialogLoading = false
     },
 
     async detail(dealing) {
