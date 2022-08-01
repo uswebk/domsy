@@ -20,6 +20,18 @@ final class BillingRepository implements BillingRepositoryInterface
     }
 
     /**
+     * @param \App\Infrastructures\Models\DomainBilling $domainBilling
+     * @return \App\Infrastructures\Models\DomainBilling
+     */
+    public function save(
+        \App\Infrastructures\Models\DomainBilling $domainBilling
+    ): \App\Infrastructures\Models\DomainBilling {
+        $domainBilling->save();
+
+        return $domainBilling;
+    }
+
+    /**
      * @param array $attributes
      * @return \App\Infrastructures\Models\DomainBilling
      */

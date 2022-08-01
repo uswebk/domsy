@@ -13,6 +13,12 @@ interface BillingRepositoryInterface
     public function store(array $attributes): \App\Infrastructures\Models\DomainBilling;
 
     /**
+     * @param \App\Infrastructures\Models\DomainBilling $domainBilling
+     * @return \App\Infrastructures\Models\DomainBilling
+     */
+    public function save(\App\Infrastructures\Models\DomainBilling $domainBilling): \App\Infrastructures\Models\DomainBilling;
+
+    /**
      * @param array $attributes
      * @return \App\Infrastructures\Models\DomainBilling
      */

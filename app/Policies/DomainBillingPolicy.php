@@ -6,7 +6,7 @@ namespace App\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-final class DomainDealingPolicy
+final class DomainBillingPolicy
 {
     use HandlesAuthorization;
 
@@ -17,12 +17,12 @@ final class DomainDealingPolicy
      */
     public function owner(
         \App\Infrastructures\Models\User $user,
-        \App\Infrastructures\Models\DomainDealing $domainDealing
+        \App\Infrastructures\Models\DomainBilling $domainBilling
     ): bool {
         if ($user->isCompany()) {
-            return in_array($domainDealing->getUserId(), $user->getMemberIds());
+            return in_array($domainBilling->getUserId(), $user->getMemberIds());
         }
 
-        return $user->id == $domainDealing->getUserId();
+        return $user->id == $domainBilling->getUserId();
     }
 }

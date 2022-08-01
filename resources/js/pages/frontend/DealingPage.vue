@@ -76,7 +76,11 @@
                         @click="edit(dealing)"
                         >edit</v-btn
                       >
-                      <v-btn x-small color="primary" @click="detail(dealing)"
+                      <v-btn
+                        v-if="canDetail"
+                        x-small
+                        color="primary"
+                        @click="detail(dealing)"
                         >detail</v-btn
                       >
                     </td>
@@ -161,7 +165,6 @@
                   </v-col>
                   <v-col cols="2">
                     <v-text-field
-                      class="mt-5"
                       label="Interval"
                       v-model="interval"
                       type="number"
@@ -174,7 +177,6 @@
                   </v-col>
                   <v-col cols="4">
                     <v-select
-                      class="mt-5"
                       v-model="intervalCategory"
                       :items="intervalCategories"
                       label="IntervalCategory"
@@ -392,12 +394,14 @@
                         >Total Price:{{ billing.total }}</v-list-item-subtitle
                       >
                     </v-list-item-content>
-                    <v-list-item-action v-if="!billing.is_fixed"
-                      ><v-list-item-action-text
-                        ><span @click="editBilling(billing)"
-                          >Edit</span
-                        ></v-list-item-action-text
-                      ></v-list-item-action
+                    <v-list-item-action>
+                      <v-icon
+                        v-if="!billing.is_fixed && canBillingUpdate"
+                        @click="editBilling(billing)"
+                        small
+                      >
+                        mdi-pencil
+                      </v-icon></v-list-item-action
                     >
                   </v-list-item>
                 </div>
@@ -426,7 +430,6 @@
                 <v-row>
                   <v-col cols="12">
                     <v-text-field
-                      class="mt-5"
                       label="Billing Date"
                       v-model="billing.billingDate"
                       type="date"
@@ -462,7 +465,7 @@
 
                 <div class="my-5"></div>
 
-                <v-btn color="primary" @click="update">Update</v-btn>
+                <v-btn color="primary" @click="updateBilling">Update</v-btn>
               </v-form>
             </v-container>
           </v-card-text>
@@ -496,6 +499,8 @@ export default {
       finishInitialize: false,
       canStore: false,
       canUpdate: false,
+      canDetail: false,
+      canBillingUpdate: false,
       dealings: {
         active: {},
         stop: {},
@@ -684,6 +689,51 @@ export default {
         }
       }
     },
+    async updateBilling() {
+      this.resetGreeting()
+
+      try {
+        const result = await axios.put(
+          '/api/dealings/billings/' + this.billing.id,
+          {
+            billing_date: this.billing.billingDate,
+            total: this.billing.total,
+            is_fixed: this.billing.isFixed,
+          }
+        )
+
+        if (result.status === 200) {
+          this.greeting = 'Update success'
+        }
+        this.initDealings()
+        this.closeBillingEditModal()
+        this.closeDetailModal()
+      } catch (error) {
+        const status = error.response.status
+
+        if (status === 403) {
+          this.alert = 'Illegal operation was performed.'
+          this.closeBillingEditModal()
+          this.closeDetailModal()
+        }
+
+        if (status === 422) {
+          var responseErrors = error.response.data.errors
+
+          var errors = {}
+          for (var key in responseErrors) {
+            errors[key] = responseErrors[key][0]
+          }
+          this.updateErrors = errors
+        }
+
+        if (status >= 500) {
+          this.alert = 'Server Error'
+          this.closeBillingEditModal()
+          this.closeDetailModal()
+        }
+      }
+    },
 
     async initDealings() {
       const result = await axios.get('/api/dealings')
@@ -729,6 +779,16 @@ export default {
         '/api/roles/user/?has=api.dealings.update'
       )
       this.canUpdate = canUpdateResult.data
+
+      let canDetailResult = await axios.get(
+        '/api/roles/user/?has=api.dealings.detail'
+      )
+      this.canDetail = canDetailResult.data
+
+      let canBillingUpdateResult = await axios.get(
+        '/api/roles/user/?has=api.dealings.updateBilling'
+      )
+      this.canBillingUpdate = canBillingUpdateResult.data
 
       this.finishInitialize = true
     },

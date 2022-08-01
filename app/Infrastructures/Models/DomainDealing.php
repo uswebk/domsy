@@ -83,6 +83,14 @@ final class DomainDealing extends BaseModel
     /**
      * @return integer
      */
+    public function getUserId(): int
+    {
+        return $this->domain->user_id;
+    }
+
+    /**
+     * @return integer
+     */
     public function getBillingAmount(): int
     {
         return $this->subtotal - $this->discount;

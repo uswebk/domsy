@@ -84,6 +84,8 @@ Route::middleware(['verified','auth'])->group(function () {
             Route::get('/', 'DealingController@fetch');
             Route::post('/', 'DealingController@store')->name('store');
             Route::put('/{domainDealing}', 'DealingController@update')->where('domainDealing', '[0-9]+')->name('update');
+            Route::get('/detail', 'DealingController@detail')->where('domainDealing', '[0-9]+')->name('detail');
+            Route::put('/billings/{domainBilling}', 'DealingController@updateBilling')->where('domainBilling', '[0-9]+')->name('updateBilling');
         });
 
         Route::prefix('settings')->name('settings.')->group(function () {

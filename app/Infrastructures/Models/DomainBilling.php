@@ -28,4 +28,12 @@ final class DomainBilling extends BaseModel
     {
         return $this->belongsTo('App\Infrastructures\Models\DomainDealing', 'dealing_id');
     }
+
+    /**
+     * @return integer
+     */
+    public function getUserId(): int
+    {
+        return $this->domainDealing->getUserId();
+    }
 }
