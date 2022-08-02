@@ -33,9 +33,7 @@ make build
 * Settings( General / Mail )
 * Account
 
-<img width="1494" alt="image" src="https://user-images.githubusercontent.com/50518919/181744197-c6f58d33-52b9-4804-81d1-7999b3c7ef16.png">
-<img width="1331" alt="image" src="https://user-images.githubusercontent.com/50518919/181744977-1ae65689-b6dd-4606-ae4e-6c46f3601088.png">
-
+<img width="1000" alt="image" src="https://user-images.githubusercontent.com/50518919/181744197-c6f58d33-52b9-4804-81d1-7999b3c7ef16.png">
 
 ## Batches
 * Domain expiration notification
