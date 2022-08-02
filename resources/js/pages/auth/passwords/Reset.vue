@@ -10,7 +10,7 @@
           <h4 class="fill-width">Reset Password</h4>
         </v-card-title>
         <v-form ref="form" class="pa-10">
-          <v-text-field v-model="email" label="Email" disabled></v-text-field>
+          <v-text-field :value="email" label="Email" disabled></v-text-field>
           <v-text-field
             v-model="password"
             type="password"
@@ -67,7 +67,6 @@ export default {
   data() {
     return {
       greetingMessage: '',
-
       password: '',
       passwordConfirmation: '',
       errors: {},
@@ -86,7 +85,7 @@ export default {
 
         this.greetingMessage = 'Password reset is complete'
 
-        setTimeout("location.href='/dashboard'", 1000)
+        setTimeout("location.href='/mypage'", 1000)
       } catch (error) {
         var responseErrors = error.response.data.errors
         var errors = {}

@@ -26,7 +26,7 @@ Vue.use(Vuetify)
 /**
  * Page
  */
-Vue.component('auth-login-page', require('./pages/auth/Login.vue').default)
+Vue.component('auth-login-page', require('./pages/auth/LoginPage.vue').default)
 
 Vue.component(
   'auth-register-page',
@@ -36,7 +36,7 @@ Vue.component('auth-verify-page', require('./pages/auth/Verify.vue').default)
 
 Vue.component(
   'auth-passwords-email-page',
-  require('./pages/auth/passwords/Email.vue').default
+  require('./pages/auth/passwords/EmailPage.vue').default
 )
 Vue.component(
   'auth-passwords-reset-page',
@@ -44,6 +44,8 @@ Vue.component(
 )
 
 Vue.component('top-page', require('./pages/frontend/TopPage.vue').default)
+
+Vue.component('my-page', require('./pages/frontend/MyPage.vue').default)
 
 Vue.component(
   'dashboard-page',

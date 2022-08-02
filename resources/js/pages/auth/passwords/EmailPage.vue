@@ -10,7 +10,9 @@
     <v-container>
       <v-card flat max-width="640" class="mx-auto" elevation="2" outlined>
         <v-card-title class="text-center pa-8">
-          <h4 class="fill-width">Reset Password</h4>
+          <h4 class="fill-width">
+            <v-icon middle>mdi-email-sync</v-icon> Reset Password
+          </h4>
         </v-card-title>
         <v-form ref="form" class="pa-10">
           <v-text-field v-model="email" label="Email" required></v-text-field>
@@ -34,7 +36,6 @@ export default {
       greetingMessage: '',
       errorMessage: '',
       email: '',
-      errorMessage: '',
     }
   },
 
@@ -42,7 +43,7 @@ export default {
     async sendResetLink() {
       try {
         await axios.post('/password/email', {
-          email: this.email
+          email: this.email,
         })
 
         this.greetingMessage =

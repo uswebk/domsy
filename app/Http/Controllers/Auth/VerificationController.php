@@ -30,7 +30,7 @@ final class VerificationController extends Controller
         try {
             $emailVerifyService->handle();
         } catch (AlreadyVerifiedException $e) {
-            return redirect('dashboard');
+            return redirect('mypage');
         }
 
         return view('auth.main.register');
@@ -45,7 +45,7 @@ final class VerificationController extends Controller
     public function show(\Illuminate\Http\Request $request)
     {
         return $request->user()->hasVerifiedEmail()
-                        ? redirect('dashboard')
+                        ? redirect('mypage')
                         : view('auth.verify');
     }
 
@@ -60,7 +60,7 @@ final class VerificationController extends Controller
         if ($request->user()->hasVerifiedEmail()) {
             return $request->wantsJson()
                         ? new JsonResponse([], 204)
-                        : redirect('/dashboard');
+                        : redirect('/mypage');
         }
 
         $emailVerificationService->execute($request->user());

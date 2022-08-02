@@ -5,8 +5,10 @@
         <v-list>
           <v-list-item>
             <v-list-item-icon>
-              <v-avatar color="#e8c46a" size="32">
-                <span class="white--text text-h6">{{ avatarName }}</span>
+              <v-avatar size="32">
+                <v-btn color="#e8c46a" href="/mypage">
+                  <span class="white--text text-h6">{{ avatarName }}</span>
+                </v-btn>
               </v-avatar>
             </v-list-item-icon>
             <v-list-item-title>{{ user.name }} </v-list-item-title>
@@ -59,6 +61,7 @@
 
 <script>
 import axios from 'axios'
+
 export default {
   data() {
     return {

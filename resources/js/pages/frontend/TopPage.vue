@@ -32,8 +32,8 @@
         <v-col cols="7" justify="center" align-self="center">
           <v-row>
             <v-col v-if="isLoginCheck">
-              <v-btn v-if="isLogin" color="primary" href="/dashboard">
-                <v-icon dark left> mdi-monitor-dashboard </v-icon>Dashboard
+              <v-btn v-if="isLogin" color="primary" href="/mypage">
+                <v-icon dark left> mdi-account-box </v-icon>Mypage
               </v-btn>
 
               <v-card
@@ -58,12 +58,13 @@
                   ></p>
                   <v-text-field
                     v-model="password"
-                    type="password"
+                    :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                    :type="showPassword ? 'text' : 'password'"
                     name="password"
                     label="Password"
                     hint="At least 8 characters"
                     counter
-                    required
+                    @click:append="showPassword = !showPassword"
                   ></v-text-field>
                   <p
                     class="red--text"
@@ -119,6 +120,7 @@ export default {
       password: '',
       remember: false,
       errors: {},
+      showPassword: false,
       isLogin: false,
       isLoginCheck: false,
       viewProgress: false,
@@ -137,7 +139,7 @@ export default {
         })
 
         if (result.status === 200 || result.status === 204) {
-          location.href = '/dashboard'
+          location.href = '/mypage'
         }
       } catch (error) {
         var responseErrors = error.response.data.errors

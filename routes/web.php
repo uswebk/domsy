@@ -17,6 +17,7 @@ Route::namespace('Frontend')->group(function () {
     Route::get('/', 'TopController@index')->name('top.index');
 
     Route::middleware(['verified','auth'])->group(function () {
+        Route::get('mypage', 'MyPageController@index')->name('mypage.index');
         Route::get('dashboard', 'DashboardController@index')->name('dashboard.index');
         Route::get('domains', 'DomainController@index')->name('domains.index');
         Route::get('dns', 'DnsController@index')->name('dns.index');

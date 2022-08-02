@@ -3,6 +3,6 @@
 @section('app')
     <v-app>
         <p>Registerd!</p>
-        <a href='{{ url('/dashboard') }}' class='sg-btn'>Back To Dashboard</a>
+        <a href='{{ url('/mypage') }}' class='sg-btn'>Back To Mypage</a>
     </v-app>
 @endsection
