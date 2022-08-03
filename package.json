@@ -33,7 +33,9 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "chart.js": "^3.9.1",
         "jquery": "^3.6.0",
+        "vue-chartjs": "^4.1.1",
         "vuetify": "^2.6.7"
     }
 }
