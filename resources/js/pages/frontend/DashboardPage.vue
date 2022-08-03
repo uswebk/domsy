@@ -1,19 +1,5 @@
 <template>
-  <v-main>
-    <v-container> </v-container>
-  </v-main>
+  <v-main> </v-main>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      menus: {},
-    }
-  },
-
-  methods: {},
-
-  created() {},
-}
-</script>
+<script></script>
