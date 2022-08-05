@@ -33,7 +33,7 @@
 
       <v-tabs v-model="tab">
         <v-tab href="#active">Active</v-tab>
-        <v-tab href="#notActive">NotActive</v-tab>
+        <v-tab href="#inActive">InActive</v-tab>
         <v-tab href="#transferred">Transferred</v-tab>
         <v-tab href="#managementOnly">ManagementOnly</v-tab>
       </v-tabs>
@@ -402,7 +402,7 @@ export default {
       canDelete: false,
       domains: {
         active: {},
-        notActive: {},
+        inActive: {},
         managementOnly: {},
         transferred: {},
       },
@@ -611,7 +611,7 @@ export default {
       const result = await axios.get('/api/domains')
 
       let activeDomains = []
-      let notActiveDomains = []
+      let inActiveDomains = []
       let managementOnlyDomains = []
       let transferredDomains = []
 
@@ -629,13 +629,13 @@ export default {
         if (domain.is_active) {
           activeDomains.push(domain)
         } else {
-          notActiveDomains.push(domain)
+          inActiveDomains.push(domain)
         }
       }
 
       this.domains.active = activeDomains
       this.domains.transferred = transferredDomains
-      this.domains.notActive = notActiveDomains
+      this.domains.inActive = inActiveDomains
       this.domains.managementOnly = managementOnlyDomains
     },
 
