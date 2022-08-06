@@ -16,7 +16,7 @@ export default {
         ],
       },
       {
-        options: {},
+        responsive: true,
       }
     )
   },

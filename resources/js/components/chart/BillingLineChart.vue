@@ -13,7 +13,6 @@ export default {
             label: 'Number of domains',
             backgroundColor: '#2EBFAF',
             data: [0, 4, 11, 14, 16, 40],
-            fill: false,
           },
         ],
       },
