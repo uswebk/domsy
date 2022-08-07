@@ -21,7 +21,7 @@
               absolute
               style="bottom: 50px"
               elevation="1"
-              href="https://github.com/uswebk/"
+              href="https://github.com/uswebk/domsy"
               small
             >
               <v-icon>mdi-github</v-icon>
