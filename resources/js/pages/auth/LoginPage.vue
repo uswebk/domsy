@@ -1,5 +1,11 @@
 <template>
   <v-app>
+    <v-progress-linear
+      v-show="viewProgress"
+      indeterminate
+      color="yellow darken-2"
+    ></v-progress-linear>
+
     <v-container>
       <v-card flat max-width="640" class="mx-auto" elevation="2" outlined>
         <v-card-title class="text-center pa-8">
@@ -46,12 +52,15 @@ export default {
       password: '',
       remember: false,
       errors: {},
+      viewProgress: false,
     }
   },
 
   methods: {
     async login() {
       try {
+        this.viewProgress = true
+
         await axios.post('api/login', {
           email: this.email,
           password: this.password,
@@ -69,6 +78,8 @@ export default {
 
         this.errors = errors
       }
+
+      this.viewProgress = false
     },
   },
 }

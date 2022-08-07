@@ -7,6 +7,14 @@
 
       <div class="py-5"></div>
 
+      <v-progress-linear
+        v-show="!finishInitialize"
+        color="yellow darken-2"
+        indeterminate
+        rounded
+        height="6"
+      ></v-progress-linear>
+
       <v-container class="pa-14">
         <v-row dense>
           <v-col cols="4" v-for="menu in menus" :key="menu.id">
@@ -51,15 +59,20 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      finishInitialize: false,
       menus: {},
     }
   },
 
   methods: {
     async getMenus() {
+      this.finishInitialize = false
+
       const result = await axios.get('/api/menus')
 
       this.menus = result.data
+
+      this.finishInitialize = true
     },
   },
 
