@@ -9,23 +9,23 @@
 
       <v-row class="pa-5" justify="center">
         <v-col cols="3">
-          <v-card color="#2EBFAF" dark>
-            <v-card-title class="text-h5">
-              <v-avatar size="32" class="mr-4">
-                <v-btn color="#e8c46a">
+          <v-card>
+            <v-card color="#2EBFAF" dark tile style="box-shadow: none">
+              <v-card-title class="justify-end"> Domain </v-card-title>
+
+              <v-card-title class="text-h5">
+                <v-avatar size="32" class="mr-4" color="#e8c46a">
                   <v-icon>mdi-database</v-icon>
-                </v-btn>
-              </v-avatar>
-              ¥ 12,010
-            </v-card-title>
-            <v-card-subtitle>Domain Seller</v-card-subtitle>
-          </v-card>
+                </v-avatar>
+                ¥ 12,010
+              </v-card-title>
+              <v-card-subtitle style="text-align: center"
+                >Domain Seller (Aug.)</v-card-subtitle
+              >
+            </v-card>
 
-          <div class="mb-6"></div>
-
-          <v-card class="pb-4">
-            <v-card-title>Domain Status</v-card-title>
-            <domain-active-pie-chart />
+            <div class="mb-6"></div>
+            <v-container class="px-5"><domain-active-pie-chart /></v-container>
             <v-card-subtitle style="text-align: center"
               >Summary: 40</v-card-subtitle
             >
@@ -33,7 +33,10 @@
         </v-col>
         <v-col cols="9">
           <v-card class="pa-5">
-            <v-card-title>Domain Transition</v-card-title>
+            <v-card-title class="pa-0">
+              <v-icon class="mr-2">mdi-chart-bell-curve-cumulative</v-icon>
+              Domain Transition
+            </v-card-title>
             <domain-line-chart />
           </v-card>
         </v-col>
