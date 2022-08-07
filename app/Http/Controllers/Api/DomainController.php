@@ -12,7 +12,13 @@ final class DomainController extends Controller
     {
         parent::__construct();
 
-        $this->middleware('can:owner,domain')->except(['fetch', 'store']);
+        $this->middleware('can:owner,domain')->except([
+            'fetch',
+            'fetchTotalSeller',
+            'fetchTransition',
+            'fetchSortExpired',
+            'store'
+        ]);
     }
 
     /**
@@ -24,6 +30,45 @@ final class DomainController extends Controller
     ) {
         return response()->json(
             $domainFetchService->getResponseData(),
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @param \App\Services\Application\DomainFetchTotalSellerService $domainFetchTotalSellerService
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function fetchTotalSeller(
+        \App\Services\Application\DomainFetchTotalSellerService $domainFetchTotalSellerService
+    ) {
+        return response()->json(
+            $domainFetchTotalSellerService->getResponseData(),
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @param \App\Services\Application\DomainFetchTransactionService $domainFetchTransactionService
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function fetchTransition(
+        \App\Services\Application\DomainFetchTransactionService $domainFetchTransactionService
+    ) {
+        return response()->json(
+            $domainFetchTransactionService->getResponseData(),
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @param \App\Services\Application\DomainFetchSortExpiredService $domainFetchSortExpiredService
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function fetchSortExpired(
+        \App\Services\Application\DomainFetchSortExpiredService $domainFetchSortExpiredService
+    ) {
+        return response()->json(
+            $domainFetchSortExpiredService->getResponseData(),
             Response::HTTP_OK
         );
     }

@@ -92,4 +92,18 @@ final class Domain extends BaseModel
     {
         return $this->is_active && ! $this->is_transferred;
     }
+
+    /**
+     * @return integer
+     */
+    public function getTotalSeller(): int
+    {
+        $totalPrice = 0;
+
+        foreach ($this->domainDealings as $domainDealing) {
+            $totalPrice += $domainDealing->getTotalPrice();
+        }
+
+        return $totalPrice;
+    }
 }

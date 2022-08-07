@@ -231,7 +231,6 @@ export default {
       } catch (error) {
         var responseErrors = error.response.data.errors
 
-        console.log(responseErrors)
         var errors = {}
 
         for (var key in responseErrors) {

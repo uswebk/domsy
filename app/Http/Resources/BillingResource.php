@@ -20,6 +20,7 @@ final class BillingResource extends JsonResource
             'billing_date' => $this->billing_date,
             'is_fixed' => $this->is_fixed,
             'changed_at' => $this->changed_at,
+            'domain_name' => $this->getDomainName(),
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
         ];

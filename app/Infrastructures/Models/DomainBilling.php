@@ -14,6 +14,11 @@ final class DomainBilling extends BaseModel
         'changed_at',
     ];
 
+    protected $casts = [
+        'total' => 'integer',
+        'is_fixed' => 'boolean',
+    ];
+
     protected $dates = [
         'billing_date',
         'changed_at',
@@ -35,5 +40,21 @@ final class DomainBilling extends BaseModel
     public function getUserId(): int
     {
         return $this->domainDealing->getUserId();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDomainName(): string
+    {
+        return $this->domainDealing->getDomainName();
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isFixed(): bool
+    {
+        return $this->is_fixed;
     }
 }

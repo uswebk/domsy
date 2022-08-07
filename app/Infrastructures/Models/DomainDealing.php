@@ -131,4 +131,28 @@ final class DomainDealing extends BaseModel
     {
         return $this->getNextBillingDateByTargetDate($this->billing_date);
     }
+
+    /**
+     * @return integer
+     */
+    public function getTotalPrice(): int
+    {
+        $totalPrice = 0;
+
+        foreach ($this->domainBillings as $domainBilling) {
+            if ($domainBilling->isFixed()) {
+                $totalPrice += $domainBilling->total;
+            }
+        }
+
+        return $totalPrice;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDomainName(): string
+    {
+        return $this->domain->name;
+    }
 }

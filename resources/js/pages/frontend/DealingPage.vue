@@ -57,8 +57,8 @@
                   <tr v-for="dealing in _dealing" :key="dealing.id">
                     <td>{{ dealing.domain }}</td>
                     <td>{{ dealing.client.name }}</td>
-                    <td>{{ dealing.subtotal }}</td>
-                    <td>{{ dealing.discount }}</td>
+                    <td>{{ formattedPrice(dealing.subtotal) }}</td>
+                    <td>{{ formattedPrice(dealing.discount) }}</td>
                     <td>{{ formattedDate(dealing.billing_date) }}</td>
                     <td>
                       {{ dealing.interval }} {{ dealing.interval_category }}
@@ -398,9 +398,9 @@
                       <v-list-item-title>{{
                         formattedDate(billing.billing_date)
                       }}</v-list-item-title>
-                      <v-list-item-subtitle
-                        >Total Price:{{ billing.total }}</v-list-item-subtitle
-                      >
+                      <v-list-item-subtitle>{{
+                        formattedPrice(billing.total)
+                      }}</v-list-item-subtitle>
                     </v-list-item-content>
                     <v-list-item-action>
                       <v-icon
@@ -492,6 +492,8 @@
 <script>
 import axios from 'axios'
 import { shortHyphenDate } from '../../modules/DateHelper'
+import { priceFormat } from '../../modules/AppHelper'
+
 import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
 
 export default {
@@ -844,6 +846,9 @@ export default {
 
     formattedDate(dateTime) {
       return shortHyphenDate(dateTime)
+    },
+    formattedPrice(price) {
+      return priceFormat(price)
     },
   },
 

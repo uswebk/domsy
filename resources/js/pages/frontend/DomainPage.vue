@@ -57,7 +57,7 @@
                 <tbody>
                   <tr v-for="domain in _domain" :key="domain.id">
                     <td>{{ domain.name }}</td>
-                    <td>{{ domain.price }}</td>
+                    <td>{{ formattedPrice(domain.price) }}</td>
                     <td class="text-center">
                       <span v-if="domain.is_active"
                         ><v-icon small>mdi-checkbox-marked-circle</v-icon></span
@@ -383,6 +383,8 @@
 <script>
 import axios from 'axios'
 import { shortHyphenDate } from '../../modules/DateHelper'
+import { priceFormat } from '../../modules/AppHelper'
+
 import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
 
 export default {
@@ -689,6 +691,9 @@ export default {
 
     formattedDate(dateTime) {
       return shortHyphenDate(dateTime)
+    },
+    formattedPrice(price) {
+      return priceFormat(price)
     },
   },
 

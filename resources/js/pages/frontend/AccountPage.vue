@@ -795,7 +795,6 @@ export default {
     async deleteRole(role) {
       this.resetGreeting()
 
-      console.log(role)
       this.role.id = role.id
       this.role.name = role.name
 

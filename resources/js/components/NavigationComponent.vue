@@ -82,7 +82,6 @@ export default {
       const result = await axios.get('api/me')
 
       this.user = result.data
-      console.log(this.user.role.name)
       this.avatarName = result.data.name.charAt(0)
     },
 

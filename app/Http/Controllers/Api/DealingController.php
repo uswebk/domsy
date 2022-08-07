@@ -29,6 +29,32 @@ final class DealingController extends Controller
     }
 
     /**
+     * @param \App\Services\Application\DealingFetchBillingTransactionService $dealingFetchBillingTransactionService
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function fetchBillingTransaction(
+        \App\Services\Application\DealingFetchBillingTransactionService $dealingFetchBillingTransactionService
+    ) {
+        return response()->json(
+            $dealingFetchBillingTransactionService->getResponseData(),
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @param \App\Services\Application\DealingFetchBillingSortBillingDateService $dealingFetchBillingSortBillingDateService
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function fetchBillingSortBillingDate(
+        \App\Services\Application\DealingFetchBillingSortBillingDateService $dealingFetchBillingSortBillingDateService
+    ) {
+        return response()->json(
+            $dealingFetchBillingSortBillingDateService->getResponseData(),
+            Response::HTTP_OK
+        );
+    }
+
+    /**
      * @param \App\Http\Requests\Api\Dealing\UpdateRequest $request
      * @param \App\Infrastructures\Models\DomainDealing $domainDealing
      * @param \App\Services\Application\DealingUpdateService $dealingUpdateService
