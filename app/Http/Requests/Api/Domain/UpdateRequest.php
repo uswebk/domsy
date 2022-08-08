@@ -18,7 +18,7 @@ final class UpdateRequest extends Request
     {
         return [
             'registrar_id' => new RegistrarOwner(),
-            'name' => new DomainNameDuplicate($this->domain),
+            'name' => ['min:1',new DomainNameDuplicate($this->domain)],
             'price' => 'required|integer',
             'is_active' => 'required|boolean',
             'is_transferred' => 'required|boolean',

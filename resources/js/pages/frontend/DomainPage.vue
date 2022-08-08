@@ -92,164 +92,22 @@
       <new-dialog
         :isOpen="newDialog"
         @close="closeNewModal"
-        @store="store"
+        @sendMessage="sendMessage"
       ></new-dialog>
 
-      <!-- Update Dialog -->
-      <v-dialog v-model="editDialog" max-width="600px">
-        <v-card>
-          <v-card-title class="pl-8">
-            <span class="text-h6">Domain Edit</span>
-          </v-card-title>
-          <v-card-text>
-            <v-progress-linear
-              v-if="dialogLoading"
-              color="info"
-              indeterminate
-            ></v-progress-linear>
-            <v-container v-if="!dialogLoading">
-              <v-form ref="form" lazy-validation>
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                      label="Common Name"
-                      v-model="domain.name"
-                      hide-details
-                      required
-                    ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.name"
-                    />
-                    <v-select
-                      class="mt-5"
-                      v-model="domain.registrarId"
-                      :items="registrars"
-                      item-text="name"
-                      item-value="id"
-                      label="Registrar"
-                      hide-details
-                    ></v-select>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.registrar_id"
-                    />
-                    <v-text-field
-                      class="mt-5"
-                      label="Price"
-                      v-model="domain.price"
-                      type="number"
-                      prefix="¥"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.price"
-                    />
-                    <v-text-field
-                      class="mt-5"
-                      label="Purchased Date"
-                      v-model="domain.purchasedAt"
-                      type="date"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.purchased_at"
-                    />
-                    <v-text-field
-                      class="mt-5"
-                      label="Expired Date"
-                      v-model="domain.expiredAt"
-                      type="date"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.expired_at"
-                    />
-                    <v-text-field
-                      class="mt-5"
-                      label="Canceled Date"
-                      v-model="domain.canceledAt"
-                      type="date"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.canceled_at"
-                    />
-                  </v-col>
-                  <v-col cols="3">
-                    <v-checkbox
-                      class="mt-5"
-                      v-model="domain.isActive"
-                      label="isActive"
-                      hide-details
-                    ></v-checkbox>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.is_active"
-                    />
-                  </v-col>
-                  <v-col cols="3">
-                    <v-checkbox
-                      class="mt-5"
-                      v-model="domain.isTransferred"
-                      label="isTransferred"
-                      hide-details
-                    ></v-checkbox>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.is_transferred"
-                    />
-                  </v-col>
-                  <v-col cols="3">
-                    <v-checkbox
-                      class="mt-5"
-                      v-model="domain.isManagementOnly"
-                      label="isManagementOnly"
-                      hide-details
-                    ></v-checkbox>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.is_management_only"
-                    />
-                  </v-col>
-                </v-row>
+      <update-dialog
+        :isOpen="editDialog"
+        :domain="domain"
+        @close="closeEditModal"
+        @sendMessage="sendMessage"
+      ></update-dialog>
 
-                <div class="my-5"></div>
-
-                <v-btn color="primary" @click="update">Update</v-btn>
-              </v-form>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeEditModal">
-              Close
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
-      <!-- Delete Dialog -->
-      <v-dialog v-model="deleteDialog" max-width="290">
-        <v-card>
-          <v-card-title class="text-h5"> Deletion confirmation </v-card-title>
-
-          <v-card-text>
-            Do you want to delete the 「{{ domain.name }}」 ?
-          </v-card-text>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-
-            <v-btn color="gray darken-1" text @click="closeDeleteModal">
-              Close
-            </v-btn>
-
-            <v-btn color="red darken-1" text @click="deleteExecute">
-              Delete
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <delete-dialog
+        :isOpen="deleteDialog"
+        :domain="domain"
+        @close="closeDeleteModal"
+        @sendMessage="sendMessage"
+      ></delete-dialog>
     </v-container>
   </v-main>
 </template>
@@ -259,13 +117,15 @@ import axios from 'axios'
 import { shortHyphenDate } from '../../modules/DateHelper'
 import { priceFormat } from '../../modules/AppHelper'
 
-import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
 import NewDialog from '../../components/domain/NewDialog'
+import UpdateDialog from '../../components/domain/UpdateDialog'
+import DeleteDialog from '../../components/domain/DeleteDialog'
 
 export default {
   components: {
-    ValidationErrorMessageComponent,
     NewDialog,
+    UpdateDialog,
+    DeleteDialog,
   },
 
   data() {
@@ -273,7 +133,6 @@ export default {
       greeting: '',
       alert: '',
       finishInitialize: false,
-      dialogLoading: false,
       tab: '',
       canStore: false,
       canUpdate: false,
@@ -284,12 +143,10 @@ export default {
         managementOnly: {},
         transferred: {},
       },
-      registrars: {},
       domain: {},
       newDialog: false,
       editDialog: false,
       deleteDialog: false,
-      updateErrors: {},
     }
   },
 
@@ -299,12 +156,7 @@ export default {
     },
 
     async openEditModal() {
-      this.dialogLoading = true
       this.editDialog = true
-
-      await this.initRegistrars()
-
-      this.dialogLoading = false
     },
 
     openDeleteModal() {
@@ -312,12 +164,10 @@ export default {
     },
 
     closeNewModal() {
-      this.resetStoreError()
       this.newDialog = false
     },
 
     closeEditModal() {
-      this.resetUpdateError()
       this.editDialog = false
     },
 
@@ -330,15 +180,7 @@ export default {
       this.alert = ''
     },
 
-    resetStoreError() {
-      this.storeErrors = {}
-    },
-
-    resetUpdateError() {
-      this.updateErrors = {}
-    },
-
-    async store(result) {
+    sendMessage(result) {
       this.resetGreeting()
 
       this.initDomains()
@@ -347,77 +189,6 @@ export default {
         this.greeting = result.message
       } else {
         this.alert = result.message
-      }
-    },
-
-    async update() {
-      this.resetGreeting()
-
-      try {
-        const result = await axios.put('/api/domains/' + this.domain.id, {
-          name: this.domain.name,
-          registrar_id: this.domain.registrarId,
-          price: this.domain.price,
-          is_active: this.domain.isActive,
-          is_transferred: this.domain.isTransferred,
-          is_management_only: this.domain.isManagementOnly,
-          purchased_at: this.domain.purchasedAt,
-          expired_at: this.domain.expiredAt,
-          canceled_at: this.domain.canceledAt,
-        })
-
-        if (result.status === 200) {
-          this.greeting = 'Update success'
-        }
-        this.initDomains()
-        this.closeEditModal()
-      } catch (error) {
-        const status = error.response.status
-
-        if (status === 403) {
-          this.alert = 'Illegal operation was performed.'
-          this.closeEditModal()
-        }
-
-        if (status === 422) {
-          var responseErrors = error.response.data.errors
-
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
-          }
-          this.updateErrors = errors
-        }
-
-        if (status >= 500) {
-          this.alert = 'Server Error'
-          this.closeEditModal()
-        }
-      }
-    },
-
-    async deleteExecute() {
-      try {
-        const result = await axios.delete('/api/domains/' + this.domain.id)
-
-        if (result.status === 200) {
-          this.greeting = 'Delete success'
-        }
-
-        this.initDomains()
-        this.closeDeleteModal()
-      } catch (error) {
-        const status = error.response.status
-
-        if (status === 403) {
-          this.alert = 'Illegal operation was performed.'
-          this.closeDeleteModal()
-        }
-
-        if (status >= 500) {
-          this.alert = 'Server Error'
-          this.closeDeleteModal()
-        }
       }
     },
 
@@ -457,12 +228,6 @@ export default {
       this.finishInitialize = true
     },
 
-    async initRegistrars() {
-      const result = await axios.get('/api/registrars')
-
-      this.registrars = result.data
-    },
-
     edit(domain) {
       this.domain.id = domain.id
       this.domain.name = domain.name
@@ -479,8 +244,6 @@ export default {
     },
 
     async deleteDomain(domain) {
-      this.resetGreeting()
-
       this.domain = domain
 
       this.openDeleteModal()
@@ -489,6 +252,7 @@ export default {
     formattedDate(dateTime) {
       return shortHyphenDate(dateTime)
     },
+
     formattedPrice(price) {
       return priceFormat(price)
     },
@@ -525,6 +289,7 @@ export default {
     this.canStoreCheck()
     this.canUpdateCheck()
     this.canDeleteCheck()
+
     await this.initDomains()
 
     this.finishInitialize = true

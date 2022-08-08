@@ -2,7 +2,7 @@
   <v-dialog v-model="open" max-width="600px">
     <v-card>
       <v-card-title class="pl-8">
-        <span class="text-h6">Domain Create</span>
+        <span class="text-h6">Domain Edit</span>
       </v-card-title>
       <v-card-text>
         <v-progress-linear
@@ -16,17 +16,16 @@
               <v-col cols="12">
                 <v-text-field
                   label="Common Name"
-                  v-model="name"
+                  v-model="domainInfo.name"
                   hide-details
                   required
                 ></v-text-field>
                 <validation-error-message-component
                   :message="errors.name"
                 ></validation-error-message-component>
-
                 <v-select
                   class="mt-5"
-                  v-model="registrarId"
+                  v-model="domainInfo.registrarId"
                   :items="registrars"
                   item-text="name"
                   item-value="id"
@@ -40,7 +39,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Price"
-                  v-model="price"
+                  v-model="domainInfo.price"
                   type="number"
                   prefix="¥"
                   required
@@ -53,7 +52,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Purchased Date"
-                  v-model="purchasedAt"
+                  v-model="domainInfo.purchasedAt"
                   type="date"
                   required
                   hide-details
@@ -65,7 +64,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Expired Date"
-                  v-model="expiredAt"
+                  v-model="domainInfo.expiredAt"
                   type="date"
                   required
                   hide-details
@@ -77,8 +76,9 @@
                 <v-text-field
                   class="mt-5"
                   label="Canceled Date"
-                  v-model="canceledAt"
+                  v-model="domainInfo.canceledAt"
                   type="date"
+                  required
                   hide-details
                 ></v-text-field>
                 <validation-error-message-component
@@ -88,7 +88,7 @@
               <v-col cols="3">
                 <v-checkbox
                   class="mt-5"
-                  v-model="isActive"
+                  v-model="domainInfo.isActive"
                   label="isActive"
                   hide-details
                 ></v-checkbox>
@@ -99,7 +99,7 @@
               <v-col cols="3">
                 <v-checkbox
                   class="mt-5"
-                  v-model="isTransferred"
+                  v-model="domainInfo.isTransferred"
                   label="isTransferred"
                   hide-details
                 ></v-checkbox>
@@ -110,7 +110,7 @@
               <v-col cols="3">
                 <v-checkbox
                   class="mt-5"
-                  v-model="isManagementOnly"
+                  v-model="domainInfo.isManagementOnly"
                   label="isManagementOnly"
                   hide-details
                 ></v-checkbox>
@@ -122,7 +122,7 @@
 
             <div class="my-5"></div>
 
-            <v-btn color="primary" @click="store">Create</v-btn>
+            <v-btn color="primary" @click="update">Update</v-btn>
           </v-form>
         </v-container>
       </v-card-text>
@@ -148,6 +148,11 @@ export default {
       type: Boolean,
       required: true,
     },
+    domain: {
+      default: null,
+      type: Object,
+      required: true,
+    },
   },
 
   data() {
@@ -168,49 +173,39 @@ export default {
   },
 
   computed: {
+    domainInfo() {
+      return this.domain
+    },
     open: {
       get() {
         return this.isOpen
       },
       set(value) {
         this.errors = {}
-
         this.$emit('close', value)
       },
     },
   },
 
   methods: {
-    resetNewDomain() {
-      this.name = ''
-      this.registrarId = ''
-      this.price = 0
-      this.isActive = true
-      this.isTransferred = ''
-      this.isManagementOnly = ''
-      this.purchasedAt = ''
-      this.expiredAt = ''
-      this.canceledAt = ''
-    },
-
-    async store() {
+    async update() {
       try {
-        const result = await axios.post('/api/domains', {
-          name: this.name,
-          registrar_id: this.registrarId,
-          price: this.price,
-          is_active: this.isActive,
-          is_transferred: this.isTransferred,
-          is_management_only: this.isManagementOnly,
-          purchased_at: this.purchasedAt,
-          expired_at: this.expiredAt,
-          canceled_at: this.canceledAt,
+        const result = await axios.put('/api/domains/' + this.domainInfo.id, {
+          name: this.domainInfo.name,
+          registrar_id: this.domainInfo.registrarId,
+          price: this.domainInfo.price,
+          is_active: this.domainInfo.isActive,
+          is_transferred: this.domainInfo.isTransferred,
+          is_management_only: this.domainInfo.isManagementOnly,
+          purchased_at: this.domainInfo.purchasedAt,
+          expired_at: this.domainInfo.expiredAt,
+          canceled_at: this.domainInfo.canceledAt,
         })
 
         this.close()
 
         this.$emit('sendMessage', {
-          message: 'Create success',
+          message: 'Update success',
           status: result.status,
         })
       } catch (error) {
@@ -242,8 +237,6 @@ export default {
           status: status,
         })
       }
-
-      this.resetNewDomain()
     },
 
     async initRegistrars() {
@@ -256,6 +249,7 @@ export default {
       this.open = false
     },
   },
+
   async created() {
     this.loading = true
 
