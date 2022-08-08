@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
+use App\Http\Resources\DomainResource;
+
 use Exception;
 
 use Illuminate\Support\Facades\DB;
@@ -13,6 +15,8 @@ final class DomainStoreService
     private $domainRepository;
 
     private $subdomainRepository;
+
+    private $domain;
 
     /**
      * @param \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
@@ -38,7 +42,7 @@ final class DomainStoreService
 
         DB::beginTransaction();
         try {
-            $domain = $this->domainRepository->store([
+            $this->domain = $this->domainRepository->store([
                 'name' => $domainRequest->name,
                 'price' => $domainRequest->price,
                 'user_id' => $domainRequest->user_id,
@@ -52,7 +56,7 @@ final class DomainStoreService
             ]);
 
             $this->subdomainRepository->store([
-                'domain_id' => $domain->id,
+                'domain_id' => $this->domain->id,
                 'subdomain' => '',
             ]);
 
@@ -62,5 +66,13 @@ final class DomainStoreService
 
             throw $e;
         }
+    }
+
+    /**
+     * @return \App\Http\Resources\DomainResource
+     */
+    public function getResponseData(): \App\Http\Resources\DomainResource
+    {
+        return new DomainResource($this->domain);
     }
 }

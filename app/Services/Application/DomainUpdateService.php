@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
+use App\Http\Resources\DomainResource;
+
 use Exception;
 
 use Illuminate\Support\Facades\DB;
@@ -11,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 final class DomainUpdateService
 {
     private $domainRepository;
+
+    private $domain;
 
     /**
      * @param \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
@@ -47,7 +51,7 @@ final class DomainUpdateService
                 'canceled_at' => $domainRequest->canceled_at,
             ]);
 
-            $this->domainRepository->save($domain);
+            $this->domain = $this->domainRepository->save($domain);
 
             DB::commit();
         } catch (Exception $e) {
@@ -55,5 +59,13 @@ final class DomainUpdateService
 
             throw $e;
         }
+    }
+
+    /**
+     * @return \App\Http\Resources\DomainResource
+     */
+    public function getResponseData(): \App\Http\Resources\DomainResource
+    {
+        return new DomainResource($this->domain);
     }
 }

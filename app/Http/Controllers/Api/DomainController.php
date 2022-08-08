@@ -88,7 +88,7 @@ final class DomainController extends Controller
         $domainUpdateService->handle($domainRequest, $domain);
 
         return response()->json(
-            [],
+            $domainUpdateService->getResponseData(),
             Response::HTTP_OK
         );
     }
@@ -107,7 +107,7 @@ final class DomainController extends Controller
         $domainStoreService->handle($domainRequest);
 
         return response()->json(
-            [],
+            $domainStoreService->getResponseData(),
             Response::HTTP_OK
         );
     }
