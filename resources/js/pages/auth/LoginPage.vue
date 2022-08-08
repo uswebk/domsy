@@ -16,12 +16,13 @@
           <p class="red--text" v-text="errors.email" v-if="errors.email"></p>
           <v-text-field
             v-model="password"
-            type="password"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPassword ? 'text' : 'password'"
             name="password"
             label="Password"
             hint="At least 8 characters"
             counter
-            required
+            @click:append="showPassword = !showPassword"
           ></v-text-field>
           <p
             class="red--text"
@@ -53,6 +54,7 @@ export default {
       remember: false,
       errors: {},
       viewProgress: false,
+      showPassword: false,
     }
   },
 

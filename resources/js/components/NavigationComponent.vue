@@ -88,7 +88,7 @@ export default {
     async logout() {
       await axios.post('/logout')
 
-      location.href = '/'
+      location.href = '/login'
     },
   },
 

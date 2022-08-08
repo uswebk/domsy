@@ -38,12 +38,13 @@
               <ValidationErrorMessageComponent :message="errors.email" />
               <v-text-field
                 v-model="password"
-                type="password"
+                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="showPassword ? 'text' : 'password'"
                 name="password"
                 label="Password"
                 hint="At least 8 characters"
                 counter
-                required
+                @click:append="showPassword = !showPassword"
               ></v-text-field>
               <ValidationErrorMessageComponent :message="errors.password" />
               <v-text-field
@@ -131,12 +132,17 @@
 
               <v-text-field
                 v-model="password"
-                type="password"
+                :append-icon="
+                  showPasswordCorporation ? 'mdi-eye' : 'mdi-eye-off'
+                "
+                :type="showPasswordCorporation ? 'text' : 'password'"
                 name="password"
                 label="Password"
                 hint="At least 8 characters"
                 counter
-                required
+                @click:append="
+                  showPasswordCorporation = !showPasswordCorporation
+                "
               ></v-text-field>
               <ValidationErrorMessageComponent :message="errors.password" />
               <v-text-field
@@ -186,6 +192,8 @@ export default {
       errors: {},
       companyErrors: {},
       sendMailMessage: '',
+      showPassword: false,
+      showPasswordCorporation: false,
     }
   },
 
@@ -228,6 +236,8 @@ export default {
           },
         })
         this.sendMailMessage = 'We have sent you an approval email.'
+
+        setTimeout("location.href='/email/verify'", 1000)
       } catch (error) {
         var responseErrors = error.response.data.errors
 
