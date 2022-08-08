@@ -89,137 +89,11 @@
         </div>
       </v-tabs-items>
 
-      <!-- New Dialog -->
-      <v-dialog v-model="newDialog" max-width="600px">
-        <v-card>
-          <v-card-title class="pl-8">
-            <span class="text-h6">Domain Create</span>
-          </v-card-title>
-          <v-card-text>
-            <v-progress-linear
-              v-if="dialogLoading"
-              color="info"
-              indeterminate
-            ></v-progress-linear>
-            <v-container v-if="!dialogLoading">
-              <v-form ref="form" lazy-validation>
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                      label="Common Name"
-                      v-model="name"
-                      hide-details
-                      required
-                    ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.name"
-                    />
-                    <v-select
-                      class="mt-5"
-                      v-model="registrarId"
-                      :items="registrars"
-                      item-text="name"
-                      item-value="id"
-                      label="Registrar"
-                      hide-details
-                    ></v-select>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.registrar_id"
-                    />
-                    <v-text-field
-                      class="mt-5"
-                      label="Price"
-                      v-model="price"
-                      type="number"
-                      prefix="¥"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.price"
-                    />
-                    <v-text-field
-                      class="mt-5"
-                      label="Purchased Date"
-                      v-model="purchasedAt"
-                      type="date"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.purchased_at"
-                    />
-                    <v-text-field
-                      class="mt-5"
-                      label="Expired Date"
-                      v-model="expiredAt"
-                      type="date"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.expired_at"
-                    />
-                    <v-text-field
-                      class="mt-5"
-                      label="Canceled Date"
-                      v-model="canceledAt"
-                      type="date"
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.canceled_at"
-                    />
-                  </v-col>
-                  <v-col cols="3">
-                    <v-checkbox
-                      class="mt-5"
-                      v-model="isActive"
-                      label="isActive"
-                      hide-details
-                    ></v-checkbox>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.is_active"
-                    />
-                  </v-col>
-                  <v-col cols="3">
-                    <v-checkbox
-                      class="mt-5"
-                      v-model="isTransferred"
-                      label="isTransferred"
-                      hide-details
-                    ></v-checkbox>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.is_transferred"
-                    />
-                  </v-col>
-                  <v-col cols="3">
-                    <v-checkbox
-                      class="mt-5"
-                      v-model="isManagementOnly"
-                      label="isManagementOnly"
-                      hide-details
-                    ></v-checkbox>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.is_management_only"
-                    />
-                  </v-col>
-                </v-row>
-
-                <div class="my-5"></div>
-
-                <v-btn color="primary" @click="store">Create</v-btn>
-              </v-form>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeNewModal">
-              Close
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <new-dialog
+        :isOpen="newDialog"
+        @close="closeNewModal"
+        @store="store"
+      ></new-dialog>
 
       <!-- Update Dialog -->
       <v-dialog v-model="editDialog" max-width="600px">
@@ -386,10 +260,12 @@ import { shortHyphenDate } from '../../modules/DateHelper'
 import { priceFormat } from '../../modules/AppHelper'
 
 import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
+import NewDialog from '../../components/domain/NewDialog'
 
 export default {
   components: {
     ValidationErrorMessageComponent,
+    NewDialog,
   },
 
   data() {
@@ -413,28 +289,13 @@ export default {
       newDialog: false,
       editDialog: false,
       deleteDialog: false,
-      name: '',
-      registrarId: '',
-      price: 0,
-      isActive: true,
-      isTransferred: false,
-      isManagementOnly: false,
-      purchasedAt: '',
-      expiredAt: '',
-      canceledAt: '',
-      storeErrors: {},
       updateErrors: {},
     }
   },
 
   methods: {
     async openNewModal() {
-      this.dialogLoading = true
       this.newDialog = true
-
-      await this.initRegistrars()
-
-      this.dialogLoading = false
     },
 
     async openEditModal() {
@@ -464,18 +325,6 @@ export default {
       this.deleteDialog = false
     },
 
-    resetNewDomain() {
-      this.name = ''
-      this.registrarId = ''
-      this.price = ''
-      this.isActive = ''
-      this.isTransferred = ''
-      this.isManagementOnly = ''
-      this.purchasedAt = ''
-      this.expiredAt = ''
-      this.canceledAt = ''
-    },
-
     resetGreeting() {
       this.greeting = ''
       this.alert = ''
@@ -489,52 +338,15 @@ export default {
       this.updateErrors = {}
     },
 
-    async store() {
+    async store(result) {
       this.resetGreeting()
 
-      try {
-        const result = await axios.post('/api/domains', {
-          name: this.name,
-          registrar_id: this.registrarId,
-          price: this.price,
-          is_active: this.isActive,
-          is_transferred: this.isTransferred,
-          is_management_only: this.isManagementOnly,
-          purchased_at: this.purchasedAt,
-          expired_at: this.expiredAt,
-          canceled_at: this.canceledAt,
-        })
+      this.initDomains()
 
-        if (result.status === 200) {
-          this.greeting = 'Create success'
-        }
-
-        this.initDomains()
-        this.closeNewModal()
-        this.resetNewDomain()
-      } catch (error) {
-        const status = error.response.status
-
-        if (status === 403) {
-          this.alert = 'Illegal operation was performed.'
-          this.closeNewModal()
-          this.resetNewDomain()
-        }
-
-        if (status === 422) {
-          var responseErrors = error.response.data.errors
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
-          }
-          this.storeErrors = errors
-        }
-
-        if (status >= 500) {
-          this.alert = 'Server Error'
-          this.closeNewModal()
-          this.resetNewDomain()
-        }
+      if (result.status === 200) {
+        this.greeting = result.message
+      } else {
+        this.alert = result.message
       }
     },
 
@@ -610,6 +422,8 @@ export default {
     },
 
     async initDomains() {
+      this.finishInitialize = false
+
       const result = await axios.get('/api/domains')
 
       let activeDomains = []
@@ -639,31 +453,14 @@ export default {
       this.domains.transferred = transferredDomains
       this.domains.inActive = inActiveDomains
       this.domains.managementOnly = managementOnlyDomains
+
+      this.finishInitialize = true
     },
 
     async initRegistrars() {
       const result = await axios.get('/api/registrars')
 
       this.registrars = result.data
-    },
-
-    async initRoleOperation() {
-      let canStoreResult = await axios.get(
-        '/api/roles/user/?has=api.domains.store'
-      )
-      this.canStore = canStoreResult.data
-
-      let canUpdateResult = await axios.get(
-        '/api/roles/user/?has=api.domains.update'
-      )
-      this.canUpdate = canUpdateResult.data
-
-      let canDeleteResult = await axios.get(
-        '/api/roles/user/?has=api.domains.delete'
-      )
-      this.canDelete = canDeleteResult.data
-
-      this.finishInitialize = true
     },
 
     edit(domain) {
@@ -695,11 +492,42 @@ export default {
     formattedPrice(price) {
       return priceFormat(price)
     },
+
+    async canStoreCheck() {
+      this.finishInitialize = false
+
+      let canStoreResult = await axios.get(
+        '/api/roles/user/?has=api.domains.store'
+      )
+      this.canStore = canStoreResult.data
+    },
+
+    async canUpdateCheck() {
+      this.finishInitialize = false
+
+      let canUpdateResult = await axios.get(
+        '/api/roles/user/?has=api.domains.update'
+      )
+      this.canUpdate = canUpdateResult.data
+    },
+
+    async canDeleteCheck() {
+      this.finishInitialize = false
+
+      let canDeleteResult = await axios.get(
+        '/api/roles/user/?has=api.domains.delete'
+      )
+      this.canDelete = canDeleteResult.data
+    },
   },
 
-  created() {
-    this.initDomains()
-    this.initRoleOperation()
+  async created() {
+    this.canStoreCheck()
+    this.canUpdateCheck()
+    this.canDeleteCheck()
+    await this.initDomains()
+
+    this.finishInitialize = true
   },
 }
 </script>

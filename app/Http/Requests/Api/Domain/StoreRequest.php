@@ -18,7 +18,7 @@ final class StoreRequest extends Request
     {
         return [
             'registrar_id' => new RegistrarOwner(),
-            'name' => new DomainNameExists(),
+            'name' => ['min:1',new DomainNameExists()],
             'price' => 'required|integer',
             'is_active' => 'required|boolean',
             'is_transferred' => 'required|boolean',
