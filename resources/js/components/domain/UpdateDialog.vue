@@ -139,6 +139,7 @@ import axios from 'axios'
 import ValidationErrorMessageComponent from '../form/ValidationErrorMessageComponent'
 
 export default {
+  name: 'UpdateDialog',
   components: {
     ValidationErrorMessageComponent,
   },

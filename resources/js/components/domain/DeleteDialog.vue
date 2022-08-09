@@ -22,6 +22,7 @@
 import axios from 'axios'
 
 export default {
+  name: 'DeleteDialog',
   props: {
     isOpen: {
       default: false,

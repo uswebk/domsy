@@ -6,6 +6,7 @@
       </h1>
 
       <div class="py-5"></div>
+
       <v-alert dense text dismissible type="success" v-if="greeting">{{
         greeting
       }}</v-alert>
@@ -41,50 +42,12 @@
       <v-tabs-items v-model="tab">
         <div v-for="(_domain, index) in domains" :key="_domain.id">
           <v-tab-item :value="index">
-            <v-simple-table>
-              <template v-slot:default>
-                <thead>
-                  <tr>
-                    <th class="text-left">Name</th>
-                    <th class="text-left">Price</th>
-                    <th class="text-center">Active</th>
-                    <th class="text-left">Purchased<br />Date</th>
-                    <th class="text-left">Expired<br />Date</th>
-                    <th class="text-left">Canceled<br />Date</th>
-                    <th class="text-left">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="domain in _domain" :key="domain.id">
-                    <td>{{ domain.name }}</td>
-                    <td>{{ formattedPrice(domain.price) }}</td>
-                    <td class="text-center">
-                      <span v-if="domain.is_active"
-                        ><v-icon small>mdi-checkbox-marked-circle</v-icon></span
-                      >
-                    </td>
-                    <td>{{ formattedDate(domain.purchased_at) }}</td>
-                    <td>{{ formattedDate(domain.expired_at) }}</td>
-                    <td>{{ formattedDate(domain.canceled_at) }}</td>
-                    <td>
-                      <v-btn
-                        v-if="canUpdate"
-                        x-small
-                        color="primary"
-                        @click="edit(domain)"
-                        >edit</v-btn
-                      >
-                      <v-btn
-                        v-if="canDelete"
-                        x-small
-                        @click="deleteDomain(domain)"
-                        >delete</v-btn
-                      >
-                    </td>
-                  </tr>
-                </tbody>
-              </template>
-            </v-simple-table>
+            <list-table
+              :headers="headers"
+              :domains="_domain"
+              @edit="edit"
+              @delete="deleteDomain"
+            ></list-table>
           </v-tab-item>
         </div>
       </v-tabs-items>
@@ -115,17 +78,18 @@
 <script>
 import axios from 'axios'
 import { shortHyphenDate } from '../../modules/DateHelper'
-import { priceFormat } from '../../modules/AppHelper'
 
 import NewDialog from '../../components/domain/NewDialog'
 import UpdateDialog from '../../components/domain/UpdateDialog'
 import DeleteDialog from '../../components/domain/DeleteDialog'
+import ListTable from '../../components/domain/ListTable'
 
 export default {
   components: {
     NewDialog,
     UpdateDialog,
     DeleteDialog,
+    ListTable,
   },
 
   data() {
@@ -135,18 +99,48 @@ export default {
       finishInitialize: false,
       tab: '',
       canStore: false,
-      canUpdate: false,
-      canDelete: false,
       domains: {
-        active: {},
-        inActive: {},
-        managementOnly: {},
-        transferred: {},
+        active: [],
+        inactive: [],
+        managementOnly: [],
+        transferred: [],
       },
       domain: {},
       newDialog: false,
       editDialog: false,
       deleteDialog: false,
+
+      headers: [
+        {
+          text: 'Name',
+          value: 'name',
+        },
+        {
+          text: 'Price',
+          value: 'price',
+        },
+        {
+          text: 'Active',
+          value: 'is_active',
+        },
+        {
+          text: 'Purchased Date',
+          value: 'purchased_at',
+        },
+        {
+          text: 'Expired Date',
+          value: 'expired_at',
+        },
+        {
+          text: 'Canceled Date',
+          value: 'canceled_at',
+        },
+        {
+          text: 'Action',
+          value: 'action',
+          sortable: false,
+        },
+      ],
     }
   },
 
@@ -229,6 +223,7 @@ export default {
     },
 
     edit(domain) {
+      console.log(domain)
       this.domain.id = domain.id
       this.domain.name = domain.name
       this.domain.price = domain.price
@@ -253,46 +248,17 @@ export default {
       return shortHyphenDate(dateTime)
     },
 
-    formattedPrice(price) {
-      return priceFormat(price)
-    },
-
     async canStoreCheck() {
-      this.finishInitialize = false
-
       let canStoreResult = await axios.get(
         '/api/roles/user/?has=api.domains.store'
       )
       this.canStore = canStoreResult.data
     },
-
-    async canUpdateCheck() {
-      this.finishInitialize = false
-
-      let canUpdateResult = await axios.get(
-        '/api/roles/user/?has=api.domains.update'
-      )
-      this.canUpdate = canUpdateResult.data
-    },
-
-    async canDeleteCheck() {
-      this.finishInitialize = false
-
-      let canDeleteResult = await axios.get(
-        '/api/roles/user/?has=api.domains.delete'
-      )
-      this.canDelete = canDeleteResult.data
-    },
   },
 
   async created() {
-    this.canStoreCheck()
-    this.canUpdateCheck()
-    this.canDeleteCheck()
-
+    await this.canStoreCheck()
     await this.initDomains()
-
-    this.finishInitialize = true
   },
 }
 </script>
