@@ -1,9 +1,10 @@
 <template>
   <v-main>
     <v-container>
-      <h1 class="text-h5 font-weight-bold">
-        <v-icon large>mdi-database</v-icon> Domain
-      </h1>
+      <icon-head-line
+        :icon="'mdi-database'"
+        :headlineText="'Domain'"
+      ></icon-head-line>
 
       <div class="py-5"></div>
 
@@ -83,6 +84,7 @@ import NewDialog from '../../components/domain/NewDialog'
 import UpdateDialog from '../../components/domain/UpdateDialog'
 import DeleteDialog from '../../components/domain/DeleteDialog'
 import ListTable from '../../components/domain/ListTable'
+import IconHeadLine from '../../components/common/IconHeadLine'
 
 export default {
   components: {
@@ -90,6 +92,7 @@ export default {
     UpdateDialog,
     DeleteDialog,
     ListTable,
+    IconHeadLine,
   },
 
   data() {
