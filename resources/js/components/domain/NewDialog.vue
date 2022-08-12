@@ -20,9 +20,9 @@
                   hide-details
                   required
                 ></v-text-field>
-                <validation-error-message-component
+                <validation-error-message
                   :message="errors.name"
-                ></validation-error-message-component>
+                ></validation-error-message>
 
                 <v-select
                   class="mt-5"
@@ -33,9 +33,9 @@
                   label="Registrar"
                   hide-details
                 ></v-select>
-                <validation-error-message-component
+                <validation-error-message
                   :message="errors.registrar_id"
-                ></validation-error-message-component>
+                ></validation-error-message>
 
                 <v-text-field
                   class="mt-5"
@@ -46,9 +46,9 @@
                   required
                   hide-details
                 ></v-text-field>
-                <validation-error-message-component
+                <validation-error-message
                   :message="errors.price"
-                ></validation-error-message-component>
+                ></validation-error-message>
 
                 <v-text-field
                   class="mt-5"
@@ -58,9 +58,9 @@
                   required
                   hide-details
                 ></v-text-field>
-                <validation-error-message-component
+                <validation-error-message
                   :message="errors.purchased_at"
-                ></validation-error-message-component>
+                ></validation-error-message>
 
                 <v-text-field
                   class="mt-5"
@@ -70,9 +70,9 @@
                   required
                   hide-details
                 ></v-text-field>
-                <validation-error-message-component
+                <validation-error-message
                   :message="errors.expired_at"
-                ></validation-error-message-component>
+                ></validation-error-message>
 
                 <v-text-field
                   class="mt-5"
@@ -81,9 +81,9 @@
                   type="date"
                   hide-details
                 ></v-text-field>
-                <validation-error-message-component
+                <validation-error-message
                   :message="errors.canceled_at"
-                ></validation-error-message-component>
+                ></validation-error-message>
               </v-col>
               <v-col cols="3">
                 <v-checkbox
@@ -92,9 +92,9 @@
                   label="isActive"
                   hide-details
                 ></v-checkbox>
-                <validation-error-message-component
+                <validation-error-message
                   :message="errors.is_active"
-                ></validation-error-message-component>
+                ></validation-error-message>
               </v-col>
               <v-col cols="3">
                 <v-checkbox
@@ -103,9 +103,9 @@
                   label="isTransferred"
                   hide-details
                 ></v-checkbox>
-                <validation-error-message-component
+                <validation-error-message
                   :message="errors.is_transferred"
-                ></validation-error-message-component>
+                ></validation-error-message>
               </v-col>
               <v-col cols="3">
                 <v-checkbox
@@ -114,9 +114,9 @@
                   label="isManagementOnly"
                   hide-details
                 ></v-checkbox>
-                <validation-error-message-component
+                <validation-error-message
                   :message="errors.is_management_only"
-                ></validation-error-message-component>
+                ></validation-error-message>
               </v-col>
             </v-row>
 
@@ -136,12 +136,12 @@
 
 <script>
 import axios from 'axios'
-import ValidationErrorMessageComponent from '../form/ValidationErrorMessageComponent'
+import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'NewDialog',
   components: {
-    ValidationErrorMessageComponent,
+    ValidationErrorMessage,
   },
   props: {
     isOpen: {

@@ -116,9 +116,7 @@
                       label="Domain"
                       hide-details
                     ></v-select>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.domain_id"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.domain_id" />
                     <v-select
                       class="mt-5"
                       v-model="clientId"
@@ -128,9 +126,7 @@
                       label="Client"
                       hide-details
                     ></v-select>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.client_id"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.client_id" />
                     <v-text-field
                       class="mt-5"
                       label="Subtotal"
@@ -140,9 +136,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.subtotal"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.subtotal" />
                     <v-text-field
                       class="mt-5"
                       label="Discount"
@@ -152,9 +146,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.discount"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.discount" />
                     <v-text-field
                       class="mt-5"
                       label="Billing Date"
@@ -163,7 +155,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
+                    <ValidationErrorMessage
                       :message="storeErrors.billing_date"
                     />
                   </v-col>
@@ -175,9 +167,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.interval"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.interval" />
                   </v-col>
                   <v-col cols="4">
                     <v-select
@@ -186,7 +176,7 @@
                       label="IntervalCategory"
                       hide-details
                     ></v-select>
-                    <ValidationErrorMessageComponent
+                    <ValidationErrorMessage
                       :message="storeErrors.interval_category"
                     />
                   </v-col>
@@ -197,7 +187,7 @@
                       label="AutoUpdate"
                       hide-details
                     ></v-checkbox>
-                    <ValidationErrorMessageComponent
+                    <ValidationErrorMessage
                       :message="storeErrors.is_auto_update"
                     />
                   </v-col>
@@ -208,9 +198,7 @@
                       label="Halt"
                       hide-details
                     ></v-checkbox>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.is_halt"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.is_halt" />
                   </v-col>
                 </v-row>
 
@@ -253,9 +241,7 @@
                       label="Domain"
                       hide-details
                     ></v-select>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.domain_id"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.domain_id" />
                     <v-select
                       class="mt-5"
                       v-model="dealing.clientId"
@@ -265,9 +251,7 @@
                       label="Client"
                       hide-details
                     ></v-select>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.client_id"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.client_id" />
                     <v-text-field
                       class="mt-5"
                       label="Subtotal"
@@ -277,9 +261,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.subtotal"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.subtotal" />
                     <v-text-field
                       class="mt-5"
                       label="Discount"
@@ -289,9 +271,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.discount"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.discount" />
                     <v-text-field
                       class="mt-5"
                       label="Billing Date"
@@ -300,7 +280,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
+                    <ValidationErrorMessage
                       :message="updateErrors.billing_date"
                     />
                   </v-col>
@@ -313,9 +293,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.interval"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.interval" />
                   </v-col>
                   <v-col cols="4">
                     <v-select
@@ -325,7 +303,7 @@
                       label="IntervalCategory"
                       hide-details
                     ></v-select>
-                    <ValidationErrorMessageComponent
+                    <ValidationErrorMessage
                       :message="updateErrors.interval_category"
                     />
                   </v-col>
@@ -336,7 +314,7 @@
                       label="AutoUpdate"
                       hide-details
                     ></v-checkbox>
-                    <ValidationErrorMessageComponent
+                    <ValidationErrorMessage
                       :message="updateErrors.is_auto_update"
                     />
                   </v-col>
@@ -347,9 +325,7 @@
                       label="Halt"
                       hide-details
                     ></v-checkbox>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.is_halt"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.is_halt" />
                   </v-col>
                 </v-row>
 
@@ -444,7 +420,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
+                    <ValidationErrorMessage
                       :message="updateErrors.billing_date"
                     />
                     <v-text-field
@@ -456,18 +432,14 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.total"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.total" />
                     <v-checkbox
                       class="mt-5"
                       v-model="billing.isFixed"
                       label="isFixed"
                       hide-details
                     ></v-checkbox>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.is_fixed"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.is_fixed" />
                   </v-col>
                 </v-row>
 
@@ -494,11 +466,11 @@ import axios from 'axios'
 import { shortHyphenDate } from '../../modules/DateHelper'
 import { priceFormat } from '../../modules/AppHelper'
 
-import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
+import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 export default {
   components: {
-    ValidationErrorMessageComponent,
+    ValidationErrorMessage,
   },
 
   data() {

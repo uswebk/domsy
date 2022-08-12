@@ -8,12 +8,10 @@
 
       <div class="py-5"></div>
 
-      <v-alert dense text dismissible type="success" v-if="greeting">{{
-        greeting
-      }}</v-alert>
-      <v-alert dense text dismissible type="error" v-if="alert">{{
-        alert
-      }}</v-alert>
+      <greeting-message
+        :type="greetingType"
+        :message="message"
+      ></greeting-message>
 
       <v-progress-linear
         v-show="!finishInitialize"
@@ -35,7 +33,7 @@
 
       <v-tabs v-model="tab">
         <v-tab href="#active">Active</v-tab>
-        <v-tab href="#inActive">InActive</v-tab>
+        <v-tab href="#inactive">InActive</v-tab>
         <v-tab href="#transferred">Transferred</v-tab>
         <v-tab href="#managementOnly">ManagementOnly</v-tab>
       </v-tabs>
@@ -85,6 +83,7 @@ import UpdateDialog from '../../components/domain/UpdateDialog'
 import DeleteDialog from '../../components/domain/DeleteDialog'
 import ListTable from '../../components/domain/ListTable'
 import IconHeadLine from '../../components/common/IconHeadLine'
+import GreetingMessage from '../../components/common/GreetingMessage'
 
 export default {
   components: {
@@ -93,12 +92,13 @@ export default {
     DeleteDialog,
     ListTable,
     IconHeadLine,
+    GreetingMessage,
   },
 
   data() {
     return {
-      greeting: '',
-      alert: '',
+      greetingType: '',
+      message: '',
       finishInitialize: false,
       tab: '',
       canStore: false,
@@ -148,11 +148,11 @@ export default {
   },
 
   methods: {
-    async openNewModal() {
+    openNewModal() {
       this.newDialog = true
     },
 
-    async openEditModal() {
+    openEditModal() {
       this.editDialog = true
     },
 
@@ -183,8 +183,10 @@ export default {
       this.initDomains()
 
       if (result.status === 200) {
+        this.greetingType = 'success'
         this.greeting = result.message
       } else {
+        this.greetingType = 'error'
         this.alert = result.message
       }
     },
@@ -195,7 +197,7 @@ export default {
       const result = await axios.get('/api/domains')
 
       let activeDomains = []
-      let inActiveDomains = []
+      let inactiveDomains = []
       let managementOnlyDomains = []
       let transferredDomains = []
 
@@ -213,20 +215,19 @@ export default {
         if (domain.is_active) {
           activeDomains.push(domain)
         } else {
-          inActiveDomains.push(domain)
+          inactiveDomains.push(domain)
         }
       }
 
       this.domains.active = activeDomains
       this.domains.transferred = transferredDomains
-      this.domains.inActive = inActiveDomains
+      this.domains.inactive = inactiveDomains
       this.domains.managementOnly = managementOnlyDomains
 
       this.finishInitialize = true
     },
 
     edit(domain) {
-      console.log(domain)
       this.domain.id = domain.id
       this.domain.name = domain.name
       this.domain.price = domain.price

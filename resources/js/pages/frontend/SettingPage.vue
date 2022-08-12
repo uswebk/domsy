@@ -29,7 +29,7 @@
                 hide-details
               ></v-checkbox>
               <span v-if="updateErrors[userMailSetting.name + '.is_received']">
-                <ValidationErrorMessageComponent
+                <ValidationErrorMessage
                   :message="updateErrors[userMailSetting.name + '.is_received']"
                 />
               </span>
@@ -48,7 +48,7 @@
                       updateErrors[userMailSetting.name + '.notice_number_days']
                     "
                   >
-                    <ValidationErrorMessageComponent
+                    <ValidationErrorMessage
                       :message="
                         updateErrors[
                           userMailSetting.name + '.notice_number_days'
@@ -99,11 +99,11 @@
 
 <script>
 import axios from 'axios'
-import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
+import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 export default {
   components: {
-    ValidationErrorMessageComponent,
+    ValidationErrorMessage,
   },
 
   data() {

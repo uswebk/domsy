@@ -142,9 +142,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.name"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.name" />
                     <v-text-field
                       class="mt-5"
                       label="Email"
@@ -152,9 +150,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.email"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.email" />
 
                     <v-select
                       class="mt-5"
@@ -165,9 +161,7 @@
                       label="Role"
                       hide-details
                     ></v-select>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.role_id"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.role_id" />
 
                     <v-text-field
                       class="mt-5"
@@ -179,9 +173,7 @@
                       counter
                       required
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="errors.password"
-                    />
+                    <ValidationErrorMessage :message="errors.password" />
                     <v-text-field
                       class="mt-5"
                       v-model="passwordConfirmation"
@@ -191,7 +183,7 @@
                       counter
                       required
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
+                    <ValidationErrorMessage
                       :message="errors.password_confirmation"
                     />
                   </v-col>
@@ -230,9 +222,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.name"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.name" />
                     <v-text-field
                       class="mt-5"
                       label="Email"
@@ -240,9 +230,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.email"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.email" />
 
                     <v-select
                       class="mt-5"
@@ -253,9 +241,7 @@
                       label="Role"
                       hide-details
                     ></v-select>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.role_id"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.role_id" />
                   </v-col>
                 </v-row>
                 <div class="my-5"></div>
@@ -313,9 +299,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.name"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.name" />
                   </v-col>
                   <div class="my-10"></div>
                   <v-col
@@ -364,9 +348,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.name"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.name" />
                   </v-col>
                   <div class="my-10"></div>
                   <v-col
@@ -425,11 +407,11 @@
 
 <script>
 import axios from 'axios'
-import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
+import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 export default {
   components: {
-    ValidationErrorMessageComponent,
+    ValidationErrorMessage,
   },
 
   data() {

@@ -98,9 +98,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.prefix"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.prefix" />
                   </v-col>
                   <v-col cols="9">
                     <v-select
@@ -112,9 +110,7 @@
                       label="Domain"
                       hide-details
                     ></v-select>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.domain_id"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.domain_id" />
                   </v-col>
                   <v-col cols="3">
                     <v-select
@@ -126,9 +122,7 @@
                       label="DnsType"
                       hide-details
                     ></v-select>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.type_id"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.type_id" />
                   </v-col>
                   <v-col cols="9">
                     <v-text-field
@@ -138,9 +132,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.value"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.value" />
                   </v-col>
                   <v-col cols="6">
                     <v-text-field
@@ -151,9 +143,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.ttl"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.ttl" />
                   </v-col>
                   <v-col cols="6">
                     <v-text-field
@@ -164,9 +154,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.priority"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.priority" />
                   </v-col>
                 </v-row>
 
@@ -208,9 +196,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.prefix"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.prefix" />
                   </v-col>
                   <v-col cols="9">
                     <v-select
@@ -222,9 +208,7 @@
                       label="Domain"
                       hide-details
                     ></v-select>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.domain_id"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.domain_id" />
                   </v-col>
                   <v-col cols="3">
                     <v-select
@@ -236,9 +220,7 @@
                       label="DnsType"
                       hide-details
                     ></v-select>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.type_id"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.type_id" />
                   </v-col>
                   <v-col cols="9">
                     <v-text-field
@@ -248,9 +230,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.value"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.value" />
                   </v-col>
                   <v-col cols="6">
                     <v-text-field
@@ -261,9 +241,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.ttl"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.ttl" />
                   </v-col>
                   <v-col cols="6">
                     <v-text-field
@@ -274,9 +252,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.priority"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.priority" />
                   </v-col>
                 </v-row>
 
@@ -324,11 +300,11 @@
 <script>
 import axios from 'axios'
 import { shortHyphenDate } from '../../modules/DateHelper'
-import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
+import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 export default {
   components: {
-    ValidationErrorMessageComponent,
+    ValidationErrorMessage,
   },
 
   data() {

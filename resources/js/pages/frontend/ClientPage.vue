@@ -83,9 +83,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.name"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.name" />
                     <v-text-field
                       class="mt-5"
                       label="NameKana"
@@ -93,9 +91,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.name_kana"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.name_kana" />
                     <v-text-field
                       class="mt-5"
                       label="email"
@@ -103,9 +99,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.email"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.email" />
                     <v-text-field
                       class="mt-5"
                       label="Zip"
@@ -113,9 +107,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.zip"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.zip" />
                     <v-text-field
                       class="mt-5"
                       label="Address"
@@ -123,9 +115,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="storeErrors.address"
-                    />
+                    <ValidationErrorMessage :message="storeErrors.address" />
                     <v-text-field
                       class="mt-5"
                       label="TEL"
@@ -133,7 +123,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
+                    <ValidationErrorMessage
                       :message="storeErrors.phone_number"
                     />
                   </v-col>
@@ -172,9 +162,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.name"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.name" />
                     <v-text-field
                       class="mt-5"
                       label="NameKana"
@@ -182,9 +170,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.name_kana"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.name_kana" />
                     <v-text-field
                       class="mt-5"
                       label="email"
@@ -192,9 +178,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.email"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.email" />
                     <v-text-field
                       class="mt-5"
                       label="Zip"
@@ -202,9 +186,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.zip"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.zip" />
                     <v-text-field
                       class="mt-5"
                       label="Address"
@@ -212,9 +194,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
-                      :message="updateErrors.address"
-                    />
+                    <ValidationErrorMessage :message="updateErrors.address" />
                     <v-text-field
                       class="mt-5"
                       label="TEL"
@@ -222,7 +202,7 @@
                       required
                       hide-details
                     ></v-text-field>
-                    <ValidationErrorMessageComponent
+                    <ValidationErrorMessage
                       :message="updateErrors.phone_number"
                     />
                   </v-col>
@@ -271,11 +251,11 @@
 
 <script>
 import axios from 'axios'
-import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
+import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 export default {
   components: {
-    ValidationErrorMessageComponent,
+    ValidationErrorMessage,
   },
 
   data() {

@@ -27,7 +27,7 @@
                 required
                 hide-details
               ></v-text-field>
-              <ValidationErrorMessageComponent :message="errors.name" />
+              <ValidationErrorMessage :message="errors.name" />
               <v-text-field
                 class="mb-5"
                 v-model="email"
@@ -35,7 +35,7 @@
                 required
                 hide-details
               ></v-text-field>
-              <ValidationErrorMessageComponent :message="errors.email" />
+              <ValidationErrorMessage :message="errors.email" />
               <v-text-field
                 v-model="password"
                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -46,7 +46,7 @@
                 counter
                 @click:append="showPassword = !showPassword"
               ></v-text-field>
-              <ValidationErrorMessageComponent :message="errors.password" />
+              <ValidationErrorMessage :message="errors.password" />
               <v-text-field
                 v-model="passwordConfirmation"
                 type="password"
@@ -55,9 +55,7 @@
                 counter
                 required
               ></v-text-field>
-              <ValidationErrorMessageComponent
-                :message="errors.password_confirmation"
-              />
+              <ValidationErrorMessage :message="errors.password_confirmation" />
               <div class="my-5"></div>
               <v-btn class="mr-4" color="primary" @click="register">
                 Register
@@ -73,7 +71,7 @@
                 required
                 hide-details
               ></v-text-field>
-              <ValidationErrorMessageComponent :message="companyErrors.name" />
+              <ValidationErrorMessage :message="companyErrors.name" />
 
               <v-text-field
                 class="mb-5"
@@ -83,7 +81,7 @@
                 hide-details
                 type="email"
               ></v-text-field>
-              <ValidationErrorMessageComponent :message="companyErrors.email" />
+              <ValidationErrorMessage :message="companyErrors.email" />
               <v-text-field
                 class="mb-5"
                 v-model="companyZip"
@@ -91,7 +89,7 @@
                 required
                 hide-details
               ></v-text-field>
-              <ValidationErrorMessageComponent :message="companyErrors.zip" />
+              <ValidationErrorMessage :message="companyErrors.zip" />
               <v-text-field
                 class="mb-5"
                 v-model="companyAddress"
@@ -99,9 +97,7 @@
                 required
                 hide-details
               ></v-text-field>
-              <ValidationErrorMessageComponent
-                :message="companyErrors.address"
-              />
+              <ValidationErrorMessage :message="companyErrors.address" />
               <v-text-field
                 class="mb-5"
                 v-model="companyPhoneNumber"
@@ -109,9 +105,7 @@
                 required
                 hide-details
               ></v-text-field>
-              <ValidationErrorMessageComponent
-                :message="companyErrors.phone_number"
-              />
+              <ValidationErrorMessage :message="companyErrors.phone_number" />
 
               <v-text-field
                 class="mb-5"
@@ -120,7 +114,7 @@
                 required
                 hide-details
               ></v-text-field>
-              <ValidationErrorMessageComponent :message="errors.name" />
+              <ValidationErrorMessage :message="errors.name" />
               <v-text-field
                 class="mb-5"
                 v-model="email"
@@ -128,7 +122,7 @@
                 required
                 hide-details
               ></v-text-field>
-              <ValidationErrorMessageComponent :message="errors.email" />
+              <ValidationErrorMessage :message="errors.email" />
 
               <v-text-field
                 v-model="password"
@@ -144,7 +138,7 @@
                   showPasswordCorporation = !showPasswordCorporation
                 "
               ></v-text-field>
-              <ValidationErrorMessageComponent :message="errors.password" />
+              <ValidationErrorMessage :message="errors.password" />
               <v-text-field
                 v-model="passwordConfirmation"
                 type="password"
@@ -153,9 +147,7 @@
                 counter
                 required
               ></v-text-field>
-              <ValidationErrorMessageComponent
-                :message="errors.password_confirmation"
-              />
+              <ValidationErrorMessage :message="errors.password_confirmation" />
               <div class="my-5"></div>
               <v-btn class="mr-4" color="primary" @click="corporationRegister">
                 Register
@@ -170,11 +162,11 @@
 
 <script>
 import axios from 'axios'
-import ValidationErrorMessageComponent from '../../components/form/ValidationErrorMessageComponent'
+import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 export default {
   components: {
-    ValidationErrorMessageComponent,
+    ValidationErrorMessage,
   },
 
   data() {
