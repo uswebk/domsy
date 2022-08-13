@@ -1,9 +1,10 @@
 <template>
   <v-main>
     <v-container>
-      <h1 class="text-h5 font-weight-bold">
-        <v-icon large>mdi-monitor-dashboard</v-icon> Dashboard
-      </h1>
+      <icon-head-line
+        :icon="'mdi-monitor-dashboard'"
+        :headlineText="'Dashboard'"
+      ></icon-head-line>
 
       <div class="py-5"></div>
 
@@ -33,6 +34,7 @@
 </template>
 
 <script>
+import IconHeadLine from '../../components/common/IconHeadLine'
 import DomainSummary from '../../components/dashboard/DomainSummary.vue'
 import DomainTransaction from '../../components/dashboard/DomainTransaction.vue'
 import DomainBillings from '../../components/dashboard/DomainBillings.vue'
@@ -42,6 +44,7 @@ import DomainBillingDateList from '../../components/dashboard/DomainBillingDateL
 export default {
   name: 'LineChartContainer',
   components: {
+    IconHeadLine,
     DomainSummary,
     DomainTransaction,
     DomainBillings,

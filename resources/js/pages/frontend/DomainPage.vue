@@ -77,13 +77,12 @@
 <script>
 import axios from 'axios'
 import { shortHyphenDate } from '../../modules/DateHelper'
-
+import IconHeadLine from '../../components/common/IconHeadLine'
+import GreetingMessage from '../../components/common/GreetingMessage'
 import NewDialog from '../../components/domain/NewDialog'
 import UpdateDialog from '../../components/domain/UpdateDialog'
 import DeleteDialog from '../../components/domain/DeleteDialog'
 import ListTable from '../../components/domain/ListTable'
-import IconHeadLine from '../../components/common/IconHeadLine'
-import GreetingMessage from '../../components/common/GreetingMessage'
 
 export default {
   components: {
