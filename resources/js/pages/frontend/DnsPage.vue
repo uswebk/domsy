@@ -31,44 +31,12 @@
             <v-icon dark left> mdi-plus-circle </v-icon>New
           </v-btn>
 
-          <v-simple-table>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">Name</th>
-                  <th class="text-left">Type</th>
-                  <th class="text-left">Value</th>
-                  <th class="text-left">TTL</th>
-                  <th class="text-left">Priority</th>
-                  <th class="text-left">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="subdomain in _dns.subdomains" :key="subdomain.id">
-                  <td>{{ subdomain.full_domain }}</td>
-                  <td>{{ subdomain.dns_record_name }}</td>
-                  <td>{{ subdomain.value }}</td>
-                  <td>{{ subdomain.ttl }}</td>
-                  <td>{{ subdomain.priority }}</td>
-                  <td>
-                    <v-btn
-                      v-if="canUpdate"
-                      x-small
-                      color="primary"
-                      @click="edit(subdomain)"
-                      >edit</v-btn
-                    >
-                    <v-btn
-                      v-if="canDelete"
-                      x-small
-                      @click="deleteSubDomain(subdomain)"
-                      >delete</v-btn
-                    >
-                  </td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
+          <list-table
+            :headers="headers"
+            :subdomains="_dns.subdomains"
+            @edit="edit"
+            @delete="deleteSubDomain"
+          ></list-table>
         </v-card>
       </div>
 
@@ -104,6 +72,7 @@ import GreetingMessage from '../../components/common/GreetingMessage'
 import NewDialog from '../../components/dns/NewDialog'
 import UpdateDialog from '../../components/dns/UpdateDialog'
 import DeleteDialog from '../../components/dns/DeleteDialog'
+import ListTable from '../../components/dns/ListTable'
 
 export default {
   components: {
@@ -112,6 +81,7 @@ export default {
     NewDialog,
     UpdateDialog,
     DeleteDialog,
+    ListTable,
   },
 
   data() {
@@ -129,6 +99,33 @@ export default {
       newDialog: false,
       editDialog: false,
       deleteDialog: false,
+      headers: [
+        {
+          text: 'Name',
+          value: 'full_domain',
+        },
+        {
+          text: 'Type',
+          value: 'dns_record_name',
+        },
+        {
+          text: 'Value',
+          value: 'value',
+        },
+        {
+          text: 'TTL',
+          value: 'ttl',
+        },
+        {
+          text: 'Priority',
+          value: 'priority',
+        },
+        {
+          text: 'Action',
+          value: 'action',
+          sortable: false,
+        },
+      ],
     }
   },
 
@@ -201,18 +198,6 @@ export default {
     async initRoleOperation() {
       let canStoreResult = await axios.get('/api/roles/user/?has=api.dns.store')
       this.canStore = canStoreResult.data
-
-      let canUpdateResult = await axios.get(
-        '/api/roles/user/?has=api.dns.update'
-      )
-      this.canUpdate = canUpdateResult.data
-
-      let canDeleteResult = await axios.get(
-        '/api/roles/user/?has=api.dns.delete'
-      )
-      this.canDelete = canDeleteResult.data
-
-      this.finishInitialize = true
     },
 
     async edit(subdomain) {
@@ -228,9 +213,13 @@ export default {
     },
   },
 
-  created() {
-    this.initDns()
-    this.initRoleOperation()
+  async created() {
+    this.finishInitialize = false
+
+    await this.initDns()
+    await this.initRoleOperation()
+
+    this.finishInitialize = true
   },
 }
 </script>
