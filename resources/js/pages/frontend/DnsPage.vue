@@ -1,17 +1,14 @@
 <template>
   <v-main>
     <v-container>
-      <h1 class="text-h5 font-weight-bold">
-        <v-icon large>mdi-web</v-icon> DNS
-      </h1>
+      <icon-head-line :icon="'mdi-web'" :headlineText="'DNS'"></icon-head-line>
 
       <div class="py-5"></div>
-      <v-alert dense text dismissible type="success" v-if="greeting">{{
-        greeting
-      }}</v-alert>
-      <v-alert dense text dismissible type="error" v-if="alert">{{
-        alert
-      }}</v-alert>
+
+      <greeting-message
+        :type="greetingType"
+        :message="message"
+      ></greeting-message>
 
       <v-progress-linear
         v-show="!finishInitialize"
@@ -75,103 +72,12 @@
         </v-card>
       </div>
 
-      <!-- New Dialog -->
-      <v-dialog v-model="newDialog" max-width="600px">
-        <v-card>
-          <v-card-title class="pl-8">
-            <span class="text-h6">DNS Create</span>
-          </v-card-title>
-          <v-card-text>
-            <v-progress-linear
-              v-if="dialogLoading"
-              color="info"
-              indeterminate
-            ></v-progress-linear>
-            <v-container v-if="!dialogLoading">
-              <v-form ref="form" lazy-validation>
-                <v-row>
-                  <v-col cols="3">
-                    <v-text-field
-                      class="mt-5"
-                      label="Prefix"
-                      v-model="prefix"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="storeErrors.prefix" />
-                  </v-col>
-                  <v-col cols="9">
-                    <v-select
-                      class="mt-5"
-                      v-model="domainId"
-                      :items="domains"
-                      item-text="name"
-                      item-value="id"
-                      label="Domain"
-                      hide-details
-                    ></v-select>
-                    <ValidationErrorMessage :message="storeErrors.domain_id" />
-                  </v-col>
-                  <v-col cols="3">
-                    <v-select
-                      class="mt-5"
-                      v-model="dnsRecordTypeId"
-                      :items="dnsRecordTypes"
-                      item-text="name"
-                      item-value="id"
-                      label="DnsType"
-                      hide-details
-                    ></v-select>
-                    <ValidationErrorMessage :message="storeErrors.type_id" />
-                  </v-col>
-                  <v-col cols="9">
-                    <v-text-field
-                      class="mt-5"
-                      label="Value"
-                      v-model="value"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="storeErrors.value" />
-                  </v-col>
-                  <v-col cols="6">
-                    <v-text-field
-                      class="mt-5"
-                      label="TTL"
-                      v-model="ttl"
-                      type="number"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="storeErrors.ttl" />
-                  </v-col>
-                  <v-col cols="6">
-                    <v-text-field
-                      class="mt-5"
-                      label="Priority"
-                      v-model="priority"
-                      type="number"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="storeErrors.priority" />
-                  </v-col>
-                </v-row>
-
-                <div class="my-5"></div>
-
-                <v-btn color="primary" @click="store">Create</v-btn>
-              </v-form>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeNewModal">
-              Close
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <new-dialog
+        :isOpen="newDialog"
+        :domain="domain"
+        @close="closeNewModal"
+        @sendMessage="sendMessage"
+      ></new-dialog>
 
       <!-- Update Dialog -->
       <v-dialog v-model="editDialog" max-width="600px">
@@ -300,17 +206,24 @@
 <script>
 import axios from 'axios'
 import { shortHyphenDate } from '../../modules/DateHelper'
+import IconHeadLine from '../../components/common/IconHeadLine'
+import GreetingMessage from '../../components/common/GreetingMessage'
+import NewDialog from '../../components/dns/NewDialog'
+
 import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 export default {
   components: {
     ValidationErrorMessage,
+    IconHeadLine,
+    GreetingMessage,
+    NewDialog,
   },
 
   data() {
     return {
-      greeting: '',
-      alert: '',
+      greetingType: '',
+      message: '',
       finishInitialize: false,
       dialogLoading: false,
       canStore: false,
@@ -326,13 +239,6 @@ export default {
       newDialog: false,
       editDialog: false,
       deleteDialog: false,
-      prefix: '',
-      dnsRecordTypeId: '',
-      domainId: '',
-      value: '',
-      ttl: 0,
-      priority: 0,
-      storeErrors: {},
       updateErrors: {},
     }
   },
@@ -342,11 +248,7 @@ export default {
       this.dialogLoading = true
 
       this.newDialog = true
-      await this.initDomains()
-      await this.initDnsRecordType()
-
-      this.newDns = domain
-      this.domainId = domain.id
+      this.domain = domain
 
       this.dialogLoading = false
     },
@@ -395,49 +297,18 @@ export default {
       this.updateErrors = {}
     },
 
-    async store() {
+    sendMessage(result) {
       this.resetGreeting()
 
-      try {
-        const result = await axios.post('/api/dns', {
-          prefix: this.prefix,
-          domain_id: this.domainId,
-          type_id: this.dnsRecordTypeId,
-          value: this.value,
-          ttl: this.ttl,
-          priority: this.priority,
-        })
+      this.initDns()
 
-        if (result.status === 200) {
-          this.greeting = 'Create success'
-        }
-
-        this.initDns()
-        this.closeNewModal()
-      } catch (error) {
-        const status = error.response.status
-
-        if (status === 403) {
-          this.alert = 'Illegal operation was performed.'
-          this.closeNewModal()
-        }
-
-        if (status === 422) {
-          var responseErrors = error.response.data.errors
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
-          }
-          this.storeErrors = errors
-        }
-
-        if (status >= 500) {
-          this.alert = 'Server Error'
-          this.closeNewModal()
-        }
+      if (result.status === 200) {
+        this.greetingType = 'success'
+        this.message = result.message
+      } else {
+        this.greetingType = 'error'
+        this.message = result.message
       }
-
-      this.resetNewDns()
     },
 
     async update() {
@@ -509,9 +380,13 @@ export default {
     },
 
     async initDns() {
+      this.finishInitialize = false
+
       const result = await axios.get('/api/dns')
 
       this.dns = result.data
+
+      this.finishInitialize = true
     },
 
     async initDomains() {
