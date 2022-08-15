@@ -76,148 +76,42 @@
         :isOpen="newDialog"
         :domain="domain"
         @close="closeNewModal"
+        @change="changeDomainId"
         @sendMessage="sendMessage"
       ></new-dialog>
 
-      <!-- Update Dialog -->
-      <v-dialog v-model="editDialog" max-width="600px">
-        <v-card>
-          <v-card-title class="pl-8">
-            <span class="text-h6"> DNS Edit</span>
-          </v-card-title>
-          <v-card-text>
-            <v-progress-linear
-              v-if="dialogLoading"
-              color="info"
-              indeterminate
-            ></v-progress-linear>
-            <v-container v-if="!dialogLoading">
-              <v-form ref="form" lazy-validation>
-                <v-row>
-                  <v-col cols="3">
-                    <v-text-field
-                      class="mt-5"
-                      label="Prefix"
-                      v-model="subdomain.prefix"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="updateErrors.prefix" />
-                  </v-col>
-                  <v-col cols="9">
-                    <v-select
-                      class="mt-5"
-                      v-model="subdomain.domainId"
-                      :items="domains"
-                      item-text="name"
-                      item-value="id"
-                      label="Domain"
-                      hide-details
-                    ></v-select>
-                    <ValidationErrorMessage :message="updateErrors.domain_id" />
-                  </v-col>
-                  <v-col cols="3">
-                    <v-select
-                      class="mt-5"
-                      v-model="subdomain.typeId"
-                      :items="dnsRecordTypes"
-                      item-text="name"
-                      item-value="id"
-                      label="DnsType"
-                      hide-details
-                    ></v-select>
-                    <ValidationErrorMessage :message="updateErrors.type_id" />
-                  </v-col>
-                  <v-col cols="9">
-                    <v-text-field
-                      class="mt-5"
-                      label="Value"
-                      v-model="subdomain.value"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="updateErrors.value" />
-                  </v-col>
-                  <v-col cols="6">
-                    <v-text-field
-                      class="mt-5"
-                      label="TTL"
-                      v-model="subdomain.ttl"
-                      type="number"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="updateErrors.ttl" />
-                  </v-col>
-                  <v-col cols="6">
-                    <v-text-field
-                      class="mt-5"
-                      label="Priority"
-                      v-model="subdomain.priority"
-                      type="number"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="updateErrors.priority" />
-                  </v-col>
-                </v-row>
+      <update-dialog
+        :isOpen="editDialog"
+        :subdomain="subdomain"
+        @close="closeEditModal"
+        @sendMessage="sendMessage"
+      ></update-dialog>
 
-                <div class="my-5"></div>
-
-                <v-btn color="primary" @click="update">Update</v-btn>
-              </v-form>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeEditModal">
-              Close
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
-      <!-- Delete Dialog -->
-      <v-dialog v-model="deleteDialog" max-width="290">
-        <v-card>
-          <v-card-title class="text-h5"> Deletion confirmation </v-card-title>
-
-          <v-card-text>
-            Do you want to delete the 「{{ subdomain.full_domain }}」 ?
-          </v-card-text>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-
-            <v-btn color="gray darken-1" text @click="closeDeleteModal">
-              Close
-            </v-btn>
-
-            <v-btn color="red darken-1" text @click="deleteExecute">
-              Delete
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <delete-dialog
+        :isOpen="deleteDialog"
+        :subdomain="subdomain"
+        @close="closeDeleteModal"
+        @sendMessage="sendMessage"
+      ></delete-dialog>
     </v-container>
   </v-main>
 </template>
 
 <script>
 import axios from 'axios'
-import { shortHyphenDate } from '../../modules/DateHelper'
 import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
 import NewDialog from '../../components/dns/NewDialog'
-
-import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
+import UpdateDialog from '../../components/dns/UpdateDialog'
+import DeleteDialog from '../../components/dns/DeleteDialog'
 
 export default {
   components: {
-    ValidationErrorMessage,
     IconHeadLine,
     GreetingMessage,
     NewDialog,
+    UpdateDialog,
+    DeleteDialog,
   },
 
   data() {
@@ -225,32 +119,23 @@ export default {
       greetingType: '',
       message: '',
       finishInitialize: false,
-      dialogLoading: false,
       canStore: false,
       canUpdate: false,
       canDelete: false,
       dns: {},
-      newDns: {},
       domains: {},
-      dnsRecordTypes: {},
       domain: {},
-      registrars: {},
       subdomain: {},
       newDialog: false,
       editDialog: false,
       deleteDialog: false,
-      updateErrors: {},
     }
   },
 
   methods: {
     async openNewModal(domain) {
-      this.dialogLoading = true
-
       this.newDialog = true
       this.domain = domain
-
-      this.dialogLoading = false
     },
 
     async openEditModal() {
@@ -262,7 +147,6 @@ export default {
     },
 
     closeNewModal() {
-      this.resetStoreError()
       this.newDialog = false
     },
 
@@ -275,26 +159,9 @@ export default {
       this.deleteDialog = false
     },
 
-    resetNewDns() {
-      this.prefix = ''
-      this.dnsRecordTypeId = ''
-      this.domainId = ''
-      this.value = ''
-      this.ttl = ''
-      this.priority = ''
-    },
-
     resetGreeting() {
       this.greeting = ''
       this.alert = ''
-    },
-
-    resetStoreError() {
-      this.storeErrors = {}
-    },
-
-    resetUpdateError() {
-      this.updateErrors = {}
     },
 
     sendMessage(result) {
@@ -311,72 +178,8 @@ export default {
       }
     },
 
-    async update() {
-      this.resetGreeting()
-
-      try {
-        const result = await axios.put('/api/dns/' + this.subdomain.id, {
-          prefix: this.subdomain.prefix,
-          domain_id: this.subdomain.domainId,
-          type_id: this.subdomain.typeId,
-          value: this.subdomain.value,
-          ttl: this.subdomain.ttl,
-          priority: this.subdomain.priority,
-        })
-
-        if (result.status === 200) {
-          this.greeting = 'Update success'
-        }
-        this.initDns()
-        this.closeEditModal()
-      } catch (error) {
-        const status = error.response.status
-
-        if (status === 403) {
-          this.alert = 'Illegal operation was performed.'
-          this.closeEditModal()
-        }
-
-        if (status === 422) {
-          var responseErrors = error.response.data.errors
-
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
-          }
-          this.updateErrors = errors
-        }
-
-        if (status >= 500) {
-          this.alert = 'Server Error'
-          this.closeEditModal()
-        }
-      }
-    },
-
-    async deleteExecute() {
-      try {
-        const result = await axios.delete('/api/dns/' + this.subdomain.id)
-
-        if (result.status === 200) {
-          this.greeting = 'Delete success'
-        }
-
-        this.initDns()
-        this.closeDeleteModal()
-      } catch (error) {
-        const status = error.response.status
-
-        if (status === 403) {
-          this.alert = 'Illegal operation was performed.'
-          this.closeDeleteModal()
-        }
-
-        if (status >= 500) {
-          this.alert = 'Server Error'
-          this.closeDeleteModal()
-        }
-      }
+    async changeDomainId(domainId) {
+      this.domain.id = domainId
     },
 
     async initDns() {
@@ -393,12 +196,6 @@ export default {
       const result = await axios.get('/api/domains')
 
       this.domains = result.data
-    },
-
-    async initDnsRecordType() {
-      const result = await axios.get('/api/dns-record-type')
-
-      this.dnsRecordTypes = result.data
     },
 
     async initRoleOperation() {
@@ -419,34 +216,15 @@ export default {
     },
 
     async edit(subdomain) {
-      this.dialogLoading = true
+      this.subdomain = subdomain
 
       this.openEditModal()
-
-      await this.initDomains()
-      await this.initDnsRecordType()
-
-      this.subdomain.id = subdomain.id
-      this.subdomain.prefix = subdomain.prefix
-      this.subdomain.typeId = subdomain.type_id
-      this.subdomain.domainId = subdomain.domain_id
-      this.subdomain.value = subdomain.value
-      this.subdomain.ttl = subdomain.ttl
-      this.subdomain.priority = subdomain.priority
-
-      this.dialogLoading = false
     },
 
     async deleteSubDomain(subdomain) {
-      this.resetGreeting()
-
       this.subdomain = subdomain
 
       this.openDeleteModal()
-    },
-
-    formattedDate(dateTime) {
-      return shortHyphenDate(dateTime)
     },
   },
 

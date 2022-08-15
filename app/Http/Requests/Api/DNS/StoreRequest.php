@@ -21,8 +21,8 @@ final class StoreRequest extends Request
             'domain_id' => new DomainOwner(),
             'type_id' => new DnsType(),
             'value' => 'nullable|string',
-            'ttl' => 'nullable|integer',
-            'priority' => 'nullable|integer',
+            'ttl' => 'nullable|integer|min:0',
+            'priority' => 'nullable|integer|min:0',
         ];
     }
 

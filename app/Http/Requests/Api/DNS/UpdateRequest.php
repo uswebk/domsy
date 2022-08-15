@@ -20,8 +20,8 @@ final class UpdateRequest extends Request
             'domain_id' => new DomainOwner(),
             'type_id' => new DnsType(),
             'value' => 'nullable|string',
-            'ttl' => 'nullable|integer',
-            'priority' => 'nullable|integer',
+            'ttl' => 'nullable|integer|min:0',
+            'priority' => 'nullable|integer|min:0',
         ];
     }
 
@@ -31,12 +31,12 @@ final class UpdateRequest extends Request
     public function makeInput(): array
     {
         return [
-            'prefix' => $this->prefix,
+            'prefix' => $this->prefix ?? '',
             'domain_id' => $this->domain_id,
-            'type_id' => $this->type_id,
-            'value' => $this->value,
-            'ttl' => $this->ttl,
-            'priority' => $this->priority,
+            'type_id' => $this->type_id ?? 0,
+            'value' => $this->value ?? '',
+            'ttl' => $this->ttl ?? 0,
+            'priority' => $this->priority ?? 0,
         ];
     }
 }
