@@ -1,9 +1,10 @@
 <template>
   <v-main>
     <v-container>
-      <h1 class="text-h5 font-weight-bold">
-        <v-icon large>mdi-note-edit</v-icon> Dealing
-      </h1>
+      <icon-head-line
+        :icon="'mdi-note-edit'"
+        :headlineText="'Dealing'"
+      ></icon-head-line>
 
       <div class="py-5"></div>
       <v-alert dense text dismissible type="success" v-if="greeting">{{
@@ -465,12 +466,14 @@
 import axios from 'axios'
 import { shortHyphenDate } from '../../modules/DateHelper'
 import { priceFormat } from '../../modules/AppHelper'
+import IconHeadLine from '../../components/common/IconHeadLine'
 
 import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 export default {
   components: {
     ValidationErrorMessage,
+    IconHeadLine,
   },
 
   data() {
