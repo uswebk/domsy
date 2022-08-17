@@ -2,7 +2,7 @@
   <v-dialog v-model="open" max-width="600px">
     <v-card>
       <v-card-title class="pl-8">
-        <span class="text-h6">DNS Create</span>
+        <span class="text-h6">Dealing Create</span>
       </v-card-title>
       <v-card-text>
         <v-progress-linear
@@ -13,21 +13,8 @@
         <v-container v-if="!loading">
           <v-form ref="form" lazy-validation>
             <v-row>
-              <v-col cols="3">
-                <v-text-field
-                  class="mt-5"
-                  label="Prefix"
-                  v-model="prefix"
-                  required
-                  hide-details
-                ></v-text-field>
-                <validation-error-message
-                  :message="errors.prefix"
-                ></validation-error-message>
-              </v-col>
-              <v-col cols="9">
+              <v-col cols="12">
                 <v-select
-                  class="mt-5"
                   v-model="domainId"
                   :items="domains"
                   item-text="name"
@@ -38,59 +25,102 @@
                 <validation-error-message
                   :message="errors.domain_id"
                 ></validation-error-message>
-              </v-col>
-              <v-col cols="3">
                 <v-select
                   class="mt-5"
-                  v-model="dnsRecordTypeId"
-                  :items="dnsRecordTypes"
+                  v-model="clientId"
+                  :items="clients"
                   item-text="name"
                   item-value="id"
-                  label="DnsType"
+                  label="Client"
                   hide-details
                 ></v-select>
                 <validation-error-message
-                  :message="errors.type_id"
+                  :message="errors.client_id"
                 ></validation-error-message>
-              </v-col>
-              <v-col cols="9">
+
                 <v-text-field
                   class="mt-5"
-                  label="Value"
-                  v-model="value"
-                  required
-                  hide-details
-                ></v-text-field>
-                <validation-error-message
-                  :message="errors.value"
-                ></validation-error-message>
-              </v-col>
-              <v-col cols="6">
-                <v-text-field
-                  class="mt-5"
-                  label="TTL"
-                  v-model="ttl"
+                  label="Subtotal"
+                  v-model="subtotal"
                   type="number"
                   min="0"
+                  prefix="¥"
                   required
                   hide-details
                 ></v-text-field>
                 <validation-error-message
-                  :message="errors.ttl"
+                  :message="errors.subtotal"
                 ></validation-error-message>
-              </v-col>
-              <v-col cols="6">
+
                 <v-text-field
                   class="mt-5"
-                  label="Priority"
-                  v-model="priority"
+                  label="Discount"
+                  v-model="discount"
                   type="number"
                   min="0"
+                  prefix="¥"
                   required
                   hide-details
                 ></v-text-field>
                 <validation-error-message
-                  :message="errors.priority"
+                  :message="errors.discount"
+                ></validation-error-message>
+
+                <v-text-field
+                  class="mt-5"
+                  label="Billing Date"
+                  v-model="billingDate"
+                  type="date"
+                  required
+                  hide-details
+                ></v-text-field>
+                <validation-error-message
+                  :message="errors.billing_date"
+                ></validation-error-message>
+              </v-col>
+              <v-col cols="2">
+                <v-text-field
+                  label="Interval"
+                  v-model="interval"
+                  type="number"
+                  required
+                  hide-details
+                ></v-text-field>
+                <validation-error-message
+                  :message="errors.interval"
+                ></validation-error-message>
+              </v-col>
+              <v-col cols="4">
+                <v-select
+                  v-model="intervalCategory"
+                  :items="intervalCategories"
+                  label="IntervalCategory"
+                  hide-details
+                ></v-select>
+                <validation-error-message
+                  :message="errors.interval_category"
+                ></validation-error-message>
+              </v-col>
+              <v-col cols="3">
+                <v-checkbox
+                  class="mt-5"
+                  v-model="isAutoUpdate"
+                  label="AutoUpdate"
+                  hide-details
+                ></v-checkbox>
+                <validation-error-message
+                  :message="errors.is_auto_update"
+                ></validation-error-message>
+              </v-col>
+              <v-col cols="3">
+                <v-checkbox
+                  class="mt-5"
+                  v-model="isHalt"
+                  label="Halt"
+                  hide-details
+                ></v-checkbox>
+                <validation-error-message
+                  :message="errors.is_halt"
                 ></validation-error-message>
               </v-col>
             </v-row>
@@ -124,34 +154,27 @@ export default {
       type: Boolean,
       required: true,
     },
-    domain: {
-      default: null,
-      type: Object,
-      required: true,
-    },
   },
 
   data() {
     return {
-      prefix: '',
-      dnsRecordTypeId: '',
-      value: '',
-      ttl: 0,
-      priority: 0,
+      domains: {},
+      clients: {},
+      intervalCategories: ['DAY', 'WEEK', 'MONTH', 'YEAR'],
+      domainId: '',
+      clientId: '',
+      subtotal: 0,
+      discount: 0,
+      billingDate: '',
+      interval: '',
+      intervalCategory: '',
+      isAutoUpdate: true,
+      isHalt: false,
       errors: {},
     }
   },
 
   computed: {
-    domainId: {
-      get() {
-        return this.domain.id
-      },
-      set(value) {
-        this.$emit('change', value)
-      },
-    },
-
     open: {
       get() {
         return this.isOpen
@@ -165,24 +188,30 @@ export default {
   },
 
   methods: {
-    resetSubdomain() {
-      this.prefix = ''
-      this.dnsRecordTypeId = ''
+    resetFormData() {
       this.domainId = ''
-      this.value = ''
-      this.ttl = 0
-      this.priority = 0
+      this.clientId = ''
+      this.subtotal = 0
+      this.discount = 0
+      this.billingDate = ''
+      this.interval = ''
+      this.intervalCategory = ''
+      this.isAutoUpdate = true
+      this.isHalt = false
     },
 
     async store() {
       try {
-        const result = await axios.post('/api/dns', {
-          prefix: this.prefix,
+        const result = await axios.post('/api/dealings', {
           domain_id: this.domainId,
-          type_id: this.dnsRecordTypeId,
-          value: this.value,
-          ttl: this.ttl,
-          priority: this.priority,
+          client_id: this.clientId,
+          subtotal: this.subtotal,
+          discount: this.discount,
+          billing_date: this.billingDate,
+          interval: this.interval,
+          interval_category: this.intervalCategory,
+          is_auto_update: this.isAutoUpdate,
+          is_halt: this.isHalt,
         })
 
         this.close()
@@ -221,7 +250,7 @@ export default {
         })
       }
 
-      this.resetSubdomain()
+      this.resetFormData()
     },
 
     close() {
@@ -236,9 +265,9 @@ export default {
 
     this.domains = domains.data
 
-    const dnsRecordType = await axios.get('/api/dns-record-type')
+    const result = await axios.get('/api/clients')
 
-    this.dnsRecordTypes = dnsRecordType.data
+    this.clients = result.data
 
     this.loading = false
   },

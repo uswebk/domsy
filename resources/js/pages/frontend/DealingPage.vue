@@ -7,12 +7,11 @@
       ></icon-head-line>
 
       <div class="py-5"></div>
-      <v-alert dense text dismissible type="success" v-if="greeting">{{
-        greeting
-      }}</v-alert>
-      <v-alert dense text dismissible type="error" v-if="alert">{{
-        alert
-      }}</v-alert>
+
+      <greeting-message
+        :type="greetingType"
+        :message="message"
+      ></greeting-message>
 
       <v-progress-linear
         v-show="!finishInitialize"
@@ -93,257 +92,18 @@
         </div>
       </v-tabs-items>
 
-      <!-- New Dialog -->
-      <v-dialog v-model="newDialog" max-width="600px">
-        <v-card>
-          <v-card-title class="pl-8">
-            <span class="text-h6">Dealing Create</span>
-          </v-card-title>
-          <v-card-text>
-            <v-progress-linear
-              v-if="dialogLoading"
-              color="info"
-              indeterminate
-            ></v-progress-linear>
-            <v-container v-if="!dialogLoading">
-              <v-form ref="form" lazy-validation>
-                <v-row>
-                  <v-col cols="12">
-                    <v-select
-                      v-model="domainId"
-                      :items="domains"
-                      item-text="name"
-                      item-value="id"
-                      label="Domain"
-                      hide-details
-                    ></v-select>
-                    <ValidationErrorMessage :message="storeErrors.domain_id" />
-                    <v-select
-                      class="mt-5"
-                      v-model="clientId"
-                      :items="clients"
-                      item-text="name"
-                      item-value="id"
-                      label="Client"
-                      hide-details
-                    ></v-select>
-                    <ValidationErrorMessage :message="storeErrors.client_id" />
-                    <v-text-field
-                      class="mt-5"
-                      label="Subtotal"
-                      v-model="subtotal"
-                      type="number"
-                      prefix="¥"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="storeErrors.subtotal" />
-                    <v-text-field
-                      class="mt-5"
-                      label="Discount"
-                      v-model="discount"
-                      type="number"
-                      prefix="¥"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="storeErrors.discount" />
-                    <v-text-field
-                      class="mt-5"
-                      label="Billing Date"
-                      v-model="billingDate"
-                      type="date"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage
-                      :message="storeErrors.billing_date"
-                    />
-                  </v-col>
-                  <v-col cols="2">
-                    <v-text-field
-                      label="Interval"
-                      v-model="interval"
-                      type="number"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="storeErrors.interval" />
-                  </v-col>
-                  <v-col cols="4">
-                    <v-select
-                      v-model="intervalCategory"
-                      :items="intervalCategories"
-                      label="IntervalCategory"
-                      hide-details
-                    ></v-select>
-                    <ValidationErrorMessage
-                      :message="storeErrors.interval_category"
-                    />
-                  </v-col>
-                  <v-col cols="3">
-                    <v-checkbox
-                      class="mt-5"
-                      v-model="isAutoUpdate"
-                      label="AutoUpdate"
-                      hide-details
-                    ></v-checkbox>
-                    <ValidationErrorMessage
-                      :message="storeErrors.is_auto_update"
-                    />
-                  </v-col>
-                  <v-col cols="3">
-                    <v-checkbox
-                      class="mt-5"
-                      v-model="isHalt"
-                      label="Halt"
-                      hide-details
-                    ></v-checkbox>
-                    <ValidationErrorMessage :message="storeErrors.is_halt" />
-                  </v-col>
-                </v-row>
+      <new-dialog
+        :isOpen="newDialog"
+        @close="closeNewModal"
+        @sendMessage="sendMessage"
+      ></new-dialog>
 
-                <div class="my-5"></div>
-
-                <v-btn color="primary" @click="store">Create</v-btn>
-              </v-form>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeNewModal">
-              Close
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
-      <!-- Update Dialog -->
-      <v-dialog v-model="editDialog" max-width="600px">
-        <v-card>
-          <v-card-title class="pl-8">
-            <span class="text-h6"> Dealing Edit</span>
-          </v-card-title>
-          <v-card-text>
-            <v-progress-linear
-              v-if="dialogLoading"
-              color="info"
-              indeterminate
-            ></v-progress-linear>
-            <v-container v-if="!dialogLoading">
-              <v-form ref="form" lazy-validation>
-                <v-row>
-                  <v-col cols="12">
-                    <v-select
-                      v-model="dealing.domainId"
-                      :items="domains"
-                      item-text="name"
-                      item-value="id"
-                      label="Domain"
-                      hide-details
-                    ></v-select>
-                    <ValidationErrorMessage :message="updateErrors.domain_id" />
-                    <v-select
-                      class="mt-5"
-                      v-model="dealing.clientId"
-                      :items="clients"
-                      item-text="name"
-                      item-value="id"
-                      label="Client"
-                      hide-details
-                    ></v-select>
-                    <ValidationErrorMessage :message="updateErrors.client_id" />
-                    <v-text-field
-                      class="mt-5"
-                      label="Subtotal"
-                      v-model="dealing.subtotal"
-                      type="number"
-                      prefix="¥"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="updateErrors.subtotal" />
-                    <v-text-field
-                      class="mt-5"
-                      label="Discount"
-                      v-model="dealing.discount"
-                      type="number"
-                      prefix="¥"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="updateErrors.discount" />
-                    <v-text-field
-                      class="mt-5"
-                      label="Billing Date"
-                      v-model="dealing.billingDate"
-                      type="date"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage
-                      :message="updateErrors.billing_date"
-                    />
-                  </v-col>
-                  <v-col cols="2">
-                    <v-text-field
-                      class="mt-5"
-                      label="Interval"
-                      v-model="dealing.interval"
-                      type="number"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="updateErrors.interval" />
-                  </v-col>
-                  <v-col cols="4">
-                    <v-select
-                      class="mt-5"
-                      v-model="dealing.intervalCategory"
-                      :items="intervalCategories"
-                      label="IntervalCategory"
-                      hide-details
-                    ></v-select>
-                    <ValidationErrorMessage
-                      :message="updateErrors.interval_category"
-                    />
-                  </v-col>
-                  <v-col cols="3">
-                    <v-checkbox
-                      class="mt-5"
-                      v-model="dealing.isAutoUpdate"
-                      label="AutoUpdate"
-                      hide-details
-                    ></v-checkbox>
-                    <ValidationErrorMessage
-                      :message="updateErrors.is_auto_update"
-                    />
-                  </v-col>
-                  <v-col cols="3">
-                    <v-checkbox
-                      class="mt-5"
-                      v-model="dealing.isHalt"
-                      label="Halt"
-                      hide-details
-                    ></v-checkbox>
-                    <ValidationErrorMessage :message="updateErrors.is_halt" />
-                  </v-col>
-                </v-row>
-
-                <div class="my-5"></div>
-
-                <v-btn color="primary" @click="update">Update</v-btn>
-              </v-form>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeEditModal">
-              Close
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <update-dialog
+        :isOpen="editDialog"
+        :dealing="dealing"
+        @close="closeEditModal"
+        @sendMessage="sendMessage"
+      ></update-dialog>
 
       <!-- Detail Dialog -->
       <v-dialog
@@ -467,6 +227,10 @@ import axios from 'axios'
 import { shortHyphenDate } from '../../modules/DateHelper'
 import { priceFormat } from '../../modules/AppHelper'
 import IconHeadLine from '../../components/common/IconHeadLine'
+import GreetingMessage from '../../components/common/GreetingMessage'
+
+import NewDialog from '../../components/dealing/NewDialog'
+import UpdateDialog from '../../components/dealing/UpdateDialog'
 
 import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
@@ -474,12 +238,15 @@ export default {
   components: {
     ValidationErrorMessage,
     IconHeadLine,
+    GreetingMessage,
+    NewDialog,
+    UpdateDialog,
   },
 
   data() {
     return {
-      greeting: '',
-      alert: '',
+      greetingType: '',
+      message: '',
       tab: '',
       finishInitialize: false,
       dialogLoading: false,
@@ -494,23 +261,9 @@ export default {
       dealing: {},
       domains: {},
       clients: {},
-      dnsRecordTypes: {},
-      intervalCategories: ['DAY', 'WEEK', 'MONTH', 'YEAR'],
       domain: {},
       billing: {},
-      subdomain: {},
       newDialog: false,
-      prefix: '',
-      dnsRecordTypeId: '',
-      domainId: '',
-      clientId: '',
-      subtotal: 0,
-      discount: 0,
-      billingDate: '',
-      interval: '',
-      intervalCategory: '',
-      isAutoUpdate: true,
-      isHalt: false,
       storeErrors: {},
       updateErrors: {},
       editDialog: false,
@@ -521,13 +274,7 @@ export default {
 
   methods: {
     async openNewModal() {
-      this.dialogLoading = true
       this.newDialog = true
-
-      await this.initDomains()
-      await this.initClients()
-
-      this.dialogLoading = false
     },
 
     async openEditModal() {
@@ -543,7 +290,6 @@ export default {
     },
 
     closeNewModal() {
-      this.resetStoreError()
       this.newDialog = false
     },
 
@@ -560,171 +306,32 @@ export default {
       this.editBillingDialog = false
     },
 
-    resetNewDealing() {
-      this.domainId = ''
-      this.clientId = ''
-      this.subtotal = 0
-      this.discount = 0
-      this.billingDate = ''
-      this.interval = ''
-      this.intervalCategory = ''
-      this.isAutoUpdate = true
-      this.isHalt = false
-    },
-
     resetGreeting() {
-      this.greeting = ''
-      this.alert = ''
-    },
-
-    resetStoreError() {
-      this.storeErrors = {}
+      this.greetingType = ''
+      this.message = ''
     },
 
     resetUpdateError() {
       this.updateErrors = {}
     },
 
-    async store() {
+    sendMessage(result) {
       this.resetGreeting()
 
-      try {
-        const result = await axios.post('/api/dealings', {
-          domain_id: this.domainId,
-          client_id: this.clientId,
-          subtotal: this.subtotal,
-          discount: this.discount,
-          billing_date: this.billingDate,
-          interval: this.interval,
-          interval_category: this.intervalCategory,
-          is_auto_update: this.isAutoUpdate,
-          is_halt: this.isHalt,
-        })
+      this.initDealings()
 
-        if (result.status === 200) {
-          this.greeting = 'Create success'
-        }
-
-        this.initDealings()
-        this.closeNewModal()
-      } catch (error) {
-        const status = error.response.status
-
-        if (status === 403) {
-          this.alert = 'Illegal operation was performed.'
-          this.closeNewModal()
-        }
-
-        if (status === 422) {
-          var responseErrors = error.response.data.errors
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
-          }
-          this.storeErrors = errors
-        }
-
-        if (status >= 500) {
-          this.alert = 'Server Error'
-          this.closeNewModal()
-        }
-      }
-
-      this.resetNewDealing()
-    },
-
-    async update() {
-      this.resetGreeting()
-
-      try {
-        const result = await axios.put('/api/dealings/' + this.dealing.id, {
-          domain_id: this.dealing.domainId,
-          client_id: this.dealing.clientId,
-          subtotal: this.dealing.subtotal,
-          discount: this.dealing.discount,
-          billing_date: this.dealing.billingDate,
-          interval: this.dealing.interval,
-          interval_category: this.dealing.intervalCategory,
-          is_auto_update: this.dealing.isAutoUpdate,
-          is_halt: this.dealing.isHalt,
-        })
-
-        if (result.status === 200) {
-          this.greeting = 'Update success'
-        }
-        this.initDealings()
-        this.closeEditModal()
-      } catch (error) {
-        const status = error.response.status
-
-        if (status === 403) {
-          this.alert = 'Illegal operation was performed.'
-          this.closeEditModal()
-        }
-
-        if (status === 422) {
-          var responseErrors = error.response.data.errors
-
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
-          }
-          this.updateErrors = errors
-        }
-
-        if (status >= 500) {
-          this.alert = 'Server Error'
-          this.closeEditModal()
-        }
-      }
-    },
-    async updateBilling() {
-      this.resetGreeting()
-
-      try {
-        const result = await axios.put(
-          '/api/dealings/billings/' + this.billing.id,
-          {
-            billing_date: this.billing.billingDate,
-            total: this.billing.total,
-            is_fixed: this.billing.isFixed,
-          }
-        )
-
-        if (result.status === 200) {
-          this.greeting = 'Update success'
-        }
-        this.initDealings()
-        this.closeBillingEditModal()
-        this.closeDetailModal()
-      } catch (error) {
-        const status = error.response.status
-
-        if (status === 403) {
-          this.alert = 'Illegal operation was performed.'
-          this.closeBillingEditModal()
-          this.closeDetailModal()
-        }
-
-        if (status === 422) {
-          var responseErrors = error.response.data.errors
-
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
-          }
-          this.updateErrors = errors
-        }
-
-        if (status >= 500) {
-          this.alert = 'Server Error'
-          this.closeBillingEditModal()
-          this.closeDetailModal()
-        }
+      if (result.status === 200) {
+        this.greetingType = 'success'
+        this.message = result.message
+      } else {
+        this.greetingType = 'error'
+        this.message = result.message
       }
     },
 
     async initDealings() {
+      this.finishInitialize = false
+
       const result = await axios.get('/api/dealings')
 
       let dealings_actives = []
@@ -744,6 +351,8 @@ export default {
 
       this.dealings.active = dealings_actives
       this.dealings.stop = dealings_stops
+
+      this.finishInitialize = true
     },
 
     async initDomains() {
@@ -783,8 +392,6 @@ export default {
     },
 
     async edit(dealing) {
-      this.dialogLoading = true
-
       this.dealing.id = dealing.id
       this.dealing.domainId = dealing.domain_id
       this.dealing.clientId = dealing.client_id
@@ -797,11 +404,6 @@ export default {
       this.dealing.isHalt = dealing.is_halt
 
       this.openEditModal()
-
-      await this.initDomains()
-      await this.initClients()
-
-      this.dialogLoading = false
     },
 
     async detail(dealing) {

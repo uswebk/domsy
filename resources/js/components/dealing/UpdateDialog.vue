@@ -2,7 +2,7 @@
   <v-dialog v-model="open" max-width="600px">
     <v-card>
       <v-card-title class="pl-8">
-        <span class="text-h6"> DNS Edit</span>
+        <span class="text-h6"> Dealing Edit</span>
       </v-card-title>
       <v-card-text>
         <v-progress-linear
@@ -13,22 +13,9 @@
         <v-container v-if="!loading">
           <v-form ref="form" lazy-validation>
             <v-row>
-              <v-col cols="3">
-                <v-text-field
-                  class="mt-5"
-                  label="Prefix"
-                  v-model="subdomainInfo.prefix"
-                  required
-                  hide-details
-                ></v-text-field>
-                <validation-error-message
-                  :message="errors.prefix"
-                ></validation-error-message>
-              </v-col>
-              <v-col cols="9">
+              <v-col cols="12">
                 <v-select
-                  class="mt-5"
-                  v-model="subdomainInfo.domain_id"
+                  v-model="dealingModel.domainId"
                   :items="domains"
                   item-text="name"
                   item-value="id"
@@ -38,59 +25,103 @@
                 <validation-error-message
                   :message="errors.domain_id"
                 ></validation-error-message>
-              </v-col>
-              <v-col cols="3">
+
                 <v-select
                   class="mt-5"
-                  v-model="subdomainInfo.type_id"
-                  :items="dnsRecordTypes"
+                  v-model="dealingModel.clientId"
+                  :items="clients"
                   item-text="name"
                   item-value="id"
-                  label="DnsType"
+                  label="Client"
                   hide-details
                 ></v-select>
                 <validation-error-message
-                  :message="errors.type_id"
+                  :message="errors.client_id"
                 ></validation-error-message>
-              </v-col>
-              <v-col cols="9">
+
                 <v-text-field
                   class="mt-5"
-                  label="Value"
-                  v-model="subdomainInfo.value"
-                  required
-                  hide-details
-                ></v-text-field>
-                <validation-error-message
-                  :message="errors.value"
-                ></validation-error-message>
-              </v-col>
-              <v-col cols="6">
-                <v-text-field
-                  class="mt-5"
-                  label="TTL"
-                  v-model="subdomainInfo.ttl"
+                  label="Subtotal"
+                  v-model="dealingModel.subtotal"
                   type="number"
-                  min="0"
+                  prefix="¥"
                   required
                   hide-details
                 ></v-text-field>
                 <validation-error-message
-                  :message="errors.ttl"
+                  :message="errors.subtotal"
                 ></validation-error-message>
-              </v-col>
-              <v-col cols="6">
+
                 <v-text-field
                   class="mt-5"
-                  label="Priority"
-                  v-model="subdomainInfo.priority"
+                  label="Discount"
+                  v-model="dealingModel.discount"
                   type="number"
-                  min="0"
+                  prefix="¥"
                   required
                   hide-details
                 ></v-text-field>
                 <validation-error-message
-                  :message="errors.priority"
+                  :message="errors.discount"
+                ></validation-error-message>
+
+                <v-text-field
+                  class="mt-5"
+                  label="Billing Date"
+                  v-model="dealingModel.billingDate"
+                  type="date"
+                  required
+                  hide-details
+                ></v-text-field>
+                <validation-error-message
+                  :message="errors.billing_date"
+                ></validation-error-message>
+              </v-col>
+              <v-col cols="2">
+                <v-text-field
+                  class="mt-5"
+                  label="Interval"
+                  v-model="dealingModel.interval"
+                  type="number"
+                  required
+                  hide-details
+                ></v-text-field>
+                <validation-error-message
+                  :message="errors.interval"
+                ></validation-error-message>
+              </v-col>
+              <v-col cols="4">
+                <v-select
+                  class="mt-5"
+                  v-model="dealingModel.intervalCategory"
+                  :items="intervalCategories"
+                  label="IntervalCategory"
+                  hide-details
+                ></v-select>
+                <validation-error-message
+                  :message="errors.interval_category"
+                ></validation-error-message>
+              </v-col>
+              <v-col cols="3">
+                <v-checkbox
+                  class="mt-5"
+                  v-model="dealingModel.isAutoUpdate"
+                  label="AutoUpdate"
+                  hide-details
+                ></v-checkbox>
+                <validation-error-message
+                  :message="errors.is_auto_update"
+                ></validation-error-message>
+              </v-col>
+              <v-col cols="3">
+                <v-checkbox
+                  class="mt-5"
+                  v-model="dealingModel.isHalt"
+                  label="Halt"
+                  hide-details
+                ></v-checkbox>
+                <validation-error-message
+                  :message="errors.is_halt"
                 ></validation-error-message>
               </v-col>
             </v-row>
@@ -124,7 +155,7 @@ export default {
       type: Boolean,
       required: true,
     },
-    subdomain: {
+    dealing: {
       default: null,
       type: Object,
       required: true,
@@ -134,13 +165,14 @@ export default {
   data() {
     return {
       loading: true,
+      intervalCategories: ['DAY', 'WEEK', 'MONTH', 'YEAR'],
       errors: {},
     }
   },
 
   computed: {
-    subdomainInfo() {
-      return this.subdomain
+    dealingModel() {
+      return this.dealing
     },
     open: {
       get() {
@@ -156,14 +188,20 @@ export default {
   methods: {
     async update() {
       try {
-        const result = await axios.put('/api/dns/' + this.subdomainInfo.id, {
-          prefix: this.subdomainInfo.prefix,
-          domain_id: this.subdomainInfo.domain_id,
-          type_id: this.subdomainInfo.type_id,
-          value: this.subdomainInfo.value,
-          ttl: this.subdomainInfo.ttl,
-          priority: this.subdomainInfo.priority,
-        })
+        const result = await axios.put(
+          '/api/dealings/' + this.dealingModel.id,
+          {
+            domain_id: this.dealingModel.domainId,
+            client_id: this.dealingModel.clientId,
+            subtotal: this.dealingModel.subtotal,
+            discount: this.dealingModel.discount,
+            billing_date: this.dealingModel.billingDate,
+            interval: this.dealingModel.interval,
+            interval_category: this.dealingModel.intervalCategory,
+            is_auto_update: this.dealingModel.isAutoUpdate,
+            is_halt: this.dealingModel.isHalt,
+          }
+        )
 
         this.close()
 
@@ -214,9 +252,9 @@ export default {
 
     this.domains = domains.data
 
-    const dnsRecordType = await axios.get('/api/dns-record-type')
+    const result = await axios.get('/api/clients')
 
-    this.dnsRecordTypes = dnsRecordType.data
+    this.clients = result.data
 
     this.loading = false
   },
