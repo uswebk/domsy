@@ -105,63 +105,12 @@
         @sendMessage="sendMessage"
       ></update-dialog>
 
-      <!-- Detail Dialog -->
-      <v-dialog
-        v-model="detailDialog"
-        fullscreen
-        hide-overlay
-        transition="dialog-bottom-transition"
-      >
-        <v-card>
-          <v-toolbar dark color="primary">
-            <v-btn icon dark @click="closeDetailModal">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-            <v-toolbar-title> Dealing Detail</v-toolbar-title>
-          </v-toolbar>
-          <v-container>
-            <v-card-text>
-              <v-list three-line subheader>
-                <v-subheader>{{ dealing.domain }}</v-subheader>
-                <v-card-title>Billing</v-card-title>
-
-                <div
-                  v-for="billing in dealing.domain_billings"
-                  :key="billing.id"
-                >
-                  <v-divider></v-divider>
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-list-item-title>{{
-                        formattedDate(billing.billing_date)
-                      }}</v-list-item-title>
-                      <v-list-item-subtitle>{{
-                        formattedPrice(billing.total)
-                      }}</v-list-item-subtitle>
-                    </v-list-item-content>
-                    <v-list-item-action>
-                      <v-icon
-                        v-if="!billing.is_fixed && canBillingUpdate"
-                        @click="editBilling(billing)"
-                        small
-                      >
-                        mdi-pencil
-                      </v-icon></v-list-item-action
-                    >
-                  </v-list-item>
-                </div>
-              </v-list>
-              <v-divider></v-divider>
-            </v-card-text>
-          </v-container>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeDetailModal">
-              Close
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <detail-dialog
+        :isOpen="detailDialog"
+        :dealing="dealing"
+        @close="closeDetailModal"
+        @sendMessage="sendMessage"
+      ></detail-dialog>
 
       <!-- Billing Dialog -->
       <v-dialog v-model="editBillingDialog" max-width="300px">
@@ -231,6 +180,7 @@ import GreetingMessage from '../../components/common/GreetingMessage'
 
 import NewDialog from '../../components/dealing/NewDialog'
 import UpdateDialog from '../../components/dealing/UpdateDialog'
+import DetailDialog from '../../components/dealing/DetailDialog'
 
 import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
@@ -241,6 +191,7 @@ export default {
     GreetingMessage,
     NewDialog,
     UpdateDialog,
+    DetailDialog,
   },
 
   data() {
@@ -253,7 +204,6 @@ export default {
       canStore: false,
       canUpdate: false,
       canDetail: false,
-      canBillingUpdate: false,
       dealings: {
         active: {},
         stop: {},
@@ -326,6 +276,52 @@ export default {
       } else {
         this.greetingType = 'error'
         this.message = result.message
+      }
+    },
+
+    async updateBilling() {
+      this.resetGreeting()
+
+      try {
+        const result = await axios.put(
+          '/api/dealings/billings/' + this.billing.id,
+          {
+            billing_date: this.billing.billingDate,
+            total: this.billing.total,
+            is_fixed: this.billing.isFixed,
+          }
+        )
+
+        if (result.status === 200) {
+          this.greeting = 'Update success'
+        }
+        this.initDealings()
+        this.closeBillingEditModal()
+        this.closeDetailModal()
+      } catch (error) {
+        const status = error.response.status
+
+        if (status === 403) {
+          this.alert = 'Illegal operation was performed.'
+          this.closeBillingEditModal()
+          this.closeDetailModal()
+        }
+
+        if (status === 422) {
+          var responseErrors = error.response.data.errors
+
+          var errors = {}
+          for (var key in responseErrors) {
+            errors[key] = responseErrors[key][0]
+          }
+          this.updateErrors = errors
+        }
+
+        if (status >= 500) {
+          this.alert = 'Server Error'
+          this.closeBillingEditModal()
+          this.closeDetailModal()
+        }
       }
     },
 
