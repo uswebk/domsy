@@ -85,6 +85,7 @@ Route::middleware(['verified','auth'])->group(function () {
 
         Route::prefix('dealings')->name('dealings.')->group(function () {
             Route::get('/', 'DealingController@fetch')->name('fetch');
+            Route::get('{domainDealing}', 'DealingController@fetchId')->where('domainDealing', '[0-9]+')->name('fetch-id');
             Route::get('billings/transaction', 'DealingController@fetchBillingTransaction')->name('fetch.billings.transaction');
             Route::get('billings/sort-billing-date', 'DealingController@fetchBillingSortBillingDate')->name('fetch.billings.ort-billing-date');
             Route::post('/', 'DealingController@store')->name('store');

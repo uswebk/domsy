@@ -109,84 +109,25 @@
         :isOpen="detailDialog"
         :dealing="dealing"
         @close="closeDetailModal"
+        @init="initDealing"
         @sendMessage="sendMessage"
       ></detail-dialog>
-
-      <!-- Billing Dialog -->
-      <v-dialog v-model="editBillingDialog" max-width="300px">
-        <v-card>
-          <v-card-title class="pl-8">
-            <span class="text-h6">Billing Edit</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-form ref="form" lazy-validation>
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                      label="Billing Date"
-                      v-model="billing.billingDate"
-                      type="date"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage
-                      :message="updateErrors.billing_date"
-                    />
-                    <v-text-field
-                      class="mt-5"
-                      label="Total"
-                      v-model="billing.total"
-                      type="number"
-                      prefix="¥"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="updateErrors.total" />
-                    <v-checkbox
-                      class="mt-5"
-                      v-model="billing.isFixed"
-                      label="isFixed"
-                      hide-details
-                    ></v-checkbox>
-                    <ValidationErrorMessage :message="updateErrors.is_fixed" />
-                  </v-col>
-                </v-row>
-
-                <div class="my-5"></div>
-
-                <v-btn color="primary" @click="updateBilling">Update</v-btn>
-              </v-form>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeBillingEditModal">
-              Close
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
     </v-container>
   </v-main>
 </template>
 
 <script>
 import axios from 'axios'
-import { shortHyphenDate } from '../../modules/DateHelper'
-import { priceFormat } from '../../modules/AppHelper'
 import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
-
 import NewDialog from '../../components/dealing/NewDialog'
 import UpdateDialog from '../../components/dealing/UpdateDialog'
 import DetailDialog from '../../components/dealing/DetailDialog'
-
-import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
+import { shortHyphenDate } from '../../modules/DateHelper'
+import { priceFormat } from '../../modules/AppHelper'
 
 export default {
   components: {
-    ValidationErrorMessage,
     IconHeadLine,
     GreetingMessage,
     NewDialog,
@@ -200,7 +141,6 @@ export default {
       message: '',
       tab: '',
       finishInitialize: false,
-      dialogLoading: false,
       canStore: false,
       canUpdate: false,
       canDetail: false,
@@ -209,16 +149,9 @@ export default {
         stop: {},
       },
       dealing: {},
-      domains: {},
-      clients: {},
-      domain: {},
-      billing: {},
       newDialog: false,
-      storeErrors: {},
-      updateErrors: {},
       editDialog: false,
       detailDialog: false,
-      editBillingDialog: false,
     }
   },
 
@@ -229,10 +162,6 @@ export default {
 
     async openEditModal() {
       this.editDialog = true
-    },
-
-    async openBillingEditModal() {
-      this.editBillingDialog = true
     },
 
     openDetailModal() {
@@ -252,17 +181,9 @@ export default {
       this.detailDialog = false
     },
 
-    async closeBillingEditModal() {
-      this.editBillingDialog = false
-    },
-
     resetGreeting() {
       this.greetingType = ''
       this.message = ''
-    },
-
-    resetUpdateError() {
-      this.updateErrors = {}
     },
 
     sendMessage(result) {
@@ -279,50 +200,10 @@ export default {
       }
     },
 
-    async updateBilling() {
-      this.resetGreeting()
+    async initDealing(dealingId) {
+      const result = await axios.get('/api/dealings/' + dealingId)
 
-      try {
-        const result = await axios.put(
-          '/api/dealings/billings/' + this.billing.id,
-          {
-            billing_date: this.billing.billingDate,
-            total: this.billing.total,
-            is_fixed: this.billing.isFixed,
-          }
-        )
-
-        if (result.status === 200) {
-          this.greeting = 'Update success'
-        }
-        this.initDealings()
-        this.closeBillingEditModal()
-        this.closeDetailModal()
-      } catch (error) {
-        const status = error.response.status
-
-        if (status === 403) {
-          this.alert = 'Illegal operation was performed.'
-          this.closeBillingEditModal()
-          this.closeDetailModal()
-        }
-
-        if (status === 422) {
-          var responseErrors = error.response.data.errors
-
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
-          }
-          this.updateErrors = errors
-        }
-
-        if (status >= 500) {
-          this.alert = 'Server Error'
-          this.closeBillingEditModal()
-          this.closeDetailModal()
-        }
-      }
+      this.dealing = result.data
     },
 
     async initDealings() {
@@ -351,24 +232,7 @@ export default {
       this.finishInitialize = true
     },
 
-    async initDomains() {
-      const result = await axios.get('/api/domains')
-
-      this.domains = result.data
-    },
-
-    async initClients() {
-      const result = await axios.get('/api/clients')
-
-      this.clients = result.data
-    },
-
     async initRoleOperation() {
-      let canStoreResult = await axios.get(
-        '/api/roles/user/?has=api.dealings.store'
-      )
-      this.canStore = canStoreResult.data
-
       let canUpdateResult = await axios.get(
         '/api/roles/user/?has=api.dealings.update'
       )
@@ -378,11 +242,6 @@ export default {
         '/api/roles/user/?has=api.dealings.detail'
       )
       this.canDetail = canDetailResult.data
-
-      let canBillingUpdateResult = await axios.get(
-        '/api/roles/user/?has=api.dealings.updateBilling'
-      )
-      this.canBillingUpdate = canBillingUpdateResult.data
 
       this.finishInitialize = true
     },
@@ -408,18 +267,10 @@ export default {
       this.openDetailModal()
     },
 
-    async editBilling(billing) {
-      this.billing.id = billing.id
-      this.billing.billingDate = this.formattedDate(billing.billing_date)
-      this.billing.total = billing.total
-      this.billing.isFixed = billing.is_fixed
-
-      this.openBillingEditModal()
-    },
-
     formattedDate(dateTime) {
       return shortHyphenDate(dateTime)
     },
+
     formattedPrice(price) {
       return priceFormat(price)
     },

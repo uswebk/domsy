@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\DomainDealingResource;
 use Illuminate\Http\Response;
 
 final class DealingController extends Controller
@@ -13,6 +14,7 @@ final class DealingController extends Controller
         parent::__construct();
 
         $this->middleware('can:owner,domainBilling')->only(['updateBilling']);
+        $this->middleware('can:owner,domainDealing')->only(['fetchId']);
     }
 
     /**
@@ -24,6 +26,19 @@ final class DealingController extends Controller
     ) {
         return response()->json(
             $dealingFetchService->getResponseData(),
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function fetchId(
+        \App\Infrastructures\Models\DomainDealing $domainDealing
+    ) {
+        return response()->json(
+            new DomainDealingResource($domainDealing),
             Response::HTTP_OK
         );
     }
