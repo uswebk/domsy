@@ -36,58 +36,16 @@
         <v-tab href="#stop">Stop</v-tab>
       </v-tabs>
       <v-container class="py-1"></v-container>
+
       <v-tabs-items v-model="tab">
         <div v-for="(_dealing, index) in dealings" :key="_dealing.id">
           <v-tab-item :value="index">
-            <v-simple-table>
-              <template v-slot:default>
-                <thead>
-                  <tr>
-                    <th class="text-left">Domain Name</th>
-                    <th class="text-left">Client Name</th>
-                    <th class="text-left">Subtotal</th>
-                    <th class="text-left">Discount</th>
-                    <th class="text-left">First Billing Date</th>
-                    <th class="text-left">Interval</th>
-                    <th class="text-center">Auto Update</th>
-                    <th class="text-left">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="dealing in _dealing" :key="dealing.id">
-                    <td>{{ dealing.domain }}</td>
-                    <td>{{ dealing.client.name }}</td>
-                    <td>{{ formattedPrice(dealing.subtotal) }}</td>
-                    <td>{{ formattedPrice(dealing.discount) }}</td>
-                    <td>{{ formattedDate(dealing.billing_date) }}</td>
-                    <td>
-                      {{ dealing.interval }} {{ dealing.interval_category }}
-                    </td>
-                    <td class="text-center">
-                      <span v-if="dealing.is_auto_update"
-                        ><v-icon small>mdi-checkbox-marked-circle</v-icon></span
-                      >
-                    </td>
-                    <td>
-                      <v-btn
-                        v-if="canUpdate"
-                        x-small
-                        color="primary"
-                        @click="edit(dealing)"
-                        >edit</v-btn
-                      >
-                      <v-btn
-                        v-if="canDetail"
-                        x-small
-                        color="primary"
-                        @click="detail(dealing)"
-                        >detail</v-btn
-                      >
-                    </td>
-                  </tr>
-                </tbody>
-              </template>
-            </v-simple-table>
+            <list-table
+              :headers="headers"
+              :dealings="_dealing"
+              @edit="edit"
+              @detail="detail"
+            ></list-table>
           </v-tab-item>
         </div>
       </v-tabs-items>
@@ -118,18 +76,20 @@
 
 <script>
 import axios from 'axios'
+import { shortHyphenDate } from '../../modules/DateHelper'
+import { priceFormat } from '../../modules/AppHelper'
 import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
+import ListTable from '../../components/dealing/ListTable'
 import NewDialog from '../../components/dealing/NewDialog'
 import UpdateDialog from '../../components/dealing/UpdateDialog'
 import DetailDialog from '../../components/dealing/DetailDialog'
-import { shortHyphenDate } from '../../modules/DateHelper'
-import { priceFormat } from '../../modules/AppHelper'
 
 export default {
   components: {
     IconHeadLine,
     GreetingMessage,
+    ListTable,
     NewDialog,
     UpdateDialog,
     DetailDialog,
@@ -142,16 +102,49 @@ export default {
       tab: '',
       finishInitialize: false,
       canStore: false,
-      canUpdate: false,
-      canDetail: false,
       dealings: {
-        active: {},
-        stop: {},
+        active: [],
+        stop: [],
       },
       dealing: {},
       newDialog: false,
       editDialog: false,
       detailDialog: false,
+      headers: [
+        {
+          text: 'Domain Name',
+          value: 'domain',
+        },
+        {
+          text: 'Client Name',
+          value: 'client.name',
+        },
+        {
+          text: 'Subtotal',
+          value: 'subtotal',
+        },
+        {
+          text: 'Discount',
+          value: 'discount',
+        },
+        {
+          text: 'First Billing Date',
+          value: 'billing_date',
+        },
+        {
+          text: 'Interval',
+          value: 'interval',
+        },
+        {
+          text: 'Auto Update',
+          value: 'is_auto_update',
+        },
+        {
+          text: 'Action',
+          value: 'action',
+          sortable: false,
+        },
+      ],
     }
   },
 
@@ -173,7 +166,6 @@ export default {
     },
 
     closeEditModal() {
-      this.resetUpdateError()
       this.editDialog = false
     },
 
@@ -233,15 +225,10 @@ export default {
     },
 
     async initRoleOperation() {
-      let canUpdateResult = await axios.get(
-        '/api/roles/user/?has=api.dealings.update'
+      let canStoreResult = await axios.get(
+        '/api/roles/user/?has=api.dealings.store'
       )
-      this.canUpdate = canUpdateResult.data
-
-      let canDetailResult = await axios.get(
-        '/api/roles/user/?has=api.dealings.detail'
-      )
-      this.canDetail = canDetailResult.data
+      this.canStore = canStoreResult.data
 
       this.finishInitialize = true
     },
