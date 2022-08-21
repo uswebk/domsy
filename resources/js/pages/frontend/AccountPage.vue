@@ -39,43 +39,11 @@
             <v-icon dark left> mdi-plus-circle </v-icon>New
           </v-btn>
 
-          <v-simple-table>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">Name</th>
-                  <th class="text-left">Email</th>
-                  <th class="text-left">Role</th>
-                  <th class="text-center">Verified</th>
-                  <th class="text-left">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="user in users" :key="user.id">
-                  <td>{{ user.name }}</td>
-                  <td>{{ user.email }}</td>
-                  <td>{{ user.role.name }}</td>
-                  <td class="text-center">
-                    <span v-if="user.email_verified_at"
-                      ><v-icon small>mdi-checkbox-marked-circle</v-icon></span
-                    >
-                  </td>
-                  <td>
-                    <v-btn
-                      v-if="canUpdate"
-                      x-small
-                      color="primary"
-                      @click="edit(user)"
-                      >edit</v-btn
-                    >
-                    <v-btn v-if="canDelete" x-small @click="deleteUser(user)"
-                      >delete</v-btn
-                    >
-                  </td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
+          <list-table
+            :accounts="users"
+            @edit="edit"
+            @delete="deleteUser"
+          ></list-table>
         </v-tab-item>
         <v-tab-item value="role">
           <v-btn
@@ -271,6 +239,7 @@
 import axios from 'axios'
 import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
+import ListTable from '../../components/account/ListTable'
 import NewDialog from '../../components/account/NewDialog'
 import UpdateDialog from '../../components/account/UpdateDialog'
 import DeleteDialog from '../../components/account/DeleteDialog'
@@ -281,6 +250,7 @@ export default {
   components: {
     IconHeadLine,
     GreetingMessage,
+    ListTable,
     NewDialog,
     UpdateDialog,
     DeleteDialog,
@@ -293,8 +263,6 @@ export default {
       message: '',
       tab: '',
       canStore: false,
-      canUpdate: false,
-      canDelete: false,
       canRoleStore: false,
       canRoleUpdate: false,
       canRoleDelete: false,
@@ -305,8 +273,7 @@ export default {
       editRoleDialog: false,
       deleteRoleDialog: false,
       finishInitialize: false,
-      errors: {},
-      users: {},
+      users: [],
       user: {},
       roles: {},
       role: {
@@ -539,6 +506,7 @@ export default {
 
     async initUsers() {
       const result = await axios.get('api/users')
+
       this.users = result.data
     },
 
@@ -555,20 +523,12 @@ export default {
     },
 
     async initRoleOperation() {
+      this.finishInitialize = false
+
       let canStoreResult = await axios.get(
         '/api/roles/user/?has=api.accounts.store'
       )
       this.canStore = canStoreResult.data
-
-      let canUpdateResult = await axios.get(
-        '/api/roles/user/?has=api.accounts.update'
-      )
-      this.canUpdate = canUpdateResult.data
-
-      let canDeleteResult = await axios.get(
-        '/api/roles/user/?has=api.accounts.delete'
-      )
-      this.canDelete = canDeleteResult.data
 
       let canRoleStoreResult = await axios.get(
         '/api/roles/user/?has=api.roles.store'
@@ -584,15 +544,15 @@ export default {
         '/api/roles/user/?has=api.roles.delete'
       )
       this.canRoleDelete = canRoleDeleteResult.data
+
+      this.finishInitialize = true
     },
 
     async initialize() {
       this.initUsers()
       this.initRoles()
       this.initMenuItems()
-      await this.initRoleOperation()
-
-      this.finishInitialize = true
+      this.initRoleOperation()
     },
   },
   created() {
