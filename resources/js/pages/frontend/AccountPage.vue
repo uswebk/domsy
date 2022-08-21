@@ -136,28 +136,12 @@
         @sendMessage="sendMessage"
       ></update-dialog>
 
-      <!-- Delete Dialog -->
-      <v-dialog v-model="deleteDialog" max-width="290">
-        <v-card>
-          <v-card-title class="text-h5"> Deletion confirmation </v-card-title>
-
-          <v-card-text>
-            Do you want to delete the 「{{ user.name }}」 ?
-          </v-card-text>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-
-            <v-btn color="gray darken-1" text @click="closeDeleteModal">
-              Close
-            </v-btn>
-
-            <v-btn color="red darken-1" text @click="deleteExecute">
-              Delete
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <delete-dialog
+        :isOpen="deleteDialog"
+        :account="user"
+        @close="closeDeleteModal"
+        @sendMessage="sendMessage"
+      ></delete-dialog>
 
       <!-- Role New Dialog -->
       <v-dialog v-model="newRoleDialog" max-width="600px">
@@ -289,6 +273,7 @@ import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
 import NewDialog from '../../components/account/NewDialog'
 import UpdateDialog from '../../components/account/UpdateDialog'
+import DeleteDialog from '../../components/account/DeleteDialog'
 
 import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
@@ -298,6 +283,7 @@ export default {
     GreetingMessage,
     NewDialog,
     UpdateDialog,
+    DeleteDialog,
     ValidationErrorMessage,
   },
 
@@ -326,6 +312,8 @@ export default {
       role: {
         roleItems: {},
       },
+      storeErrors: {},
+      updateErrors: {},
       menuItems: {},
       newRoles: {},
       newRoleName: '',
@@ -487,31 +475,6 @@ export default {
       }
     },
 
-    async deleteExecute() {
-      try {
-        const result = await axios.delete('/api/accounts/' + this.user.id)
-
-        if (result.status === 200) {
-          this.greeting = 'Delete success'
-        }
-
-        this.initUsers()
-        this.closeDeleteModal()
-      } catch (error) {
-        const status = error.response.status
-
-        if (status === 403) {
-          this.alert = 'Illegal operation was performed.'
-          this.closeDeleteModal()
-        }
-
-        if (status >= 500) {
-          this.alert = 'Server Error'
-          this.closeDeleteModal()
-        }
-      }
-    },
-
     async deleteRoleExecute() {
       try {
         const result = await axios.delete('/api/roles/' + this.role.id)
@@ -560,8 +523,6 @@ export default {
     },
 
     async deleteUser(user) {
-      this.resetGreeting()
-
       this.user = user
 
       this.openDeleteModal()
