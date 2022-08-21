@@ -56,38 +56,11 @@
             <v-icon dark left> mdi-plus-circle </v-icon>New
           </v-btn>
 
-          <v-simple-table>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">Name</th>
-                  <th class="text-left">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="role in roles" :key="role.id">
-                  <td>{{ role.name }}</td>
-                  <td>
-                    <span v-if="role.id !== 1">
-                      <v-btn
-                        v-if="canRoleUpdate"
-                        x-small
-                        color="primary"
-                        @click="editRole(role)"
-                        >edit</v-btn
-                      >
-                      <v-btn
-                        v-if="canRoleDelete"
-                        x-small
-                        @click="deleteRole(role)"
-                        >delete</v-btn
-                      >
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
+          <role-list-table
+            :roles="roles"
+            @edit="edit"
+            @delete="deleteRole"
+          ></role-list-table>
         </v-tab-item>
       </v-tabs-items>
 
@@ -139,6 +112,7 @@ import axios from 'axios'
 import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
 import ListTable from '../../components/account/ListTable'
+import RoleListTable from '../../components/role/ListTable'
 import NewDialog from '../../components/account/NewDialog'
 import RoleNewDialog from '../../components/role/NewDialog'
 import UpdateDialog from '../../components/account/UpdateDialog'
@@ -151,6 +125,7 @@ export default {
     IconHeadLine,
     GreetingMessage,
     ListTable,
+    RoleListTable,
     NewDialog,
     RoleNewDialog,
     UpdateDialog,
@@ -166,8 +141,6 @@ export default {
       tab: '',
       canStore: false,
       canRoleStore: false,
-      canRoleUpdate: false,
-      canRoleDelete: false,
       newDialog: false,
       editDialog: false,
       deleteDialog: false,
@@ -314,16 +287,6 @@ export default {
         '/api/roles/user/?has=api.roles.store'
       )
       this.canRoleStore = canRoleStoreResult.data
-
-      let canRoleUpdateResult = await axios.get(
-        '/api/roles/user/?has=api.roles.update'
-      )
-      this.canRoleUpdate = canRoleUpdateResult.data
-
-      let canRoleDeleteResult = await axios.get(
-        '/api/roles/user/?has=api.roles.delete'
-      )
-      this.canRoleDelete = canRoleDeleteResult.data
 
       this.finishInitialize = true
     },
