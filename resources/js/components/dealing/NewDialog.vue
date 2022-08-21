@@ -83,6 +83,7 @@
                   label="Interval"
                   v-model="interval"
                   type="number"
+                  min="0"
                   required
                   hide-details
                 ></v-text-field>

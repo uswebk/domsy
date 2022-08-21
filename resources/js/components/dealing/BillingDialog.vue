@@ -25,6 +25,7 @@
                   label="Total"
                   v-model="billingModel.total"
                   type="number"
+                  min="0"
                   prefix="¥"
                   required
                   hide-details

@@ -42,6 +42,7 @@
                   label="Price"
                   v-model="price"
                   type="number"
+                  min="0"
                   prefix="¥"
                   required
                   hide-details

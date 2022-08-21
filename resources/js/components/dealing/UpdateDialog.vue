@@ -44,6 +44,7 @@
                   label="Subtotal"
                   v-model="dealingModel.subtotal"
                   type="number"
+                  min="0"
                   prefix="¥"
                   required
                   hide-details
@@ -57,6 +58,7 @@
                   label="Discount"
                   v-model="dealingModel.discount"
                   type="number"
+                  min="0"
                   prefix="¥"
                   required
                   hide-details
@@ -83,6 +85,7 @@
                   label="Interval"
                   v-model="dealingModel.interval"
                   type="number"
+                  min="0"
                   required
                   hide-details
                 ></v-text-field>

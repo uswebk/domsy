@@ -41,6 +41,7 @@
                   label="Price"
                   v-model="domainInfo.price"
                   type="number"
+                  min="0"
                   prefix="¥"
                   required
                   hide-details

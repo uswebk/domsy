@@ -39,6 +39,7 @@
                   <v-text-field
                     v-model="userMailSetting.notice_number_days"
                     type="number"
+                    min="0"
                     class="notice_number_days_text_field"
                     suffix="Days ago"
                     hide-details
