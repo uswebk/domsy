@@ -1,18 +1,17 @@
 <template>
   <v-main>
     <v-container>
-      <h1 class="text-h5 font-weight-bold">
-        <v-icon large>mdi-account-multiple</v-icon> Account
-      </h1>
+      <icon-head-line
+        :icon="'mdi-account-multiple'"
+        :headlineText="'Account'"
+      ></icon-head-line>
 
       <div class="py-5"></div>
 
-      <v-alert dense text dismissible type="success" v-if="greeting">{{
-        greeting
-      }}</v-alert>
-      <v-alert dense text dismissible type="error" v-if="alert">{{
-        alert
-      }}</v-alert>
+      <greeting-message
+        :type="greetingType"
+        :message="message"
+      ></greeting-message>
 
       <v-progress-linear
         v-show="!finishInitialize"
@@ -124,85 +123,11 @@
         </v-tab-item>
       </v-tabs-items>
 
-      <!-- New Dialog -->
-      <v-dialog v-model="newDialog" max-width="600px">
-        <v-card>
-          <v-card-title>
-            <span class="text-h6">Account Create</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-form ref="form" lazy-validation>
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                      class="mt-5"
-                      label="Name"
-                      v-model="name"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="storeErrors.name" />
-                    <v-text-field
-                      class="mt-5"
-                      label="Email"
-                      v-model="email"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="storeErrors.email" />
-
-                    <v-select
-                      class="mt-5"
-                      v-model="roleId"
-                      :items="roles"
-                      item-text="name"
-                      item-value="id"
-                      label="Role"
-                      hide-details
-                    ></v-select>
-                    <ValidationErrorMessage :message="storeErrors.role_id" />
-
-                    <v-text-field
-                      class="mt-5"
-                      v-model="password"
-                      type="password"
-                      name="password"
-                      label="Password"
-                      hint="At least 8 characters"
-                      counter
-                      required
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="errors.password" />
-                    <v-text-field
-                      class="mt-5"
-                      v-model="passwordConfirmation"
-                      type="password"
-                      name="password_confirmation"
-                      label="Confirm Password"
-                      counter
-                      required
-                    ></v-text-field>
-                    <ValidationErrorMessage
-                      :message="errors.password_confirmation"
-                    />
-                  </v-col>
-                </v-row>
-
-                <div class="my-5"></div>
-
-                <v-btn color="primary" @click="store">Create</v-btn>
-              </v-form>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeNewModal">
-              Close
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <new-dialog
+        :isOpen="newDialog"
+        @close="closeNewModal"
+        @sendMessage="sendMessage"
+      ></new-dialog>
 
       <!-- Update Dialog -->
       <v-dialog v-model="editDialog" max-width="600px">
@@ -407,17 +332,24 @@
 
 <script>
 import axios from 'axios'
+import IconHeadLine from '../../components/common/IconHeadLine'
+import GreetingMessage from '../../components/common/GreetingMessage'
+import NewDialog from '../../components/account/NewDialog'
+
 import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 export default {
   components: {
+    IconHeadLine,
+    GreetingMessage,
+    NewDialog,
     ValidationErrorMessage,
   },
 
   data() {
     return {
-      greeting: '',
-      alert: '',
+      greetingType: '',
+      message: '',
       tab: '',
       canStore: false,
       canUpdate: false,
@@ -444,11 +376,6 @@ export default {
       menuItems: {},
       newRoles: {},
       newRoleName: '',
-      name: '',
-      email: '',
-      roleId: null,
-      password: '',
-      passwordConfirmation: '',
     }
   },
 
@@ -478,7 +405,6 @@ export default {
     },
 
     closeNewModal() {
-      this.resetStoreError()
       this.newDialog = false
     },
 
@@ -503,14 +429,6 @@ export default {
       this.deleteRoleDialog = false
     },
 
-    resetNewUser() {
-      this.name = ''
-      this.email = ''
-      this.roleId = ''
-      this.password = ''
-      this.passwordConfirmation = ''
-    },
-
     resetNewRoles() {
       this.newRoles = {}
       this.newRoleName = ''
@@ -529,48 +447,19 @@ export default {
       this.updateErrors = {}
     },
 
-    async store() {
+    sendMessage(result) {
       this.resetGreeting()
 
-      try {
-        const result = await axios.post('/api/accounts', {
-          name: this.name,
-          role_id: this.roleId,
-          email: this.email,
-          password: this.password,
-          password_confirmation: this.passwordConfirmation,
-        })
+      this.initUsers()
+      this.initRoles()
 
-        if (result.status === 200) {
-          this.greeting = 'Create success and sent you an approval email.'
-        }
-
-        this.initUsers()
-        this.closeNewModal()
-      } catch (error) {
-        const status = error.response.status
-
-        if (status === 403) {
-          this.alert = 'Illegal operation was performed.'
-          this.closeNewModal()
-        }
-
-        if (status === 422) {
-          var responseErrors = error.response.data.errors
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
-          }
-          this.storeErrors = errors
-        }
-
-        if (status >= 500) {
-          this.alert = 'Server Error'
-          this.closeNewModal()
-        }
+      if (result.status === 200) {
+        this.greetingType = 'success'
+        this.message = result.message
+      } else {
+        this.greetingType = 'error'
+        this.message = result.message
       }
-
-      this.resetNewUser()
     },
 
     async storeRole() {
