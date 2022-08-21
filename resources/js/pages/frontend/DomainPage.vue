@@ -42,7 +42,6 @@
         <div v-for="(_domain, index) in domains" :key="_domain.id">
           <v-tab-item :value="index">
             <list-table
-              :headers="headers"
               :domains="_domain"
               @edit="edit"
               @delete="deleteDomain"
@@ -111,38 +110,6 @@ export default {
       newDialog: false,
       editDialog: false,
       deleteDialog: false,
-
-      headers: [
-        {
-          text: 'Name',
-          value: 'name',
-        },
-        {
-          text: 'Price',
-          value: 'price',
-        },
-        {
-          text: 'Active',
-          value: 'is_active',
-        },
-        {
-          text: 'Purchased Date',
-          value: 'purchased_at',
-        },
-        {
-          text: 'Expired Date',
-          value: 'expired_at',
-        },
-        {
-          text: 'Canceled Date',
-          value: 'canceled_at',
-        },
-        {
-          text: 'Action',
-          value: 'action',
-          sortable: false,
-        },
-      ],
     }
   },
 

@@ -13,8 +13,8 @@
     </v-row>
     <div class="my-2"></div>
     <v-data-table
-      :headers="headers"
       :items="domains"
+      :headers="headers"
       :search="search"
       :loading="loading"
     >
@@ -51,15 +51,11 @@
 import axios from 'axios'
 import { shortHyphenDate } from '../../modules/DateHelper'
 import { priceFormat } from '../../modules/AppHelper'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ListTable',
   props: {
-    headers: {
-      default: null,
-      type: Array,
-      required: true,
-    },
     domains: {
       default() {
         return []
@@ -75,6 +71,13 @@ export default {
       canUpdate: false,
       canDelete: false,
     }
+  },
+
+  computed: {
+    ...mapGetters('domain', ['domainHeaders']),
+    headers() {
+      return this.domainHeaders
+    },
   },
 
   methods: {

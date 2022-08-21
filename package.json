@@ -36,6 +36,7 @@
         "chart.js": "^2.9.4",
         "jquery": "^3.6.0",
         "vue-chartjs": "^3.5.1",
-        "vuetify": "^2.6.7"
+        "vuetify": "^2.6.7",
+        "vuex": "^3.4.0"
     }
 }

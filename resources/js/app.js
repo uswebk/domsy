@@ -4,6 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import store from './store'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import '@mdi/font/css/materialdesignicons.css'
@@ -94,4 +95,5 @@ Vue.component(
 const app = new Vue({
   el: '#app',
   vuetify: new Vuetify(),
+  store,
 })
