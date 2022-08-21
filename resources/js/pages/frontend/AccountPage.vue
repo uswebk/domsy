@@ -124,28 +124,12 @@
         @sendMessage="sendMessage"
       ></role-update-dialog>
 
-      <!-- Delete Dialog -->
-      <v-dialog v-model="deleteRoleDialog" max-width="290">
-        <v-card>
-          <v-card-title class="text-h5"> Deletion confirmation </v-card-title>
-
-          <v-card-text>
-            Do you want to delete the 「{{ role.name }}」 ?
-          </v-card-text>
-
-          <v-card-actions>
-            <v-spacer></v-spacer>
-
-            <v-btn color="gray darken-1" text @click="closeDeleteRoleModal">
-              Close
-            </v-btn>
-
-            <v-btn color="red darken-1" text @click="deleteRoleExecute">
-              Delete
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <role-delete-dialog
+        :isOpen="deleteRoleDialog"
+        :role="role"
+        @close="closeDeleteRoleModal"
+        @sendMessage="sendMessage"
+      ></role-delete-dialog>
     </v-container>
   </v-main>
 </template>
@@ -160,6 +144,7 @@ import RoleNewDialog from '../../components/role/NewDialog'
 import UpdateDialog from '../../components/account/UpdateDialog'
 import RoleUpdateDialog from '../../components/role/UpdateDialog'
 import DeleteDialog from '../../components/account/DeleteDialog'
+import RoleDeleteDialog from '../../components/role/DeleteDialog'
 
 export default {
   components: {
@@ -171,6 +156,7 @@ export default {
     UpdateDialog,
     RoleUpdateDialog,
     DeleteDialog,
+    RoleDeleteDialog,
   },
 
   data() {
@@ -264,31 +250,6 @@ export default {
       } else {
         this.greetingType = 'error'
         this.message = result.message
-      }
-    },
-
-    async deleteRoleExecute() {
-      try {
-        const result = await axios.delete('/api/roles/' + this.role.id)
-
-        if (result.status === 200) {
-          this.greeting = 'Delete success'
-        }
-
-        this.initRoles()
-        this.closeDeleteRoleModal()
-      } catch (error) {
-        const status = error.response.status
-
-        if (status === 403) {
-          this.alert = 'Illegal operation was performed.'
-          this.closeDeleteRoleModal()
-        }
-
-        if (status >= 500) {
-          this.alert = 'Server Error'
-          this.closeDeleteRoleModal()
-        }
       }
     },
 
