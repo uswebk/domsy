@@ -129,59 +129,12 @@
         @sendMessage="sendMessage"
       ></new-dialog>
 
-      <!-- Update Dialog -->
-      <v-dialog v-model="editDialog" max-width="600px">
-        <v-card>
-          <v-card-title>
-            <span class="text-h6">Account Edit</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-form ref="form" lazy-validation>
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                      class="mt-5"
-                      label="Name"
-                      v-model="user.name"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="updateErrors.name" />
-                    <v-text-field
-                      class="mt-5"
-                      label="Email"
-                      v-model="user.email"
-                      required
-                      hide-details
-                    ></v-text-field>
-                    <ValidationErrorMessage :message="updateErrors.email" />
-
-                    <v-select
-                      class="mt-5"
-                      v-model="user.roleId"
-                      :items="roles"
-                      item-text="name"
-                      item-value="id"
-                      label="Role"
-                      hide-details
-                    ></v-select>
-                    <ValidationErrorMessage :message="updateErrors.role_id" />
-                  </v-col>
-                </v-row>
-                <div class="my-5"></div>
-                <v-btn color="primary" @click="update">Update</v-btn>
-              </v-form>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="closeEditModal">
-              Close
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <update-dialog
+        :isOpen="editDialog"
+        :account="user"
+        @close="closeEditModal"
+        @sendMessage="sendMessage"
+      ></update-dialog>
 
       <!-- Delete Dialog -->
       <v-dialog v-model="deleteDialog" max-width="290">
@@ -335,6 +288,7 @@ import axios from 'axios'
 import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
 import NewDialog from '../../components/account/NewDialog'
+import UpdateDialog from '../../components/account/UpdateDialog'
 
 import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
@@ -343,6 +297,7 @@ export default {
     IconHeadLine,
     GreetingMessage,
     NewDialog,
+    UpdateDialog,
     ValidationErrorMessage,
   },
 
@@ -364,8 +319,6 @@ export default {
       editRoleDialog: false,
       deleteRoleDialog: false,
       finishInitialize: false,
-      storeErrors: {},
-      updateErrors: {},
       errors: {},
       users: {},
       user: {},
@@ -413,7 +366,6 @@ export default {
     },
 
     closeEditModal() {
-      this.resetUpdateError()
       this.editDialog = false
     },
 
@@ -435,16 +387,8 @@ export default {
     },
 
     resetGreeting() {
-      this.greeting = ''
-      this.alert = ''
-    },
-
-    resetStoreError() {
-      this.storeErrors = {}
-    },
-
-    resetUpdateError() {
-      this.updateErrors = {}
+      this.greetingType = ''
+      this.message = ''
     },
 
     sendMessage(result) {
@@ -500,46 +444,6 @@ export default {
           this.alert = 'Server Error'
           this.closeNewRoleModal()
           this.resetNewRoles()
-        }
-      }
-    },
-
-    async update() {
-      this.resetGreeting()
-
-      try {
-        const result = await axios.put('/api/accounts/' + this.user.id, {
-          name: this.user.name,
-          role_id: this.user.roleId,
-          email: this.user.email,
-        })
-
-        if (result.status === 200) {
-          this.greeting = 'Update success'
-        }
-        this.initUsers()
-        this.closeEditModal()
-      } catch (error) {
-        const status = error.response.status
-
-        if (status === 403) {
-          this.alert = 'Illegal operation was performed.'
-          this.closeEditModal()
-        }
-
-        if (status === 422) {
-          var responseErrors = error.response.data.errors
-
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
-          }
-          this.updateErrors = errors
-        }
-
-        if (status >= 500) {
-          this.alert = 'Server Error'
-          this.closeEditModal()
         }
       }
     },
