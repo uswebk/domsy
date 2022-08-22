@@ -14,7 +14,7 @@
       ></greeting-message>
 
       <v-progress-linear
-        v-show="!finishInitialize"
+        v-show="loading"
         color="yellow darken-2"
         indeterminate
         rounded
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
 import { shortHyphenDate } from '../../modules/DateHelper'
 import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
@@ -97,15 +97,8 @@ export default {
     return {
       greetingType: '',
       message: '',
-      finishInitialize: false,
+      loading: false,
       tab: '',
-      canStore: false,
-      domains: {
-        active: [],
-        inactive: [],
-        managementOnly: [],
-        transferred: [],
-      },
       domain: {},
       newDialog: false,
       editDialog: false,
@@ -113,7 +106,12 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters('domain', ['domains', 'canStore']),
+  },
+
   methods: {
+    ...mapActions('domain', ['fetchDomains', 'checkRole']),
     openNewModal() {
       this.newDialog = true
     },
@@ -139,8 +137,8 @@ export default {
     },
 
     resetGreeting() {
+      this.greetingType = ''
       this.greeting = ''
-      this.alert = ''
     },
 
     sendMessage(result) {
@@ -150,47 +148,20 @@ export default {
 
       if (result.status === 200) {
         this.greetingType = 'success'
-        this.greeting = result.message
       } else {
         this.greetingType = 'error'
-        this.alert = result.message
       }
+
+      this.message = result.message
     },
 
-    async initDomains() {
-      this.finishInitialize = false
+    async initialize() {
+      this.loading = true
 
-      const result = await axios.get('/api/domains')
+      await this.fetchDomains()
+      await this.checkRole()
 
-      let activeDomains = []
-      let inactiveDomains = []
-      let managementOnlyDomains = []
-      let transferredDomains = []
-
-      for (let key in result.data) {
-        let domain = result.data[key]
-
-        if (domain.is_transferred) {
-          transferredDomains.push(domain)
-        }
-
-        if (domain.is_management_only) {
-          managementOnlyDomains.push(domain)
-        }
-
-        if (domain.is_active) {
-          activeDomains.push(domain)
-        } else {
-          inactiveDomains.push(domain)
-        }
-      }
-
-      this.domains.active = activeDomains
-      this.domains.transferred = transferredDomains
-      this.domains.inactive = inactiveDomains
-      this.domains.managementOnly = managementOnlyDomains
-
-      this.finishInitialize = true
+      this.loading = false
     },
 
     edit(domain) {
@@ -217,18 +188,10 @@ export default {
     formattedDate(dateTime) {
       return shortHyphenDate(dateTime)
     },
-
-    async canStoreCheck() {
-      let canStoreResult = await axios.get(
-        '/api/roles/user/?has=api.domains.store'
-      )
-      this.canStore = canStoreResult.data
-    },
   },
 
   async created() {
-    await this.canStoreCheck()
-    await this.initDomains()
+    this.initialize()
   },
 }
 </script>

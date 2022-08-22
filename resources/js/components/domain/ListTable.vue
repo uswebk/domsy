@@ -12,12 +12,7 @@
       </v-col>
     </v-row>
     <div class="my-2"></div>
-    <v-data-table
-      :items="domains"
-      :headers="headers"
-      :search="search"
-      :loading="loading"
-    >
+    <v-data-table :items="domains" :headers="headers" :search="search">
       <template v-slot:[`item.is_active`]="{ item }">
         <span v-if="item.is_active" class="text-center"
           ><v-icon small>mdi-checkbox-marked-circle</v-icon></span
@@ -48,10 +43,9 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters } from 'vuex'
 import { shortHyphenDate } from '../../modules/DateHelper'
 import { priceFormat } from '../../modules/AppHelper'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'ListTable',
@@ -66,33 +60,18 @@ export default {
 
   data() {
     return {
-      loading: true,
       search: '',
-      canUpdate: false,
-      canDelete: false,
     }
   },
 
   computed: {
-    ...mapGetters('domain', ['domainHeaders']),
+    ...mapGetters('domain', ['domainHeaders', 'canUpdate', 'canDelete']),
     headers() {
       return this.domainHeaders
     },
   },
 
   methods: {
-    async roleCheck() {
-      let canUpdateResult = await axios.get(
-        '/api/roles/user/?has=api.domains.update'
-      )
-      this.canUpdate = canUpdateResult.data
-
-      let canDeleteResult = await axios.get(
-        '/api/roles/user/?has=api.domains.delete'
-      )
-      this.canDelete = canDeleteResult.data
-    },
-
     edit(domain) {
       this.$emit('edit', domain)
     },
@@ -108,14 +87,6 @@ export default {
     formattedPrice(price) {
       return priceFormat(price)
     },
-  },
-
-  async created() {
-    this.loading = true
-
-    await this.roleCheck()
-
-    this.loading = false
   },
 }
 </script>

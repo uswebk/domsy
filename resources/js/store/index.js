@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import domain from './domain'
+import domain from './modules/domain'
 
 Vue.use(Vuex)
 

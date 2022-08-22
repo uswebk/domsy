@@ -22,7 +22,7 @@ final class UserRequest extends Request
     public function rules(): array
     {
         return [
-            'has' => 'required|string',
+            'menu_id' => 'required|integer',
         ];
     }
 }

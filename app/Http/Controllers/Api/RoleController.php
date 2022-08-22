@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Infrastructures\Models\Menu;
 use App\Infrastructures\Models\User;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 final class RoleController extends Controller
@@ -31,6 +33,8 @@ final class RoleController extends Controller
     }
 
     /**
+     * TODO: ApplicationService化
+     *
      * @param \App\Http\Requests\Api\Role\UserRequest $request
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
@@ -38,10 +42,16 @@ final class RoleController extends Controller
         \App\Http\Requests\Api\Role\UserRequest $request
     ) {
         $user = User::find(Auth::id());
-        $routeName = $request->has;
+
+        $menus = Menu::with(['menuItems'])->findOrFail($request->menu_id);
+
+        $response = new Collection();
+        foreach ($menus->menuItems as $menuItem) {
+            $response[$menuItem->function] = $user->hasRoleItem($menuItem->route);
+        }
 
         return response()->json(
-            $user->hasRoleItem($routeName),
+            $response,
             Response::HTTP_OK
         );
     }
