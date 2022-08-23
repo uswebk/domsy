@@ -39,15 +39,22 @@
         >
       </template>
     </v-data-table>
+
+    <update-dialog :domain="domain"></update-dialog>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { shortHyphenDate } from '../../modules/DateHelper'
 import { priceFormat } from '../../modules/AppHelper'
+import UpdateDialog from '../../components/domain/UpdateDialog'
 
 export default {
+  components: {
+    UpdateDialog,
+  },
+
   name: 'ListTable',
   props: {
     domains: {
@@ -61,6 +68,7 @@ export default {
   data() {
     return {
       search: '',
+      domain: {},
     }
   },
 
@@ -72,8 +80,23 @@ export default {
   },
 
   methods: {
+    ...mapMutations('domain', {
+      isOpenEditDialog: 'isOpenEditDialog',
+    }),
+
     edit(domain) {
-      this.$emit('edit', domain)
+      this.domain.id = domain.id
+      this.domain.name = domain.name
+      this.domain.price = domain.price
+      this.domain.registrar_id = domain.registrar_id
+      this.domain.is_active = domain.is_active
+      this.domain.is_transferred = domain.is_transferred
+      this.domain.is_management_only = domain.is_management_only
+      this.domain.purchased_at = this.formattedDate(domain.purchased_at)
+      this.domain.expired_at = this.formattedDate(domain.expired_at)
+      this.domain.canceled_at = this.formattedDate(domain.canceled_at)
+
+      this.isOpenEditDialog(true)
     },
 
     deleteDomain(domain) {

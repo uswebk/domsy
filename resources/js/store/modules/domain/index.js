@@ -1,21 +1,37 @@
 import axios from 'axios'
 
 const state = {
-  domains: [{ active: [], inactive: [], managementOnly: [], transferred: [] }],
+  greeting: '',
+  greetingType: '',
   canStore: false,
   canUpdate: false,
   canDelete: false,
+  isOpenEditDialog: false,
+  pageLoading: true,
+  domains: [{ active: [], inactive: [], managementOnly: [], transferred: [] }],
 }
 
 const mutations = {
+  greeting: (state, value) => (state.greeting = value),
+  greetingType: (state, value) => (state.greetingType = value),
+  pageLoading: (state, value) => (state.pageLoading = value),
   domains: (state, domains) => (state.domains = domains),
   canStore: (state, value) => (state.canStore = value),
   canUpdate: (state, value) => (state.canUpdate = value),
   canDelete: (state, value) => (state.canDelete = value),
+  isOpenEditDialog: (state, value) => (state.isOpenEditDialog = value),
 }
 
 const actions = {
+  sendMessage({ commit }, payload) {
+    console.log(payload)
+    commit('greeting', payload.greeting)
+    commit('greetingType', payload.greetingType)
+  },
+
   async fetchDomains({ commit }) {
+    commit('pageLoading', true)
+
     const result = await axios.get('/api/domains')
 
     let domains = {
@@ -42,6 +58,17 @@ const actions = {
     })
 
     commit('domains', domains)
+    commit('pageLoading', false)
+  },
+
+  async updateDomain({ dispatch }, payload) {
+    const result = await axios.put('/api/domains/' + payload.id, {
+      ...payload,
+    })
+
+    dispatch('fetchDomains')
+
+    return result
   },
 
   async checkRole({ commit }) {
@@ -54,10 +81,14 @@ const actions = {
 }
 
 const getters = {
+  greeting: (state) => state.greeting,
+  greetingType: (state) => state.greetingType,
   domains: (state) => state.domains,
   canStore: (state) => state.canStore,
   canUpdate: (state) => state.canUpdate,
   canDelete: (state) => state.canDelete,
+  isOpenEditDialog: (state) => state.isOpenEditDialog,
+  pageLoading: (state) => state.pageLoading,
   domainHeaders: () => [
     {
       text: 'Name',

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="open" max-width="600px">
+  <v-dialog v-model="isOpen" max-width="600px">
     <v-card>
       <v-card-title class="pl-8">
         <span class="text-h6">Domain Edit</span>
@@ -25,7 +25,7 @@
                 ></validation-error-message>
                 <v-select
                   class="mt-5"
-                  v-model="domainInfo.registrarId"
+                  v-model="domainInfo.registrar_id"
                   :items="registrars"
                   item-text="name"
                   item-value="id"
@@ -53,7 +53,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Purchased Date"
-                  v-model="domainInfo.purchasedAt"
+                  v-model="domainInfo.purchased_at"
                   type="date"
                   required
                   hide-details
@@ -65,7 +65,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Expired Date"
-                  v-model="domainInfo.expiredAt"
+                  v-model="domainInfo.expired_at"
                   type="date"
                   required
                   hide-details
@@ -77,7 +77,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Canceled Date"
-                  v-model="domainInfo.canceledAt"
+                  v-model="domainInfo.canceled_at"
                   type="date"
                   required
                   hide-details
@@ -89,7 +89,7 @@
               <v-col cols="3">
                 <v-checkbox
                   class="mt-5"
-                  v-model="domainInfo.isActive"
+                  v-model="domainInfo.is_active"
                   label="isActive"
                   hide-details
                 ></v-checkbox>
@@ -100,7 +100,7 @@
               <v-col cols="3">
                 <v-checkbox
                   class="mt-5"
-                  v-model="domainInfo.isTransferred"
+                  v-model="domainInfo.is_transferred"
                   label="isTransferred"
                   hide-details
                 ></v-checkbox>
@@ -111,7 +111,7 @@
               <v-col cols="3">
                 <v-checkbox
                   class="mt-5"
-                  v-model="domainInfo.isManagementOnly"
+                  v-model="domainInfo.is_management_only"
                   label="isManagementOnly"
                   hide-details
                 ></v-checkbox>
@@ -137,6 +137,7 @@
 
 <script>
 import axios from 'axios'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
@@ -145,11 +146,6 @@ export default {
     ValidationErrorMessage,
   },
   props: {
-    isOpen: {
-      default: false,
-      type: Boolean,
-      required: true,
-    },
     domain: {
       default: null,
       type: Object,
@@ -166,40 +162,41 @@ export default {
   },
 
   computed: {
+    ...mapGetters('domain', ['isOpenEditDialog']),
     domainInfo() {
       return this.domain
     },
-    open: {
+    isOpen: {
       get() {
-        return this.isOpen
+        return this.isOpenEditDialog
       },
-      set(value) {
+      set() {
         this.errors = {}
-        this.$emit('close', value)
+        this.close()
       },
     },
   },
 
   methods: {
+    ...mapMutations('domain', {
+      commitIsOpenEditDialog: 'isOpenEditDialog',
+    }),
+    ...mapActions('domain', ['updateDomain', 'sendMessage']),
+
+    close() {
+      this.errors = {}
+      this.commitIsOpenEditDialog(false)
+    },
+
     async update() {
       try {
-        const result = await axios.put('/api/domains/' + this.domainInfo.id, {
-          name: this.domainInfo.name,
-          registrar_id: this.domainInfo.registrarId,
-          price: this.domainInfo.price,
-          is_active: this.domainInfo.isActive,
-          is_transferred: this.domainInfo.isTransferred,
-          is_management_only: this.domainInfo.isManagementOnly,
-          purchased_at: this.domainInfo.purchasedAt,
-          expired_at: this.domainInfo.expiredAt,
-          canceled_at: this.domainInfo.canceledAt,
-        })
+        await this.updateDomain(this.domainInfo)
 
-        this.close()
+        this.commitIsOpenEditDialog(false)
 
-        this.$emit('sendMessage', {
-          message: 'Update success',
-          status: result.status,
+        this.sendMessage({
+          greeting: 'Update Success',
+          greetingType: 'success',
         })
       } catch (error) {
         const status = error.response.status
@@ -217,18 +214,18 @@ export default {
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
-          this.close()
         }
 
         if (status >= 500) {
           message = 'Server Error'
-          this.close()
         }
 
-        this.$emit('sendMessage', {
-          message: message,
-          status: status,
+        this.sendMessage({
+          greeting: message,
+          greetingType: 'alert',
         })
+
+        this.close()
       }
     },
 
@@ -236,10 +233,6 @@ export default {
       const result = await axios.get('/api/registrars')
 
       this.registrars = result.data
-    },
-
-    close() {
-      this.open = false
     },
   },
 

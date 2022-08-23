@@ -10,11 +10,11 @@
 
       <greeting-message
         :type="greetingType"
-        :message="message"
+        :message="greeting"
       ></greeting-message>
 
       <v-progress-linear
-        v-show="loading"
+        v-show="pageLoading"
         color="yellow darken-2"
         indeterminate
         rounded
@@ -37,15 +37,13 @@
         <v-tab href="#transferred">Transferred</v-tab>
         <v-tab href="#managementOnly">ManagementOnly</v-tab>
       </v-tabs>
+
       <v-container class="py-1"></v-container>
+
       <v-tabs-items v-model="tab">
         <div v-for="(_domain, index) in domains" :key="_domain.id">
           <v-tab-item :value="index">
-            <list-table
-              :domains="_domain"
-              @edit="edit"
-              @delete="deleteDomain"
-            ></list-table>
+            <list-table :domains="_domain" @delete="deleteDomain"></list-table>
           </v-tab-item>
         </div>
       </v-tabs-items>
@@ -55,13 +53,6 @@
         @close="closeNewModal"
         @sendMessage="sendMessage"
       ></new-dialog>
-
-      <update-dialog
-        :isOpen="editDialog"
-        :domain="domain"
-        @close="closeEditModal"
-        @sendMessage="sendMessage"
-      ></update-dialog>
 
       <delete-dialog
         :isOpen="deleteDialog"
@@ -75,49 +66,44 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { shortHyphenDate } from '../../modules/DateHelper'
 import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
-import NewDialog from '../../components/domain/NewDialog'
-import UpdateDialog from '../../components/domain/UpdateDialog'
-import DeleteDialog from '../../components/domain/DeleteDialog'
 import ListTable from '../../components/domain/ListTable'
+import NewDialog from '../../components/domain/NewDialog'
+import DeleteDialog from '../../components/domain/DeleteDialog'
 
 export default {
   components: {
-    NewDialog,
-    UpdateDialog,
-    DeleteDialog,
-    ListTable,
     IconHeadLine,
     GreetingMessage,
+    ListTable,
+    NewDialog,
+    DeleteDialog,
   },
 
   data() {
     return {
-      greetingType: '',
-      message: '',
-      loading: false,
       tab: '',
       domain: {},
       newDialog: false,
-      editDialog: false,
       deleteDialog: false,
     }
   },
 
   computed: {
-    ...mapGetters('domain', ['domains', 'canStore']),
+    ...mapGetters('domain', [
+      'domains',
+      'canStore',
+      'pageLoading',
+      'greeting',
+      'greetingType',
+    ]),
   },
 
   methods: {
     ...mapActions('domain', ['fetchDomains', 'checkRole']),
     openNewModal() {
       this.newDialog = true
-    },
-
-    openEditModal() {
-      this.editDialog = true
     },
 
     openDeleteModal() {
@@ -128,24 +114,11 @@ export default {
       this.newDialog = false
     },
 
-    closeEditModal() {
-      this.editDialog = false
-    },
-
     closeDeleteModal() {
       this.deleteDialog = false
     },
 
-    resetGreeting() {
-      this.greetingType = ''
-      this.greeting = ''
-    },
-
     sendMessage(result) {
-      this.resetGreeting()
-
-      this.initDomains()
-
       if (result.status === 200) {
         this.greetingType = 'success'
       } else {
@@ -155,43 +128,16 @@ export default {
       this.message = result.message
     },
 
-    async initialize() {
-      this.loading = true
-
-      await this.fetchDomains()
-      await this.checkRole()
-
-      this.loading = false
-    },
-
-    edit(domain) {
-      this.domain.id = domain.id
-      this.domain.name = domain.name
-      this.domain.price = domain.price
-      this.domain.registrarId = domain.registrar_id
-      this.domain.isActive = domain.is_active
-      this.domain.isTransferred = domain.is_transferred
-      this.domain.isManagementOnly = domain.is_management_only
-      this.domain.purchasedAt = this.formattedDate(domain.purchased_at)
-      this.domain.expiredAt = this.formattedDate(domain.expired_at)
-      this.domain.canceledAt = this.formattedDate(domain.canceled_at)
-
-      this.openEditModal()
-    },
-
     async deleteDomain(domain) {
       this.domain = domain
 
       this.openDeleteModal()
     },
-
-    formattedDate(dateTime) {
-      return shortHyphenDate(dateTime)
-    },
   },
 
   async created() {
-    this.initialize()
+    this.fetchDomains()
+    this.checkRole()
   },
 }
 </script>
