@@ -101,7 +101,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('domain', ['fetchDomains', 'checkRole']),
+    ...mapActions('domain', ['fetchDomains', 'initRole']),
     openNewModal() {
       this.newDialog = true
     },
@@ -137,7 +137,7 @@ export default {
 
   async created() {
     this.fetchDomains()
-    this.checkRole()
+    this.initRole()
   },
 }
 </script>

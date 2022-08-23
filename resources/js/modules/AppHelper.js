@@ -1,5 +1,5 @@
-export function priceFormat(_price) {
-  let price = Number(_price).toLocaleString()
-
-  return '¥' + price
+export default {
+  formattedPriceYen(price) {
+    return '¥' + Number(price).toLocaleString()
+  },
 }

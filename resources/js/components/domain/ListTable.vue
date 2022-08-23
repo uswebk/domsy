@@ -19,16 +19,16 @@
         >
       </template>
       <template v-slot:[`item.price`]="{ item }"
-        >{{ formattedPrice(item.price) }}
+        >{{ $appHelper.formattedPriceYen(item.price) }}
       </template>
       <template v-slot:[`item.purchased_at`]="{ item }"
-        >{{ formattedDate(item.purchased_at) }}
+        >{{ $dateHelper.dateHyphen(item.purchased_at) }}
       </template>
       <template v-slot:[`item.expired_at`]="{ item }"
-        >{{ formattedDate(item.expired_at) }}
+        >{{ $dateHelper.dateHyphen(item.expired_at) }}
       </template>
       <template v-slot:[`item.canceled_at`]="{ item }"
-        >{{ formattedDate(item.canceled_at) }}
+        >{{ $dateHelper.dateHyphen(item.canceled_at) }}
       </template>
       <template v-slot:[`item.action`]="{ item }">
         <v-btn v-if="canUpdate" x-small color="primary" @click="edit(item)"
@@ -40,14 +40,16 @@
       </template>
     </v-data-table>
 
-    <update-dialog :domain="domain"></update-dialog>
+    <update-dialog
+      :isOpen="isOpenEditDialog"
+      :domain="domain"
+      @close="closeEditDialog"
+    ></update-dialog>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
-import { shortHyphenDate } from '../../modules/DateHelper'
-import { priceFormat } from '../../modules/AppHelper'
+import { mapGetters } from 'vuex'
 import UpdateDialog from '../../components/domain/UpdateDialog'
 
 export default {
@@ -68,6 +70,7 @@ export default {
   data() {
     return {
       search: '',
+      isOpenEditDialog: false,
       domain: {},
     }
   },
@@ -80,10 +83,6 @@ export default {
   },
 
   methods: {
-    ...mapMutations('domain', {
-      isOpenEditDialog: 'isOpenEditDialog',
-    }),
-
     edit(domain) {
       this.domain.id = domain.id
       this.domain.name = domain.name
@@ -92,23 +91,25 @@ export default {
       this.domain.is_active = domain.is_active
       this.domain.is_transferred = domain.is_transferred
       this.domain.is_management_only = domain.is_management_only
-      this.domain.purchased_at = this.formattedDate(domain.purchased_at)
-      this.domain.expired_at = this.formattedDate(domain.expired_at)
-      this.domain.canceled_at = this.formattedDate(domain.canceled_at)
+      this.domain.purchased_at = this.$dateHelper.dateHyphen(
+        domain.purchased_at
+      )
+      this.domain.expired_at = this.$dateHelper.dateHyphen(domain.expired_at)
+      this.domain.canceled_at = this.$dateHelper.dateHyphen(domain.canceled_at)
 
-      this.isOpenEditDialog(true)
+      this.openEditDialog()
+    },
+
+    openEditDialog() {
+      this.isOpenEditDialog = true
+    },
+
+    closeEditDialog() {
+      this.isOpenEditDialog = false
     },
 
     deleteDomain(domain) {
       this.$emit('delete', domain)
-    },
-
-    formattedDate(dateTime) {
-      return shortHyphenDate(dateTime)
-    },
-
-    formattedPrice(price) {
-      return priceFormat(price)
     },
   },
 }

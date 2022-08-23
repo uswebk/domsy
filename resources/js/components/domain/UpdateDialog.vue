@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isOpen" max-width="600px">
+  <v-dialog v-model="open" max-width="600px">
     <v-card>
       <v-card-title class="pl-8">
         <span class="text-h6">Domain Edit</span>
@@ -16,7 +16,7 @@
               <v-col cols="12">
                 <v-text-field
                   label="Common Name"
-                  v-model="domainInfo.name"
+                  v-model="domainModel.name"
                   hide-details
                   required
                 ></v-text-field>
@@ -25,7 +25,7 @@
                 ></validation-error-message>
                 <v-select
                   class="mt-5"
-                  v-model="domainInfo.registrar_id"
+                  v-model="domainModel.registrar_id"
                   :items="registrars"
                   item-text="name"
                   item-value="id"
@@ -39,7 +39,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Price"
-                  v-model="domainInfo.price"
+                  v-model="domainModel.price"
                   type="number"
                   min="0"
                   prefix="¥"
@@ -53,7 +53,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Purchased Date"
-                  v-model="domainInfo.purchased_at"
+                  v-model="domainModel.purchased_at"
                   type="date"
                   required
                   hide-details
@@ -65,7 +65,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Expired Date"
-                  v-model="domainInfo.expired_at"
+                  v-model="domainModel.expired_at"
                   type="date"
                   required
                   hide-details
@@ -77,7 +77,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Canceled Date"
-                  v-model="domainInfo.canceled_at"
+                  v-model="domainModel.canceled_at"
                   type="date"
                   required
                   hide-details
@@ -89,7 +89,7 @@
               <v-col cols="3">
                 <v-checkbox
                   class="mt-5"
-                  v-model="domainInfo.is_active"
+                  v-model="domainModel.is_active"
                   label="isActive"
                   hide-details
                 ></v-checkbox>
@@ -100,7 +100,7 @@
               <v-col cols="3">
                 <v-checkbox
                   class="mt-5"
-                  v-model="domainInfo.is_transferred"
+                  v-model="domainModel.is_transferred"
                   label="isTransferred"
                   hide-details
                 ></v-checkbox>
@@ -111,7 +111,7 @@
               <v-col cols="3">
                 <v-checkbox
                   class="mt-5"
-                  v-model="domainInfo.is_management_only"
+                  v-model="domainModel.is_management_only"
                   label="isManagementOnly"
                   hide-details
                 ></v-checkbox>
@@ -137,7 +137,7 @@
 
 <script>
 import axios from 'axios'
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
@@ -146,6 +146,12 @@ export default {
     ValidationErrorMessage,
   },
   props: {
+    isOpen: {
+      default: false,
+      type: Boolean,
+      required: true,
+    },
+
     domain: {
       default: null,
       type: Object,
@@ -162,13 +168,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters('domain', ['isOpenEditDialog']),
-    domainInfo() {
+    domainModel() {
       return this.domain
     },
-    isOpen: {
+    open: {
       get() {
-        return this.isOpenEditDialog
+        return this.isOpen
       },
       set() {
         this.errors = {}
@@ -184,15 +189,12 @@ export default {
     ...mapActions('domain', ['updateDomain', 'sendMessage']),
 
     close() {
-      this.errors = {}
-      this.commitIsOpenEditDialog(false)
+      this.$emit('close')
     },
 
     async update() {
       try {
-        await this.updateDomain(this.domainInfo)
-
-        this.commitIsOpenEditDialog(false)
+        await this.updateDomain(this.domainModel)
 
         this.sendMessage({
           greeting: 'Update Success',

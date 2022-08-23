@@ -7,12 +7,23 @@
 import store from './store'
 import Vuetify from 'vuetify'
 
+import appHelper from './modules/AppHelper'
+import dateHelper from './modules/DateHelper'
 import 'vuetify/dist/vuetify.min.css'
 import '@mdi/font/css/materialdesignicons.css'
 
 window.Vue = require('vue').default
 
 Vue.use(Vuetify)
+
+const plugin = {
+  install() {
+    Vue.prototype.$appHelper = appHelper
+    Vue.prototype.$dateHelper = dateHelper
+  },
+}
+
+Vue.use(plugin)
 
 /**
  * The following block of code may be used to automatically register your

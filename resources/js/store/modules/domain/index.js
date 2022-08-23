@@ -6,7 +6,6 @@ const state = {
   canStore: false,
   canUpdate: false,
   canDelete: false,
-  isOpenEditDialog: false,
   pageLoading: true,
   domains: [{ active: [], inactive: [], managementOnly: [], transferred: [] }],
 }
@@ -19,12 +18,10 @@ const mutations = {
   canStore: (state, value) => (state.canStore = value),
   canUpdate: (state, value) => (state.canUpdate = value),
   canDelete: (state, value) => (state.canDelete = value),
-  isOpenEditDialog: (state, value) => (state.isOpenEditDialog = value),
 }
 
 const actions = {
   sendMessage({ commit }, payload) {
-    console.log(payload)
     commit('greeting', payload.greeting)
     commit('greetingType', payload.greetingType)
   },
@@ -71,7 +68,7 @@ const actions = {
     return result
   },
 
-  async checkRole({ commit }) {
+  async initRole({ commit }) {
     let result = await axios.get('/api/roles/user/?menu_id=2')
 
     commit('canStore', result.data.store)
@@ -87,7 +84,6 @@ const getters = {
   canStore: (state) => state.canStore,
   canUpdate: (state) => state.canUpdate,
   canDelete: (state) => state.canDelete,
-  isOpenEditDialog: (state) => state.isOpenEditDialog,
   pageLoading: (state) => state.pageLoading,
   domainHeaders: () => [
     {
