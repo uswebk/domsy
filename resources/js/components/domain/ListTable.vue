@@ -8,6 +8,7 @@
           label="Search"
           single-line
           hide-details
+          placeholder="Domain Name"
         ></v-text-field>
       </v-col>
     </v-row>
@@ -88,26 +89,32 @@ export default {
         {
           text: 'Price',
           value: 'price',
+          filterable: false,
         },
         {
           text: 'Active',
           value: 'is_active',
+          filterable: false,
         },
         {
           text: 'Purchased Date',
           value: 'purchased_at',
+          filterable: false,
         },
         {
           text: 'Expired Date',
           value: 'expired_at',
+          filterable: false,
         },
         {
           text: 'Canceled Date',
           value: 'canceled_at',
+          filterable: false,
         },
         {
           text: 'Action',
           value: 'action',
+          filterable: false,
           sortable: false,
         },
       ],
