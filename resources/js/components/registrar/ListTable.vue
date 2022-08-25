@@ -12,12 +12,7 @@
       </v-col>
     </v-row>
     <div class="my-2"></div>
-    <v-data-table
-      :headers="headers"
-      :items="registrars"
-      :search="search"
-      :loading="loading"
-    >
+    <v-data-table :headers="headers" :items="registrars" :search="search">
       <template v-slot:[`item.link`]="{ item }">
         <a :href="item.link" target="_blank">{{ item.link }}</a>
       </template>
@@ -34,16 +29,11 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: 'ListTable',
+  name: 'RegistrarListTable',
   props: {
-    headers: {
-      default: null,
-      type: Array,
-      required: true,
-    },
     registrars: {
       default() {
         return []
@@ -56,24 +46,33 @@ export default {
     return {
       loading: true,
       search: '',
-      canUpdate: false,
-      canDelete: false,
+      headers: [
+        {
+          text: 'Name',
+          value: 'name',
+        },
+        {
+          text: 'Link',
+          value: 'link',
+        },
+        {
+          text: 'Note',
+          value: 'note',
+        },
+        {
+          text: 'Action',
+          value: 'action',
+          sortable: false,
+        },
+      ],
     }
   },
 
+  computed: {
+    ...mapGetters('registrar', ['canUpdate', 'canDelete']),
+  },
+
   methods: {
-    async roleCheck() {
-      let canUpdateResult = await axios.get(
-        '/api/roles/user/?has=api.registrar.update'
-      )
-      this.canUpdate = canUpdateResult.data
-
-      let canDeleteResult = await axios.get(
-        '/api/roles/user/?has=api.registrar.delete'
-      )
-      this.canDelete = canDeleteResult.data
-    },
-
     edit(registrar) {
       this.$emit('edit', registrar)
     },
@@ -81,14 +80,6 @@ export default {
     deleteRegistrar(registrar) {
       this.$emit('delete', registrar)
     },
-  },
-
-  async created() {
-    this.loading = true
-
-    await this.roleCheck()
-
-    this.loading = false
   },
 }
 </script>

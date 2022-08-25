@@ -42,7 +42,7 @@
       <v-tabs-items v-model="tab">
         <div v-for="(domain, index) in domains" :key="domain.id">
           <v-tab-item :value="index">
-            <list-table :domains="domain" @delete="deleteDomain"></list-table>
+            <list-table :domains="domain"></list-table>
           </v-tab-item>
         </div>
       </v-tabs-items>
@@ -72,7 +72,6 @@ export default {
       tab: '',
       domain: {},
       newDialog: false,
-      deleteDialog: false,
     }
   },
 
@@ -89,6 +88,7 @@ export default {
 
   methods: {
     ...mapActions('domain', ['fetchDomains', 'initRole']),
+    ...mapActions('registrar', ['fetchRegistrars']),
     openNewModal() {
       this.newDialog = true
     },
@@ -96,16 +96,11 @@ export default {
     closeNewModal() {
       this.newDialog = false
     },
-
-    async deleteDomain(domain) {
-      this.domain = domain
-
-      this.openDeleteModal()
-    },
   },
 
   async created() {
     this.fetchDomains()
+    this.fetchRegistrars()
     this.initRole()
   },
 }

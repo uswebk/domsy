@@ -10,11 +10,11 @@
 
       <greeting-message
         :type="greetingType"
-        :message="message"
+        :message="greeting"
       ></greeting-message>
 
       <v-progress-linear
-        v-show="!finishInitialize"
+        v-show="pageLoading"
         color="yellow darken-2"
         indeterminate
         rounded
@@ -31,12 +31,7 @@
         <v-icon dark left> mdi-plus-circle </v-icon>New
       </v-btn>
 
-      <list-table
-        :headers="headers"
-        :registrars="registrars"
-        @edit="edit"
-        @delete="deleteRegistrar"
-      ></list-table>
+      <list-table :registrars="registrars"></list-table>
 
       <new-dialog
         :isOpen="newDialog"
@@ -62,7 +57,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
+
 import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
 import ListTable from '../../components/registrar/ListTable'
@@ -82,39 +78,26 @@ export default {
 
   data() {
     return {
-      greetingType: '',
-      message: '',
-      finishInitialize: false,
-      canStore: false,
-      registrars: [],
       registrar: {},
       newDialog: false,
       editDialog: false,
       deleteDialog: false,
-
-      headers: [
-        {
-          text: 'Name',
-          value: 'name',
-        },
-        {
-          text: 'Link',
-          value: 'link',
-        },
-        {
-          text: 'Note',
-          value: 'note',
-        },
-        {
-          text: 'Action',
-          value: 'action',
-          sortable: false,
-        },
-      ],
     }
   },
 
+  computed: {
+    ...mapGetters('registrar', [
+      'registrars',
+      'canStore',
+      'pageLoading',
+      'greeting',
+      'greetingType',
+    ]),
+  },
+
   methods: {
+    ...mapActions('registrar', ['fetchRegistrars', 'initRole']),
+
     openNewModal() {
       this.newDialog = true
     },
@@ -158,25 +141,6 @@ export default {
       }
     },
 
-    async initRegistrars() {
-      this.finishInitialize = false
-
-      const result = await axios.get('/api/registrars')
-
-      this.registrars = result.data
-
-      this.finishInitialize = true
-    },
-
-    async initRoleOperation() {
-      let canStoreResult = await axios.get(
-        '/api/roles/user/?has=api.registrar.store'
-      )
-      this.canStore = canStoreResult.data
-
-      this.finishInitialize = true
-    },
-
     edit(registrar) {
       this.registrar = registrar
 
@@ -192,9 +156,9 @@ export default {
     },
   },
 
-  created() {
-    this.initRegistrars()
-    this.initRoleOperation()
+  async created() {
+    this.fetchRegistrars()
+    this.initRole()
   },
 }
 </script>

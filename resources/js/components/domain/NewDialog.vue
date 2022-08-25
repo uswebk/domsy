@@ -6,11 +6,11 @@
       </v-card-title>
       <v-card-text>
         <v-progress-linear
-          v-if="loading"
+          v-if="pageLoading"
           color="info"
           indeterminate
         ></v-progress-linear>
-        <v-container v-if="!loading">
+        <v-container v-if="!pageLoading">
           <v-form ref="form" lazy-validation>
             <v-row>
               <v-col cols="12">
@@ -136,8 +136,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
@@ -155,8 +154,6 @@ export default {
 
   data() {
     return {
-      loading: true,
-      registrars: {},
       domainModel: {
         name: '',
         registrar_id: '',
@@ -173,6 +170,9 @@ export default {
   },
 
   computed: {
+    ...mapGetters('domain', ['pageLoading']),
+    ...mapGetters('registrar', ['registrars']),
+
     open: {
       get() {
         return this.isOpen
@@ -244,22 +244,9 @@ export default {
       this.resetNewDomain()
     },
 
-    async initRegistrars() {
-      const result = await axios.get('/api/registrars')
-
-      this.registrars = result.data
-    },
-
     close() {
       this.$emit('close')
     },
-  },
-  async created() {
-    this.loading = true
-
-    await this.initRegistrars()
-
-    this.loading = false
   },
 }
 </script>
