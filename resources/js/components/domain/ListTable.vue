@@ -34,9 +34,7 @@
         <v-btn v-if="canUpdate" x-small color="primary" @click="edit(item)"
           >edit</v-btn
         >
-        <v-btn v-if="canDelete" x-small @click="deleteDomain(item)"
-          >delete</v-btn
-        >
+        <v-btn v-if="canDelete" x-small @click="deletion(item)">delete</v-btn>
       </template>
     </v-data-table>
 
@@ -45,19 +43,28 @@
       :domain="domain"
       @close="closeEditDialog"
     ></update-dialog>
+
+    <delete-dialog
+      :isOpen="isOpenDeleteDialog"
+      :domain="domain"
+      @close="closeDeleteDialog"
+    ></delete-dialog>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import UpdateDialog from '../../components/domain/UpdateDialog'
+import DeleteDialog from '../../components/domain/DeleteDialog'
 
 export default {
+  name: 'DomainListTable',
+
   components: {
     UpdateDialog,
+    DeleteDialog,
   },
 
-  name: 'ListTable',
   props: {
     domains: {
       default() {
@@ -71,18 +78,63 @@ export default {
     return {
       search: '',
       isOpenEditDialog: false,
+      isOpenDeleteDialog: false,
       domain: {},
+      headers: [
+        {
+          text: 'Name',
+          value: 'name',
+        },
+        {
+          text: 'Price',
+          value: 'price',
+        },
+        {
+          text: 'Active',
+          value: 'is_active',
+        },
+        {
+          text: 'Purchased Date',
+          value: 'purchased_at',
+        },
+        {
+          text: 'Expired Date',
+          value: 'expired_at',
+        },
+        {
+          text: 'Canceled Date',
+          value: 'canceled_at',
+        },
+        {
+          text: 'Action',
+          value: 'action',
+          sortable: false,
+        },
+      ],
     }
   },
 
   computed: {
-    ...mapGetters('domain', ['domainHeaders', 'canUpdate', 'canDelete']),
-    headers() {
-      return this.domainHeaders
-    },
+    ...mapGetters('domain', ['canUpdate', 'canDelete']),
   },
 
   methods: {
+    openEditDialog() {
+      this.isOpenEditDialog = true
+    },
+
+    closeEditDialog() {
+      this.isOpenEditDialog = false
+    },
+
+    openDeleteDialog() {
+      this.isOpenDeleteDialog = true
+    },
+
+    closeDeleteDialog() {
+      this.isOpenDeleteDialog = false
+    },
+
     edit(domain) {
       this.domain.id = domain.id
       this.domain.name = domain.name
@@ -100,16 +152,10 @@ export default {
       this.openEditDialog()
     },
 
-    openEditDialog() {
-      this.isOpenEditDialog = true
-    },
+    deletion(domain) {
+      this.domain = domain
 
-    closeEditDialog() {
-      this.isOpenEditDialog = false
-    },
-
-    deleteDomain(domain) {
-      this.$emit('delete', domain)
+      this.openDeleteDialog()
     },
   },
 }

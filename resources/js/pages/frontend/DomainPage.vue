@@ -32,34 +32,22 @@
       </v-btn>
 
       <v-tabs v-model="tab">
-        <v-tab href="#active">Active</v-tab>
-        <v-tab href="#inactive">InActive</v-tab>
-        <v-tab href="#transferred">Transferred</v-tab>
-        <v-tab href="#managementOnly">ManagementOnly</v-tab>
+        <v-tab v-for="(tab, index) in tabs" :key="index" :href="'#' + tab">{{
+          tab
+        }}</v-tab>
       </v-tabs>
 
       <v-container class="py-1"></v-container>
 
       <v-tabs-items v-model="tab">
-        <div v-for="(_domain, index) in domains" :key="_domain.id">
+        <div v-for="(domain, index) in domains" :key="domain.id">
           <v-tab-item :value="index">
-            <list-table :domains="_domain" @delete="deleteDomain"></list-table>
+            <list-table :domains="domain" @delete="deleteDomain"></list-table>
           </v-tab-item>
         </div>
       </v-tabs-items>
 
-      <new-dialog
-        :isOpen="newDialog"
-        @close="closeNewModal"
-        @sendMessage="sendMessage"
-      ></new-dialog>
-
-      <delete-dialog
-        :isOpen="deleteDialog"
-        :domain="domain"
-        @close="closeDeleteModal"
-        @sendMessage="sendMessage"
-      ></delete-dialog>
+      <new-dialog :isOpen="newDialog" @close="closeNewModal"></new-dialog>
     </v-container>
   </v-main>
 </template>
@@ -70,7 +58,6 @@ import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
 import ListTable from '../../components/domain/ListTable'
 import NewDialog from '../../components/domain/NewDialog'
-import DeleteDialog from '../../components/domain/DeleteDialog'
 
 export default {
   components: {
@@ -78,7 +65,6 @@ export default {
     GreetingMessage,
     ListTable,
     NewDialog,
-    DeleteDialog,
   },
 
   data() {
@@ -97,6 +83,7 @@ export default {
       'pageLoading',
       'greeting',
       'greetingType',
+      'tabs',
     ]),
   },
 
@@ -106,26 +93,8 @@ export default {
       this.newDialog = true
     },
 
-    openDeleteModal() {
-      this.deleteDialog = true
-    },
-
     closeNewModal() {
       this.newDialog = false
-    },
-
-    closeDeleteModal() {
-      this.deleteDialog = false
-    },
-
-    sendMessage(result) {
-      if (result.status === 200) {
-        this.greetingType = 'success'
-      } else {
-        this.greetingType = 'error'
-      }
-
-      this.message = result.message
     },
 
     async deleteDomain(domain) {

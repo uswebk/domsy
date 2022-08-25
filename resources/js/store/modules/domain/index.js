@@ -8,6 +8,7 @@ const state = {
   canDelete: false,
   pageLoading: true,
   domains: [{ active: [], inactive: [], managementOnly: [], transferred: [] }],
+  tabs: [],
 }
 
 const mutations = {
@@ -15,6 +16,7 @@ const mutations = {
   greetingType: (state, value) => (state.greetingType = value),
   pageLoading: (state, value) => (state.pageLoading = value),
   domains: (state, domains) => (state.domains = domains),
+  tabs: (state, tabs) => (state.tabs = tabs),
   canStore: (state, value) => (state.canStore = value),
   canUpdate: (state, value) => (state.canUpdate = value),
   canDelete: (state, value) => (state.canDelete = value),
@@ -32,10 +34,10 @@ const actions = {
     const result = await axios.get('/api/domains')
 
     let domains = {
-      transferred: [],
-      managementOnly: [],
       active: [],
       inactive: [],
+      managementOnly: [],
+      transferred: [],
     }
 
     result.data.forEach((domain) => {
@@ -55,11 +57,32 @@ const actions = {
     })
 
     commit('domains', domains)
+    commit('tabs', Object.keys(domains))
     commit('pageLoading', false)
+  },
+
+  async storeDomain({ dispatch }, payload) {
+    const result = await axios.post('/api/domains/', {
+      ...payload,
+    })
+
+    dispatch('fetchDomains')
+
+    return result
   },
 
   async updateDomain({ dispatch }, payload) {
     const result = await axios.put('/api/domains/' + payload.id, {
+      ...payload,
+    })
+
+    dispatch('fetchDomains')
+
+    return result
+  },
+
+  async deleteDomain({ dispatch }, payload) {
+    const result = await axios.delete('/api/domains/' + payload.id, {
       ...payload,
     })
 
@@ -85,37 +108,7 @@ const getters = {
   canUpdate: (state) => state.canUpdate,
   canDelete: (state) => state.canDelete,
   pageLoading: (state) => state.pageLoading,
-  domainHeaders: () => [
-    {
-      text: 'Name',
-      value: 'name',
-    },
-    {
-      text: 'Price',
-      value: 'price',
-    },
-    {
-      text: 'Active',
-      value: 'is_active',
-    },
-    {
-      text: 'Purchased Date',
-      value: 'purchased_at',
-    },
-    {
-      text: 'Expired Date',
-      value: 'expired_at',
-    },
-    {
-      text: 'Canceled Date',
-      value: 'canceled_at',
-    },
-    {
-      text: 'Action',
-      value: 'action',
-      sortable: false,
-    },
-  ],
+  tabs: (state) => state.tabs,
 }
 
 export default {

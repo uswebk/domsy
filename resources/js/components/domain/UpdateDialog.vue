@@ -137,7 +137,7 @@
 
 <script>
 import axios from 'axios'
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
@@ -183,9 +183,6 @@ export default {
   },
 
   methods: {
-    ...mapMutations('domain', {
-      commitIsOpenEditDialog: 'isOpenEditDialog',
-    }),
     ...mapActions('domain', ['updateDomain', 'sendMessage']),
 
     close() {
@@ -195,6 +192,8 @@ export default {
     async update() {
       try {
         await this.updateDomain(this.domainModel)
+
+        this.close()
 
         this.sendMessage({
           greeting: 'Update Success',
@@ -231,6 +230,7 @@ export default {
       }
     },
 
+    // TODO: store
     async initRegistrars() {
       const result = await axios.get('/api/registrars')
 

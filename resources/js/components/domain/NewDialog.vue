@@ -16,7 +16,7 @@
               <v-col cols="12">
                 <v-text-field
                   label="Common Name"
-                  v-model="name"
+                  v-model="domainModel.name"
                   hide-details
                   required
                 ></v-text-field>
@@ -26,7 +26,7 @@
 
                 <v-select
                   class="mt-5"
-                  v-model="registrarId"
+                  v-model="domainModel.registrar_id"
                   :items="registrars"
                   item-text="name"
                   item-value="id"
@@ -40,7 +40,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Price"
-                  v-model="price"
+                  v-model="domainModel.price"
                   type="number"
                   min="0"
                   prefix="¥"
@@ -54,7 +54,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Purchased Date"
-                  v-model="purchasedAt"
+                  v-model="domainModel.purchased_at"
                   type="date"
                   required
                   hide-details
@@ -66,7 +66,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Expired Date"
-                  v-model="expiredAt"
+                  v-model="domainModel.expired_at"
                   type="date"
                   required
                   hide-details
@@ -78,7 +78,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Canceled Date"
-                  v-model="canceledAt"
+                  v-model="domainModel.canceled_at"
                   type="date"
                   hide-details
                 ></v-text-field>
@@ -89,7 +89,7 @@
               <v-col cols="3">
                 <v-checkbox
                   class="mt-5"
-                  v-model="isActive"
+                  v-model="domainModel.is_active"
                   label="isActive"
                   hide-details
                 ></v-checkbox>
@@ -100,7 +100,7 @@
               <v-col cols="3">
                 <v-checkbox
                   class="mt-5"
-                  v-model="isTransferred"
+                  v-model="domainModel.is_transferred"
                   label="isTransferred"
                   hide-details
                 ></v-checkbox>
@@ -111,7 +111,7 @@
               <v-col cols="3">
                 <v-checkbox
                   class="mt-5"
-                  v-model="isManagementOnly"
+                  v-model="domainModel.is_management_only"
                   label="isManagementOnly"
                   hide-details
                 ></v-checkbox>
@@ -137,6 +137,7 @@
 
 <script>
 import axios from 'axios'
+import { mapActions } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
@@ -156,15 +157,17 @@ export default {
     return {
       loading: true,
       registrars: {},
-      name: '',
-      registrarId: '',
-      price: 0,
-      isActive: true,
-      isTransferred: false,
-      isManagementOnly: false,
-      purchasedAt: '',
-      expiredAt: '',
-      canceledAt: '',
+      domainModel: {
+        name: '',
+        registrar_id: '',
+        price: 0,
+        is_active: true,
+        is_transferred: false,
+        is_management_only: false,
+        purchased_at: '',
+        expired_at: '',
+        canceled_at: '',
+      },
       errors: {},
     }
   },
@@ -174,46 +177,39 @@ export default {
       get() {
         return this.isOpen
       },
-      set(value) {
+      set() {
         this.errors = {}
-
-        this.$emit('close', value)
+        this.close()
       },
     },
   },
 
   methods: {
+    ...mapActions('domain', ['storeDomain', 'sendMessage']),
+
     resetNewDomain() {
-      this.name = ''
-      this.registrarId = ''
-      this.price = 0
-      this.isActive = true
-      this.isTransferred = ''
-      this.isManagementOnly = ''
-      this.purchasedAt = ''
-      this.expiredAt = ''
-      this.canceledAt = ''
+      this.domainModel = {
+        name: '',
+        registrar_id: '',
+        price: 0,
+        is_active: true,
+        is_transferred: false,
+        is_management_only: false,
+        purchased_at: '',
+        expired_at: '',
+        canceled_at: '',
+      }
     },
 
     async store() {
       try {
-        const result = await axios.post('/api/domains', {
-          name: this.name,
-          registrar_id: this.registrarId,
-          price: this.price,
-          is_active: this.isActive,
-          is_transferred: this.isTransferred,
-          is_management_only: this.isManagementOnly,
-          purchased_at: this.purchasedAt,
-          expired_at: this.expiredAt,
-          canceled_at: this.canceledAt,
-        })
+        await this.storeDomain(this.domainModel)
 
         this.close()
 
-        this.$emit('sendMessage', {
-          message: 'Create success',
-          status: result.status,
+        this.sendMessage({
+          greeting: 'Create Success',
+          greetingType: 'success',
         })
       } catch (error) {
         const status = error.response.status
@@ -231,18 +227,18 @@ export default {
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
-          this.close()
         }
 
         if (status >= 500) {
           message = 'Server Error'
-          this.close()
         }
 
-        this.$emit('sendMessage', {
-          message: message,
-          status: status,
+        this.sendMessage({
+          greeting: message,
+          greetingType: 'alert',
         })
+
+        this.close()
       }
 
       this.resetNewDomain()
@@ -255,7 +251,7 @@ export default {
     },
 
     close() {
-      this.open = false
+      this.$emit('close')
     },
   },
   async created() {
