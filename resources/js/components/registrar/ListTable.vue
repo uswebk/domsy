@@ -25,13 +25,13 @@
     </v-data-table>
 
     <update-dialog
-      :isOpen="editDialog"
+      :isOpen="isOpenEditDialog"
       :registrar="registrar"
       @close="closeEditDialog"
     ></update-dialog>
 
     <delete-dialog
-      :isOpen="deleteDialog"
+      :isOpen="isOpenDeleteDialog"
       :registrar="registrar"
       @close="closeDeleteDialog"
     ></delete-dialog>
@@ -63,8 +63,8 @@ export default {
   data() {
     return {
       loading: true,
-      editDialog: false,
-      deleteDialog: false,
+      isOpenEditDialog: false,
+      isOpenDeleteDialog: false,
       registrar: {},
       search: '',
       headers: [
@@ -95,19 +95,19 @@ export default {
 
   methods: {
     openEditDialog() {
-      this.editDialog = true
+      this.isOpenEditDialog = true
     },
 
     closeEditDialog() {
-      this.editDialog = false
+      this.isOpenEditDialog = false
     },
 
     openDeleteDialog() {
-      this.deleteDialog = true
+      this.isOpenDeleteDialog = true
     },
 
     closeDeleteDialog() {
-      this.deleteDialog = false
+      this.isOpenDeleteDialog = false
     },
 
     edit(registrar) {

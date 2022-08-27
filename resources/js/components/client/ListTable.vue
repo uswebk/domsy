@@ -22,13 +22,13 @@
     </v-data-table>
 
     <update-dialog
-      :isOpen="editDialog"
+      :isOpen="isOpenEditDialog"
       :client="client"
       @close="closeEditDialog"
     ></update-dialog>
 
     <delete-dialog
-      :isOpen="deleteDialog"
+      :isOpen="isOpenDeleteDialog"
       :client="client"
       @close="closeDeleteDialog"
     ></delete-dialog>
@@ -60,8 +60,8 @@ export default {
   data() {
     return {
       search: '',
-      editDialog: false,
-      deleteDialog: false,
+      isOpenEditDialog: false,
+      isOpenDeleteDialog: false,
       client: {},
       headers: [
         {
@@ -99,19 +99,19 @@ export default {
 
   methods: {
     openEditDialog() {
-      this.editDialog = true
+      this.isOpenEditDialog = true
     },
 
     closeEditDialog() {
-      this.editDialog = false
+      this.isOpenEditDialog = false
     },
 
     openDeleteDialog() {
-      this.deleteDialog = true
+      this.isOpenDeleteDialog = true
     },
 
     closeDeleteDialog() {
-      this.deleteDialog = false
+      this.isOpenDeleteDialog = false
     },
 
     edit(client) {

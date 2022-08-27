@@ -1,27 +1,42 @@
 <template>
-  <v-data-table :headers="headers" :items="subdomains" :loading="loading">
-    <template v-slot:[`item.action`]="{ item }">
-      <v-btn v-if="canUpdate" x-small color="primary" @click="edit(item)"
-        >edit</v-btn
-      >
-      <v-btn v-if="canDelete" x-small @click="deleteSubDomain(item)"
-        >delete</v-btn
-      >
-    </template>
-  </v-data-table>
+  <div>
+    <v-data-table :headers="headers" :items="subdomains" dense>
+      <template v-slot:[`item.action`]="{ item }">
+        <v-btn v-if="canUpdate" x-small color="primary" @click="edit(item)"
+          >edit</v-btn
+        >
+        <v-btn v-if="canDelete" x-small @click="deletion(item)">delete</v-btn>
+      </template>
+    </v-data-table>
+
+    <update-dialog
+      :isOpen="isOpenEditDialog"
+      :subdomain="subdomain"
+      @close="closeEditDialog"
+    ></update-dialog>
+
+    <delete-dialog
+      :isOpen="isOpenDeleteDialog"
+      :subdomain="subdomain"
+      @close="closeDeleteDialog"
+    ></delete-dialog>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters } from 'vuex'
+import UpdateDialog from '../../components/dns/UpdateDialog'
+import DeleteDialog from '../../components/dns/DeleteDialog'
 
 export default {
-  name: 'ListTable',
+  name: 'DnsListTable',
+
+  components: {
+    UpdateDialog,
+    DeleteDialog,
+  },
+
   props: {
-    headers: {
-      default: null,
-      type: Array,
-      required: true,
-    },
     subdomains: {
       default() {
         return []
@@ -30,42 +45,73 @@ export default {
     },
   },
 
+  computed: {
+    ...mapGetters('dns', ['canUpdate', 'canDelete']),
+  },
+
   data() {
     return {
-      loading: true,
-      canUpdate: false,
-      canDelete: false,
+      isOpenEditDialog: false,
+      isOpenDeleteDialog: false,
+      subdomain: {},
+      headers: [
+        {
+          text: 'Name',
+          value: 'full_domain',
+        },
+        {
+          text: 'Type',
+          value: 'dns_record_name',
+        },
+        {
+          text: 'Value',
+          value: 'value',
+        },
+        {
+          text: 'TTL',
+          value: 'ttl',
+        },
+        {
+          text: 'Priority',
+          value: 'priority',
+        },
+        {
+          text: 'Action',
+          value: 'action',
+          sortable: false,
+        },
+      ],
     }
   },
 
   methods: {
-    async roleCheck() {
-      let canUpdateResult = await axios.get(
-        '/api/roles/user/?has=api.dns.update'
-      )
-      this.canUpdate = canUpdateResult.data
+    openEditDialog() {
+      this.isOpenEditDialog = true
+    },
 
-      let canDeleteResult = await axios.get(
-        '/api/roles/user/?has=api.dns.delete'
-      )
-      this.canDelete = canDeleteResult.data
+    closeEditDialog() {
+      this.isOpenEditDialog = false
+    },
+
+    openDeleteDialog() {
+      this.isOpenDeleteDialog = true
+    },
+
+    closeDeleteDialog() {
+      this.isOpenDeleteDialog = false
     },
 
     edit(subdomain) {
-      this.$emit('edit', subdomain)
+      this.subdomain = subdomain
+
+      this.openEditDialog()
     },
 
-    deleteSubDomain(subdomain) {
-      this.$emit('delete', subdomain)
+    deletion(subdomain) {
+      this.subdomain = subdomain
+
+      this.openDeleteDialog()
     },
-  },
-
-  async created() {
-    this.loading = true
-
-    await this.roleCheck()
-
-    this.loading = false
   },
 }
 </script>

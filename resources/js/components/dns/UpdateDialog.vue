@@ -1,15 +1,15 @@
 <template>
   <v-dialog v-model="open" max-width="600px">
     <v-card>
+      <v-progress-linear
+        v-if="loading"
+        color="info"
+        indeterminate
+      ></v-progress-linear>
       <v-card-title class="pl-8">
         <span class="text-h6"> DNS Edit</span>
       </v-card-title>
       <v-card-text>
-        <v-progress-linear
-          v-if="loading"
-          color="info"
-          indeterminate
-        ></v-progress-linear>
         <v-container v-if="!loading">
           <v-form ref="form" lazy-validation>
             <v-row>
@@ -17,7 +17,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Prefix"
-                  v-model="subdomainInfo.prefix"
+                  v-model="subdomainModel.prefix"
                   required
                   hide-details
                 ></v-text-field>
@@ -28,7 +28,7 @@
               <v-col cols="9">
                 <v-select
                   class="mt-5"
-                  v-model="subdomainInfo.domain_id"
+                  v-model="subdomainModel.domain_id"
                   :items="domains"
                   item-text="name"
                   item-value="id"
@@ -42,7 +42,7 @@
               <v-col cols="3">
                 <v-select
                   class="mt-5"
-                  v-model="subdomainInfo.type_id"
+                  v-model="subdomainModel.type_id"
                   :items="dnsRecordTypes"
                   item-text="name"
                   item-value="id"
@@ -57,7 +57,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Value"
-                  v-model="subdomainInfo.value"
+                  v-model="subdomainModel.value"
                   required
                   hide-details
                 ></v-text-field>
@@ -69,7 +69,7 @@
                 <v-text-field
                   class="mt-5"
                   label="TTL"
-                  v-model="subdomainInfo.ttl"
+                  v-model="subdomainModel.ttl"
                   type="number"
                   min="0"
                   required
@@ -83,7 +83,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Priority"
-                  v-model="subdomainInfo.priority"
+                  v-model="subdomainModel.priority"
                   type="number"
                   min="0"
                   required
@@ -110,14 +110,16 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions, mapGetters } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'UpdateDialog',
+
   components: {
     ValidationErrorMessage,
   },
+
   props: {
     isOpen: {
       default: false,
@@ -133,43 +135,44 @@ export default {
 
   data() {
     return {
-      loading: true,
+      loading: false,
       errors: {},
     }
   },
 
   computed: {
-    subdomainInfo() {
+    ...mapGetters('dns', ['pageLoading', 'domains', 'dnsRecordTypes']),
+
+    subdomainModel() {
       return this.subdomain
     },
     open: {
       get() {
         return this.isOpen
       },
-      set(value) {
+      set() {
         this.errors = {}
-        this.$emit('close', value)
+        this.close()
       },
     },
   },
 
   methods: {
+    ...mapActions('dns', ['updateDns', 'sendMessage']),
+
+    close() {
+      this.$emit('close')
+    },
+
     async update() {
       try {
-        const result = await axios.put('/api/dns/' + this.subdomainInfo.id, {
-          prefix: this.subdomainInfo.prefix,
-          domain_id: this.subdomainInfo.domain_id,
-          type_id: this.subdomainInfo.type_id,
-          value: this.subdomainInfo.value,
-          ttl: this.subdomainInfo.ttl,
-          priority: this.subdomainInfo.priority,
-        })
+        this.updateDns(this.subdomain)
 
         this.close()
 
-        this.$emit('sendMessage', {
-          message: 'Update success',
-          status: result.status,
+        this.sendMessage({
+          greeting: 'Update Success',
+          greetingType: 'success',
         })
       } catch (error) {
         const status = error.response.status
@@ -187,38 +190,20 @@ export default {
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
-          this.close()
         }
 
         if (status >= 500) {
           message = 'Server Error'
-          this.close()
         }
 
-        this.$emit('sendMessage', {
-          message: message,
-          status: status,
+        this.sendMessage({
+          greeting: message,
+          greetingType: 'error',
         })
+
+        this.close()
       }
     },
-
-    close() {
-      this.open = false
-    },
-  },
-
-  async created() {
-    this.loading = true
-
-    const domains = await axios.get('/api/domains')
-
-    this.domains = domains.data
-
-    const dnsRecordType = await axios.get('/api/dns-record-type')
-
-    this.dnsRecordTypes = dnsRecordType.data
-
-    this.loading = false
   },
 }
 </script>

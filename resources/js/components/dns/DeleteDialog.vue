@@ -1,28 +1,25 @@
 <template>
   <v-dialog v-model="open" max-width="290">
     <v-card>
-      <v-card-title class="text-h5"> Deletion confirmation </v-card-title>
-
+      <v-card-title class="text-h5"> Deletion Confirmation </v-card-title>
       <v-card-text>
-        Do you want to delete the 「{{ subdomainInfo.full_domain }}」 ?
+        <p class="font-weight-bold text-h6">{{ subdomainModel.full_domain }}</p>
+        Do you want to delete the ?
       </v-card-text>
-
       <v-card-actions>
         <v-spacer></v-spacer>
-
         <v-btn color="gray darken-1" text @click="close"> Close </v-btn>
-
-        <v-btn color="red darken-1" text @click="deleteExecute"> Delete </v-btn>
+        <v-btn color="red darken-1" text @click="deletion"> Delete </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions } from 'vuex'
 
 export default {
-  name: 'DeleteDialog',
+  name: 'DnsDeleteDialog',
   props: {
     isOpen: {
       default: false,
@@ -41,51 +38,54 @@ export default {
   },
 
   computed: {
-    subdomainInfo() {
+    subdomainModel() {
       return this.subdomain
     },
     open: {
       get() {
         return this.isOpen
       },
-      set(value) {
-        this.$emit('close', value)
+      set() {
+        this.close()
       },
     },
   },
 
   methods: {
+    ...mapActions('dns', ['deleteDns', 'sendMessage']),
+
     close() {
-      this.open = false
+      this.$emit('close')
     },
 
-    async deleteExecute() {
+    async deletion() {
       try {
-        const result = await axios.delete('/api/dns/' + this.subdomainInfo.id)
+        await this.deleteDns(this.subdomainModel)
 
         this.close()
 
-        this.$emit('sendMessage', {
-          message: 'Delete Success',
-          status: result.status,
+        this.sendMessage({
+          greeting: 'Delete Success',
+          greetingType: 'success',
         })
       } catch (error) {
         const status = error.response.status
 
-        let alert = ''
+        let message = ''
         if (status === 403) {
-          alert = 'Illegal operation was performed.'
-          this.close()
+          message = 'Illegal operation was performed.'
         }
 
         if (status >= 500) {
-          alert = 'Server Error'
-          this.close()
+          message = 'Server Error'
         }
-        this.$emit('sendMessage', {
-          message: alert,
-          status: status,
+
+        this.sendMessage({
+          greeting: message,
+          greetingType: 'error',
         })
+
+        this.close()
       }
     },
   },
