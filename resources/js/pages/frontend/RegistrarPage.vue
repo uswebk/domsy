@@ -33,11 +33,7 @@
 
       <list-table :registrars="registrars"></list-table>
 
-      <new-dialog
-        :isOpen="newDialog"
-        @close="closeNewModal"
-        @sendMessage="sendMessage"
-      ></new-dialog>
+      <new-dialog :isOpen="newDialog" @close="closeNewModal"></new-dialog>
 
       <update-dialog
         :isOpen="editDialog"

@@ -12,7 +12,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Name"
-                  v-model="name"
+                  v-model="registrarModel.name"
                   required
                   hide-details
                 ></v-text-field>
@@ -23,7 +23,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Link"
-                  v-model="link"
+                  v-model="registrarModel.link"
                   required
                   hide-details
                 ></v-text-field>
@@ -34,7 +34,7 @@
                 <v-textarea
                   class="mt-5"
                   label="Note"
-                  v-model="note"
+                  v-model="registrarModel.note"
                   required
                   hide-details
                 ></v-textarea>
@@ -59,11 +59,12 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions } from 'vuex'
+
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
-  name: 'NewDialog',
+  name: 'RegistrarNewDialog',
   components: {
     ValidationErrorMessage,
   },
@@ -77,9 +78,11 @@ export default {
 
   data() {
     return {
-      name: '',
-      link: '',
-      note: '',
+      registrarModel: {
+        name: '',
+        link: '',
+        note: '',
+      },
       errors: {},
     }
   },
@@ -89,34 +92,34 @@ export default {
       get() {
         return this.isOpen
       },
-      set(value) {
+      set() {
         this.errors = {}
 
-        this.$emit('close', value)
+        this.close()
       },
     },
   },
 
   methods: {
+    ...mapActions('registrar', ['storeRegistrar', 'sendMessage']),
+
     resetRegistrar() {
-      this.name = ''
-      this.link = ''
-      this.note = ''
+      this.registrarModel = {
+        name: '',
+        link: '',
+        note: '',
+      }
     },
 
     async store() {
       try {
-        const result = await axios.post('/api/registrars', {
-          name: this.name,
-          link: this.link,
-          note: this.note,
-        })
+        await this.storeRegistrar(this.registrarModel)
 
         this.close()
 
-        this.$emit('sendMessage', {
-          message: 'Create success',
-          status: result.status,
+        this.sendMessage({
+          greeting: 'Create Success',
+          greetingType: 'success',
         })
       } catch (error) {
         const status = error.response.status
@@ -134,25 +137,25 @@ export default {
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
-          this.close()
         }
 
         if (status >= 500) {
           message = 'Server Error'
-          this.close()
         }
 
-        this.$emit('sendMessage', {
-          message: message,
-          status: status,
+        this.sendMessage({
+          greeting: message,
+          greetingType: 'alert',
         })
+
+        this.close()
       }
 
       this.resetRegistrar()
     },
 
     close() {
-      this.open = false
+      this.$emit('close')
     },
   },
 }

@@ -35,32 +35,12 @@ const actions = {
     commit('pageLoading', false)
   },
 
-  async storeDomain({ dispatch }, payload) {
-    const result = await axios.post('/api/domains/', {
+  async storeRegistrar({ dispatch }, payload) {
+    const result = await axios.post('/api/registrars/', {
       ...payload,
     })
 
-    dispatch('fetchDomains')
-
-    return result
-  },
-
-  async updateDomain({ dispatch }, payload) {
-    const result = await axios.put('/api/domains/' + payload.id, {
-      ...payload,
-    })
-
-    dispatch('fetchDomains')
-
-    return result
-  },
-
-  async deleteDomain({ dispatch }, payload) {
-    const result = await axios.delete('/api/domains/' + payload.id, {
-      ...payload,
-    })
-
-    dispatch('fetchDomains')
+    dispatch('fetchRegistrars')
 
     return result
   },
