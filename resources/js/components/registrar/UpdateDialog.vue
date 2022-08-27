@@ -110,7 +110,9 @@ export default {
 
   methods: {
     ...mapActions('registrar', ['updateRegistrar', 'sendMessage']),
-
+    close() {
+      this.$emit('close')
+    },
     async update() {
       try {
         this.loading = true
@@ -147,15 +149,11 @@ export default {
 
         this.sendMessage({
           greeting: message,
-          greetingType: 'alert',
+          greetingType: 'error',
         })
 
         this.close()
       }
-    },
-
-    close() {
-      this.$emit('close')
     },
   },
 }

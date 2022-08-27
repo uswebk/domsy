@@ -40,7 +40,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-
 import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
 import ListTable from '../../components/registrar/ListTable'

@@ -2,15 +2,12 @@
   <v-dialog v-model="open" max-width="350">
     <v-card>
       <v-card-title class="text-h5"> Deletion Confirmation </v-card-title>
-
       <v-card-text>
         <p class="font-weight-bold text-h6">{{ registrarModel.name }}</p>
         Do you want to delete the ?
       </v-card-text>
-
       <v-card-actions>
         <v-spacer></v-spacer>
-
         <v-btn color="gray darken-1" text @click="close"> Close </v-btn>
         <v-btn color="red darken-1" text @click="deletion"> Delete </v-btn>
       </v-card-actions>

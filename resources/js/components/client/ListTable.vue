@@ -12,35 +12,42 @@
       </v-col>
     </v-row>
     <div class="my-2"></div>
-    <v-data-table
-      :headers="headers"
-      :items="clients"
-      :search="search"
-      :loading="loading"
-    >
+    <v-data-table :headers="headers" :items="clients" :search="search">
       <template v-slot:[`item.action`]="{ item }">
         <v-btn v-if="canUpdate" x-small color="primary" @click="edit(item)"
           >edit</v-btn
         >
-        <v-btn v-if="canDelete" x-small @click="deleteDomain(item)"
-          >delete</v-btn
-        >
+        <v-btn v-if="canDelete" x-small @click="deletion(item)">delete</v-btn>
       </template>
     </v-data-table>
+
+    <update-dialog
+      :isOpen="editDialog"
+      :client="client"
+      @close="closeEditDialog"
+    ></update-dialog>
+
+    <delete-dialog
+      :isOpen="deleteDialog"
+      :client="client"
+      @close="closeDeleteDialog"
+    ></delete-dialog>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters } from 'vuex'
+import UpdateDialog from '../../components/client/UpdateDialog'
+import DeleteDialog from '../../components/client/DeleteDialog'
 
 export default {
   name: 'ListTable',
+  components: {
+    UpdateDialog,
+    DeleteDialog,
+  },
+
   props: {
-    headers: {
-      default: null,
-      type: Array,
-      required: true,
-    },
     clients: {
       default() {
         return []
@@ -51,41 +58,72 @@ export default {
 
   data() {
     return {
-      loading: true,
       search: '',
-      canUpdate: false,
-      canDelete: false,
+      editDialog: false,
+      deleteDialog: false,
+      client: {},
+      headers: [
+        {
+          text: 'Name',
+          value: 'name',
+        },
+        {
+          text: 'Email',
+          value: 'email',
+        },
+        {
+          text: 'Zip',
+          value: 'zip',
+        },
+        {
+          text: 'Address',
+          value: 'address',
+        },
+        {
+          text: 'TEL',
+          value: 'phone_number',
+        },
+        {
+          text: 'Action',
+          value: 'action',
+          sortable: false,
+        },
+      ],
     }
   },
 
-  methods: {
-    async roleCheck() {
-      let canUpdateResult = await axios.get(
-        '/api/roles/user/?has=api.clients.update'
-      )
-      this.canUpdate = canUpdateResult.data
+  computed: {
+    ...mapGetters('client', ['canUpdate', 'canDelete']),
+  },
 
-      let canDeleteResult = await axios.get(
-        '/api/roles/user/?has=api.clients.delete'
-      )
-      this.canDelete = canDeleteResult.data
+  methods: {
+    openEditDialog() {
+      this.editDialog = true
+    },
+
+    closeEditDialog() {
+      this.editDialog = false
+    },
+
+    openDeleteDialog() {
+      this.deleteDialog = true
+    },
+
+    closeDeleteDialog() {
+      this.deleteDialog = false
     },
 
     edit(client) {
-      this.$emit('edit', client)
+      this.client = client
+
+      this.openEditDialog()
     },
 
-    deleteRegistrar(client) {
-      this.$emit('delete', client)
+    deletion(client) {
+      this.client = client
+
+      this.openDeleteDialog()
     },
-  },
-
-  async created() {
-    this.loading = true
-
-    await this.roleCheck()
-
-    this.loading = false
   },
 }
 </script>

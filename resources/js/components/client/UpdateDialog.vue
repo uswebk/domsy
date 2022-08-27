@@ -1,6 +1,11 @@
 <template>
   <v-dialog v-model="open" max-width="600px">
     <v-card>
+      <v-progress-linear
+        v-if="loading"
+        color="info"
+        indeterminate
+      ></v-progress-linear>
       <v-card-title class="pl-8">
         <span class="text-h6">Client Edit</span>
       </v-card-title>
@@ -12,7 +17,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Name"
-                  v-model="clientInfo.name"
+                  v-model="clientModel.name"
                   required
                   hide-details
                 ></v-text-field>
@@ -23,7 +28,7 @@
                 <v-text-field
                   class="mt-5"
                   label="NameKana"
-                  v-model="clientInfo.name_kana"
+                  v-model="clientModel.name_kana"
                   required
                   hide-details
                 ></v-text-field>
@@ -34,7 +39,7 @@
                 <v-text-field
                   class="mt-5"
                   label="email"
-                  v-model="clientInfo.email"
+                  v-model="clientModel.email"
                   required
                   hide-details
                 ></v-text-field>
@@ -45,7 +50,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Zip"
-                  v-model="clientInfo.zip"
+                  v-model="clientModel.zip"
                   required
                   hide-details
                 ></v-text-field>
@@ -56,7 +61,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Address"
-                  v-model="clientInfo.address"
+                  v-model="clientModel.address"
                   required
                   hide-details
                 ></v-text-field>
@@ -67,7 +72,7 @@
                 <v-text-field
                   class="mt-5"
                   label="TEL"
-                  v-model="clientInfo.phone_number"
+                  v-model="clientModel.phone_number"
                   required
                   hide-details
                 ></v-text-field>
@@ -92,11 +97,11 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions, mapGetters } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
-  name: 'UpdateDialog',
+  name: 'RegistrarUpdateDialog',
   components: {
     ValidationErrorMessage,
   },
@@ -115,42 +120,47 @@ export default {
 
   data() {
     return {
+      loading: false,
       errors: {},
     }
   },
 
   computed: {
-    clientInfo() {
+    ...mapGetters('client', ['pageLoading']),
+
+    clientModel() {
       return this.client
     },
     open: {
       get() {
         return this.isOpen
       },
-      set(value) {
+      set() {
         this.errors = {}
-        this.$emit('close', value)
+        this.close()
       },
     },
   },
 
   methods: {
+    ...mapActions('client', ['updateClient', 'sendMessage']),
+    close() {
+      this.$emit('close')
+    },
+
     async update() {
       try {
-        const result = await axios.put('/api/clients/' + this.clientInfo.id, {
-          name: this.clientInfo.name,
-          name_kana: this.clientInfo.name_kana,
-          email: this.clientInfo.email,
-          zip: this.clientInfo.zip,
-          address: this.clientInfo.address,
-          phone_number: this.clientInfo.phone_number,
-        })
+        this.loading = true
+
+        await this.updateClient(this.clientModel)
 
         this.close()
 
-        this.$emit('sendMessage', {
-          message: 'Update success',
-          status: result.status,
+        this.loading = false
+
+        this.sendMessage({
+          greeting: 'Update Success',
+          greetingType: 'success',
         })
       } catch (error) {
         const status = error.response.status
@@ -168,23 +178,19 @@ export default {
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
-          this.close()
         }
 
         if (status >= 500) {
           message = 'Server Error'
-          this.close()
         }
 
-        this.$emit('sendMessage', {
-          message: message,
-          status: status,
+        this.sendMessage({
+          greeting: message,
+          greetingType: 'error',
         })
-      }
-    },
 
-    close() {
-      this.open = false
+        this.close()
+      }
     },
   },
 }

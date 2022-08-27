@@ -235,7 +235,7 @@ export default {
 
         this.sendMessage({
           greeting: message,
-          greetingType: 'alert',
+          greetingType: 'error',
         })
 
         this.close()
