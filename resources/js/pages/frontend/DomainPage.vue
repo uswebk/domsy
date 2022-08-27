@@ -40,7 +40,7 @@
       <v-container class="py-1"></v-container>
 
       <v-tabs-items v-model="tab">
-        <div v-for="(domain, index) in domains" :key="domain.id">
+        <div v-for="(domain, index) in categorizedDomains" :key="domain.id">
           <v-tab-item :value="index">
             <list-table :domains="domain"></list-table>
           </v-tab-item>
@@ -77,17 +77,20 @@ export default {
 
   computed: {
     ...mapGetters('domain', [
-      'domains',
+      'categorizedDomains',
       'canStore',
       'pageLoading',
       'greeting',
       'greetingType',
-      'tabs',
     ]),
+
+    tabs() {
+      return Object.keys(this.categorizedDomains)
+    },
   },
 
   methods: {
-    ...mapActions('domain', ['fetchDomains', 'initRole']),
+    ...mapActions('domain', ['fetchCategorizedDomains', 'initRole']),
     ...mapActions('registrar', ['fetchRegistrars']),
     openNewModal() {
       this.newDialog = true
@@ -99,7 +102,7 @@ export default {
   },
 
   async created() {
-    this.fetchDomains()
+    this.fetchCategorizedDomains()
     this.fetchRegistrars()
     this.initRole()
   },

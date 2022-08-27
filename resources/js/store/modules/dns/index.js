@@ -42,12 +42,6 @@ const actions = {
     commit('pageLoading', false)
   },
 
-  async fetchDomains({ commit }) {
-    const result = await axios.get('/api/domains')
-
-    commit('domains', result.data)
-  },
-
   async fetchDnsRecordTypes({ commit }) {
     const result = await axios.get('/api/dns-record-type')
 

@@ -141,7 +141,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters('dns', ['pageLoading', 'domains', 'dnsRecordTypes']),
+    ...mapGetters('domain', ['domains']),
+    ...mapGetters('dns', ['pageLoading', 'dnsRecordTypes']),
 
     subdomainModel() {
       return this.subdomain

@@ -10,7 +10,7 @@
           color="info"
           indeterminate
         ></v-progress-linear>
-        <v-container v-if="!loading">
+        <v-container>
           <v-form ref="form" lazy-validation>
             <v-row>
               <v-col cols="12">
@@ -260,17 +260,12 @@ export default {
   },
 
   async created() {
-    this.loading = true
-
-    const domains = await axios.get('/api/domains')
-
-    this.domains = domains.data
-
-    const result = await axios.get('/api/clients')
-
-    this.clients = result.data
-
-    this.loading = false
+    // this.loading = true
+    // const domains = await axios.get('/api/domains')
+    // this.domains = domains.data
+    // const result = await axios.get('/api/clients')
+    // this.clients = result.data
+    // this.loading = false
   },
 }
 </script>

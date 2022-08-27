@@ -7,14 +7,7 @@ const state = {
   canUpdate: false,
   canDelete: false,
   pageLoading: true,
-  categorizedDomains: {
-    active: [],
-    inactive: [],
-    managementOnly: [],
-    transferred: [],
-  },
-
-  domains: [],
+  dealings: [{ active: [], stop: [] }],
   tabs: [],
 }
 
@@ -22,8 +15,7 @@ const mutations = {
   greeting: (state, value) => (state.greeting = value),
   greetingType: (state, value) => (state.greetingType = value),
   pageLoading: (state, value) => (state.pageLoading = value),
-  categorizedDomains: (state, value) => (state.categorizedDomains = value),
-  domains: (state, value) => (state.domains = value),
+  dealings: (state, value) => (state.dealings = value),
   tabs: (state, value) => (state.tabs = value),
   canStore: (state, value) => (state.canStore = value),
   canUpdate: (state, value) => (state.canUpdate = value),
@@ -36,45 +28,41 @@ const actions = {
     commit('greetingType', payload.greetingType)
   },
 
-  async fetchCategorizedDomains({ commit }) {
+  async fetchDealings({ commit }) {
     commit('pageLoading', true)
+    const result = await axios.get('/api/dealings')
 
-    const result = await axios.get('/api/domains')
-
-    let domains = {
+    let dealings = {
       active: [],
-      inactive: [],
-      managementOnly: [],
-      transferred: [],
+      stop: [],
     }
 
     result.data.forEach((domain) => {
-      if (domain.is_transferred) {
-        domains.transferred.push(domain)
-      }
-
-      if (domain.is_management_only) {
-        domains.managementOnly.push(domain)
-      }
-
-      if (domain.is_active) {
-        domains.active.push(domain)
-      } else {
-        domains.inactive.push(domain)
-      }
+      domain.domain_dealings.forEach((dealing) => {
+        dealing.domain = domain.name
+        if (dealing.is_halt) {
+          dealings.stop.push(dealing)
+        } else {
+          dealings.active.push(dealing)
+        }
+      })
     })
 
-    commit('categorizedDomains', domains)
-    commit('pageLoading', false)
-  },
+    // for (let key in result.data) {
+    //   for (let key2 in result.data[key].domain_dealings) {
+    //     let dealing = result.data[key].domain_dealings[key2]
+    //     dealing.domain = result.data[key].name
 
-  async fetchDomains({ commit }) {
-    commit('pageLoading', true)
+    //     if (dealing.is_halt) {
+    //       dealings_stops.push(dealing)
+    //     } else {
+    //       dealings_actives.push(dealing)
+    //     }
+    //   }
+    // }
 
-    const result = await axios.get('/api/domains')
-
-    commit('domains', result.data)
-
+    commit('dealings', dealings)
+    commit('tabs', Object.keys(dealings))
     commit('pageLoading', false)
   },
 
@@ -120,8 +108,7 @@ const actions = {
 const getters = {
   greeting: (state) => state.greeting,
   greetingType: (state) => state.greetingType,
-  domains: (state) => state.domains,
-  categorizedDomains: (state) => state.categorizedDomains,
+  dealings: (state) => state.dealings,
   canStore: (state) => state.canStore,
   canUpdate: (state) => state.canUpdate,
   canDelete: (state) => state.canDelete,

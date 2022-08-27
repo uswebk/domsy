@@ -5,6 +5,7 @@ import domain from './modules/domain'
 import registrar from './modules/registrar'
 import client from './modules/client'
 import dns from './modules/dns'
+import dealing from './modules/dealing'
 
 Vue.use(Vuex)
 
@@ -14,6 +15,7 @@ const store = new Vuex.Store({
     registrar,
     client,
     dns,
+    dealing,
   },
 })
 

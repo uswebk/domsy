@@ -75,12 +75,8 @@ export default {
 
   methods: {
     ...mapMutations('dns', ['domainId']),
-    ...mapActions('dns', [
-      'fetchDns',
-      'fetchDomains',
-      'fetchDnsRecordTypes',
-      'initRole',
-    ]),
+    ...mapActions('domain', ['fetchDomains']),
+    ...mapActions('dns', ['fetchDns', 'fetchDnsRecordTypes', 'initRole']),
 
     async openNewDialog(domain) {
       this.newDialog = true

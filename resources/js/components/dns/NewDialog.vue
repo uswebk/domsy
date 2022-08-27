@@ -142,6 +142,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters('domain', ['domains']),
     ...mapGetters('dns', [
       'pageLoading',
       'domains',
