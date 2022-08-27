@@ -1,6 +1,11 @@
 <template>
   <v-dialog v-model="open" max-width="600px">
     <v-card>
+      <v-progress-linear
+        v-if="loading"
+        color="info"
+        indeterminate
+      ></v-progress-linear>
       <v-card-title class="pl-8">
         <span class="text-h6">Registrar Edit</span>
       </v-card-title>
@@ -12,7 +17,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Name"
-                  v-model="registrarInfo.name"
+                  v-model="registrarModel.name"
                   required
                   hide-details
                 ></v-text-field>
@@ -22,7 +27,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Link"
-                  v-model="registrarInfo.link"
+                  v-model="registrarModel.link"
                   required
                   hide-details
                 ></v-text-field>
@@ -33,7 +38,7 @@
                 <v-textarea
                   class="mt-5"
                   label="Note"
-                  v-model="registrarInfo.note"
+                  v-model="registrarModel.note"
                   required
                   hide-details
                 ></v-textarea>
@@ -58,11 +63,11 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions, mapGetters } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
-  name: 'UpdateDialog',
+  name: 'RegistrarUpdateDialog',
   components: {
     ValidationErrorMessage,
   },
@@ -81,43 +86,42 @@ export default {
 
   data() {
     return {
-      loading: true,
+      loading: false,
       errors: {},
     }
   },
 
   computed: {
-    registrarInfo() {
+    ...mapGetters('registrar', ['pageLoading']),
+
+    registrarModel() {
       return this.registrar
     },
     open: {
       get() {
         return this.isOpen
       },
-      set(value) {
+      set() {
         this.errors = {}
-        this.$emit('close', value)
+        this.close()
       },
     },
   },
 
   methods: {
+    ...mapActions('registrar', ['updateRegistrar', 'sendMessage']),
+
     async update() {
       try {
-        const result = await axios.put(
-          '/api/registrars/' + this.registrarInfo.id,
-          {
-            name: this.registrarInfo.name,
-            link: this.registrarInfo.link,
-            note: this.registrarInfo.note,
-          }
-        )
+        this.loading = true
+        await this.updateRegistrar(this.registrarModel)
 
         this.close()
+        this.loading = false
 
-        this.$emit('sendMessage', {
-          message: 'Update success',
-          status: result.status,
+        this.sendMessage({
+          greeting: 'Update Success',
+          greetingType: 'success',
         })
       } catch (error) {
         const status = error.response.status
@@ -135,23 +139,23 @@ export default {
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
-          this.close()
         }
 
         if (status >= 500) {
           message = 'Server Error'
-          this.close()
         }
 
-        this.$emit('sendMessage', {
-          message: message,
-          status: status,
+        this.sendMessage({
+          greeting: message,
+          greetingType: 'alert',
         })
+
+        this.close()
       }
     },
 
     close() {
-      this.open = false
+      this.$emit('close')
     },
   },
 }

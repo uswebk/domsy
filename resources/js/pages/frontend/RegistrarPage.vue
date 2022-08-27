@@ -34,20 +34,6 @@
       <list-table :registrars="registrars"></list-table>
 
       <new-dialog :isOpen="newDialog" @close="closeNewModal"></new-dialog>
-
-      <update-dialog
-        :isOpen="editDialog"
-        :registrar="registrar"
-        @close="closeEditModal"
-        @sendMessage="sendMessage"
-      ></update-dialog>
-
-      <delete-dialog
-        :isOpen="deleteDialog"
-        :registrar="registrar"
-        @close="closeDeleteModal"
-        @sendMessage="sendMessage"
-      ></delete-dialog>
     </v-container>
   </v-main>
 </template>
@@ -59,16 +45,12 @@ import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
 import ListTable from '../../components/registrar/ListTable'
 import NewDialog from '../../components/registrar/NewDialog'
-import UpdateDialog from '../../components/registrar/UpdateDialog'
-import DeleteDialog from '../../components/registrar/DeleteDialog'
 
 export default {
   components: {
     IconHeadLine,
     GreetingMessage,
     NewDialog,
-    UpdateDialog,
-    DeleteDialog,
     ListTable,
   },
 
@@ -98,29 +80,8 @@ export default {
       this.newDialog = true
     },
 
-    openEditModal() {
-      this.editDialog = true
-    },
-
-    openDeleteModal() {
-      this.deleteDialog = true
-    },
-
     closeNewModal() {
       this.newDialog = false
-    },
-
-    closeEditModal() {
-      this.editDialog = false
-    },
-
-    closeDeleteModal() {
-      this.deleteDialog = false
-    },
-
-    resetGreeting() {
-      this.message = ''
-      this.greetingType = ''
     },
 
     sendMessage(result) {

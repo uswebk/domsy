@@ -20,19 +20,37 @@
         <v-btn v-if="canUpdate" x-small color="primary" @click="edit(item)"
           >edit</v-btn
         >
-        <v-btn v-if="canDelete" x-small @click="deleteDomain(item)"
-          >delete</v-btn
-        >
+        <v-btn v-if="canDelete" x-small @click="deletion(item)">delete</v-btn>
       </template>
     </v-data-table>
+
+    <update-dialog
+      :isOpen="editDialog"
+      :registrar="registrar"
+      @close="closeEditDialog"
+    ></update-dialog>
+
+    <delete-dialog
+      :isOpen="deleteDialog"
+      :registrar="registrar"
+      @close="closeDeleteDialog"
+    ></delete-dialog>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import UpdateDialog from '../../components/registrar/UpdateDialog'
+import DeleteDialog from '../../components/registrar/DeleteDialog'
 
 export default {
   name: 'RegistrarListTable',
+
+  components: {
+    UpdateDialog,
+    DeleteDialog,
+  },
+
   props: {
     registrars: {
       default() {
@@ -45,6 +63,9 @@ export default {
   data() {
     return {
       loading: true,
+      editDialog: false,
+      deleteDialog: false,
+      registrar: {},
       search: '',
       headers: [
         {
@@ -73,12 +94,32 @@ export default {
   },
 
   methods: {
-    edit(registrar) {
-      this.$emit('edit', registrar)
+    openEditDialog() {
+      this.editDialog = true
     },
 
-    deleteRegistrar(registrar) {
-      this.$emit('delete', registrar)
+    closeEditDialog() {
+      this.editDialog = false
+    },
+
+    openDeleteDialog() {
+      this.deleteDialog = true
+    },
+
+    closeDeleteDialog() {
+      this.deleteDialog = false
+    },
+
+    edit(registrar) {
+      this.registrar = registrar
+
+      this.openEditDialog()
+    },
+
+    deletion(registrar) {
+      this.registrar = registrar
+
+      this.openDeleteDialog()
     },
   },
 }

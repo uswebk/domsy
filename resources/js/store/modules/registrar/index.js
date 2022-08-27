@@ -45,6 +45,26 @@ const actions = {
     return result
   },
 
+  async updateRegistrar({ dispatch }, payload) {
+    const result = await axios.put('/api/registrars/' + payload.id, {
+      ...payload,
+    })
+
+    dispatch('fetchRegistrars')
+
+    return result
+  },
+
+  async deleteRegistrar({ dispatch }, payload) {
+    const result = await axios.delete('/api/registrars/' + payload.id, {
+      ...payload,
+    })
+
+    dispatch('fetchRegistrars')
+
+    return result
+  },
+
   async initRole({ commit }) {
     let result = await axios.get('/api/roles/user/?menu_id=4')
 
