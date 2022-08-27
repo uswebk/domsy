@@ -14,10 +14,6 @@
 
     <div class="my-2"></div>
 
-    <!-- <div v-for="(dealing, index) in dealings" :key="dealing.id">
-      {{ dealing.domain_dealings }}
-    </div>
- -->
     <v-data-table :headers="headers" :items="dealings" :search="search">
       <template v-slot:[`item.subtotal`]="{ item }">
         {{ $appHelper.formattedPriceYen(item.subtotal) }}
@@ -45,12 +41,34 @@
         >
       </template>
     </v-data-table>
+
+    <update-dialog
+      :isOpen="isOpenEditDialog"
+      :dealing="dealing"
+      @close="closeEditDialog"
+    ></update-dialog>
+
+    <detail-dialog
+      :isOpen="isOpenDetailDialog"
+      :dealing="dealing"
+      @close="closeDetailDialog"
+    ></detail-dialog>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import UpdateDialog from '../../components/dealing/UpdateDialog'
+import DetailDialog from '../../components/dealing/DetailDialog'
+
 export default {
-  name: 'ListTable',
+  name: 'DealingListTable',
+
+  components: {
+    UpdateDialog,
+    DetailDialog,
+  },
+
   props: {
     dealings: {
       default() {
@@ -60,12 +78,16 @@ export default {
     },
   },
 
+  computed: {
+    ...mapGetters('dealing', ['canUpdate', 'canDetail']),
+  },
+
   data() {
     return {
       search: '',
-      canUpdate: false,
-      canDetail: false,
-
+      isOpenEditDialog: false,
+      isOpenDetailDialog: false,
+      dealing: {},
       headers: [
         {
           text: 'Domain Name',
@@ -105,20 +127,29 @@ export default {
   },
 
   methods: {
-    // async roleCheck() {
-    //   let canUpdateResult = await axios.get(
-    //     '/api/roles/user/?has=api.dealings.update'
-    //   )
-    //   this.canUpdate = canUpdateResult.data
+    openEditDialog() {
+      this.isOpenEditDialog = true
+    },
 
-    //   let canDetailResult = await axios.get(
-    //     '/api/roles/user/?has=api.dealings.detail'
-    //   )
-    //   this.canDetail = canDetailResult.data
-    // },
+    closeEditDialog() {
+      this.isOpenEditDialog = false
+    },
+
+    openDetailDialog() {
+      this.isOpenDetailDialog = true
+    },
+
+    closeDetailDialog() {
+      this.isOpenDetailDialog = false
+    },
 
     edit(dealing) {
-      this.$emit('edit', dealing)
+      this.dealing = dealing
+      this.dealing.billing_date = this.$dateHelper.dateHyphen(
+        dealing.billing_date
+      )
+
+      this.openEditDialog()
     },
 
     detail(dealing) {

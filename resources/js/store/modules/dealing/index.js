@@ -5,9 +5,10 @@ const state = {
   greetingType: '',
   canStore: false,
   canUpdate: false,
-  canDelete: false,
+  canDetail: false,
+  canUpdateBilling: false,
   pageLoading: true,
-  dealings: [{ active: [], stop: [] }],
+  dealings: { active: [], stop: [] },
   tabs: [],
 }
 
@@ -19,7 +20,8 @@ const mutations = {
   tabs: (state, value) => (state.tabs = value),
   canStore: (state, value) => (state.canStore = value),
   canUpdate: (state, value) => (state.canUpdate = value),
-  canDelete: (state, value) => (state.canDelete = value),
+  canDetail: (state, value) => (state.canDetail = value),
+  canUpdateBilling: (state, value) => (state.canUpdateBilling = value),
 }
 
 const actions = {
@@ -48,40 +50,27 @@ const actions = {
       })
     })
 
-    // for (let key in result.data) {
-    //   for (let key2 in result.data[key].domain_dealings) {
-    //     let dealing = result.data[key].domain_dealings[key2]
-    //     dealing.domain = result.data[key].name
-
-    //     if (dealing.is_halt) {
-    //       dealings_stops.push(dealing)
-    //     } else {
-    //       dealings_actives.push(dealing)
-    //     }
-    //   }
-    // }
-
     commit('dealings', dealings)
     commit('tabs', Object.keys(dealings))
     commit('pageLoading', false)
   },
 
-  async storeDomain({ dispatch }, payload) {
-    const result = await axios.post('/api/domains/', {
+  async storeDealing({ dispatch }, payload) {
+    const result = await axios.post('/api/dealings', {
       ...payload,
     })
 
-    dispatch('fetchDomains')
+    dispatch('fetchDealings')
 
     return result
   },
 
-  async updateDomain({ dispatch }, payload) {
-    const result = await axios.put('/api/domains/' + payload.id, {
+  async updateDealing({ dispatch }, payload) {
+    const result = await axios.put('/api/dealings/' + payload.id, {
       ...payload,
     })
 
-    dispatch('fetchDomains')
+    dispatch('fetchDealings')
 
     return result
   },
@@ -97,11 +86,13 @@ const actions = {
   },
 
   async initRole({ commit }) {
-    let result = await axios.get('/api/roles/user/?menu_id=2')
+    let result = await axios.get('/api/roles/user/?menu_id=6')
 
+    console.log(result.data)
     commit('canStore', result.data.store)
     commit('canUpdate', result.data.update)
-    commit('canDelete', result.data.delete)
+    commit('canDetail', result.data.detail)
+    commit('canUpdateBilling', result.data.updateBilling)
   },
 }
 
@@ -111,9 +102,11 @@ const getters = {
   dealings: (state) => state.dealings,
   canStore: (state) => state.canStore,
   canUpdate: (state) => state.canUpdate,
-  canDelete: (state) => state.canDelete,
+  canDetail: (state) => state.canDetail,
+  canUpdateBilling: (state) => state.canUpdateBilling,
   pageLoading: (state) => state.pageLoading,
   tabs: (state) => state.tabs,
+  intervalCategories: () => ['DAY', 'WEEK', 'MONTH', 'YEAR'],
 }
 
 export default {

@@ -1,21 +1,21 @@
 <template>
   <v-dialog v-model="open" max-width="600px">
     <v-card>
+      <v-progress-linear
+        v-if="loading"
+        color="info"
+        indeterminate
+      ></v-progress-linear>
       <v-card-title class="pl-8">
         <span class="text-h6">Dealing Create</span>
       </v-card-title>
       <v-card-text>
-        <v-progress-linear
-          v-if="loading"
-          color="info"
-          indeterminate
-        ></v-progress-linear>
         <v-container>
           <v-form ref="form" lazy-validation>
             <v-row>
               <v-col cols="12">
                 <v-select
-                  v-model="domainId"
+                  v-model="dealingModel.domain_id"
                   :items="domains"
                   item-text="name"
                   item-value="id"
@@ -27,7 +27,7 @@
                 ></validation-error-message>
                 <v-select
                   class="mt-5"
-                  v-model="clientId"
+                  v-model="dealingModel.client_id"
                   :items="clients"
                   item-text="name"
                   item-value="id"
@@ -41,7 +41,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Subtotal"
-                  v-model="subtotal"
+                  v-model="dealingModel.subtotal"
                   type="number"
                   min="0"
                   prefix="¥"
@@ -55,7 +55,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Discount"
-                  v-model="discount"
+                  v-model="dealingModel.discount"
                   type="number"
                   min="0"
                   prefix="¥"
@@ -69,7 +69,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Billing Date"
-                  v-model="billingDate"
+                  v-model="dealingModel.billing_date"
                   type="date"
                   required
                   hide-details
@@ -81,7 +81,7 @@
               <v-col cols="2">
                 <v-text-field
                   label="Interval"
-                  v-model="interval"
+                  v-model="dealingModel.interval"
                   type="number"
                   min="0"
                   required
@@ -93,7 +93,7 @@
               </v-col>
               <v-col cols="4">
                 <v-select
-                  v-model="intervalCategory"
+                  v-model="dealingModel.interval_category"
                   :items="intervalCategories"
                   label="IntervalCategory"
                   hide-details
@@ -105,7 +105,7 @@
               <v-col cols="3">
                 <v-checkbox
                   class="mt-5"
-                  v-model="isAutoUpdate"
+                  v-model="dealingModel.is_auto_update"
                   label="AutoUpdate"
                   hide-details
                 ></v-checkbox>
@@ -116,7 +116,7 @@
               <v-col cols="3">
                 <v-checkbox
                   class="mt-5"
-                  v-model="isHalt"
+                  v-model="dealingModel.is_halt"
                   label="Halt"
                   hide-details
                 ></v-checkbox>
@@ -141,7 +141,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions, mapGetters } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
@@ -159,67 +159,70 @@ export default {
 
   data() {
     return {
-      domains: {},
-      clients: {},
-      intervalCategories: ['DAY', 'WEEK', 'MONTH', 'YEAR'],
-      domainId: '',
-      clientId: '',
-      subtotal: 0,
-      discount: 0,
-      billingDate: '',
-      interval: '',
-      intervalCategory: '',
-      isAutoUpdate: true,
-      isHalt: false,
+      loading: false,
+      dealingModel: {
+        domain_id: '',
+        client_id: '',
+        subtotal: 0,
+        discount: 0,
+        billing_date: '',
+        interval: '',
+        interval_category: '',
+        is_auto_update: true,
+        is_halt: false,
+      },
       errors: {},
     }
   },
-
   computed: {
+    ...mapGetters('domain', ['domains']),
+    ...mapGetters('client', ['clients']),
+    ...mapGetters('dealing', ['pageLoading', 'intervalCategories']),
+
     open: {
       get() {
         return this.isOpen
       },
-      set(value) {
+      set() {
         this.errors = {}
-
-        this.$emit('close', value)
+        this.close()
       },
     },
   },
 
   methods: {
-    resetFormData() {
-      this.domainId = ''
-      this.clientId = ''
-      this.subtotal = 0
-      this.discount = 0
-      this.billingDate = ''
-      this.interval = ''
-      this.intervalCategory = ''
-      this.isAutoUpdate = true
-      this.isHalt = false
+    ...mapActions('dealing', ['storeDealing', 'sendMessage']),
+
+    close() {
+      this.$emit('close')
+    },
+
+    resetForm() {
+      this.dealingModel = {
+        domain_id: '',
+        client_id: '',
+        subtotal: 0,
+        discount: 0,
+        billing_date: '',
+        interval: '',
+        interval_category: '',
+        is_auto_update: true,
+        is_halt: false,
+      }
     },
 
     async store() {
       try {
-        const result = await axios.post('/api/dealings', {
-          domain_id: this.domainId,
-          client_id: this.clientId,
-          subtotal: this.subtotal,
-          discount: this.discount,
-          billing_date: this.billingDate,
-          interval: this.interval,
-          interval_category: this.intervalCategory,
-          is_auto_update: this.isAutoUpdate,
-          is_halt: this.isHalt,
-        })
+        this.loading = true
+        this.storeDealing(this.dealingModel)
 
         this.close()
 
-        this.$emit('sendMessage', {
-          message: 'Create success',
-          status: result.status,
+        this.loading = false
+
+        this.sendMessage({
+          greeting: 'Create Success',
+          greetingType: 'success',
         })
       } catch (error) {
         const status = error.response.status
@@ -237,35 +240,22 @@ export default {
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
-          this.close()
         }
 
         if (status >= 500) {
           message = 'Server Error'
-          this.close()
         }
 
-        this.$emit('sendMessage', {
-          message: message,
-          status: status,
+        this.sendMessage({
+          greeting: message,
+          greetingType: 'error',
         })
+
+        this.close()
       }
 
-      this.resetFormData()
+      this.resetForm()
     },
-
-    close() {
-      this.open = false
-    },
-  },
-
-  async created() {
-    // this.loading = true
-    // const domains = await axios.get('/api/domains')
-    // this.domains = domains.data
-    // const result = await axios.get('/api/clients')
-    // this.clients = result.data
-    // this.loading = false
   },
 }
 </script>
