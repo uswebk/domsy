@@ -153,7 +153,9 @@ export default {
     },
 
     detail(dealing) {
-      this.$emit('detail', dealing)
+      this.dealing = dealing
+
+      this.openDetailDialog()
     },
   },
 }

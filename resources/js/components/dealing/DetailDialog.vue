@@ -16,7 +16,7 @@
         <v-container>
           <greeting-message
             :type="greetingType"
-            :message="message"
+            :message="greeting"
           ></greeting-message>
 
           <v-card-text>
@@ -32,15 +32,15 @@
                 <v-list-item>
                   <v-list-item-content>
                     <v-list-item-title>{{
-                      formattedDate(billing.billing_date)
+                      $dateHelper.dateHyphen(billing.billing_date)
                     }}</v-list-item-title>
                     <v-list-item-subtitle>{{
-                      formattedPrice(billing.total)
+                      $appHelper.formattedPriceYen(billing.total)
                     }}</v-list-item-subtitle>
                   </v-list-item-content>
                   <v-list-item-action>
                     <v-icon
-                      v-if="!billing.is_fixed && canBillingUpdate"
+                      v-if="!billing.is_fixed && canUpdateBilling"
                       @click="editBilling(billing)"
                       small
                     >
@@ -63,21 +63,19 @@
     <billing-dialog
       :isOpen="editBillingDialog"
       :billing="billing"
-      @close="closeBillingEditModal"
-      @sendMessage="sendMessage"
+      @close="closeBillingEditDialog"
     ></billing-dialog>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters } from 'vuex'
+
 import GreetingMessage from '../../components/common/GreetingMessage'
 import BillingDialog from '../../components/dealing/BillingDialog'
-import { shortHyphenDate } from '../../modules/DateHelper'
-import { priceFormat } from '../../modules/AppHelper'
-
 export default {
-  name: 'DetailDialog',
+  name: 'DealingDetailDialog',
+
   components: {
     GreetingMessage,
     BillingDialog,
@@ -96,17 +94,14 @@ export default {
     },
   },
 
-  data() {
-    return {
-      greetingType: '',
-      message: '',
-      canBillingUpdate: false,
-      editBillingDialog: false,
-      billing: {},
-    }
-  },
-
   computed: {
+    ...mapGetters('dealing', [
+      'canUpdateBilling',
+      'pageLoading',
+      'greeting',
+      'greetingType',
+    ]),
+
     dealingModel() {
       return this.dealing
     },
@@ -123,61 +118,34 @@ export default {
     },
   },
 
+  data() {
+    return {
+      editBillingDialog: false,
+      billing: {},
+    }
+  },
+
   methods: {
     close() {
       this.open = false
     },
 
-    resetGreeting() {
-      this.greetingType = ''
-      this.message = ''
-    },
-
-    sendMessage(result) {
-      this.resetGreeting()
-
-      if (result.status === 200) {
-        this.greetingType = 'success'
-        this.message = result.message
-      } else {
-        this.greetingType = 'error'
-        this.message = result.message
-      }
-
-      this.$emit('init', this.dealingModel.id)
-    },
-
-    async openBillingEditModal() {
+    async openBillingEditDialog() {
       this.editBillingDialog = true
     },
 
-    async closeBillingEditModal() {
+    async closeBillingEditDialog() {
       this.editBillingDialog = false
     },
 
     async editBilling(billing) {
-      this.billing.id = billing.id
-      this.billing.billingDate = this.formattedDate(billing.billing_date)
-      this.billing.total = billing.total
-      this.billing.isFixed = billing.is_fixed
+      this.billing = billing
+      this.billing.billing_date = this.$dateHelper.dateHyphen(
+        billing.billing_date
+      )
 
-      this.openBillingEditModal()
+      this.openBillingEditDialog()
     },
-
-    formattedDate(dateTime) {
-      return shortHyphenDate(dateTime)
-    },
-
-    formattedPrice(price) {
-      return priceFormat(price)
-    },
-  },
-
-  async created() {
-    let canBillingUpdateResult = await axios.get(
-      '/api/roles/user/?has=api.dealings.updateBilling'
-    )
-    this.canBillingUpdate = canBillingUpdateResult.data
   },
 }
 </script>

@@ -88,7 +88,6 @@ const actions = {
   async initRole({ commit }) {
     let result = await axios.get('/api/roles/user/?menu_id=6')
 
-    console.log(result.data)
     commit('canStore', result.data.store)
     commit('canUpdate', result.data.update)
     commit('canDetail', result.data.detail)
