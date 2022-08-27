@@ -20,6 +20,7 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'RegistrarDeleteDialog',
+
   props: {
     isOpen: {
       default: false,

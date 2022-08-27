@@ -42,6 +42,7 @@ import DeleteDialog from '../../components/client/DeleteDialog'
 
 export default {
   name: 'ListTable',
+
   components: {
     UpdateDialog,
     DeleteDialog,

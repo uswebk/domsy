@@ -102,9 +102,11 @@ import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'RegistrarUpdateDialog',
+
   components: {
     ValidationErrorMessage,
   },
+
   props: {
     isOpen: {
       default: false,
@@ -144,6 +146,7 @@ export default {
 
   methods: {
     ...mapActions('client', ['updateClient', 'sendMessage']),
+
     close() {
       this.$emit('close')
     },

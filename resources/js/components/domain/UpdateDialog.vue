@@ -141,9 +141,11 @@ import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'UpdateDialog',
+
   components: {
     ValidationErrorMessage,
   },
+
   props: {
     isOpen: {
       default: false,

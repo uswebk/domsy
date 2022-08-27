@@ -60,14 +60,15 @@
 
 <script>
 import { mapActions } from 'vuex'
-
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'RegistrarNewDialog',
+
   components: {
     ValidationErrorMessage,
   },
+
   props: {
     isOpen: {
       default: false,
@@ -102,6 +103,10 @@ export default {
 
   methods: {
     ...mapActions('registrar', ['storeRegistrar', 'sendMessage']),
+
+    close() {
+      this.$emit('close')
+    },
 
     resetRegistrar() {
       this.registrarModel = {
@@ -152,10 +157,6 @@ export default {
       }
 
       this.resetRegistrar()
-    },
-
-    close() {
-      this.$emit('close')
     },
   },
 }

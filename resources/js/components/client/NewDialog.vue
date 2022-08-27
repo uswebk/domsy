@@ -102,9 +102,11 @@ import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'NewDialog',
+
   components: {
     ValidationErrorMessage,
   },
+
   props: {
     isOpen: {
       default: false,
@@ -130,6 +132,7 @@ export default {
 
   computed: {
     ...mapGetters('client', ['pageLoading']),
+
     open: {
       get() {
         return this.isOpen
@@ -143,6 +146,11 @@ export default {
 
   methods: {
     ...mapActions('client', ['storeClient', 'sendMessage']),
+
+    close() {
+      this.$emit('close')
+    },
+
     resetClient() {
       this.clientModel = {
         name: '',
@@ -199,10 +207,6 @@ export default {
       }
 
       this.resetClient()
-    },
-
-    close() {
-      this.$emit('close')
     },
   },
 }
