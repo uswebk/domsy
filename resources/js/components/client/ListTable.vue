@@ -115,7 +115,13 @@ export default {
     },
 
     edit(client) {
-      this.client = client
+      this.client.id = client.id
+      this.client.name = client.name
+      this.client.nameKana = client.name_kana
+      this.client.email = client.email
+      this.client.zip = client.zip
+      this.client.address = client.address
+      this.client.phoneNumber = client.phone_number
 
       this.openEditDialog()
     },

@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
 import UpdateDialog from '../../components/dealing/UpdateDialog'
 import DetailDialog from '../../components/dealing/DetailDialog'
 
@@ -87,11 +87,13 @@ export default {
       search: '',
       isOpenEditDialog: false,
       isOpenDetailDialog: false,
-      dealing: {},
+      dealing: {
+        domain: [],
+      },
       headers: [
         {
           text: 'Domain Name',
-          value: 'domain',
+          value: 'domain.name',
         },
         {
           text: 'Client Name',
@@ -127,6 +129,9 @@ export default {
   },
 
   methods: {
+    ...mapMutations('dealing', { dealingCommit: 'dealing' }),
+    ...mapActions('dealing', ['fetchDealing']),
+
     openEditDialog() {
       this.isOpenEditDialog = true
     },
@@ -144,17 +149,24 @@ export default {
     },
 
     edit(dealing) {
-      this.dealing = dealing
+      this.dealing.id = dealing.id
+      this.dealing.domain_id = dealing.domain_id
+      this.dealing.client_id = dealing.client_id
+      this.dealing.subtotal = dealing.subtotal
+      this.dealing.discount = dealing.discount
       this.dealing.billing_date = this.$dateHelper.dateHyphen(
         dealing.billing_date
       )
+      this.dealing.interval = dealing.interval
+      this.dealing.interval_category = dealing.interval_category
+      this.dealing.is_auto_update = dealing.is_auto_update
+      this.dealing.is_halt = dealing.is_halt
 
       this.openEditDialog()
     },
 
-    detail(dealing) {
-      this.dealing = dealing
-
+    async detail(dealing) {
+      this.dealingCommit(dealing)
       this.openDetailDialog()
     },
   },

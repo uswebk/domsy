@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\BillingResource;
 use App\Http\Resources\DomainDealingResource;
 use Illuminate\Http\Response;
 
@@ -134,10 +135,10 @@ final class DealingController extends Controller
 
         $domainBilling->fill($domainDealingRequest);
 
-        $billingRepository->save($domainBilling);
+        $domainBilling = $billingRepository->save($domainBilling);
 
         return response()->json(
-            [],
+            new BillingResource($domainBilling),
             Response::HTTP_OK
         );
     }

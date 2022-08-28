@@ -111,7 +111,10 @@ export default {
     },
 
     edit(registrar) {
-      this.registrar = registrar
+      this.registrar.id = registrar.id
+      this.registrar.name = registrar.name
+      this.registrar.link = registrar.link
+      this.registrar.note = registrar.note
 
       this.openEditDialog()
     },

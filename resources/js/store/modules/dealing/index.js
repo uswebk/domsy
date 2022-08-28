@@ -9,7 +9,7 @@ const state = {
   canUpdateBilling: false,
   pageLoading: true,
   dealings: { active: [], stop: [] },
-  tabs: [],
+  dealing: { domain: [] },
 }
 
 const mutations = {
@@ -17,7 +17,7 @@ const mutations = {
   greetingType: (state, value) => (state.greetingType = value),
   pageLoading: (state, value) => (state.pageLoading = value),
   dealings: (state, value) => (state.dealings = value),
-  tabs: (state, value) => (state.tabs = value),
+  dealing: (state, value) => (state.dealing = value),
   canStore: (state, value) => (state.canStore = value),
   canUpdate: (state, value) => (state.canUpdate = value),
   canDetail: (state, value) => (state.canDetail = value),
@@ -32,6 +32,7 @@ const actions = {
 
   async fetchDealings({ commit }) {
     commit('pageLoading', true)
+
     const result = await axios.get('/api/dealings')
 
     let dealings = {
@@ -39,20 +40,22 @@ const actions = {
       stop: [],
     }
 
-    result.data.forEach((domain) => {
-      domain.domain_dealings.forEach((dealing) => {
-        dealing.domain = domain.name
-        if (dealing.is_halt) {
-          dealings.stop.push(dealing)
-        } else {
-          dealings.active.push(dealing)
-        }
-      })
+    result.data.forEach((dealing) => {
+      if (dealing.is_halt) {
+        dealings.stop.push(dealing)
+      } else {
+        dealings.active.push(dealing)
+      }
     })
 
     commit('dealings', dealings)
-    commit('tabs', Object.keys(dealings))
     commit('pageLoading', false)
+  },
+
+  async fetchDealing({ commit }, dealingId) {
+    const result = await axios.get('/api/dealings/' + dealingId)
+
+    commit('dealing', result.data)
   },
 
   async storeDealing({ dispatch }, payload) {
@@ -75,12 +78,10 @@ const actions = {
     return result
   },
 
-  async deleteDomain({ dispatch }, payload) {
-    const result = await axios.delete('/api/domains/' + payload.id, {
+  async updateBilling({ dispatch }, payload) {
+    const result = await axios.put('/api/dealings/billings/' + payload.id, {
       ...payload,
     })
-
-    dispatch('fetchDomains')
 
     return result
   },
@@ -99,12 +100,12 @@ const getters = {
   greeting: (state) => state.greeting,
   greetingType: (state) => state.greetingType,
   dealings: (state) => state.dealings,
+  dealing: (state) => state.dealing,
   canStore: (state) => state.canStore,
   canUpdate: (state) => state.canUpdate,
   canDetail: (state) => state.canDetail,
   canUpdateBilling: (state) => state.canUpdateBilling,
   pageLoading: (state) => state.pageLoading,
-  tabs: (state) => state.tabs,
   intervalCategories: () => ['DAY', 'WEEK', 'MONTH', 'YEAR'],
 }
 

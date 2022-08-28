@@ -11,7 +11,7 @@
           <v-btn icon dark @click="close">
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title> Dealing Detail</v-toolbar-title>
+          <v-toolbar-title> {{ dealing.domain.name }}</v-toolbar-title>
         </v-toolbar>
         <v-container>
           <greeting-message
@@ -21,34 +21,36 @@
 
           <v-card-text>
             <v-list three-line subheader>
-              <v-subheader>{{ dealingModel.domain }}</v-subheader>
-              <v-card-title>Billing</v-card-title>
+              <v-card-title>Billings</v-card-title>
 
-              <div
-                v-for="billing in dealingModel.domain_billings"
-                :key="billing.id"
+              <v-data-table
+                :headers="headers"
+                :items="dealing.domain_billings"
+                :sort-by="'billing_date'"
+                :sort-desc="true"
+                hide-default-footer
+                dense
               >
-                <v-divider></v-divider>
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title>{{
-                      $dateHelper.dateHyphen(billing.billing_date)
-                    }}</v-list-item-title>
-                    <v-list-item-subtitle>{{
-                      $appHelper.formattedPriceYen(billing.total)
-                    }}</v-list-item-subtitle>
-                  </v-list-item-content>
-                  <v-list-item-action>
-                    <v-icon
-                      v-if="!billing.is_fixed && canUpdateBilling"
-                      @click="editBilling(billing)"
-                      small
-                    >
-                      mdi-pencil
-                    </v-icon></v-list-item-action
+                <template v-slot:item="{ item }">
+                  <tr
+                    :style="{
+                      'background-color': item.is_fixed ? '#efefef' : '',
+                    }"
                   >
-                </v-list-item>
-              </div>
+                    <td>{{ $dateHelper.dateHyphen(item.billing_date) }}</td>
+                    <td>{{ $appHelper.formattedPriceYen(item.total) }}</td>
+                    <td>
+                      <v-icon
+                        v-if="!item.is_fixed && canUpdateBilling"
+                        @click="editBilling(item)"
+                        small
+                      >
+                        mdi-pencil
+                      </v-icon>
+                    </td>
+                  </tr>
+                </template>
+              </v-data-table>
             </v-list>
             <v-divider></v-divider>
           </v-card-text>
@@ -61,7 +63,7 @@
     </v-dialog>
 
     <billing-dialog
-      :isOpen="editBillingDialog"
+      :isOpen="isOpenEditBillingDialog"
       :billing="billing"
       @close="closeBillingEditDialog"
     ></billing-dialog>
@@ -70,9 +72,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
 import GreetingMessage from '../../components/common/GreetingMessage'
 import BillingDialog from '../../components/dealing/BillingDialog'
+
 export default {
   name: 'DealingDetailDialog',
 
@@ -87,11 +89,6 @@ export default {
       type: Boolean,
       required: true,
     },
-    dealing: {
-      default: null,
-      type: Object,
-      required: true,
-    },
   },
 
   computed: {
@@ -100,11 +97,8 @@ export default {
       'pageLoading',
       'greeting',
       'greetingType',
+      'dealing',
     ]),
-
-    dealingModel() {
-      return this.dealing
-    },
 
     open: {
       get() {
@@ -120,8 +114,23 @@ export default {
 
   data() {
     return {
-      editBillingDialog: false,
+      isOpenEditBillingDialog: false,
       billing: {},
+      headers: [
+        {
+          text: 'Billing Date',
+          value: 'billing_date',
+        },
+        {
+          text: 'Amount',
+          value: 'total',
+        },
+        {
+          text: 'Action',
+          value: 'action',
+          sortable: false,
+        },
+      ],
     }
   },
 
@@ -131,15 +140,17 @@ export default {
     },
 
     async openBillingEditDialog() {
-      this.editBillingDialog = true
+      this.isOpenEditBillingDialog = true
     },
 
     async closeBillingEditDialog() {
-      this.editBillingDialog = false
+      this.isOpenEditBillingDialog = false
     },
 
     async editBilling(billing) {
-      this.billing = billing
+      this.billing.id = billing.id
+      this.billing.total = billing.total
+      this.billing.is_fixed = billing.is_fixed
       this.billing.billing_date = this.$dateHelper.dateHyphen(
         billing.billing_date
       )

@@ -102,7 +102,13 @@ export default {
     },
 
     edit(subdomain) {
-      this.subdomain = subdomain
+      this.subdomain.id = subdomain.id
+      this.subdomain.prefix = subdomain.prefix
+      this.subdomain.type_id = subdomain.type_id
+      this.subdomain.domain_id = subdomain.domain_id
+      this.subdomain.value = subdomain.value
+      this.subdomain.ttl = subdomain.ttl
+      this.subdomain.priority = subdomain.priority
 
       this.openEditDialog()
     },

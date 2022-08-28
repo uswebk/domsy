@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Services\Application;
 
-use App\Http\Resources\DealingResource;
-use App\Infrastructures\Models\User;
+use App\Http\Resources\DomainDealingResource;
 
+use App\Infrastructures\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 final class DealingFetchService
 {
-    private $domains;
+    private $domainDealings;
 
     /**
      * @param \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
@@ -22,7 +22,7 @@ final class DealingFetchService
     ) {
         $user = User::find(Auth::id());
 
-        $this->domains = new Collection();
+        $this->domainDealings = new Collection();
 
         if ($user->isCompany()) {
             $domains = $eloquentDomainQueryService->getByUserIds($user->getMemberIds());
@@ -40,7 +40,9 @@ final class DealingFetchService
                 continue;
             }
 
-            $this->domains->push($domain);
+            foreach ($domain->domainDealings as $domainDealing) {
+                $this->domainDealings->push($domainDealing);
+            }
         }
     }
 
@@ -49,6 +51,6 @@ final class DealingFetchService
      */
     public function getResponseData(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return DealingResource::collection($this->domains);
+        return DomainDealingResource::collection($this->domainDealings);
     }
 }

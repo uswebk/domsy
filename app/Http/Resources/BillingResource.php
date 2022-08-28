@@ -17,6 +17,7 @@ final class BillingResource extends JsonResource
         return [
             'id' => $this->id,
             'total' => $this->total,
+            'dealing' => $this->domainDealing,
             'billing_date' => $this->billing_date,
             'is_fixed' => $this->is_fixed,
             'changed_at' => $this->changed_at,

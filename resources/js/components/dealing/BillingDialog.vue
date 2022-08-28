@@ -1,6 +1,12 @@
 <template>
   <v-dialog v-model="open" max-width="300px">
     <v-card>
+      <v-progress-linear
+        v-if="loading"
+        color="info"
+        indeterminate
+      ></v-progress-linear>
+
       <v-card-title class="pl-8">
         <span class="text-h6">Billing Edit</span>
       </v-card-title>
@@ -11,7 +17,7 @@
               <v-col cols="12">
                 <v-text-field
                   label="Billing Date"
-                  v-model="billingModel.billingDate"
+                  v-model="billingModel.billing_date"
                   type="date"
                   required
                   hide-details
@@ -36,7 +42,7 @@
 
                 <v-checkbox
                   class="mt-5"
-                  v-model="billingModel.isFixed"
+                  v-model="billingModel.is_fixed"
                   label="isFixed"
                   hide-details
                 ></v-checkbox>
@@ -61,7 +67,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
@@ -85,6 +91,7 @@ export default {
 
   data() {
     return {
+      loading: false,
       errors: {},
     }
   },
@@ -98,32 +105,29 @@ export default {
       get() {
         return this.isOpen
       },
-      set(value) {
+      set() {
         this.errors = {}
-
-        this.$emit('close', value)
+        this.close()
       },
     },
   },
 
   methods: {
+    ...mapActions('dealing', ['fetchDealing', 'updateBilling']),
+
+    close() {
+      this.$emit('close')
+    },
+
     async update() {
       try {
-        const result = await axios.put(
-          '/api/dealings/billings/' + this.billingModel.id,
-          {
-            billing_date: this.billingModel.billingDate,
-            total: this.billingModel.total,
-            is_fixed: this.billingModel.isFixed,
-          }
-        )
+        this.loading = true
+        const result = await this.updateBilling(this.billingModel)
+        await this.fetchDealing(result.data.dealing.id)
+        this.loading = false
+        alert('update success')
 
         this.close()
-
-        this.$emit('sendMessage', {
-          message: 'Update success',
-          status: result.status,
-        })
       } catch (error) {
         const status = error.response.status
 
@@ -148,15 +152,8 @@ export default {
           this.close()
         }
 
-        this.$emit('sendMessage', {
-          message: message,
-          status: status,
-        })
+        alert(message)
       }
-    },
-
-    close() {
-      this.open = false
     },
   },
 }
