@@ -10,11 +10,11 @@
 
       <greeting-message
         :type="greetingType"
-        :message="message"
+        :message="greeting"
       ></greeting-message>
 
       <v-progress-linear
-        v-show="!finishInitialize"
+        v-show="pageLoading"
         color="yellow darken-2"
         indeterminate
         rounded
@@ -34,19 +34,15 @@
             class="ma-2"
             color="primary"
             small
-            @click="openNewModal"
+            @click="openNewDialog"
           >
             <v-icon dark left> mdi-plus-circle </v-icon>New
           </v-btn>
 
-          <list-table
-            :accounts="users"
-            @edit="edit"
-            @delete="deleteUser"
-          ></list-table>
+          <list-table :accounts="accounts"></list-table>
         </v-tab-item>
         <v-tab-item value="role">
-          <v-btn
+          <!-- <v-btn
             v-if="canRoleStore"
             class="ma-2"
             color="primary"
@@ -54,23 +50,22 @@
             @click="openNewRoleModal"
           >
             <v-icon dark left> mdi-plus-circle </v-icon>New
-          </v-btn>
+          </v-btn> -->
 
-          <role-list-table
+          <!-- <role-list-table
             :roles="roles"
             @edit="edit"
             @delete="deleteRole"
-          ></role-list-table>
+          ></role-list-table> -->
         </v-tab-item>
       </v-tabs-items>
 
       <new-dialog
-        :isOpen="newDialog"
-        @close="closeNewModal"
-        @sendMessage="sendMessage"
+        :isOpen="isOpenNewDialog"
+        @close="closeNewDialog"
       ></new-dialog>
 
-      <update-dialog
+      <!-- <update-dialog
         :isOpen="editDialog"
         :account="user"
         @close="closeEditModal"
@@ -102,13 +97,13 @@
         :role="role"
         @close="closeDeleteRoleModal"
         @sendMessage="sendMessage"
-      ></role-delete-dialog>
+      ></role-delete-dialog> -->
     </v-container>
   </v-main>
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
 import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
 import ListTable from '../../components/account/ListTable'
@@ -134,171 +129,180 @@ export default {
     RoleDeleteDialog,
   },
 
+  computed: {
+    ...mapGetters('account', [
+      'canStore',
+      'canRoleStore',
+      'pageLoading',
+      'greeting',
+      'greetingType',
+      'accounts',
+      'roles',
+    ]),
+  },
+
   data() {
     return {
-      greetingType: '',
-      message: '',
       tab: '',
-      canStore: false,
-      canRoleStore: false,
-      newDialog: false,
-      editDialog: false,
-      deleteDialog: false,
+      isOpenNewDialog: false,
+      // editDialog: false,
+      // deleteDialog: false,
       newRoleDialog: false,
-      editRoleDialog: false,
-      deleteRoleDialog: false,
-      finishInitialize: false,
-      users: [],
-      user: {},
-      roles: [],
-      role: {
-        roleItems: [],
-      },
+      // editRoleDialog: false,
+      // deleteRoleDialog: false,
+      // finishInitialize: false,
+      // user: {},
+      // roles: [],
+      // role: {
+      //   roleItems: [],
+      // },
     }
   },
 
   methods: {
-    openNewModal() {
-      this.newDialog = true
+    ...mapActions('account', ['initRole', 'fetchRoles', 'fetchAccounts']),
+
+    openNewDialog() {
+      this.isOpenNewDialog = true
     },
 
-    openNewRoleModal() {
-      this.newRoleDialog = true
+    // openNewRoleModal() {
+    //   this.newRoleDialog = true
+    // },
+
+    // openEditModal() {
+    //   this.editDialog = true
+    // },
+
+    // openEditRoleModal() {
+    //   this.editRoleDialog = true
+    // },
+
+    // openDeleteRoleModal() {
+    //   this.deleteRoleDialog = true
+    // },
+
+    // openDeleteModal() {
+    //   this.deleteDialog = true
+    // },
+
+    closeNewDialog() {
+      this.isOpenNewDialog = false
     },
 
-    openEditModal() {
-      this.editDialog = true
-    },
+    // closeNewRoleModal() {
+    //   this.newRoleDialog = false
+    // },
 
-    openEditRoleModal() {
-      this.editRoleDialog = true
-    },
+    // closeEditModal() {
+    //   this.editDialog = false
+    // },
 
-    openDeleteRoleModal() {
-      this.deleteRoleDialog = true
-    },
+    // closeEditRoleModal() {
+    //   this.editRoleDialog = false
+    // },
 
-    openDeleteModal() {
-      this.deleteDialog = true
-    },
+    // closeDeleteModal() {
+    //   this.deleteDialog = false
+    // },
 
-    closeNewModal() {
-      this.newDialog = false
-    },
+    // closeDeleteRoleModal() {
+    //   this.deleteRoleDialog = false
+    // },
 
-    closeNewRoleModal() {
-      this.newRoleDialog = false
-    },
+    // resetGreeting() {
+    //   this.greetingType = ''
+    //   this.message = ''
+    // },
 
-    closeEditModal() {
-      this.editDialog = false
-    },
+    // sendMessage(result) {
+    //   this.resetGreeting()
 
-    closeEditRoleModal() {
-      this.editRoleDialog = false
-    },
+    //   this.initUsers()
+    //   this.initRoles()
 
-    closeDeleteModal() {
-      this.deleteDialog = false
-    },
+    //   if (result.status === 200) {
+    //     this.greetingType = 'success'
+    //     this.message = result.message
+    //   } else {
+    //     this.greetingType = 'error'
+    //     this.message = result.message
+    //   }
+    // },
 
-    closeDeleteRoleModal() {
-      this.deleteRoleDialog = false
-    },
+    // edit(user) {
+    //   this.user.id = user.id
+    //   this.user.name = user.name
+    //   this.user.email = user.email
+    //   this.user.roleId = user.role_id
 
-    resetGreeting() {
-      this.greetingType = ''
-      this.message = ''
-    },
+    //   this.openEditModal()
+    // },
 
-    sendMessage(result) {
-      this.resetGreeting()
+    // editRole(role) {
+    //   this.role = {}
+    //   this.role.roleItems = {}
 
-      this.initUsers()
-      this.initRoles()
+    //   this.role.id = role.id
+    //   this.role.name = role.name
+    //   for (let key in role.role_items) {
+    //     this.role.roleItems[role.role_items[key].menu_item_id] = true
+    //   }
 
-      if (result.status === 200) {
-        this.greetingType = 'success'
-        this.message = result.message
-      } else {
-        this.greetingType = 'error'
-        this.message = result.message
-      }
-    },
+    //   this.openEditRoleModal()
+    // },
 
-    edit(user) {
-      this.user.id = user.id
-      this.user.name = user.name
-      this.user.email = user.email
-      this.user.roleId = user.role_id
+    // async deleteUser(user) {
+    //   this.user = user
 
-      this.openEditModal()
-    },
+    //   this.openDeleteModal()
+    // },
 
-    editRole(role) {
-      this.role = {}
-      this.role.roleItems = {}
+    // async deleteRole(role) {
+    //   this.resetGreeting()
 
-      this.role.id = role.id
-      this.role.name = role.name
-      for (let key in role.role_items) {
-        this.role.roleItems[role.role_items[key].menu_item_id] = true
-      }
+    //   this.role.id = role.id
+    //   this.role.name = role.name
 
-      this.openEditRoleModal()
-    },
+    //   this.openDeleteRoleModal()
+    // },
 
-    async deleteUser(user) {
-      this.user = user
+    // async initUsers() {
+    //   const result = await axios.get('api/users')
 
-      this.openDeleteModal()
-    },
+    //   this.users = result.data
+    // },
 
-    async deleteRole(role) {
-      this.resetGreeting()
+    // async initRoles() {
+    //   const result = await axios.get('api/roles')
 
-      this.role.id = role.id
-      this.role.name = role.name
+    //   this.roles = result.data
+    // },
 
-      this.openDeleteRoleModal()
-    },
-
-    async initUsers() {
-      const result = await axios.get('api/users')
-
-      this.users = result.data
-    },
-
-    async initRoles() {
-      const result = await axios.get('api/roles')
-
-      this.roles = result.data
-    },
-
-    async initRoleOperation() {
-      this.finishInitialize = false
-
-      let canStoreResult = await axios.get(
-        '/api/roles/user/?has=api.accounts.store'
-      )
-      this.canStore = canStoreResult.data
-
-      let canRoleStoreResult = await axios.get(
-        '/api/roles/user/?has=api.roles.store'
-      )
-      this.canRoleStore = canRoleStoreResult.data
-
-      this.finishInitialize = true
-    },
+    // async initRoleOperation() {
+    // this.finishInitialize = false
+    // let canStoreResult = await axios.get(
+    //   '/api/roles/user/?has=api.accounts.store'
+    // )
+    // this.canStore = canStoreResult.data
+    // let canRoleStoreResult = await axios.get(
+    //   '/api/roles/user/?has=api.roles.store'
+    // )
+    // this.canRoleStore = canRoleStoreResult.data
+    // this.finishInitialize = true
+    // },
 
     async initialize() {
-      this.initUsers()
-      this.initRoles()
-      this.initRoleOperation()
+      // this.initUsers()
+      // this.initRoles()
+      // this.initRoleOperation()
     },
   },
   created() {
-    this.initialize()
+    this.initRole()
+    this.fetchRoles()
+    this.fetchAccounts()
+    // this.initialize()
   },
 }
 </script>

@@ -1,23 +1,23 @@
 <template>
   <v-dialog v-model="open" max-width="600px">
     <v-card>
+      <v-progress-linear
+        v-if="loading"
+        color="info"
+        indeterminate
+      ></v-progress-linear>
       <v-card-title class="pl-8">
         <span class="text-h6">Account Create</span>
       </v-card-title>
       <v-card-text>
-        <v-progress-linear
-          v-if="loading"
-          color="info"
-          indeterminate
-        ></v-progress-linear>
-        <v-container v-if="!loading">
+        <v-container>
           <v-form ref="form" lazy-validation>
             <v-row>
               <v-col cols="12">
                 <v-text-field
                   class="mt-5"
                   label="Name"
-                  v-model="name"
+                  v-model="accountModel.name"
                   required
                   hide-details
                 ></v-text-field>
@@ -28,7 +28,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Email"
-                  v-model="email"
+                  v-model="accountModel.email"
                   required
                   hide-details
                 ></v-text-field>
@@ -38,7 +38,7 @@
 
                 <v-select
                   class="mt-5"
-                  v-model="roleId"
+                  v-model="accountModel.role_id"
                   :items="roles"
                   item-text="name"
                   item-value="id"
@@ -51,7 +51,7 @@
 
                 <v-text-field
                   class="mt-5"
-                  v-model="password"
+                  v-model="accountModel.password"
                   type="password"
                   name="password"
                   label="Password"
@@ -65,7 +65,7 @@
 
                 <v-text-field
                   class="mt-5"
-                  v-model="passwordConfirmation"
+                  v-model="accountModel.password_confirmation"
                   type="password"
                   name="password_confirmation"
                   label="Confirm Password"
@@ -93,14 +93,16 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
-  name: 'NewDialog',
+  name: 'AccountNewDialog',
+
   components: {
     ValidationErrorMessage,
   },
+
   props: {
     isOpen: {
       default: false,
@@ -111,54 +113,62 @@ export default {
 
   data() {
     return {
-      loading: true,
-      roles: [],
-      name: '',
-      email: '',
-      roleId: null,
-      password: '',
-      passwordConfirmation: '',
+      loading: false,
+      accountModel: {
+        name: '',
+        email: '',
+        role_id: null,
+        password: '',
+        password_confirmation: '',
+      },
       errors: {},
     }
   },
 
   computed: {
+    ...mapGetters('account', ['roles']),
+
     open: {
       get() {
         return this.isOpen
       },
-      set(value) {
+      set() {
         this.errors = {}
-
-        this.$emit('close', value)
+        this.close()
       },
     },
   },
 
   methods: {
-    resetFormData() {
-      this.name = ''
-      this.email = ''
-      this.roleId = ''
-      this.password = ''
-      this.passwordConfirmation = ''
+    ...mapActions('account', ['storeAccount', 'sendMessage']),
+
+    close() {
+      this.$emit('close')
+    },
+
+    resetForm() {
+      this.accountModel = {
+        name: '',
+        email: '',
+        role_id: null,
+        password: '',
+        password_confirmation: '',
+      }
     },
 
     async store() {
       try {
-        const result = await axios.post('/api/accounts', {
-          name: this.name,
-          role_id: this.roleId,
-          email: this.email,
-          password: this.password,
-          password_confirmation: this.passwordConfirmation,
-        })
+        this.loading = true
+
+        await this.storeAccount(this.accountModel)
 
         this.close()
 
-        this.$emit('sendMessage', {
-          message: 'Create success and Send Verify Mail',
-          status: result.status,
+        this.loading = false
+
+        this.sendMessage({
+          greeting: 'Account Create Success',
+          greetingType: 'success',
         })
       } catch (error) {
         const status = error.response.status
@@ -176,40 +186,22 @@ export default {
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
-          this.close()
         }
 
         if (status >= 500) {
           message = 'Server Error'
-          this.close()
         }
 
-        this.$emit('sendMessage', {
-          message: message,
-          status: status,
+        this.sendMessage({
+          greeting: message,
+          greetingType: 'error',
         })
+
+        this.close()
       }
 
-      this.resetFormData()
+      this.resetForm()
     },
-
-    close() {
-      this.open = false
-    },
-
-    async initRoles() {
-      const result = await axios.get('api/roles')
-
-      this.roles = result.data
-    },
-  },
-
-  async created() {
-    this.loading = true
-
-    this.initRoles()
-
-    this.loading = false
   },
 }
 </script>

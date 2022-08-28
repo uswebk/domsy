@@ -12,12 +12,7 @@
       </v-col>
     </v-row>
     <div class="my-2"></div>
-    <v-data-table
-      :headers="headers"
-      :items="accounts"
-      :search="search"
-      :loading="loading"
-    >
+    <v-data-table :headers="headers" :items="accounts" :search="search">
       <template v-slot:[`item.role_id`]="{ item }">
         {{ item.role.name }}
       </template>
@@ -30,19 +25,37 @@
         <v-btn v-if="canUpdate" x-small color="primary" @click="edit(item)"
           >edit</v-btn
         >
-        <v-btn v-if="canDelete" x-small @click="deleteExecute(item)"
-          >delete</v-btn
-        >
+        <v-btn v-if="canDelete" x-small @click="deletion(item)">delete</v-btn>
       </template>
     </v-data-table>
+
+    <update-dialog
+      :isOpen="isOpenEditDialog"
+      :account="account"
+      @close="closeEditDialog"
+    ></update-dialog>
+
+    <delete-dialog
+      :isOpen="isOpenDeleteDialog"
+      :account="account"
+      @close="closeDeleteDialog"
+    ></delete-dialog>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters } from 'vuex'
+import UpdateDialog from '../../components/account/UpdateDialog'
+import DeleteDialog from '../../components/account/DeleteDialog'
 
 export default {
   name: 'ListTable',
+
+  components: {
+    UpdateDialog,
+    DeleteDialog,
+  },
+
   props: {
     accounts: {
       default() {
@@ -54,10 +67,10 @@ export default {
 
   data() {
     return {
-      loading: true,
       search: '',
-      canUpdate: false,
-      canDelete: false,
+      isOpenEditDialog: false,
+      isOpenDeleteDialog: false,
+      account: {},
       headers: [
         {
           text: 'Name',
@@ -85,33 +98,37 @@ export default {
   },
 
   methods: {
-    async roleCheck() {
-      let canUpdateResult = await axios.get(
-        '/api/roles/user/?has=api.accounts.update'
-      )
-      this.canUpdate = canUpdateResult.data
+    ...mapGetters('account', ['canUpdate', 'canDelete']),
 
-      let canDeleteResult = await axios.get(
-        '/api/roles/user/?has=api.accounts.delete'
-      )
-      this.canDelete = canDeleteResult.data
+    openEditDialog() {
+      this.isOpenEditDialog = true
+    },
+
+    closeEditDialog() {
+      this.isOpenEditDialog = false
+    },
+
+    openDeleteDialog() {
+      this.isOpenDeleteDialog = true
+    },
+
+    closeDeleteDialog() {
+      this.isOpenDeleteDialog = false
     },
 
     edit(account) {
-      this.$emit('edit', account)
+      this.account.id = account.id
+      this.account.name = account.name
+      this.account.email = account.email
+      this.account.roleId = account.role_id
+
+      this.openEditDialog()
     },
 
-    deleteExecute(account) {
-      this.$emit('delete', account)
+    deletion(account) {
+      this.account = account
+      this.openDeleteDialog()
     },
-  },
-
-  async created() {
-    this.loading = true
-
-    await this.roleCheck()
-
-    this.loading = false
   },
 }
 </script>

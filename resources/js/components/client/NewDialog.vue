@@ -151,7 +151,7 @@ export default {
       this.$emit('close')
     },
 
-    resetClient() {
+    resetForm() {
       this.clientModel = {
         name: '',
         name_kana: '',
@@ -200,13 +200,13 @@ export default {
 
         this.sendMessage({
           greeting: message,
-          greetingType: 'alert',
+          greetingType: 'error',
         })
 
         this.close()
       }
 
-      this.resetClient()
+      this.resetForm()
     },
   },
 }
