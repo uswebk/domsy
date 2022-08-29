@@ -8,6 +8,7 @@ import dns from './modules/dns'
 import dealing from './modules/dealing'
 import account from './modules/account'
 import role from './modules/role'
+import setting from './modules/setting'
 
 Vue.use(Vuex)
 
@@ -20,6 +21,7 @@ const store = new Vuex.Store({
     dealing,
     account,
     role,
+    setting,
   },
 })
 
