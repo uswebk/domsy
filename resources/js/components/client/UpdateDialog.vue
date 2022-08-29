@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
@@ -128,8 +128,6 @@ export default {
   },
 
   computed: {
-    ...mapGetters('client', ['pageLoading']),
-
     clientModel() {
       return this.client
     },

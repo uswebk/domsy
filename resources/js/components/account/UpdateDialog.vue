@@ -1,16 +1,16 @@
 <template>
   <v-dialog v-model="open" max-width="600px">
     <v-card>
+      <v-progress-linear
+        v-if="loading"
+        color="info"
+        indeterminate
+      ></v-progress-linear>
       <v-card-title class="pl-8">
         <span class="text-h6"> Account Edit</span>
       </v-card-title>
       <v-card-text>
-        <v-progress-linear
-          v-if="loading"
-          color="info"
-          indeterminate
-        ></v-progress-linear>
-        <v-container v-if="!loading">
+        <v-container>
           <v-form ref="form" lazy-validation>
             <v-row>
               <v-col cols="12">
@@ -38,7 +38,7 @@
 
                 <v-select
                   class="mt-5"
-                  v-model="accountModel.roleId"
+                  v-model="accountModel.role_id"
                   :items="roles"
                   item-text="name"
                   item-value="id"
@@ -64,14 +64,16 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions, mapGetters } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
-  name: 'UpdateDialog',
+  name: 'AccountUpdateDialog',
+
   components: {
     ValidationErrorMessage,
   },
+
   props: {
     isOpen: {
       default: false,
@@ -87,13 +89,14 @@ export default {
 
   data() {
     return {
-      loading: true,
-      roles: [],
+      loading: false,
       errors: {},
     }
   },
 
   computed: {
+    ...mapGetters('account', ['roles']),
+
     accountModel() {
       return this.account
     },
@@ -101,30 +104,32 @@ export default {
       get() {
         return this.isOpen
       },
-      set(value) {
+      set() {
         this.errors = {}
-        this.$emit('close', value)
+        this.close()
       },
     },
   },
 
   methods: {
+    ...mapActions('account', ['updateAccount', 'sendMessage']),
+
+    close() {
+      this.$emit('close')
+    },
+
     async update() {
       try {
-        const result = await axios.put(
-          '/api/accounts/' + this.accountModel.id,
-          {
-            name: this.accountModel.name,
-            role_id: this.accountModel.roleId,
-            email: this.accountModel.email,
-          }
-        )
+        this.loading = true
+        await this.updateAccount(this.accountModel)
 
         this.close()
 
-        this.$emit('sendMessage', {
-          message: 'Update success',
-          status: result.status,
+        this.loading = false
+
+        this.sendMessage({
+          greeting: 'Update Success',
+          greetingType: 'success',
         })
       } catch (error) {
         const status = error.response.status
@@ -142,38 +147,20 @@ export default {
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
-          this.close()
         }
 
         if (status >= 500) {
           message = 'Server Error'
-          this.close()
         }
 
-        this.$emit('sendMessage', {
-          message: message,
-          status: status,
+        this.sendMessage({
+          greeting: message,
+          greetingType: 'error',
         })
+
+        this.close()
       }
     },
-
-    close() {
-      this.open = false
-    },
-
-    async initRoles() {
-      const result = await axios.get('api/roles')
-
-      this.roles = result.data
-    },
-  },
-
-  async created() {
-    this.loading = true
-
-    this.initRoles()
-
-    this.loading = false
   },
 }
 </script>

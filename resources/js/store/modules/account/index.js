@@ -53,16 +53,6 @@ const actions = {
     commit('pageLoading', false)
   },
 
-  async fetchDomains({ commit }) {
-    commit('pageLoading', true)
-
-    const result = await axios.get('/api/domains')
-
-    commit('domains', result.data)
-
-    commit('pageLoading', false)
-  },
-
   async storeAccount({ dispatch }, payload) {
     const result = await axios.post('/api/accounts/', {
       ...payload,
@@ -73,22 +63,22 @@ const actions = {
     return result
   },
 
-  async updateDomain({ dispatch }, payload) {
-    const result = await axios.put('/api/domains/' + payload.id, {
+  async updateAccount({ dispatch }, payload) {
+    const result = await axios.put('/api/accounts/' + payload.id, {
       ...payload,
     })
 
-    dispatch('fetchDomains')
+    dispatch('fetchAccounts')
 
     return result
   },
 
-  async deleteDomain({ dispatch }, payload) {
-    const result = await axios.delete('/api/domains/' + payload.id, {
+  async deleteAccount({ dispatch }, payload) {
+    const result = await axios.delete('/api/accounts/' + payload.id, {
       ...payload,
     })
 
-    dispatch('fetchDomains')
+    dispatch('fetchAccounts')
 
     return result
   },

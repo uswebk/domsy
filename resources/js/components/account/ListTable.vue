@@ -120,7 +120,7 @@ export default {
       this.account.id = account.id
       this.account.name = account.name
       this.account.email = account.email
-      this.account.roleId = account.role_id
+      this.account.role_id = account.role_id
 
       this.openEditDialog()
     },

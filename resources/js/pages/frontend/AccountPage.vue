@@ -65,19 +65,7 @@
         @close="closeNewDialog"
       ></new-dialog>
 
-      <!-- <update-dialog
-        :isOpen="editDialog"
-        :account="user"
-        @close="closeEditModal"
-        @sendMessage="sendMessage"
-      ></update-dialog>
-
-      <delete-dialog
-        :isOpen="deleteDialog"
-        :account="user"
-        @close="closeDeleteModal"
-        @sendMessage="sendMessage"
-      ></delete-dialog>
+      <!--
 
       <role-new-dialog
         :isOpen="newRoleDialog"
@@ -110,9 +98,7 @@ import ListTable from '../../components/account/ListTable'
 import RoleListTable from '../../components/role/ListTable'
 import NewDialog from '../../components/account/NewDialog'
 import RoleNewDialog from '../../components/role/NewDialog'
-import UpdateDialog from '../../components/account/UpdateDialog'
 import RoleUpdateDialog from '../../components/role/UpdateDialog'
-import DeleteDialog from '../../components/account/DeleteDialog'
 import RoleDeleteDialog from '../../components/role/DeleteDialog'
 
 export default {
@@ -123,9 +109,7 @@ export default {
     RoleListTable,
     NewDialog,
     RoleNewDialog,
-    UpdateDialog,
     RoleUpdateDialog,
-    DeleteDialog,
     RoleDeleteDialog,
   },
 
@@ -145,17 +129,9 @@ export default {
     return {
       tab: '',
       isOpenNewDialog: false,
-      // editDialog: false,
-      // deleteDialog: false,
       newRoleDialog: false,
       // editRoleDialog: false,
       // deleteRoleDialog: false,
-      // finishInitialize: false,
-      // user: {},
-      // roles: [],
-      // role: {
-      //   roleItems: [],
-      // },
     }
   },
 
@@ -170,20 +146,12 @@ export default {
     //   this.newRoleDialog = true
     // },
 
-    // openEditModal() {
-    //   this.editDialog = true
-    // },
-
     // openEditRoleModal() {
     //   this.editRoleDialog = true
     // },
 
     // openDeleteRoleModal() {
     //   this.deleteRoleDialog = true
-    // },
-
-    // openDeleteModal() {
-    //   this.deleteDialog = true
     // },
 
     closeNewDialog() {
@@ -194,49 +162,12 @@ export default {
     //   this.newRoleDialog = false
     // },
 
-    // closeEditModal() {
-    //   this.editDialog = false
-    // },
-
     // closeEditRoleModal() {
     //   this.editRoleDialog = false
     // },
 
-    // closeDeleteModal() {
-    //   this.deleteDialog = false
-    // },
-
     // closeDeleteRoleModal() {
     //   this.deleteRoleDialog = false
-    // },
-
-    // resetGreeting() {
-    //   this.greetingType = ''
-    //   this.message = ''
-    // },
-
-    // sendMessage(result) {
-    //   this.resetGreeting()
-
-    //   this.initUsers()
-    //   this.initRoles()
-
-    //   if (result.status === 200) {
-    //     this.greetingType = 'success'
-    //     this.message = result.message
-    //   } else {
-    //     this.greetingType = 'error'
-    //     this.message = result.message
-    //   }
-    // },
-
-    // edit(user) {
-    //   this.user.id = user.id
-    //   this.user.name = user.name
-    //   this.user.email = user.email
-    //   this.user.roleId = user.role_id
-
-    //   this.openEditModal()
     // },
 
     // editRole(role) {
@@ -252,12 +183,6 @@ export default {
     //   this.openEditRoleModal()
     // },
 
-    // async deleteUser(user) {
-    //   this.user = user
-
-    //   this.openDeleteModal()
-    // },
-
     // async deleteRole(role) {
     //   this.resetGreeting()
 
@@ -266,43 +191,11 @@ export default {
 
     //   this.openDeleteRoleModal()
     // },
-
-    // async initUsers() {
-    //   const result = await axios.get('api/users')
-
-    //   this.users = result.data
-    // },
-
-    // async initRoles() {
-    //   const result = await axios.get('api/roles')
-
-    //   this.roles = result.data
-    // },
-
-    // async initRoleOperation() {
-    // this.finishInitialize = false
-    // let canStoreResult = await axios.get(
-    //   '/api/roles/user/?has=api.accounts.store'
-    // )
-    // this.canStore = canStoreResult.data
-    // let canRoleStoreResult = await axios.get(
-    //   '/api/roles/user/?has=api.roles.store'
-    // )
-    // this.canRoleStore = canRoleStoreResult.data
-    // this.finishInitialize = true
-    // },
-
-    async initialize() {
-      // this.initUsers()
-      // this.initRoles()
-      // this.initRoleOperation()
-    },
   },
   created() {
     this.initRole()
     this.fetchRoles()
     this.fetchAccounts()
-    // this.initialize()
   },
 }
 </script>
