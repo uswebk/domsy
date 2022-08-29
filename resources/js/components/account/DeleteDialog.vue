@@ -20,7 +20,6 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'AccountDeleteDialog',
-
   props: {
     isOpen: {
       default: false,
@@ -34,10 +33,6 @@ export default {
     },
   },
 
-  data() {
-    return {}
-  },
-
   computed: {
     accountModel() {
       return this.account
@@ -46,9 +41,9 @@ export default {
       get() {
         return this.isOpen
       },
-      set(value) {
+      set() {
         this.errors = {}
-        this.$emit('close', value)
+        this.close()
       },
     },
   },
@@ -57,7 +52,7 @@ export default {
     ...mapActions('account', ['deleteAccount', 'sendMessage']),
 
     close() {
-      this.open = false
+      this.$emit('close')
     },
 
     async deletion() {

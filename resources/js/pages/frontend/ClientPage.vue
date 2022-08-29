@@ -26,14 +26,17 @@
         class="ma-2"
         color="primary"
         small
-        @click="openNewModal"
+        @click="openNewDialog"
       >
         <v-icon dark left> mdi-plus-circle </v-icon>New
       </v-btn>
 
       <list-table :clients="clients"></list-table>
 
-      <new-dialog :isOpen="newDialog" @close="closeNewModal"></new-dialog>
+      <new-dialog
+        :isOpen="isOpenNewDialog"
+        @close="closeNewDialog"
+      ></new-dialog>
     </v-container>
   </v-main>
 </template>
@@ -46,6 +49,7 @@ import ListTable from '../../components/client/ListTable'
 import NewDialog from '../../components/client/NewDialog'
 
 export default {
+  name: 'ClientPage',
   components: {
     IconHeadLine,
     GreetingMessage,
@@ -55,7 +59,7 @@ export default {
 
   data() {
     return {
-      newDialog: false,
+      isOpenNewDialog: false,
     }
   },
 
@@ -72,12 +76,12 @@ export default {
   methods: {
     ...mapActions('client', ['fetchClients', 'initRole']),
 
-    openNewModal() {
-      this.newDialog = true
+    openNewDialog() {
+      this.isOpenNewDialog = true
     },
 
-    closeNewModal() {
-      this.newDialog = false
+    closeNewDialog() {
+      this.isOpenNewDialog = false
     },
   },
 

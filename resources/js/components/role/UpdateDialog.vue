@@ -1,16 +1,16 @@
 <template>
-  <v-dialog v-model="open" max-width="600px">
+  <v-dialog v-model="open" max-width="90%">
     <v-card>
+      <v-progress-linear
+        v-if="loading"
+        color="info"
+        indeterminate
+      ></v-progress-linear>
       <v-card-title class="pl-8">
         <span class="text-h6"> Account Edit</span>
       </v-card-title>
       <v-card-text>
-        <v-progress-linear
-          v-if="loading"
-          color="info"
-          indeterminate
-        ></v-progress-linear>
-        <v-container v-if="!loading">
+        <v-container>
           <v-form ref="form" lazy-validation>
             <v-row>
               <v-col cols="12">
@@ -26,10 +26,10 @@
                 ></validation-error-message>
               </v-col>
               <div class="my-10"></div>
-              <v-col cols="6" v-for="menuItem in menuItems" :key="menuItem.id">
+              <v-col cols="6" v-for="roleItem in roleItems" :key="roleItem.id">
                 <v-switch
-                  v-model="roleModel.roleItems[menuItem.id]"
-                  :label="menuItem.description"
+                  v-model="roleModel.roles[roleItem.id]"
+                  :label="roleItem.description"
                 >
                 </v-switch>
               </v-col>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
@@ -73,14 +73,14 @@ export default {
 
   data() {
     return {
-      loading: true,
-      roles: [],
-      menuItems: [],
+      loading: false,
       errors: {},
     }
   },
 
   computed: {
+    ...mapGetters('role', ['roleItems']),
+
     roleModel() {
       return this.role
     },
@@ -88,30 +88,37 @@ export default {
       get() {
         return this.isOpen
       },
-      set(value) {
+      set() {
         this.errors = {}
-        this.$emit('close', value)
+        this.close()
       },
     },
   },
 
   methods: {
+    ...mapActions('account', ['sendMessage']),
+    ...mapActions('role', ['updateRole']),
+
+    close() {
+      this.$emit('close')
+    },
+
     async update() {
       try {
-        const result = await axios.put('/api/roles/' + this.roleModel.id, {
-          name: this.roleModel.name,
-          roles: this.roleModel.roleItems,
-        })
+        this.loading = true
+
+        await this.updateRole(this.roleModel)
 
         this.close()
 
-        this.$emit('sendMessage', {
-          message: 'Update success',
-          status: result.status,
+        this.loading = false
+
+        this.sendMessage({
+          greeting: 'Create Success',
+          greetingType: 'success',
         })
       } catch (error) {
         const status = error.response.status
-
         if (status === 422) {
           var responseErrors = error.response.data.errors
           var errors = {}
@@ -121,42 +128,23 @@ export default {
           this.errors = errors
           return
         }
-
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
-          this.close()
         }
 
         if (status >= 500) {
           message = 'Server Error'
-          this.close()
         }
 
-        this.$emit('sendMessage', {
-          message: message,
-          status: status,
+        this.sendMessage({
+          greeting: message,
+          greetingType: 'error',
         })
+
+        this.close()
       }
     },
-
-    close() {
-      this.open = false
-    },
-
-    async initMenuItems() {
-      const result = await axios.get('api/menus/items')
-
-      this.menuItems = result.data
-    },
-  },
-
-  async created() {
-    this.loading = true
-
-    this.initMenuItems()
-
-    this.loading = false
   },
 }
 </script>

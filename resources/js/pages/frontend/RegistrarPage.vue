@@ -26,14 +26,17 @@
         class="ma-2"
         color="primary"
         small
-        @click="openNewModal"
+        @click="openNewDialog"
       >
         <v-icon dark left> mdi-plus-circle </v-icon>New
       </v-btn>
 
       <list-table :registrars="registrars"></list-table>
 
-      <new-dialog :isOpen="newDialog" @close="closeNewModal"></new-dialog>
+      <new-dialog
+        :isOpen="isOpenNewDialog"
+        @close="closeNewDialog"
+      ></new-dialog>
     </v-container>
   </v-main>
 </template>
@@ -46,6 +49,7 @@ import ListTable from '../../components/registrar/ListTable'
 import NewDialog from '../../components/registrar/NewDialog'
 
 export default {
+  name: 'RegistrarPage',
   components: {
     IconHeadLine,
     GreetingMessage,
@@ -56,9 +60,7 @@ export default {
   data() {
     return {
       registrar: {},
-      newDialog: false,
-      editDialog: false,
-      deleteDialog: false,
+      isOpenNewDialog: false,
     }
   },
 
@@ -75,12 +77,12 @@ export default {
   methods: {
     ...mapActions('registrar', ['fetchRegistrars', 'initRole']),
 
-    openNewModal() {
-      this.newDialog = true
+    openNewDialog() {
+      this.isOpenNewDialog = true
     },
 
-    closeNewModal() {
-      this.newDialog = false
+    closeNewDialog() {
+      this.isOpenNewDialog = false
     },
 
     sendMessage(result) {
@@ -95,20 +97,6 @@ export default {
         this.greetingType = 'error'
         this.message = result.message
       }
-    },
-
-    edit(registrar) {
-      this.registrar = registrar
-
-      this.openEditModal()
-    },
-
-    async deleteRegistrar(registrar) {
-      this.resetGreeting()
-
-      this.registrar = registrar
-
-      this.openDeleteModal()
     },
   },
 

@@ -77,38 +77,15 @@ import BillingDialog from '../../components/dealing/BillingDialog'
 
 export default {
   name: 'DealingDetailDialog',
-
   components: {
     GreetingMessage,
     BillingDialog,
   },
-
   props: {
     isOpen: {
       default: false,
       type: Boolean,
       required: true,
-    },
-  },
-
-  computed: {
-    ...mapGetters('dealing', [
-      'canUpdateBilling',
-      'pageLoading',
-      'greeting',
-      'greetingType',
-      'dealing',
-    ]),
-
-    open: {
-      get() {
-        return this.isOpen
-      },
-      set(value) {
-        this.errors = {}
-
-        this.$emit('close', value)
-      },
     },
   },
 
@@ -134,9 +111,29 @@ export default {
     }
   },
 
+  computed: {
+    ...mapGetters('dealing', [
+      'canUpdateBilling',
+      'pageLoading',
+      'greeting',
+      'greetingType',
+      'dealing',
+    ]),
+
+    open: {
+      get() {
+        return this.isOpen
+      },
+      set() {
+        this.errors = {}
+        this.close()
+      },
+    },
+  },
+
   methods: {
     close() {
-      this.open = false
+      this.$emit('close')
     },
 
     async openBillingEditDialog() {

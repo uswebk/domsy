@@ -26,7 +26,7 @@
         class="ma-2"
         color="primary"
         small
-        @click="openNewModal"
+        @click="openNewDialog"
       >
         <v-icon dark left> mdi-plus-circle </v-icon>New
       </v-btn>
@@ -47,7 +47,10 @@
         </div>
       </v-tabs-items>
 
-      <new-dialog :isOpen="newDialog" @close="closeNewModal"></new-dialog>
+      <new-dialog
+        :isOpen="isOpenNewDialog"
+        @close="closeNewDialog"
+      ></new-dialog>
     </v-container>
   </v-main>
 </template>
@@ -60,6 +63,7 @@ import ListTable from '../../components/domain/ListTable'
 import NewDialog from '../../components/domain/NewDialog'
 
 export default {
+  name: 'DomainPage',
   components: {
     IconHeadLine,
     GreetingMessage,
@@ -71,7 +75,7 @@ export default {
     return {
       tab: '',
       domain: {},
-      newDialog: false,
+      isOpenNewDialog: false,
     }
   },
 
@@ -92,12 +96,13 @@ export default {
   methods: {
     ...mapActions('domain', ['fetchCategorizedDomains', 'initRole']),
     ...mapActions('registrar', ['fetchRegistrars']),
-    openNewModal() {
-      this.newDialog = true
+
+    openNewDialog() {
+      this.isOpenNewDialog = true
     },
 
-    closeNewModal() {
-      this.newDialog = false
+    closeNewDialog() {
+      this.isOpenNewDialog = false
     },
   },
 

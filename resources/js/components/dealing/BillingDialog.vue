@@ -6,7 +6,6 @@
         color="info"
         indeterminate
       ></v-progress-linear>
-
       <v-card-title class="pl-8">
         <span class="text-h6">Billing Edit</span>
       </v-card-title>
@@ -75,7 +74,6 @@ export default {
   components: {
     ValidationErrorMessage,
   },
-
   props: {
     isOpen: {
       default: false,
@@ -122,9 +120,13 @@ export default {
     async update() {
       try {
         this.loading = true
+
         const result = await this.updateBilling(this.billingModel)
+
         await this.fetchDealing(result.data.dealing.id)
+
         this.loading = false
+
         alert('update success')
 
         this.close()

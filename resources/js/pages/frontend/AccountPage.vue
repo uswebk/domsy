@@ -38,25 +38,19 @@
           >
             <v-icon dark left> mdi-plus-circle </v-icon>New
           </v-btn>
-
           <list-table :accounts="accounts"></list-table>
         </v-tab-item>
         <v-tab-item value="role">
-          <!-- <v-btn
+          <v-btn
             v-if="canRoleStore"
             class="ma-2"
             color="primary"
             small
-            @click="openNewRoleModal"
+            @click="openNewRoleDialog"
           >
             <v-icon dark left> mdi-plus-circle </v-icon>New
-          </v-btn> -->
-
-          <!-- <role-list-table
-            :roles="roles"
-            @edit="edit"
-            @delete="deleteRole"
-          ></role-list-table> -->
+          </v-btn>
+          <role-list-table :roles="roles"></role-list-table>
         </v-tab-item>
       </v-tabs-items>
 
@@ -65,27 +59,10 @@
         @close="closeNewDialog"
       ></new-dialog>
 
-      <!--
-
       <role-new-dialog
-        :isOpen="newRoleDialog"
-        @close="closeNewRoleModal"
-        @sendMessage="sendMessage"
+        :isOpen="isOpenNewRoleDialog"
+        @close="closeNewRoleDialog"
       ></role-new-dialog>
-
-      <role-update-dialog
-        :isOpen="editRoleDialog"
-        :role="role"
-        @close="closeEditRoleModal"
-        @sendMessage="sendMessage"
-      ></role-update-dialog>
-
-      <role-delete-dialog
-        :isOpen="deleteRoleDialog"
-        :role="role"
-        @close="closeDeleteRoleModal"
-        @sendMessage="sendMessage"
-      ></role-delete-dialog> -->
     </v-container>
   </v-main>
 </template>
@@ -98,10 +75,9 @@ import ListTable from '../../components/account/ListTable'
 import RoleListTable from '../../components/role/ListTable'
 import NewDialog from '../../components/account/NewDialog'
 import RoleNewDialog from '../../components/role/NewDialog'
-import RoleUpdateDialog from '../../components/role/UpdateDialog'
-import RoleDeleteDialog from '../../components/role/DeleteDialog'
 
 export default {
+  name: 'AccountPage',
   components: {
     IconHeadLine,
     GreetingMessage,
@@ -109,99 +85,68 @@ export default {
     RoleListTable,
     NewDialog,
     RoleNewDialog,
-    RoleUpdateDialog,
-    RoleDeleteDialog,
-  },
-
-  computed: {
-    ...mapGetters('account', [
-      'canStore',
-      'canRoleStore',
-      'pageLoading',
-      'greeting',
-      'greetingType',
-      'accounts',
-      'roles',
-    ]),
   },
 
   data() {
     return {
       tab: '',
       isOpenNewDialog: false,
-      newRoleDialog: false,
-      // editRoleDialog: false,
-      // deleteRoleDialog: false,
+      isOpenNewRoleDialog: false,
     }
   },
 
+  computed: {
+    ...mapGetters('account', [
+      'canStore',
+      'greeting',
+      'greetingType',
+      'accounts',
+    ]),
+    ...mapGetters('account', {
+      pageLoadingAccount: 'pageLoading',
+    }),
+    ...mapGetters('role', {
+      roles: 'roles',
+      canRoleStore: 'canStore',
+      pageLoadingRole: 'pageLoading',
+    }),
+
+    pageLoading() {
+      return this.pageLoadingAccount || this.pageLoadingRole
+    },
+  },
+
   methods: {
-    ...mapActions('account', ['initRole', 'fetchRoles', 'fetchAccounts']),
+    ...mapActions('account', ['initRole', 'fetchAccounts']),
+    ...mapActions('role', {
+      fetchRoles: 'fetchRoles',
+      fetchRoleItems: 'fetchRoleItems',
+      initRoleRole: 'initRole',
+    }),
 
     openNewDialog() {
       this.isOpenNewDialog = true
     },
 
-    // openNewRoleModal() {
-    //   this.newRoleDialog = true
-    // },
-
-    // openEditRoleModal() {
-    //   this.editRoleDialog = true
-    // },
-
-    // openDeleteRoleModal() {
-    //   this.deleteRoleDialog = true
-    // },
+    openNewRoleDialog() {
+      this.isOpenNewRoleDialog = true
+    },
 
     closeNewDialog() {
       this.isOpenNewDialog = false
     },
 
-    // closeNewRoleModal() {
-    //   this.newRoleDialog = false
-    // },
-
-    // closeEditRoleModal() {
-    //   this.editRoleDialog = false
-    // },
-
-    // closeDeleteRoleModal() {
-    //   this.deleteRoleDialog = false
-    // },
-
-    // editRole(role) {
-    //   this.role = {}
-    //   this.role.roleItems = {}
-
-    //   this.role.id = role.id
-    //   this.role.name = role.name
-    //   for (let key in role.role_items) {
-    //     this.role.roleItems[role.role_items[key].menu_item_id] = true
-    //   }
-
-    //   this.openEditRoleModal()
-    // },
-
-    // async deleteRole(role) {
-    //   this.resetGreeting()
-
-    //   this.role.id = role.id
-    //   this.role.name = role.name
-
-    //   this.openDeleteRoleModal()
-    // },
+    closeNewRoleDialog() {
+      this.isOpenNewRoleDialog = false
+    },
   },
+
   created() {
     this.initRole()
+    this.initRoleRole()
     this.fetchRoles()
+    this.fetchRoleItems()
     this.fetchAccounts()
   },
 }
 </script>
-
-<style>
-.modal-backdrop {
-  opacity: 0.5;
-}
-</style>

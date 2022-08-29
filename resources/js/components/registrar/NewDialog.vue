@@ -64,11 +64,9 @@ import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'RegistrarNewDialog',
-
   components: {
     ValidationErrorMessage,
   },
-
   props: {
     isOpen: {
       default: false,
@@ -108,7 +106,7 @@ export default {
       this.$emit('close')
     },
 
-    resetRegistrar() {
+    resetForm() {
       this.registrarModel = {
         name: '',
         link: '',
@@ -156,7 +154,7 @@ export default {
         this.close()
       }
 
-      this.resetRegistrar()
+      this.resetForm()
     },
   },
 }

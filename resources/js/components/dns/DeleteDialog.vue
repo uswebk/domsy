@@ -33,10 +33,6 @@ export default {
     },
   },
 
-  data() {
-    return {}
-  },
-
   computed: {
     subdomainModel() {
       return this.subdomain

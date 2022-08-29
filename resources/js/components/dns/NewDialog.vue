@@ -6,7 +6,6 @@
         color="info"
         indeterminate
       ></v-progress-linear>
-
       <v-card-title class="pl-8">
         <span class="text-h6">DNS Create</span>
       </v-card-title>
@@ -115,7 +114,7 @@ import { mapActions, mapGetters } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
-  name: 'NewDialog',
+  name: 'DnsNewDialog',
   components: {
     ValidationErrorMessage,
   },
@@ -168,7 +167,7 @@ export default {
       this.$emit('close')
     },
 
-    resetSubdomain() {
+    resetForm() {
       this.subdomainModel = {
         prefix: '',
         type_id: '',
@@ -223,7 +222,7 @@ export default {
         this.close()
       }
 
-      this.resetSubdomain()
+      this.resetForm()
     },
   },
 }

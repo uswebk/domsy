@@ -60,12 +60,10 @@ import DeleteDialog from '../../components/domain/DeleteDialog'
 
 export default {
   name: 'DomainListTable',
-
   components: {
     UpdateDialog,
     DeleteDialog,
   },
-
   props: {
     domains: {
       default() {

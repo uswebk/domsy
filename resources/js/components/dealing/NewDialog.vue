@@ -145,7 +145,7 @@ import { mapActions, mapGetters } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
-  name: 'NewDialog',
+  name: 'DealingNewDialog',
   components: {
     ValidationErrorMessage,
   },
@@ -214,6 +214,7 @@ export default {
     async store() {
       try {
         this.loading = true
+
         this.storeDealing(this.dealingModel)
 
         this.close()

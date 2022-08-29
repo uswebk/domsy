@@ -41,8 +41,7 @@ import UpdateDialog from '../../components/client/UpdateDialog'
 import DeleteDialog from '../../components/client/DeleteDialog'
 
 export default {
-  name: 'ListTable',
-
+  name: 'ClientListTable',
   components: {
     UpdateDialog,
     DeleteDialog,

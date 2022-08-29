@@ -90,10 +90,20 @@ final class MenuSeeder extends Seeder
             'id' => 8,
             'type_id' => 4,
             'name' => 'Account',
-            'description' => 'Manage account and role',
+            'description' => 'Manage accounts',
             'icon' => 'mdi-account-multiple',
             'is_nav' => 1,
             'sort' => 80,
+        ]);
+
+        Menu::create([
+            'id' => 9,
+            'type_id' => 4,
+            'name' => 'Role',
+            'description' => 'Manage roles',
+            'icon' => 'mdi-card-account-details',
+            'is_nav' => 0,
+            'sort' => 90,
         ]);
     }
 }

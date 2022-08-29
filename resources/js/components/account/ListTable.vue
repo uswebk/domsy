@@ -49,13 +49,11 @@ import UpdateDialog from '../../components/account/UpdateDialog'
 import DeleteDialog from '../../components/account/DeleteDialog'
 
 export default {
-  name: 'ListTable',
-
+  name: 'AccountListTable',
   components: {
     UpdateDialog,
     DeleteDialog,
   },
-
   props: {
     accounts: {
       default() {
@@ -97,9 +95,11 @@ export default {
     }
   },
 
-  methods: {
+  computed: {
     ...mapGetters('account', ['canUpdate', 'canDelete']),
+  },
 
+  methods: {
     openEditDialog() {
       this.isOpenEditDialog = true
     },

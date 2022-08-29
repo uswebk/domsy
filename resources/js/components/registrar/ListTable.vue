@@ -45,12 +45,10 @@ import DeleteDialog from '../../components/registrar/DeleteDialog'
 
 export default {
   name: 'RegistrarListTable',
-
   components: {
     UpdateDialog,
     DeleteDialog,
   },
-
   props: {
     registrars: {
       default() {
@@ -65,8 +63,8 @@ export default {
       loading: true,
       isOpenEditDialog: false,
       isOpenDeleteDialog: false,
-      registrar: {},
       search: '',
+      registrar: {},
       headers: [
         {
           text: 'Name',

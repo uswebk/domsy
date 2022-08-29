@@ -69,11 +69,9 @@ import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'AccountUpdateDialog',
-
   components: {
     ValidationErrorMessage,
   },
-
   props: {
     isOpen: {
       default: false,
@@ -95,7 +93,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('account', ['roles']),
+    ...mapGetters('role', ['roles']),
 
     accountModel() {
       return this.account
@@ -121,6 +119,7 @@ export default {
     async update() {
       try {
         this.loading = true
+
         await this.updateAccount(this.accountModel)
 
         this.close()

@@ -101,12 +101,10 @@ import { mapActions } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
-  name: 'RegistrarUpdateDialog',
-
+  name: 'ClientUpdateDialog',
   components: {
     ValidationErrorMessage,
   },
-
   props: {
     isOpen: {
       default: false,

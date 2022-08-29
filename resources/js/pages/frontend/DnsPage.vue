@@ -35,25 +35,35 @@
         </v-card>
       </div>
 
-      <new-dialog :isOpen="newDialog" @close="closeNewDialog"></new-dialog>
+      <new-dialog
+        :isOpen="isOpenNewDialog"
+        @close="closeNewDialog"
+      ></new-dialog>
     </v-container>
   </v-main>
 </template>
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
-
 import IconHeadLine from '../../components/common/IconHeadLine'
 import GreetingMessage from '../../components/common/GreetingMessage'
 import NewDialog from '../../components/dns/NewDialog'
 import ListTable from '../../components/dns/ListTable'
 
 export default {
+  name: 'DnsPage',
   components: {
     IconHeadLine,
     GreetingMessage,
     NewDialog,
     ListTable,
+  },
+
+  data() {
+    return {
+      subdomain: {},
+      isOpenNewDialog: false,
+    }
   },
 
   computed: {
@@ -66,25 +76,18 @@ export default {
     ]),
   },
 
-  data() {
-    return {
-      subdomain: {},
-      newDialog: false,
-    }
-  },
-
   methods: {
     ...mapMutations('dns', ['domainId']),
     ...mapActions('domain', ['fetchDomains']),
     ...mapActions('dns', ['fetchDns', 'fetchDnsRecordTypes', 'initRole']),
 
     async openNewDialog(domain) {
-      this.newDialog = true
+      this.isOpenNewDialog = true
       this.domainId(domain.id)
     },
 
     closeNewDialog() {
-      this.newDialog = false
+      this.isOpenNewDialog = false
     },
   },
 

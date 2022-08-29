@@ -114,8 +114,7 @@ import { mapActions, mapGetters } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
-  name: 'UpdateDialog',
-
+  name: 'DnsUpdateDialog',
   components: {
     ValidationErrorMessage,
   },

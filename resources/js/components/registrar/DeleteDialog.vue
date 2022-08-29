@@ -20,7 +20,6 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'RegistrarDeleteDialog',
-
   props: {
     isOpen: {
       default: false,
@@ -32,10 +31,6 @@ export default {
       type: Object,
       required: true,
     },
-  },
-
-  data() {
-    return {}
   },
 
   computed: {

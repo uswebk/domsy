@@ -317,8 +317,9 @@ class MenuItemSeeder extends Seeder
             'sort' => 730,
         ]);
 
+        /* Role */
         MenuItem::create([
-            'parent_id' => 8,
+            'parent_id' => 9,
             'name' => 'Create',
             'controller' => 'App\Http\Controllers\Api\RoleController',
             'function' => 'store',
@@ -329,7 +330,7 @@ class MenuItemSeeder extends Seeder
         ]);
 
         MenuItem::create([
-            'parent_id' => 8,
+            'parent_id' => 9,
             'name' => 'Update',
             'controller' => 'App\Http\Controllers\Api\RoleController',
             'function' => 'update',
@@ -340,7 +341,7 @@ class MenuItemSeeder extends Seeder
         ]);
 
         MenuItem::create([
-            'parent_id' => 8,
+            'parent_id' => 9,
             'name' => 'Delete',
             'controller' => 'App\Http\Controllers\Api\RoleController',
             'function' => 'delete',

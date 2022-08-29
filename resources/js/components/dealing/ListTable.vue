@@ -63,7 +63,6 @@ import DetailDialog from '../../components/dealing/DetailDialog'
 
 export default {
   name: 'DealingListTable',
-
   components: {
     UpdateDialog,
     DetailDialog,
@@ -76,10 +75,6 @@ export default {
       },
       type: Array,
     },
-  },
-
-  computed: {
-    ...mapGetters('dealing', ['canUpdate', 'canDetail']),
   },
 
   data() {
@@ -126,6 +121,10 @@ export default {
         },
       ],
     }
+  },
+
+  computed: {
+    ...mapGetters('dealing', ['canUpdate', 'canDetail']),
   },
 
   methods: {

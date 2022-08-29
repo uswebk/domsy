@@ -140,19 +140,16 @@ import { mapActions, mapGetters } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
-  name: 'UpdateDialog',
-
+  name: 'DomainUpdateDialog',
   components: {
     ValidationErrorMessage,
   },
-
   props: {
     isOpen: {
       default: false,
       type: Boolean,
       required: true,
     },
-
     domain: {
       default: null,
       type: Object,

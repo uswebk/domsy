@@ -98,11 +98,9 @@ import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'AccountNewDialog',
-
   components: {
     ValidationErrorMessage,
   },
-
   props: {
     isOpen: {
       default: false,
@@ -126,7 +124,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters('account', ['roles']),
+    ...mapGetters('role', ['roles']),
 
     open: {
       get() {

@@ -68,11 +68,9 @@ import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'RegistrarUpdateDialog',
-
   components: {
     ValidationErrorMessage,
   },
-
   props: {
     isOpen: {
       default: false,
@@ -121,9 +119,11 @@ export default {
     async update() {
       try {
         this.loading = true
+
         await this.updateRegistrar(this.registrarModel)
 
         this.close()
+
         this.loading = false
 
         this.sendMessage({

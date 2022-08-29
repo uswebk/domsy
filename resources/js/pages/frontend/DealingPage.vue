@@ -63,11 +63,20 @@ import ListTable from '../../components/dealing/ListTable'
 import NewDialog from '../../components/dealing/NewDialog'
 
 export default {
+  name: 'DealingPage',
   components: {
     IconHeadLine,
     GreetingMessage,
     ListTable,
     NewDialog,
+  },
+
+  data() {
+    return {
+      tab: '',
+      dealing: {},
+      isOpenNewDialog: false,
+    }
   },
 
   computed: {
@@ -81,14 +90,6 @@ export default {
     tabs() {
       return Object.keys(this.dealings)
     },
-  },
-
-  data() {
-    return {
-      tab: '',
-      dealing: {},
-      isOpenNewDialog: false,
-    }
   },
 
   methods: {

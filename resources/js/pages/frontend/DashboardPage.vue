@@ -42,7 +42,7 @@ import DomainExpiredList from '../../components/dashboard/DomainExpiredList.vue'
 import DomainBillingDateList from '../../components/dashboard/DomainBillingDateList.vue'
 
 export default {
-  name: 'LineChartContainer',
+  name: 'DashboardPage',
   components: {
     IconHeadLine,
     DomainSummary,

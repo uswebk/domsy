@@ -1,15 +1,16 @@
 <template>
-  <v-dialog v-model="open" max-width="600px">
+  <v-dialog v-model="open" max-width="90%">
     <v-card>
+      <v-progress-linear
+        v-if="loading"
+        color="info"
+        indeterminate
+      ></v-progress-linear>
+
       <v-card-title class="pl-8">
         <span class="text-h6">Role Create</span>
       </v-card-title>
       <v-card-text>
-        <v-progress-linear
-          v-if="loading"
-          color="info"
-          indeterminate
-        ></v-progress-linear>
         <v-container v-if="!loading">
           <v-form ref="form" lazy-validation>
             <v-row>
@@ -17,7 +18,7 @@
                 <v-text-field
                   class="mt-5"
                   label="Role Name"
-                  v-model="newRoleName"
+                  v-model="roleModel.name"
                   required
                   hide-details
                 ></v-text-field>
@@ -26,10 +27,10 @@
                 ></validation-error-message>
               </v-col>
               <div class="my-10"></div>
-              <v-col cols="6" v-for="menuItem in menuItems" :key="menuItem.id">
+              <v-col cols="6" v-for="roleItem in roleItems" :key="roleItem.id">
                 <v-switch
-                  v-model="newRoles[menuItem.id]"
-                  :label="menuItem.description"
+                  v-model="roleModel.roles[roleItem.id]"
+                  :label="roleItem.description"
                 >
                 </v-switch>
               </v-col>
@@ -50,7 +51,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
@@ -68,46 +69,57 @@ export default {
 
   data() {
     return {
-      loading: true,
-      roles: [],
-      newRoles: {},
-      newRoleName: '',
-      menuItems: [],
+      loading: false,
+      roleModel: {
+        name: '',
+        roles: {},
+      },
       errors: {},
     }
   },
 
   computed: {
+    ...mapGetters('role', ['roleItems']),
+
     open: {
       get() {
         return this.isOpen
       },
-      set(value) {
+      set() {
         this.errors = {}
-
-        this.$emit('close', value)
+        this.close()
       },
     },
   },
 
   methods: {
-    resetFormData() {
-      this.newRoles = {}
-      this.newRoleName = ''
+    ...mapActions('account', ['sendMessage']),
+    ...mapActions('role', ['storeRole']),
+
+    close() {
+      this.$emit('close')
+    },
+
+    resetForm() {
+      this.roleModel = {
+        name: '',
+        roles: [],
+      }
     },
 
     async store() {
       try {
-        const result = await axios.post('/api/roles', {
-          name: this.newRoleName,
-          roles: this.newRoles,
-        })
+        this.loading = true
+
+        await this.storeRole(this.roleModel)
 
         this.close()
 
-        this.$emit('sendMessage', {
-          message: 'Create success',
-          status: result.status,
+        this.loading = false
+
+        this.sendMessage({
+          greeting: 'Create Success',
+          greetingType: 'success',
         })
       } catch (error) {
         const status = error.response.status
@@ -125,40 +137,22 @@ export default {
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
-          this.close()
         }
 
         if (status >= 500) {
           message = 'Server Error'
-          this.close()
         }
 
-        this.$emit('sendMessage', {
-          message: message,
-          status: status,
+        this.sendMessage({
+          greeting: message,
+          greetingType: 'error',
         })
+
+        this.close()
       }
 
-      this.resetFormData()
+      this.resetForm()
     },
-
-    close() {
-      this.open = false
-    },
-
-    async initMenuItems() {
-      const result = await axios.get('api/menus/items')
-
-      this.menuItems = result.data
-    },
-  },
-
-  async created() {
-    this.loading = true
-
-    this.initMenuItems()
-
-    this.loading = false
   },
 }
 </script>

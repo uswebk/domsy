@@ -140,8 +140,7 @@ import { mapActions, mapGetters } from 'vuex'
 import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
-  name: 'NewDialog',
-
+  name: 'DomainNewDialog',
   components: {
     ValidationErrorMessage,
   },
@@ -193,7 +192,7 @@ export default {
       this.$emit('close')
     },
 
-    resetNewDomain() {
+    resetForm() {
       this.domainModel = {
         name: '',
         registrar_id: '',
@@ -247,7 +246,7 @@ export default {
         this.close()
       }
 
-      this.resetNewDomain()
+      this.resetForm()
     },
   },
 }
