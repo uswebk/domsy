@@ -23,10 +23,10 @@
 
 <script>
 import axios from 'axios'
-
 import LineChart from '../chart/LineChart.vue'
 
 export default {
+  name: 'DomainBillings',
   components: { LineChart },
 
   data() {
@@ -89,7 +89,6 @@ export default {
 
       this.chartData.labels = labels
       this.chartData.datasets[0].data = data
-
       this.isChart = true
     },
   },

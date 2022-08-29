@@ -14,7 +14,7 @@
           <v-avatar size="32" class="mr-4" color="#e8c46a">
             <v-icon>mdi-database</v-icon>
           </v-avatar>
-          {{ formattedPrice(totalPrice) }}
+          {{ $appHelper.formattedPriceYen(totalPrice) }}
         </v-card-title>
       </v-card>
 
@@ -35,13 +35,11 @@
 
 <script>
 import axios from 'axios'
-
 import PieChart from '../chart/PieChart.vue'
-import { priceFormat } from '../../modules/AppHelper'
 
 export default {
+  name: 'DomainSummary',
   components: { PieChart },
-
   data() {
     return {
       loading: true,
@@ -88,9 +86,6 @@ export default {
 
       this.chartData.datasets[0].data = [activeCount, inactiveCount]
       this.isChart = true
-    },
-    formattedPrice(price) {
-      return priceFormat(price)
     },
   },
 

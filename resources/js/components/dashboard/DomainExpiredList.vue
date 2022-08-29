@@ -21,7 +21,7 @@
           <tbody>
             <tr v-for="domain in domains" :key="domain.id">
               <td>{{ domain.name }}</td>
-              <td>{{ formattedDate(domain.expired_at) }}</td>
+              <td>{{ $dateHelper.dateHyphen(domain.expired_at) }}</td>
             </tr>
           </tbody>
         </v-simple-table>
@@ -32,9 +32,9 @@
 
 <script>
 import axios from 'axios'
-import { shortHyphenDate } from '../../modules/DateHelper'
 
 export default {
+  name: 'DomainExpiredList',
   data() {
     return {
       loading: true,
@@ -47,9 +47,6 @@ export default {
       const result = await axios.get('/api/domains/sort-expired?count=5')
 
       this.domains = result.data
-    },
-    formattedDate(dateTime) {
-      return shortHyphenDate(dateTime)
     },
   },
 

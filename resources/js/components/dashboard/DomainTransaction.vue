@@ -22,12 +22,11 @@
 
 <script>
 import axios from 'axios'
-
 import LineChart from '../../components/chart/LineChart.vue'
 
 export default {
+  name: 'DomainTransaction',
   components: { LineChart },
-
   data() {
     return {
       loading: true,

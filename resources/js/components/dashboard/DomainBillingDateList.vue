@@ -22,8 +22,8 @@
           <tbody>
             <tr v-for="billing in billings" :key="billing.id">
               <td>{{ billing.domain_name }}</td>
-              <td>{{ formattedDate(billing.billing_date) }}</td>
-              <td>{{ formattedPrice(billing.total) }}</td>
+              <td>{{ $dateHelper.dateHyphen(billing.billing_date) }}</td>
+              <td>{{ $appHelper.formattedPriceYen(billing.total) }}</td>
             </tr>
           </tbody>
         </v-simple-table>
@@ -34,10 +34,9 @@
 
 <script>
 import axios from 'axios'
-import { shortHyphenDate } from '../../modules/DateHelper'
-import { priceFormat } from '../../modules/AppHelper'
 
 export default {
+  name: 'DomainBillingDateList',
   data() {
     return {
       loading: true,
@@ -52,13 +51,6 @@ export default {
       )
 
       this.billings = result.data
-    },
-    formattedDate(dateTime) {
-      return shortHyphenDate(dateTime)
-    },
-
-    formattedPrice(price) {
-      return priceFormat(price)
     },
   },
 
