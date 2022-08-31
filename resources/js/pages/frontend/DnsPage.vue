@@ -2,14 +2,11 @@
   <v-main>
     <v-container>
       <icon-head-line :icon="'mdi-web'" :headlineText="'DNS'"></icon-head-line>
-
       <div class="py-5"></div>
-
       <greeting-message
         :type="greetingType"
         :message="greeting"
       ></greeting-message>
-
       <v-progress-linear
         v-show="pageLoading"
         color="yellow darken-2"
@@ -17,7 +14,6 @@
         rounded
         height="6"
       ></v-progress-linear>
-
       <div v-for="domain in dns" :key="domain.id" class="mb-4">
         <v-card>
           <v-card-title>{{ domain.name }}</v-card-title>
@@ -30,11 +26,9 @@
           >
             <v-icon dark left> mdi-plus-circle </v-icon>New
           </v-btn>
-
           <list-table :subdomains="domain.subdomains"></list-table>
         </v-card>
       </div>
-
       <new-dialog
         :isOpen="isOpenNewDialog"
         @close="closeNewDialog"
@@ -81,7 +75,7 @@ export default {
     ...mapActions('domain', ['fetchDomains']),
     ...mapActions('dns', ['fetchDns', 'fetchDnsRecordTypes', 'initRole']),
 
-    async openNewDialog(domain) {
+    openNewDialog(domain) {
       this.isOpenNewDialog = true
       this.domainId(domain.id)
     },

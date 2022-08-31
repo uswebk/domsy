@@ -9,6 +9,7 @@ import dealing from './modules/dealing'
 import account from './modules/account'
 import role from './modules/role'
 import setting from './modules/setting'
+import auth from './modules/auth'
 
 Vue.use(Vuex)
 
@@ -22,6 +23,7 @@ const store = new Vuex.Store({
     account,
     role,
     setting,
+    auth,
   },
 })
 
