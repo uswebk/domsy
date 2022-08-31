@@ -36,7 +36,26 @@ const actions = {
 
   async login({ commit }, payload) {
     commit('pageLoading', true)
-    const result = await axios.post('/api/login/', {
+    const result = await axios.post('/api/login', {
+      ...payload,
+    })
+    commit('pageLoading', false)
+
+    return result
+  },
+
+  async register({ commit }, payload) {
+    commit('pageLoading', true)
+    const result = await axios.post('/api/register', {
+      ...payload,
+    })
+    commit('pageLoading', false)
+
+    return result
+  },
+  async registerCorporation({ commit }, payload) {
+    commit('pageLoading', true)
+    const result = await axios.post('/api/corporation/register', {
       ...payload,
     })
     commit('pageLoading', false)

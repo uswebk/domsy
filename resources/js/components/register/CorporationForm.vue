@@ -2,6 +2,57 @@
   <v-form ref="form" class="pa-4">
     <v-text-field
       class="mb-5"
+      v-model="authModel.corporation.name"
+      label="Company Name"
+      required
+      hide-details
+    ></v-text-field>
+    <validation-error-message
+      :message="errors['corporation.name']"
+    ></validation-error-message>
+    <v-text-field
+      class="mb-5"
+      v-model="authModel.corporation.email"
+      label="Company Email"
+      required
+      hide-details
+      type="email"
+    ></v-text-field>
+    <validation-error-message
+      :message="errors['corporation.email']"
+    ></validation-error-message>
+    <v-text-field
+      class="mb-5"
+      v-model="authModel.corporation.zip"
+      label="Zip"
+      required
+      hide-details
+    ></v-text-field>
+    <validation-error-message
+      :message="errors['corporation.zip']"
+    ></validation-error-message>
+    <v-text-field
+      class="mb-5"
+      v-model="authModel.corporation.address"
+      label="Address"
+      required
+      hide-details
+    ></v-text-field>
+    <validation-error-message
+      :message="errors['corporation.address']"
+    ></validation-error-message>
+    <v-text-field
+      class="mb-5"
+      v-model="authModel.corporation.phone_number"
+      label="TEL"
+      required
+      hide-details
+    ></v-text-field>
+    <validation-error-message
+      :message="errors['corporation.phone_number']"
+    ></validation-error-message>
+    <v-text-field
+      class="mb-5"
       v-model="authModel.name"
       label="Name"
       required
@@ -52,7 +103,7 @@ import { mapMutations, mapActions } from 'vuex'
 import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 export default {
-  name: 'IndividualForm',
+  name: 'CorporationForm',
   components: {
     ValidationErrorMessage,
   },
@@ -64,25 +115,31 @@ export default {
   data() {
     return {
       authModel: {
+        corporation: {
+          name: '',
+          email: '',
+          zip: '',
+          address: '',
+          phone_number: '',
+        },
         name: '',
         email: '',
         password: '',
         password_confirmation: '',
       },
-      errors: {},
+      errors: {
+        corporation: {},
+      },
       showPassword: false,
     }
   },
   methods: {
     ...mapMutations('auth', ['pageLoading']),
-    ...mapActions('auth', {
-      registerAction: 'register',
-      sendMessage: 'sendMessage',
-    }),
+    ...mapActions('auth', ['registerCorporation', 'sendMessage']),
 
     async register() {
       try {
-        await this.registerAction(this.authModel)
+        await this.registerCorporation(this.authModel)
 
         this.sendMessage({
           greeting: 'We have sent you an approval email.',

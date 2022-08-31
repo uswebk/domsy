@@ -1,158 +1,33 @@
 <template>
   <v-app>
-    <v-alert dense text type="success" v-if="sendMailMessage"
-      >{{ sendMailMessage }}
-    </v-alert>
+    <v-progress-linear
+      v-show="pageLoading"
+      indeterminate
+      color="yellow darken-2"
+    ></v-progress-linear>
+    <greeting-message
+      :type="greetingType"
+      :message="greeting"
+    ></greeting-message>
     <v-container>
       <v-card flat max-width="640" class="mx-auto pa-10" elevation="2" outlined>
         <v-card-title class="text-center pa-6">
           <h3 class="fill-width text-center">Register</h3>
         </v-card-title>
-
         <v-tabs v-model="tab">
-          <v-tab href="#individual"
-            ><v-icon dark left>mdi-account-box </v-icon>Individual</v-tab
-          >
-          <v-tab href="#corporation"
-            ><v-icon dark left>mdi-domain </v-icon>Corporation</v-tab
-          >
+          <v-tab href="#individual">
+            <v-icon dark left>mdi-account-box </v-icon>Individual
+          </v-tab>
+          <v-tab href="#corporation">
+            <v-icon dark left>mdi-domain </v-icon>Corporation
+          </v-tab>
         </v-tabs>
         <v-tabs-items v-model="tab">
           <v-tab-item value="individual">
-            <v-form ref="form" class="pa-4">
-              <v-text-field
-                class="mb-5"
-                v-model="name"
-                label="Name"
-                required
-                hide-details
-              ></v-text-field>
-              <ValidationErrorMessage :message="errors.name" />
-              <v-text-field
-                class="mb-5"
-                v-model="email"
-                label="Email"
-                required
-                hide-details
-              ></v-text-field>
-              <ValidationErrorMessage :message="errors.email" />
-              <v-text-field
-                v-model="password"
-                :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="showPassword ? 'text' : 'password'"
-                name="password"
-                label="Password"
-                hint="At least 8 characters"
-                counter
-                @click:append="showPassword = !showPassword"
-              ></v-text-field>
-              <ValidationErrorMessage :message="errors.password" />
-              <v-text-field
-                v-model="passwordConfirmation"
-                type="password"
-                name="password_confirmation"
-                label="Confirm Password"
-                counter
-                required
-              ></v-text-field>
-              <ValidationErrorMessage :message="errors.password_confirmation" />
-              <div class="my-5"></div>
-              <v-btn class="mr-4" color="primary" @click="register">
-                Register
-              </v-btn>
-            </v-form>
+            <individual-form></individual-form>
           </v-tab-item>
           <v-tab-item value="corporation">
-            <v-form ref="form" class="pa-4">
-              <v-text-field
-                class="mb-5"
-                v-model="companyName"
-                label="Company Name"
-                required
-                hide-details
-              ></v-text-field>
-              <ValidationErrorMessage :message="companyErrors.name" />
-
-              <v-text-field
-                class="mb-5"
-                v-model="companyEmail"
-                label="Company Email"
-                required
-                hide-details
-                type="email"
-              ></v-text-field>
-              <ValidationErrorMessage :message="companyErrors.email" />
-              <v-text-field
-                class="mb-5"
-                v-model="companyZip"
-                label="Zip"
-                required
-                hide-details
-              ></v-text-field>
-              <ValidationErrorMessage :message="companyErrors.zip" />
-              <v-text-field
-                class="mb-5"
-                v-model="companyAddress"
-                label="Address"
-                required
-                hide-details
-              ></v-text-field>
-              <ValidationErrorMessage :message="companyErrors.address" />
-              <v-text-field
-                class="mb-5"
-                v-model="companyPhoneNumber"
-                label="TEL"
-                required
-                hide-details
-              ></v-text-field>
-              <ValidationErrorMessage :message="companyErrors.phone_number" />
-
-              <v-text-field
-                class="mb-5"
-                v-model="name"
-                label="Name"
-                required
-                hide-details
-              ></v-text-field>
-              <ValidationErrorMessage :message="errors.name" />
-              <v-text-field
-                class="mb-5"
-                v-model="email"
-                label="Email"
-                required
-                hide-details
-              ></v-text-field>
-              <ValidationErrorMessage :message="errors.email" />
-
-              <v-text-field
-                v-model="password"
-                :append-icon="
-                  showPasswordCorporation ? 'mdi-eye' : 'mdi-eye-off'
-                "
-                :type="showPasswordCorporation ? 'text' : 'password'"
-                name="password"
-                label="Password"
-                hint="At least 8 characters"
-                counter
-                @click:append="
-                  showPasswordCorporation = !showPasswordCorporation
-                "
-              ></v-text-field>
-              <ValidationErrorMessage :message="errors.password" />
-              <v-text-field
-                v-model="passwordConfirmation"
-                type="password"
-                name="password_confirmation"
-                label="Confirm Password"
-                counter
-                required
-              ></v-text-field>
-              <ValidationErrorMessage :message="errors.password_confirmation" />
-              <div class="my-5"></div>
-              <v-btn class="mr-4" color="primary" @click="corporationRegister">
-                Register
-              </v-btn>
-            </v-form>
+            <corporation-form></corporation-form>
           </v-tab-item>
         </v-tabs-items>
       </v-card>
@@ -161,87 +36,24 @@
 </template>
 
 <script>
-import axios from 'axios'
-import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
+import { mapGetters } from 'vuex'
+import GreetingMessage from '../../components/common/GreetingMessage'
+import IndividualForm from '../../components/register/IndividualForm'
+import CorporationForm from '../../components/register/CorporationForm'
 
 export default {
   components: {
-    ValidationErrorMessage,
+    GreetingMessage,
+    IndividualForm,
+    CorporationForm,
   },
-
   data() {
     return {
       tab: '',
-      name: '',
-      email: '',
-      password: '',
-      passwordConfirmation: '',
-      companyName: '',
-      companyEmail: '',
-      companyZip: '',
-      companyAddress: '',
-      companyPhoneNumber: '',
-      errors: {},
-      companyErrors: {},
-      sendMailMessage: '',
-      showPassword: false,
-      showPasswordCorporation: false,
     }
   },
-
-  methods: {
-    async register() {
-      try {
-        await axios.post('api/register', {
-          name: this.name,
-          email: this.email,
-          password: this.password,
-          password_confirmation: this.passwordConfirmation,
-        })
-
-        this.sendMailMessage = 'We have sent you an approval email.'
-      } catch (error) {
-        var responseErrors = error.response.data.errors
-        var errors = {}
-
-        for (var key in responseErrors) {
-          errors[key] = responseErrors[key][0]
-        }
-
-        this.errors = errors
-      }
-    },
-
-    async corporationRegister() {
-      try {
-        await axios.post('api/corporation/register', {
-          name: this.name,
-          email: this.email,
-          password: this.password,
-          password_confirmation: this.passwordConfirmation,
-          corporation: {
-            name: this.companyName,
-            email: this.companyEmail,
-            zip: this.companyZip,
-            address: this.companyAddress,
-            phone_number: this.companyPhoneNumber,
-          },
-        })
-        this.sendMailMessage = 'We have sent you an approval email.'
-
-        setTimeout("location.href='/email/verify'", 1000)
-      } catch (error) {
-        var responseErrors = error.response.data.errors
-
-        var errors = {}
-
-        for (var key in responseErrors) {
-          errors[key] = responseErrors[key][0]
-        }
-
-        this.errors = errors
-      }
-    },
+  computed: {
+    ...mapGetters('auth', ['pageLoading', 'greeting', 'greetingType']),
   },
 }
 </script>
