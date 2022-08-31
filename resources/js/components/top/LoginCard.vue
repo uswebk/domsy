@@ -84,11 +84,9 @@ export default {
       showPassword: false,
     }
   },
-
   computed: {
     ...mapGetters('auth', ['isLogin', 'completeLoginCheck']),
   },
-
   methods: {
     ...mapActions('auth', { loginAction: 'login' }),
 

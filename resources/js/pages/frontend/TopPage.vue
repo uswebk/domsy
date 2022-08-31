@@ -51,11 +51,9 @@ export default {
   computed: {
     ...mapGetters('auth', ['pageLoading', 'finishedLoginCheck']),
   },
-
   methods: {
     ...mapActions('auth', ['checkLogin']),
   },
-
   created() {
     this.checkLogin()
   },
