@@ -43,6 +43,14 @@ const actions = {
 
     return result
   },
+
+  async resendEmail({ commit }) {
+    commit('pageLoading', true)
+    const result = await axios.post('/email/resend', {})
+    commit('pageLoading', false)
+
+    return result
+  },
 }
 
 const getters = {

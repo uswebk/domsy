@@ -1,18 +1,19 @@
 <template>
   <v-app>
-    <v-alert dense text type="success" v-if="greetingMessage"
-      >{{ greetingMessage }}
-    </v-alert>
-    <v-alert dense text type="error" v-if="errorMessage">{{
-      errorMessage
-    }}</v-alert>
-
+    <v-progress-linear
+      v-show="pageLoading"
+      indeterminate
+      color="yellow darken-2"
+    ></v-progress-linear>
+    <greeting-message
+      :type="greetingType"
+      :message="greeting"
+    ></greeting-message>
     <v-container>
       <div class="row justify-content-center">
         <div class="col-md-8">
           <v-card>
             <v-card-title>Verify Your Email Address</v-card-title>
-
             <v-card-text>
               Before proceeding, please check your email for a verification
               link. If you did not receive the email
@@ -26,24 +27,35 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
+import GreetingMessage from '../../components/common/GreetingMessage'
+
 export default {
+  components: {
+    GreetingMessage,
+  },
   data() {
     return {
-      greetingMessage: '',
-      errorMessage: '',
+      greeting: '',
+      greetingType: '',
     }
   },
-
+  computed: {
+    ...mapGetters('auth', ['pageLoading']),
+  },
   methods: {
+    ...mapActions('auth', ['resendEmail']),
+
     async resend() {
       try {
-        await axios.post('/email/resend', {})
+        await this.resendEmail()
 
-        this.greetingMessage =
+        this.greeting =
           'A fresh verification link has been sent to your email address.'
+        this.greetingType = 'success'
       } catch (error) {
         this.errorMessage = 'Failed to send email'
+        this.greetingType = 'error'
       }
     },
   },

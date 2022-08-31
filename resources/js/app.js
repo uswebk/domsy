@@ -45,7 +45,10 @@ Vue.component(
   'auth-register-page',
   require('./pages/auth/RegisterPage.vue').default
 )
-Vue.component('auth-verify-page', require('./pages/auth/Verify.vue').default)
+Vue.component(
+  'auth-verify-page',
+  require('./pages/auth/VerifyPage.vue').default
+)
 
 Vue.component(
   'auth-passwords-email-page',
