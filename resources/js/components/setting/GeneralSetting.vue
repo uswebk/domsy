@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mx-5">
     <v-form>
       <v-container>
         <v-row
@@ -9,13 +9,9 @@
           <v-checkbox
             v-model="generalSetting.enabled"
             :label="generalSetting.annotation"
-            hide-details
+            :error-messages="errors[generalSetting.name + '.enabled']"
           ></v-checkbox>
-          <validation-error-message
-            :message="errors[generalSetting.name + '.enabled']"
-          ></validation-error-message>
         </v-row>
-
         <v-row>
           <v-col cols="12" class="pa-0 mt-10">
             <v-btn color="primary" small @click="updateGeneral">Save</v-btn>
@@ -28,13 +24,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 export default {
   name: 'GeneralSetting',
-  components: {
-    ValidationErrorMessage,
-  },
   data() {
     return {
       errors: {},
@@ -45,6 +37,7 @@ export default {
   },
   methods: {
     ...mapActions('setting', ['updateGeneralSetting', 'sendMessage']),
+
     async updateGeneral() {
       try {
         await this.updateGeneralSetting(this.generalSettings)
@@ -54,15 +47,16 @@ export default {
           greetingType: 'success',
         })
       } catch (error) {
-        const status = error.response.status
         let message = ''
+        const status = error.response.status
 
         if (status === 422) {
-          var responseErrors = error.response.data.errors
-
-          for (var key in responseErrors) {
-            this.errors[key] = responseErrors[key][0]
+          const errors = error.response.data.errors
+          const _errors = {}
+          for (let key in errors) {
+            _errors[key] = errors[key][0]
           }
+          this.errors = _errors
           return
         }
         if (status === 403) {

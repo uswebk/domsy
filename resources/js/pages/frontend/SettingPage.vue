@@ -5,14 +5,11 @@
         :icon="'mdi-cog'"
         :headlineText="'Settings'"
       ></icon-head-line>
-
       <div class="py-5"></div>
-
       <greeting-message
         :type="greetingType"
         :message="greeting"
       ></greeting-message>
-
       <v-progress-linear
         v-show="pageLoading"
         color="yellow darken-2"
@@ -20,7 +17,6 @@
         rounded
         height="6"
       ></v-progress-linear>
-
       <v-container>
         <v-tabs v-model="tab">
           <v-tab href="#mail">Mail</v-tab>

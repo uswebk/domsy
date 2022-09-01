@@ -24,28 +24,22 @@ const actions = {
 
   async fetchMailSettings({ commit }) {
     commit('pageLoading', true)
-
     const result = await axios.get('/api/settings/user-mails')
-
-    let settings = {}
+    const settings = {}
     for (let key in result.data) {
       settings[result.data[key].name] = result.data[key]
     }
-
     commit('mailSettings', settings)
     commit('pageLoading', false)
   },
 
   async fetchGeneralSettings({ commit }) {
     commit('pageLoading', true)
-
     const result = await axios.get('/api/settings/user-generals')
-
-    let settings = {}
+    const settings = {}
     for (let key in result.data) {
       settings[result.data[key].name] = result.data[key]
     }
-
     commit('generalSettings', settings)
     commit('pageLoading', false)
   },
@@ -54,8 +48,7 @@ const actions = {
     const result = await axios.put('/api/settings/user-mails/', {
       ...payload,
     })
-
-    dispatch('fetchMailSettings')
+    await dispatch('fetchMailSettings')
 
     return result
   },
@@ -64,8 +57,7 @@ const actions = {
     const result = await axios.put('/api/settings/user-generals/', {
       ...payload,
     })
-
-    dispatch('fetchGeneralSettings')
+    await dispatch('fetchGeneralSettings')
 
     return result
   },

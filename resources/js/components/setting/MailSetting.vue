@@ -1,19 +1,13 @@
 <template>
-  <div>
+  <div class="mx-5">
     <v-form>
       <v-container>
         <v-row v-for="mailSetting in mailSettings" :key="mailSetting.id">
           <v-checkbox
             v-model="mailSetting.is_received"
             :label="mailSetting.annotation"
-            hide-details
+            :error-messages="errors[mailSetting.name + '.is_received']"
           ></v-checkbox>
-          <span v-if="errors[mailSetting.name + '.is_received']">
-            <validation-error-message
-              :message="errors[mailSetting.name + '.is_received']"
-            ></validation-error-message>
-          </span>
-
           <span v-if="mailSetting.has_days" class="ml-5">
             <span width="100px">
               <v-text-field
@@ -22,17 +16,13 @@
                 min="0"
                 class="notice_number_days_text_field"
                 suffix="Days ago"
-                hide-details
+                :error-messages="
+                  errors[mailSetting.name + '.notice_number_days']
+                "
               ></v-text-field>
-              <span v-if="errors[mailSetting.name + '.notice_number_days']">
-                <validation-error-message
-                  :message="errors[mailSetting.name + '.notice_number_days']"
-                ></validation-error-message>
-              </span>
             </span>
           </span>
         </v-row>
-
         <v-row>
           <v-col cols="12" class="pa-0 mt-10">
             <v-btn color="primary" small @click="updateMail">Save</v-btn>
@@ -45,14 +35,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 export default {
   name: 'MailSetting',
-  components: {
-    ValidationErrorMessage,
-  },
-
   data() {
     return {
       errors: {},
@@ -63,6 +48,7 @@ export default {
   },
   methods: {
     ...mapActions('setting', ['updateMailSetting', 'sendMessage']),
+
     async updateMail() {
       try {
         await this.updateMailSetting(this.mailSettings)
@@ -72,15 +58,16 @@ export default {
           greetingType: 'success',
         })
       } catch (error) {
-        const status = error.response.status
         let message = ''
+        const status = error.response.status
 
         if (status === 422) {
-          var responseErrors = error.response.data.errors
-
-          for (var key in responseErrors) {
-            this.errors[key] = responseErrors[key][0]
+          const errors = error.response.data.errors
+          const _errors = {}
+          for (let key in errors) {
+            _errors[key] = errors[key][0]
           }
+          this.errors = _errors
           return
         }
         if (status === 403) {
@@ -89,7 +76,6 @@ export default {
         if (status >= 500) {
           message = 'Server Error'
         }
-
         this.sendMessage({
           greeting: message,
           greetingType: 'error',
