@@ -15,7 +15,6 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                  class="mt-5"
                   label="Role Name"
                   v-model="roleModel.name"
                   required

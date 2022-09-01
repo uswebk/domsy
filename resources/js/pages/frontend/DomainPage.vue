@@ -5,14 +5,11 @@
         :icon="'mdi-database'"
         :headlineText="'Domain'"
       ></icon-head-line>
-
       <div class="py-5"></div>
-
       <greeting-message
         :type="greetingType"
         :message="greeting"
       ></greeting-message>
-
       <v-progress-linear
         v-show="pageLoading"
         color="yellow darken-2"
@@ -20,7 +17,6 @@
         rounded
         height="6"
       ></v-progress-linear>
-
       <v-btn
         v-if="canStore"
         class="ma-2"
@@ -30,15 +26,12 @@
       >
         <v-icon dark left> mdi-plus-circle </v-icon>New
       </v-btn>
-
       <v-tabs v-model="tab">
         <v-tab v-for="(tab, index) in tabs" :key="index" :href="'#' + tab">{{
           tab
         }}</v-tab>
       </v-tabs>
-
       <v-container class="py-1"></v-container>
-
       <v-tabs-items v-model="tab">
         <div v-for="(domain, index) in categorizedDomains" :key="domain.id">
           <v-tab-item :value="index">
@@ -46,7 +39,6 @@
           </v-tab-item>
         </div>
       </v-tabs-items>
-
       <new-dialog
         :isOpen="isOpenNewDialog"
         @close="closeNewDialog"
@@ -70,7 +62,6 @@ export default {
     ListTable,
     NewDialog,
   },
-
   data() {
     return {
       tab: '',
@@ -78,7 +69,6 @@ export default {
       isOpenNewDialog: false,
     }
   },
-
   computed: {
     ...mapGetters('domain', [
       'categorizedDomains',
@@ -87,12 +77,10 @@ export default {
       'greeting',
       'greetingType',
     ]),
-
     tabs() {
       return Object.keys(this.categorizedDomains)
     },
   },
-
   methods: {
     ...mapActions('domain', ['fetchCategorizedDomains', 'initRole']),
     ...mapActions('registrar', ['fetchRegistrars']),
@@ -105,7 +93,6 @@ export default {
       this.isOpenNewDialog = false
     },
   },
-
   async created() {
     this.fetchCategorizedDomains()
     this.fetchRegistrars()

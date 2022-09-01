@@ -27,28 +27,24 @@
                   :error-messages="errors.name_kana"
                 ></v-text-field>
                 <v-text-field
-                  class="mt-5"
                   label="email"
                   v-model="clientModel.email"
                   required
                   :error-messages="errors.email"
                 ></v-text-field>
                 <v-text-field
-                  class="mt-5"
                   label="Zip"
                   v-model="clientModel.zip"
                   required
                   :error-messages="errors.zip"
                 ></v-text-field>
                 <v-text-field
-                  class="mt-5"
                   label="Address"
                   v-model="clientModel.address"
                   required
                   :error-messages="errors.address"
                 ></v-text-field>
                 <v-text-field
-                  class="mt-5"
                   label="TEL"
                   v-model="clientModel.phone_number"
                   required

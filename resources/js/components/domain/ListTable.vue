@@ -38,13 +38,11 @@
         <v-btn v-if="canDelete" x-small @click="deletion(item)">delete</v-btn>
       </template>
     </v-data-table>
-
     <update-dialog
       :isOpen="isOpenEditDialog"
       :domain="domain"
       @close="closeEditDialog"
     ></update-dialog>
-
     <delete-dialog
       :isOpen="isOpenDeleteDialog"
       :domain="domain"
@@ -72,7 +70,6 @@ export default {
       type: Array,
     },
   },
-
   data() {
     return {
       search: '',
@@ -118,11 +115,9 @@ export default {
       ],
     }
   },
-
   computed: {
     ...mapGetters('domain', ['canUpdate', 'canDelete']),
   },
-
   methods: {
     openEditDialog() {
       this.isOpenEditDialog = true
@@ -141,25 +136,21 @@ export default {
     },
 
     edit(domain) {
-      this.domain.id = domain.id
-      this.domain.name = domain.name
-      this.domain.price = domain.price
-      this.domain.registrar_id = domain.registrar_id
-      this.domain.is_active = domain.is_active
-      this.domain.is_transferred = domain.is_transferred
-      this.domain.is_management_only = domain.is_management_only
+      this.domain = Object.assign({}, domain)
       this.domain.purchased_at = this.$dateHelper.dateHyphen(
-        domain.purchased_at
+        this.domain.purchased_at
       )
-      this.domain.expired_at = this.$dateHelper.dateHyphen(domain.expired_at)
-      this.domain.canceled_at = this.$dateHelper.dateHyphen(domain.canceled_at)
-
+      this.domain.expired_at = this.$dateHelper.dateHyphen(
+        this.domain.expired_at
+      )
+      this.domain.canceled_at = this.$dateHelper.dateHyphen(
+        this.domain.canceled_at
+      )
       this.openEditDialog()
     },
 
     deletion(domain) {
-      this.domain = domain
-
+      this.domain = Object.assign({}, domain)
       this.openDeleteDialog()
     },
   },

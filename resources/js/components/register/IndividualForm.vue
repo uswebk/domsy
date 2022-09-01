@@ -1,47 +1,37 @@
 <template>
   <v-form ref="form" class="pa-4">
     <v-text-field
-      class="mb-5"
-      v-model="authModel.name"
       label="Name"
+      v-model="authModel.name"
       required
-      hide-details
+      :error-messages="errors.name"
     ></v-text-field>
-    <validation-error-message :message="errors.name"></validation-error-message>
     <v-text-field
-      class="mb-5"
-      v-model="authModel.email"
       label="Email"
+      v-model="authModel.email"
       required
-      hide-details
+      :error-messages="errors.email"
     ></v-text-field>
-    <validation-error-message
-      :message="errors.email"
-    ></validation-error-message>
     <v-text-field
+      label="Password"
       v-model="authModel.password"
       :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
       :type="showPassword ? 'text' : 'password'"
       name="password"
-      label="Password"
       hint="At least 8 characters"
       counter
       @click:append="showPassword = !showPassword"
+      :error-messages="errors.password"
     ></v-text-field>
-    <validation-error-message
-      :message="errors.password"
-    ></validation-error-message>
     <v-text-field
+      label="Confirm Password"
       v-model="authModel.password_confirmation"
       type="password"
       name="password_confirmation"
-      label="Confirm Password"
       counter
       required
+      :error-messages="errors.password_confirmation"
     ></v-text-field>
-    <validation-error-message
-      :message="errors.password_confirmation"
-    ></validation-error-message>
     <div class="my-5"></div>
     <v-btn class="mr-4" color="primary" @click="register"> Register </v-btn>
   </v-form>
@@ -49,13 +39,9 @@
 
 <script>
 import { mapMutations, mapActions } from 'vuex'
-import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 export default {
   name: 'IndividualForm',
-  components: {
-    ValidationErrorMessage,
-  },
   props: {
     message: {
       type: String,
@@ -95,7 +81,6 @@ export default {
           errorTmp[key] = errors[key][0]
         }
         this.errors = errorTmp
-
         this.pageLoading(false)
       }
     },

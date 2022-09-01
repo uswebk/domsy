@@ -15,33 +15,33 @@
           <h4 class="fill-width">Reset Password</h4>
         </v-card-title>
         <v-form ref="form" class="pa-10">
-          <v-text-field :value="email" label="Email" disabled></v-text-field>
-          <validation-error-message
-            :message="errors.email"
-          ></validation-error-message>
           <v-text-field
-            v-model="password"
-            type="password"
-            name="password"
+            label="Email"
+            :value="email"
+            disabled
+            :error-messages="errors.email"
+          ></v-text-field>
+          <v-text-field
             label="Password"
+            v-model="password"
+            name="password"
             hint="At least 8 characters"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPassword ? 'text' : 'password'"
             counter
             required
+            @click:append="showPassword = !showPassword"
+            :error-messages="errors.password"
           ></v-text-field>
-          <validation-error-message
-            :message="errors.password"
-          ></validation-error-message>
           <v-text-field
+            label="Confirm Password"
             v-model="password_confirmation"
             type="password"
             name="password_confirmation"
-            label="Confirm Password"
             counter
             required
+            :error-messages="errors.password_confirmation"
           ></v-text-field>
-          <validation-error-message
-            :message="errors.password_confirmation"
-          ></validation-error-message>
           <div class="my-5"></div>
           <v-btn class="mr-4" color="primary" @click="reset()">
             Reset Password
@@ -55,12 +55,10 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import GreetingMessage from '../../../components/common/GreetingMessage'
-import ValidationErrorMessage from '../../../components/form/ValidationErrorMessage'
 
 export default {
   components: {
     GreetingMessage,
-    ValidationErrorMessage,
   },
   props: {
     token: {
@@ -72,9 +70,9 @@ export default {
       required: true,
     },
   },
-
   data() {
     return {
+      showPassword: false,
       greeting: '',
       greetingType: '',
       password: '',

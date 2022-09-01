@@ -1,98 +1,68 @@
 <template>
   <v-form ref="form" class="pa-4">
     <v-text-field
-      class="mb-5"
-      v-model="authModel.corporation.name"
       label="Company Name"
+      v-model="authModel.corporation.name"
       required
-      hide-details
+      :error-messages="errors['corporation.name']"
     ></v-text-field>
-    <validation-error-message
-      :message="errors['corporation.name']"
-    ></validation-error-message>
     <v-text-field
-      class="mb-5"
-      v-model="authModel.corporation.email"
       label="Company Email"
-      required
-      hide-details
+      v-model="authModel.corporation.email"
       type="email"
+      required
+      :error-messages="errors['corporation.email']"
     ></v-text-field>
-    <validation-error-message
-      :message="errors['corporation.email']"
-    ></validation-error-message>
     <v-text-field
-      class="mb-5"
-      v-model="authModel.corporation.zip"
       label="Zip"
+      v-model="authModel.corporation.zip"
       required
-      hide-details
+      :error-messages="errors['corporation.zip']"
     ></v-text-field>
-    <validation-error-message
-      :message="errors['corporation.zip']"
-    ></validation-error-message>
     <v-text-field
-      class="mb-5"
-      v-model="authModel.corporation.address"
       label="Address"
+      v-model="authModel.corporation.address"
       required
-      hide-details
+      :error-messages="errors['corporation.address']"
     ></v-text-field>
-    <validation-error-message
-      :message="errors['corporation.address']"
-    ></validation-error-message>
     <v-text-field
-      class="mb-5"
-      v-model="authModel.corporation.phone_number"
       label="TEL"
+      v-model="authModel.corporation.phone_number"
       required
-      hide-details
+      :error-messages="errors['corporation.phone_number']"
     ></v-text-field>
-    <validation-error-message
-      :message="errors['corporation.phone_number']"
-    ></validation-error-message>
     <v-text-field
-      class="mb-5"
-      v-model="authModel.name"
       label="Name"
+      v-model="authModel.name"
       required
-      hide-details
+      :error-messages="errors.name"
     ></v-text-field>
-    <validation-error-message :message="errors.name"></validation-error-message>
     <v-text-field
-      class="mb-5"
-      v-model="authModel.email"
       label="Email"
+      v-model="authModel.email"
       required
-      hide-details
+      :error-messages="errors.email"
     ></v-text-field>
-    <validation-error-message
-      :message="errors.email"
-    ></validation-error-message>
     <v-text-field
+      label="Password"
       v-model="authModel.password"
       :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
       :type="showPassword ? 'text' : 'password'"
       name="password"
-      label="Password"
       hint="At least 8 characters"
       counter
       @click:append="showPassword = !showPassword"
+      :error-messages="errors.password"
     ></v-text-field>
-    <validation-error-message
-      :message="errors.password"
-    ></validation-error-message>
     <v-text-field
+      label="Confirm Password"
       v-model="authModel.password_confirmation"
       type="password"
       name="password_confirmation"
-      label="Confirm Password"
       counter
       required
+      :error-messages="errors.password_confirmation"
     ></v-text-field>
-    <validation-error-message
-      :message="errors.password_confirmation"
-    ></validation-error-message>
     <div class="my-5"></div>
     <v-btn class="mr-4" color="primary" @click="register"> Register </v-btn>
   </v-form>
@@ -100,13 +70,9 @@
 
 <script>
 import { mapMutations, mapActions } from 'vuex'
-import ValidationErrorMessage from '../../components/form/ValidationErrorMessage'
 
 export default {
   name: 'CorporationForm',
-  components: {
-    ValidationErrorMessage,
-  },
   props: {
     message: {
       type: String,
@@ -152,7 +118,6 @@ export default {
           _errors[key] = errors[key][0]
         }
         this.errors = _errors
-
         this.pageLoading(false)
       }
     },

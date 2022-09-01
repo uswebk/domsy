@@ -49,7 +49,6 @@
                   :error-messages="errors.discount"
                 ></v-text-field>
                 <v-text-field
-                  class="mt-5"
                   label="Billing Date"
                   v-model="dealingModel.billing_date"
                   type="date"

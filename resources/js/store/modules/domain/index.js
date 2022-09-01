@@ -73,6 +73,7 @@ const actions = {
       ...payload,
     })
     dispatch('fetchDomains')
+    dispatch('fetchCategorizedDomains')
 
     return result
   },
@@ -82,6 +83,7 @@ const actions = {
       ...payload,
     })
     dispatch('fetchDomains')
+    dispatch('fetchCategorizedDomains')
 
     return result
   },

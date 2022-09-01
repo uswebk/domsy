@@ -144,7 +144,6 @@ export default {
           this.loading = false
           return
         }
-
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'

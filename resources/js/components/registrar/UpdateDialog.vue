@@ -21,14 +21,12 @@
                   :error-messages="errors.name"
                 ></v-text-field>
                 <v-text-field
-                  class="mt-5"
                   label="Link"
                   v-model="registrarModel.link"
                   required
                   :error-messages="errors.link"
                 ></v-text-field>
                 <v-textarea
-                  class="mt-5"
                   label="Note"
                   v-model="registrarModel.note"
                   required
