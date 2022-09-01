@@ -147,11 +147,11 @@ export default {
         })
       } catch (error) {
         const errors = error.response.data.errors
-        const errorTmp = {}
+        const _errors = {}
         for (let key in errors) {
-          errorTmp[key] = errors[key][0]
+          _errors[key] = errors[key][0]
         }
-        this.errors = errorTmp
+        this.errors = _errors
 
         this.pageLoading(false)
       }

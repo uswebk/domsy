@@ -70,6 +70,22 @@ const actions = {
 
     return result
   },
+
+  async sendResetLink({ commit }, email) {
+    commit('pageLoading', true)
+    const result = await axios.post('/password/email', { email: email })
+    commit('pageLoading', false)
+
+    return result
+  },
+
+  async resetPassword({ commit }, payload) {
+    commit('pageLoading', true)
+    const result = await axios.post('/password/reset', { ...payload })
+    commit('pageLoading', false)
+
+    return result
+  },
 }
 
 const getters = {

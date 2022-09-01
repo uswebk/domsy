@@ -56,7 +56,7 @@ Vue.component(
 )
 Vue.component(
   'auth-passwords-reset-page',
-  require('./pages/auth/passwords/Reset.vue').default
+  require('./pages/auth/passwords/ResetPage.vue').default
 )
 
 Vue.component('top-page', require('./pages/frontend/TopPage.vue').default)
