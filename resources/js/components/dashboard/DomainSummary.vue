@@ -8,7 +8,6 @@
     <v-card>
       <v-card color="#2EBFAF" dark tile style="box-shadow: none">
         <v-card-title class="justify-end"> Domain </v-card-title>
-
         <v-card-subtitle>Domain Seller </v-card-subtitle>
         <v-card-title class="text-h5 pt-0">
           <v-avatar size="32" class="mr-4" color="#e8c46a">
@@ -17,7 +16,6 @@
           {{ $appHelper.formattedPriceYen(totalPrice) }}
         </v-card-title>
       </v-card>
-
       <div class="mb-6"></div>
       <v-container class="px-5"
         ><pie-chart
@@ -61,19 +59,16 @@ export default {
       },
     }
   },
-
   methods: {
     async initDomainSeller() {
       const result = await axios.get('/api/domains/total-seller')
-
       this.totalPrice = result.data.totalPrice
     },
+
     async initDomains() {
       const result = await axios.get('/api/domains')
-
-      let domains = result.data
+      const domains = result.data
       this.summary = domains.length
-
       let activeCount = 0
       let inactiveCount = 0
       for (let key in domains) {
@@ -83,18 +78,14 @@ export default {
           inactiveCount += 1
         }
       }
-
       this.chartData.datasets[0].data = [activeCount, inactiveCount]
       this.isChart = true
     },
   },
-
   async created() {
     this.loading = true
-
     await this.initDomainSeller()
     await this.initDomains()
-
     this.loading = false
   },
 }

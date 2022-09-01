@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'LoginCard',
@@ -88,6 +88,9 @@ export default {
     ...mapGetters('auth', ['isLogin', 'completeLoginCheck']),
   },
   methods: {
+    ...mapMutations('auth', {
+      pageLoadingCommit: 'pageLoading',
+    }),
     ...mapActions('auth', { loginAction: 'login' }),
 
     async login() {
@@ -98,12 +101,14 @@ export default {
           location.href = '/mypage'
         }
       } catch (error) {
-        var responseErrors = error.response.data.errors
-        var errors = {}
-        for (var key in responseErrors) {
-          errors[key] = responseErrors[key][0]
+        const errors = error.response.data.errors
+        const _errors = {}
+        for (let key in errors) {
+          _errors[key] = errors[key][0]
         }
-        this.errors = errors
+        this.errors = _errors
+        this.pageLoadingCommit(false)
+        return
       }
     },
   },

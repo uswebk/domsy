@@ -3,7 +3,6 @@ import { Line } from 'vue-chartjs'
 
 export default {
   extends: Line,
-
   data() {
     return {
       data: {
@@ -51,5 +50,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

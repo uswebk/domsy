@@ -28,7 +28,6 @@ import LineChart from '../chart/LineChart.vue'
 export default {
   name: 'DomainBillings',
   components: { LineChart },
-
   data() {
     return {
       loading: true,
@@ -73,31 +72,25 @@ export default {
       },
     }
   },
-
   methods: {
     async initDomains() {
       const result = await axios.get(
         '/api/dealings/billings/transaction?months=12'
       )
-
       let labels = []
       let data = []
       for (let key in result.data) {
         labels.push(key)
         data.push(result.data[key])
       }
-
       this.chartData.labels = labels
       this.chartData.datasets[0].data = data
       this.isChart = true
     },
   },
-
   async created() {
     this.loading = true
-
     await this.initDomains()
-
     this.loading = false
   },
 }

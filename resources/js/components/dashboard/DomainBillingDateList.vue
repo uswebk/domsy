@@ -43,22 +43,17 @@ export default {
       billings: {},
     }
   },
-
   methods: {
     async initBillings() {
       const result = await axios.get(
         '/api/dealings/billings/sort-billing-date?count=5'
       )
-
       this.billings = result.data
     },
   },
-
   async created() {
     this.loading = true
-
     await this.initBillings()
-
     this.loading = false
   },
 }

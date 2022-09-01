@@ -41,7 +41,6 @@ export default {
       domains: {},
     }
   },
-
   methods: {
     async initDomains() {
       const result = await axios.get('/api/domains/sort-expired?count=5')
@@ -49,12 +48,9 @@ export default {
       this.domains = result.data
     },
   },
-
   async created() {
     this.loading = true
-
     await this.initDomains()
-
     this.loading = false
   },
 }
