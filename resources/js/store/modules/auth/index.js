@@ -5,6 +5,7 @@ const state = {
   greetingType: '',
   pageLoading: false,
   finishedLoginCheck: false,
+  me: {},
 }
 
 const mutations = {
@@ -13,12 +14,20 @@ const mutations = {
   pageLoading: (state, value) => (state.pageLoading = value),
   isLogin: (state, value) => (state.isLogin = value),
   finishedLoginCheck: (state, value) => (state.finishedLoginCheck = value),
+  me: (state, value) => (state.me = value),
 }
 
 const actions = {
   sendMessage({ commit }, payload) {
     commit('greeting', payload.greeting)
     commit('greetingType', payload.greetingType)
+  },
+
+  async fetchMe({ commit }) {
+    const result = await axios.get('api/me')
+    const me = result.data
+    me.avatarName = me.name.charAt(0)
+    commit('me', me)
   },
 
   async checkLogin({ commit }) {
@@ -42,6 +51,11 @@ const actions = {
     commit('pageLoading', false)
 
     return result
+  },
+  async logout({ commit }) {
+    commit('pageLoading', true)
+    await axios.post('/logout')
+    commit('pageLoading', false)
   },
 
   async register({ commit }, payload) {
@@ -94,6 +108,7 @@ const getters = {
   pageLoading: (state) => state.pageLoading,
   isLogin: (state) => state.isLogin,
   finishedLoginCheck: (state) => state.finishedLoginCheck,
+  me: (state) => state.me,
 }
 
 export default {

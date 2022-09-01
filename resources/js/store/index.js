@@ -10,6 +10,8 @@ import account from './modules/account'
 import role from './modules/role'
 import setting from './modules/setting'
 import auth from './modules/auth'
+import menu from './modules/menu'
+import common from './common'
 
 Vue.use(Vuex)
 
@@ -24,6 +26,8 @@ const store = new Vuex.Store({
     role,
     setting,
     auth,
+    menu,
+    common,
   },
 })
 
