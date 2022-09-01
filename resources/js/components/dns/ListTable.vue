@@ -8,13 +8,11 @@
         <v-btn v-if="canDelete" x-small @click="deletion(item)">delete</v-btn>
       </template>
     </v-data-table>
-
     <update-dialog
       :isOpen="isOpenEditDialog"
       :subdomain="subdomain"
       @close="closeEditDialog"
     ></update-dialog>
-
     <delete-dialog
       :isOpen="isOpenDeleteDialog"
       :subdomain="subdomain"
@@ -30,12 +28,10 @@ import DeleteDialog from '../../components/dns/DeleteDialog'
 
 export default {
   name: 'DnsListTable',
-
   components: {
     UpdateDialog,
     DeleteDialog,
   },
-
   props: {
     subdomains: {
       default() {
@@ -44,11 +40,9 @@ export default {
       type: Array,
     },
   },
-
   computed: {
     ...mapGetters('dns', ['canUpdate', 'canDelete']),
   },
-
   data() {
     return {
       isOpenEditDialog: false,
@@ -83,7 +77,6 @@ export default {
       ],
     }
   },
-
   methods: {
     openEditDialog() {
       this.isOpenEditDialog = true
@@ -102,20 +95,12 @@ export default {
     },
 
     edit(subdomain) {
-      this.subdomain.id = subdomain.id
-      this.subdomain.prefix = subdomain.prefix
-      this.subdomain.type_id = subdomain.type_id
-      this.subdomain.domain_id = subdomain.domain_id
-      this.subdomain.value = subdomain.value
-      this.subdomain.ttl = subdomain.ttl
-      this.subdomain.priority = subdomain.priority
-
+      this.subdomain = Object.assign({}, subdomain)
       this.openEditDialog()
     },
 
     deletion(subdomain) {
-      this.subdomain = subdomain
-
+      this.subdomain = Object.assign({}, subdomain)
       this.openDeleteDialog()
     },
   },

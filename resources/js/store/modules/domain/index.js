@@ -13,7 +13,6 @@ const state = {
     managementOnly: [],
     transferred: [],
   },
-
   domains: [],
   tabs: [],
 }
@@ -37,7 +36,6 @@ const actions = {
 
   async fetchCategorizedDomains({ commit }) {
     commit('pageLoading', true)
-
     const result = await axios.get('/api/domains')
 
     let domains = {
@@ -46,34 +44,27 @@ const actions = {
       managementOnly: [],
       transferred: [],
     }
-
     result.data.forEach((domain) => {
       if (domain.is_transferred) {
         domains.transferred.push(domain)
       }
-
       if (domain.is_management_only) {
         domains.managementOnly.push(domain)
       }
-
       if (domain.is_active) {
         domains.active.push(domain)
       } else {
         domains.inactive.push(domain)
       }
     })
-
     commit('categorizedDomains', domains)
     commit('pageLoading', false)
   },
 
   async fetchDomains({ commit }) {
     commit('pageLoading', true)
-
     const result = await axios.get('/api/domains')
-
     commit('domains', result.data)
-
     commit('pageLoading', false)
   },
 
@@ -81,7 +72,6 @@ const actions = {
     const result = await axios.post('/api/domains/', {
       ...payload,
     })
-
     dispatch('fetchDomains')
 
     return result
@@ -91,7 +81,6 @@ const actions = {
     const result = await axios.put('/api/domains/' + payload.id, {
       ...payload,
     })
-
     dispatch('fetchDomains')
 
     return result
@@ -101,7 +90,6 @@ const actions = {
     const result = await axios.delete('/api/domains/' + payload.id, {
       ...payload,
     })
-
     dispatch('fetchDomains')
 
     return result

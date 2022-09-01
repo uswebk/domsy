@@ -76,7 +76,6 @@ export default {
       this.isOpenNewDialog = false
     },
   },
-
   async created() {
     this.fetchRegistrars()
     this.initRole()

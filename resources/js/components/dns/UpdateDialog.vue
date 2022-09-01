@@ -10,93 +10,67 @@
         <span class="text-h6"> DNS Edit</span>
       </v-card-title>
       <v-card-text>
-        <v-container v-if="!loading">
+        <v-container>
           <v-form ref="form" lazy-validation>
             <v-row>
               <v-col cols="3">
                 <v-text-field
-                  class="mt-5"
                   label="Prefix"
                   v-model="subdomainModel.prefix"
                   required
-                  hide-details
+                  :error-messages="errors.prefix"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.prefix"
-                ></validation-error-message>
               </v-col>
               <v-col cols="9">
                 <v-select
-                  class="mt-5"
+                  label="Domain"
                   v-model="subdomainModel.domain_id"
                   :items="domains"
                   item-text="name"
                   item-value="id"
-                  label="Domain"
-                  hide-details
+                  :error-messages="errors.domain_id"
                 ></v-select>
-                <validation-error-message
-                  :message="errors.domain_id"
-                ></validation-error-message>
               </v-col>
               <v-col cols="3">
                 <v-select
-                  class="mt-5"
+                  label="DnsType"
                   v-model="subdomainModel.type_id"
                   :items="dnsRecordTypes"
                   item-text="name"
                   item-value="id"
-                  label="DnsType"
-                  hide-details
+                  :error-messages="errors.type_id"
                 ></v-select>
-                <validation-error-message
-                  :message="errors.type_id"
-                ></validation-error-message>
               </v-col>
               <v-col cols="9">
                 <v-text-field
-                  class="mt-5"
                   label="Value"
                   v-model="subdomainModel.value"
                   required
-                  hide-details
+                  :error-messages="errors.value"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.value"
-                ></validation-error-message>
               </v-col>
               <v-col cols="6">
                 <v-text-field
-                  class="mt-5"
                   label="TTL"
                   v-model="subdomainModel.ttl"
                   type="number"
                   min="0"
                   required
-                  hide-details
+                  :error-messages="errors.ttl"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.ttl"
-                ></validation-error-message>
               </v-col>
               <v-col cols="6">
                 <v-text-field
-                  class="mt-5"
                   label="Priority"
                   v-model="subdomainModel.priority"
                   type="number"
                   min="0"
                   required
-                  hide-details
+                  :error-messages="errors.priority"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.priority"
-                ></validation-error-message>
               </v-col>
             </v-row>
-
             <div class="my-5"></div>
-
             <v-btn color="primary" @click="update">Update</v-btn>
           </v-form>
         </v-container>
@@ -111,14 +85,9 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'DnsUpdateDialog',
-  components: {
-    ValidationErrorMessage,
-  },
-
   props: {
     isOpen: {
       default: false,
@@ -131,14 +100,12 @@ export default {
       required: true,
     },
   },
-
   data() {
     return {
       loading: false,
       errors: {},
     }
   },
-
   computed: {
     ...mapGetters('domain', ['domains']),
     ...mapGetters('dns', ['pageLoading', 'dnsRecordTypes']),
@@ -151,24 +118,22 @@ export default {
         return this.isOpen
       },
       set() {
-        this.errors = {}
         this.close()
       },
     },
   },
-
   methods: {
     ...mapActions('dns', ['updateDns', 'sendMessage']),
 
     close() {
+      this.errors = {}
       this.$emit('close')
     },
 
     async update() {
+      this.loading = true
       try {
         this.updateDns(this.subdomain)
-
-        this.close()
 
         this.sendMessage({
           greeting: 'Update Success',
@@ -176,33 +141,29 @@ export default {
         })
       } catch (error) {
         const status = error.response.status
-
         if (status === 422) {
-          var responseErrors = error.response.data.errors
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
+          const errors = error.response.data.errors
+          const _errors = {}
+          for (let key in errors) {
+            _errors[key] = errors[key][0]
           }
-          this.errors = errors
+          this.errors = _errors
+          this.loading = false
           return
         }
-
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
         }
-
         if (status >= 500) {
           message = 'Server Error'
         }
-
         this.sendMessage({
           greeting: message,
           greetingType: 'error',
         })
-
-        this.close()
       }
+      this.close()
     },
   },
 }

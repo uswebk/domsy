@@ -52,14 +52,12 @@ export default {
     NewDialog,
     ListTable,
   },
-
   data() {
     return {
       subdomain: {},
       isOpenNewDialog: false,
     }
   },
-
   computed: {
     ...mapGetters('dns', [
       'dns',
@@ -69,22 +67,20 @@ export default {
       'greetingType',
     ]),
   },
-
   methods: {
     ...mapMutations('dns', ['domainId']),
-    ...mapActions('domain', ['fetchDomains']),
     ...mapActions('dns', ['fetchDns', 'fetchDnsRecordTypes', 'initRole']),
+    ...mapActions('domain', ['fetchDomains']),
 
     openNewDialog(domain) {
-      this.isOpenNewDialog = true
       this.domainId(domain.id)
+      this.isOpenNewDialog = true
     },
 
     closeNewDialog() {
       this.isOpenNewDialog = false
     },
   },
-
   async created() {
     this.fetchDns()
     this.fetchDomains()

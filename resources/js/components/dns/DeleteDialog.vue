@@ -32,7 +32,6 @@ export default {
       required: true,
     },
   },
-
   computed: {
     subdomainModel() {
       return this.subdomain
@@ -46,7 +45,6 @@ export default {
       },
     },
   },
-
   methods: {
     ...mapActions('dns', ['deleteDns', 'sendMessage']),
 
@@ -58,31 +56,25 @@ export default {
       try {
         await this.deleteDns(this.subdomainModel)
 
-        this.close()
-
         this.sendMessage({
           greeting: 'Delete Success',
           greetingType: 'success',
         })
       } catch (error) {
-        const status = error.response.status
-
         let message = ''
+        const status = error.response.status
         if (status === 403) {
           message = 'Illegal operation was performed.'
         }
-
         if (status >= 500) {
           message = 'Server Error'
         }
-
         this.sendMessage({
           greeting: message,
           greetingType: 'error',
         })
-
-        this.close()
       }
+      this.close()
     },
   },
 }

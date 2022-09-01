@@ -129,7 +129,6 @@ export default {
       this.isOpenNewRoleDialog = false
     },
   },
-
   created() {
     this.initRole()
     this.initRoleRole()
