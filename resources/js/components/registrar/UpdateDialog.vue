@@ -15,41 +15,28 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                  class="mt-5"
                   label="Name"
                   v-model="registrarModel.name"
                   required
-                  hide-details
+                  :error-messages="errors.name"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.name"
-                ></validation-error-message>
                 <v-text-field
                   class="mt-5"
                   label="Link"
                   v-model="registrarModel.link"
                   required
-                  hide-details
+                  :error-messages="errors.link"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.link"
-                ></validation-error-message>
-
                 <v-textarea
                   class="mt-5"
                   label="Note"
                   v-model="registrarModel.note"
                   required
-                  hide-details
+                  :error-messages="errors.note"
                 ></v-textarea>
-                <validation-error-message
-                  :message="errors.note"
-                ></validation-error-message>
               </v-col>
             </v-row>
-
             <div class="my-5"></div>
-
             <v-btn color="primary" @click="update">Update</v-btn>
           </v-form>
         </v-container>
@@ -64,13 +51,9 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'RegistrarUpdateDialog',
-  components: {
-    ValidationErrorMessage,
-  },
   props: {
     isOpen: {
       default: false,
@@ -83,48 +66,39 @@ export default {
       required: true,
     },
   },
-
   data() {
     return {
       loading: false,
       errors: {},
     }
   },
-
   computed: {
     ...mapGetters('registrar', ['pageLoading']),
 
     registrarModel() {
       return this.registrar
     },
-
     open: {
       get() {
         return this.isOpen
       },
       set() {
-        this.errors = {}
         this.close()
       },
     },
   },
-
   methods: {
     ...mapActions('registrar', ['updateRegistrar', 'sendMessage']),
 
     close() {
+      this.errors = {}
       this.$emit('close')
     },
 
     async update() {
+      this.loading = true
       try {
-        this.loading = true
-
         await this.updateRegistrar(this.registrarModel)
-
-        this.close()
-
-        this.loading = false
 
         this.sendMessage({
           greeting: 'Update Success',
@@ -132,14 +106,14 @@ export default {
         })
       } catch (error) {
         const status = error.response.status
-
         if (status === 422) {
-          var responseErrors = error.response.data.errors
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
+          const errors = error.response.data.errors
+          const _errors = {}
+          for (let key in errors) {
+            _errors[key] = errors[key][0]
           }
-          this.errors = errors
+          this.errors = _errors
+          this.loading = false
           return
         }
 
@@ -147,18 +121,16 @@ export default {
         if (status === 403) {
           message = 'Illegal operation was performed.'
         }
-
         if (status >= 500) {
           message = 'Server Error'
         }
-
         this.sendMessage({
           greeting: message,
           greetingType: 'error',
         })
-
-        this.close()
       }
+      this.close()
+      this.loading = false
     },
   },
 }

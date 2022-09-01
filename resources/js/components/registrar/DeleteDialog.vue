@@ -32,7 +32,6 @@ export default {
       required: true,
     },
   },
-
   computed: {
     registrarModel() {
       return this.registrar
@@ -42,12 +41,10 @@ export default {
         return this.isOpen
       },
       set() {
-        this.errors = {}
         this.close()
       },
     },
   },
-
   methods: {
     ...mapActions('registrar', ['deleteRegistrar', 'sendMessage']),
 
@@ -59,20 +56,16 @@ export default {
       try {
         await this.deleteRegistrar(this.registrarModel)
 
-        this.close()
-
         this.sendMessage({
           greeting: 'Delete Success',
           greetingType: 'success',
         })
       } catch (error) {
         const status = error.response.status
-
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
         }
-
         if (status >= 500) {
           message = 'Server Error'
         }
@@ -81,9 +74,8 @@ export default {
           greeting: message,
           greetingType: 'error',
         })
-
-        this.close()
       }
+      this.close()
     },
   },
 }

@@ -41,7 +41,6 @@ export default {
         return this.isOpen
       },
       set() {
-        this.errors = {}
         this.close()
       },
     },
@@ -56,8 +55,6 @@ export default {
     async deletion() {
       try {
         await this.deleteAccount(this.accountModel)
-
-        this.close()
 
         this.sendMessage({
           greeting: 'Delete Success',
@@ -77,9 +74,8 @@ export default {
           greeting: message,
           greetingType: 'error',
         })
-
-        this.close()
       }
+      this.close()
     },
   },
 }

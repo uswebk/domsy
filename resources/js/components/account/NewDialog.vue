@@ -134,7 +134,6 @@ export default {
         })
       } catch (error) {
         const status = error.response.status
-
         if (status === 422) {
           const errors = error.response.data.errors
           const _errors = {}

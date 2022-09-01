@@ -1,6 +1,11 @@
 <template>
   <v-dialog v-model="open" max-width="600px">
     <v-card>
+      <v-progress-linear
+        v-if="loading"
+        color="info"
+        indeterminate
+      ></v-progress-linear>
       <v-card-title class="pl-8">
         <span class="text-h6">Registrar Create</span>
       </v-card-title>
@@ -10,42 +15,26 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                  class="mt-5"
                   label="Name"
                   v-model="registrarModel.name"
                   required
-                  hide-details
+                  :error-messages="errors.name"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.name"
-                ></validation-error-message>
-
                 <v-text-field
-                  class="mt-5"
                   label="Link"
                   v-model="registrarModel.link"
                   required
-                  hide-details
+                  :error-messages="errors.link"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.link"
-                ></validation-error-message>
-
                 <v-textarea
-                  class="mt-5"
                   label="Note"
                   v-model="registrarModel.note"
                   required
-                  hide-details
+                  :error-messages="errors.note"
                 ></v-textarea>
-                <validation-error-message
-                  :message="errors.note"
-                ></validation-error-message>
               </v-col>
             </v-row>
-
             <div class="my-5"></div>
-
             <v-btn color="primary" @click="store">Create</v-btn>
           </v-form>
         </v-container>
@@ -60,13 +49,9 @@
 
 <script>
 import { mapActions } from 'vuex'
-import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'RegistrarNewDialog',
-  components: {
-    ValidationErrorMessage,
-  },
   props: {
     isOpen: {
       default: false,
@@ -74,9 +59,9 @@ export default {
       required: true,
     },
   },
-
   data() {
     return {
+      loading: false,
       registrarModel: {
         name: '',
         link: '',
@@ -85,24 +70,21 @@ export default {
       errors: {},
     }
   },
-
   computed: {
     open: {
       get() {
         return this.isOpen
       },
       set() {
-        this.errors = {}
-
         this.close()
       },
     },
   },
-
   methods: {
     ...mapActions('registrar', ['storeRegistrar', 'sendMessage']),
 
     close() {
+      this.errors = {}
       this.$emit('close')
     },
 
@@ -115,10 +97,9 @@ export default {
     },
 
     async store() {
+      this.loading = true
       try {
         await this.storeRegistrar(this.registrarModel)
-
-        this.close()
 
         this.sendMessage({
           greeting: 'Create Success',
@@ -126,14 +107,14 @@ export default {
         })
       } catch (error) {
         const status = error.response.status
-
         if (status === 422) {
-          var responseErrors = error.response.data.errors
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
+          const errors = error.response.data.errors
+          const _errors = {}
+          for (let key in errors) {
+            _errors[key] = errors[key][0]
           }
-          this.errors = errors
+          this.errors = _errors
+          this.loading = false
           return
         }
 
@@ -141,20 +122,17 @@ export default {
         if (status === 403) {
           message = 'Illegal operation was performed.'
         }
-
         if (status >= 500) {
           message = 'Server Error'
         }
-
         this.sendMessage({
           greeting: message,
           greetingType: 'error',
         })
-
-        this.close()
       }
-
+      this.close()
       this.resetForm()
+      this.loading = false
     },
   },
 }

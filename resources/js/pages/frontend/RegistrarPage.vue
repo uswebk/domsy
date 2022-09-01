@@ -5,14 +5,11 @@
         :icon="'mdi-domain'"
         :headlineText="'Registrar'"
       ></icon-head-line>
-
       <div class="py-5"></div>
-
       <greeting-message
         :type="greetingType"
         :message="greeting"
       ></greeting-message>
-
       <v-progress-linear
         v-show="pageLoading"
         color="yellow darken-2"
@@ -20,7 +17,6 @@
         rounded
         height="6"
       ></v-progress-linear>
-
       <v-btn
         v-if="canStore"
         class="ma-2"
@@ -30,9 +26,7 @@
       >
         <v-icon dark left> mdi-plus-circle </v-icon>New
       </v-btn>
-
       <list-table :registrars="registrars"></list-table>
-
       <new-dialog
         :isOpen="isOpenNewDialog"
         @close="closeNewDialog"
@@ -56,14 +50,12 @@ export default {
     NewDialog,
     ListTable,
   },
-
   data() {
     return {
       registrar: {},
       isOpenNewDialog: false,
     }
   },
-
   computed: {
     ...mapGetters('registrar', [
       'registrars',
@@ -73,7 +65,6 @@ export default {
       'greetingType',
     ]),
   },
-
   methods: {
     ...mapActions('registrar', ['fetchRegistrars', 'initRole']),
 
@@ -83,20 +74,6 @@ export default {
 
     closeNewDialog() {
       this.isOpenNewDialog = false
-    },
-
-    sendMessage(result) {
-      this.resetGreeting()
-
-      this.initRegistrars()
-
-      if (result.status === 200) {
-        this.greetingType = 'success'
-        this.message = result.message
-      } else {
-        this.greetingType = 'error'
-        this.message = result.message
-      }
     },
   },
 
