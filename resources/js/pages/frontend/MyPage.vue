@@ -4,17 +4,14 @@
       <h1 class="text-h5 font-weight-bold">
         <v-icon large>mdi-account-box</v-icon> Mypage
       </h1>
-
       <div class="py-5"></div>
-
       <v-progress-linear
-        v-show="!finishInitialize"
+        v-show="loading"
         color="yellow darken-2"
         indeterminate
         rounded
         height="6"
       ></v-progress-linear>
-
       <v-container class="pa-14">
         <v-row dense>
           <v-col cols="4" v-for="menu in menus" :key="menu.id">
@@ -28,7 +25,6 @@
                     >{{ menu.description }}
                   </v-list-item-subtitle>
                 </v-list-item-content>
-
                 <v-list-item-avatar
                   tile
                   size="60"
@@ -39,7 +35,6 @@
                   }}</v-icon></v-list-item-avatar
                 >
               </v-list-item>
-
               <v-card-actions>
                 <v-btn outlined rounded text :href="menu.route_name">
                   Link <v-icon small>mdi-link-variant</v-icon>
@@ -59,25 +54,20 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      finishInitialize: false,
+      loading: false,
       menus: {},
     }
   },
-
   methods: {
     async getMenus() {
-      this.finishInitialize = false
-
       const result = await axios.get('/api/menus')
-
       this.menus = result.data
-
-      this.finishInitialize = true
     },
   },
-
-  created() {
-    this.getMenus()
+  async created() {
+    this.loading = true
+    await this.getMenus()
+    this.loading = false
   },
 }
 </script>
