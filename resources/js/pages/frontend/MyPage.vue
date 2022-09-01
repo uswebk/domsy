@@ -8,7 +8,7 @@
           </h1>
           <div class="py-5"></div>
           <v-progress-linear
-            v-show="loading"
+            v-show="pageLoading"
             color="yellow darken-2"
             indeterminate
             rounded
@@ -17,7 +17,7 @@
           <v-container class="pa-14">
             <v-row dense>
               <v-col cols="4" v-for="menu in menus" :key="menu.id">
-                <v-card outlined>
+                <v-card outlined v-if="menu.has_role">
                   <v-list-item three-line>
                     <v-list-item-content>
                       <v-list-item-title class="text-h6 mb-1">
@@ -53,28 +53,14 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { mapGetters } from 'vuex'
 import BaseFrame from '../../components/common/BaseFrame'
 
 export default {
   name: 'MyPage',
   components: { BaseFrame },
-  data() {
-    return {
-      loading: false,
-      menus: {},
-    }
-  },
-  methods: {
-    async getMenus() {
-      const result = await axios.get('/api/menus')
-      this.menus = result.data
-    },
-  },
-  async created() {
-    this.loading = true
-    await this.getMenus()
-    this.loading = false
+  computed: {
+    ...mapGetters('menu', ['menus', 'pageLoading']),
   },
 }
 </script>

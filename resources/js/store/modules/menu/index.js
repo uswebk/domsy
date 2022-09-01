@@ -1,21 +1,26 @@
 import axios from 'axios'
 
 const state = {
+  pageLoading: false,
   menus: [],
 }
 
 const mutations = {
+  pageLoading: (state, value) => (state.pageLoading = value),
   menus: (state, value) => (state.menus = value),
 }
 
 const actions = {
   async fetchMenus({ commit }) {
+    commit('pageLoading', true)
     const result = await axios.get('api/menus')
     commit('menus', result.data)
+    commit('pageLoading', false)
   },
 }
 
 const getters = {
+  pageLoading: (state) => state.pageLoading,
   menus: (state) => state.menus,
 }
 
