@@ -15,75 +15,44 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                  class="mt-5"
                   label="Name"
                   v-model="clientModel.name"
                   required
-                  hide-details
+                  :error-messages="errors.name"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.name"
-                ></validation-error-message>
-
                 <v-text-field
-                  class="mt-5"
                   label="NameKana"
                   v-model="clientModel.name_kana"
                   required
-                  hide-details
+                  :error-messages="errors.name_kana"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.name_kana"
-                ></validation-error-message>
-
                 <v-text-field
-                  class="mt-5"
                   label="email"
                   v-model="clientModel.email"
                   required
-                  hide-details
+                  :error-messages="errors.email"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.email"
-                ></validation-error-message>
-
                 <v-text-field
-                  class="mt-5"
                   label="Zip"
                   v-model="clientModel.zip"
                   required
-                  hide-details
+                  :error-messages="errors.zip"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.zip"
-                ></validation-error-message>
-
                 <v-text-field
-                  class="mt-5"
                   label="Address"
                   v-model="clientModel.address"
                   required
-                  hide-details
+                  :error-messages="errors.address"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.address"
-                ></validation-error-message>
-
                 <v-text-field
-                  class="mt-5"
                   label="TEL"
                   v-model="clientModel.phone_number"
                   required
-                  hide-details
+                  :error-messages="errors.phone_number"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.phone_number"
-                ></validation-error-message>
               </v-col>
             </v-row>
-
             <div class="my-5"></div>
-
             <v-btn color="primary" @click="store">Create</v-btn>
           </v-form>
         </v-container>
@@ -98,13 +67,9 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'ClientNewDialog',
-  components: {
-    ValidationErrorMessage,
-  },
   props: {
     isOpen: {
       default: false,
@@ -112,7 +77,6 @@ export default {
       required: true,
     },
   },
-
   data() {
     return {
       loading: false,
@@ -136,16 +100,15 @@ export default {
         return this.isOpen
       },
       set() {
-        this.errors = {}
         this.close()
       },
     },
   },
-
   methods: {
     ...mapActions('client', ['storeClient', 'sendMessage']),
 
     close() {
+      this.errors = {}
       this.$emit('close')
     },
 
@@ -161,14 +124,9 @@ export default {
     },
 
     async store() {
+      this.loading = true
       try {
-        this.loading = true
-
         await this.storeClient(this.clientModel)
-
-        this.close()
-
-        this.loading = false
 
         this.sendMessage({
           greeting: 'Create Success',
@@ -178,33 +136,30 @@ export default {
         const status = error.response.status
 
         if (status === 422) {
-          var responseErrors = error.response.data.errors
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
+          const errors = error.response.data.errors
+          const _errors = {}
+          for (let key in errors) {
+            _errors[key] = errors[key][0]
           }
-          this.errors = errors
+          this.errors = _errors
+          this.loading = false
           return
         }
-
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
         }
-
         if (status >= 500) {
           message = 'Server Error'
         }
-
         this.sendMessage({
           greeting: message,
           greetingType: 'error',
         })
-
-        this.close()
       }
-
+      this.close()
       this.resetForm()
+      this.loading = false
     },
   },
 }

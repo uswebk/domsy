@@ -5,14 +5,11 @@
         :icon="'mdi-account-group'"
         :headlineText="'Client'"
       ></icon-head-line>
-
       <div class="py-5"></div>
-
       <greeting-message
         :type="greetingType"
         :message="greeting"
       ></greeting-message>
-
       <v-progress-linear
         v-show="pageLoading"
         color="yellow darken-2"
@@ -20,7 +17,6 @@
         rounded
         height="6"
       ></v-progress-linear>
-
       <v-btn
         v-if="canStore"
         class="ma-2"
@@ -30,9 +26,7 @@
       >
         <v-icon dark left> mdi-plus-circle </v-icon>New
       </v-btn>
-
       <list-table :clients="clients"></list-table>
-
       <new-dialog
         :isOpen="isOpenNewDialog"
         @close="closeNewDialog"
@@ -56,13 +50,11 @@ export default {
     ListTable,
     NewDialog,
   },
-
   data() {
     return {
       isOpenNewDialog: false,
     }
   },
-
   computed: {
     ...mapGetters('client', [
       'clients',
@@ -72,7 +64,6 @@ export default {
       'greetingType',
     ]),
   },
-
   methods: {
     ...mapActions('client', ['fetchClients', 'initRole']),
 
@@ -84,7 +75,6 @@ export default {
       this.isOpenNewDialog = false
     },
   },
-
   created() {
     this.fetchClients()
     this.initRole()

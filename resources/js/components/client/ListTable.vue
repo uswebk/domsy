@@ -20,13 +20,11 @@
         <v-btn v-if="canDelete" x-small @click="deletion(item)">delete</v-btn>
       </template>
     </v-data-table>
-
     <update-dialog
       :isOpen="isOpenEditDialog"
       :client="client"
       @close="closeEditDialog"
     ></update-dialog>
-
     <delete-dialog
       :isOpen="isOpenDeleteDialog"
       :client="client"
@@ -55,7 +53,6 @@ export default {
       type: Array,
     },
   },
-
   data() {
     return {
       search: '',
@@ -91,11 +88,9 @@ export default {
       ],
     }
   },
-
   computed: {
     ...mapGetters('client', ['canUpdate', 'canDelete']),
   },
-
   methods: {
     openEditDialog() {
       this.isOpenEditDialog = true
@@ -114,20 +109,12 @@ export default {
     },
 
     edit(client) {
-      this.client.id = client.id
-      this.client.name = client.name
-      this.client.nameKana = client.name_kana
-      this.client.email = client.email
-      this.client.zip = client.zip
-      this.client.address = client.address
-      this.client.phoneNumber = client.phone_number
-
+      this.client = Object.assign({}, client)
       this.openEditDialog()
     },
 
     deletion(client) {
-      this.client = client
-
+      this.client = Object.assign({}, client)
       this.openDeleteDialog()
     },
   },
