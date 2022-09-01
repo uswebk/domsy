@@ -19,40 +19,25 @@
                   v-model="billingModel.billing_date"
                   type="date"
                   required
-                  hide-details
+                  :error-messages="errors.billing_date"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.billing_date"
-                ></validation-error-message>
-
                 <v-text-field
-                  class="mt-5"
                   label="Total"
                   v-model="billingModel.total"
                   type="number"
                   min="0"
                   prefix="¥"
                   required
-                  hide-details
+                  :error-messages="errors.total"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.total"
-                ></validation-error-message>
-
                 <v-checkbox
-                  class="mt-5"
                   v-model="billingModel.is_fixed"
                   label="isFixed"
-                  hide-details
+                  :error-messages="errors.is_fixed"
                 ></v-checkbox>
-                <validation-error-message
-                  :message="errors.is_fixed"
-                ></validation-error-message>
               </v-col>
             </v-row>
-
             <div class="my-5"></div>
-
             <v-btn color="primary" @click="update">Update</v-btn>
           </v-form>
         </v-container>
@@ -67,13 +52,9 @@
 
 <script>
 import { mapActions } from 'vuex'
-import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'BillingDialog',
-  components: {
-    ValidationErrorMessage,
-  },
   props: {
     isOpen: {
       default: false,
@@ -86,19 +67,16 @@ export default {
       required: true,
     },
   },
-
   data() {
     return {
       loading: false,
       errors: {},
     }
   },
-
   computed: {
     billingModel() {
       return this.billing
     },
-
     open: {
       get() {
         return this.isOpen
@@ -109,7 +87,6 @@ export default {
       },
     },
   },
-
   methods: {
     ...mapActions('dealing', ['fetchDealing', 'updateBilling']),
 
@@ -118,44 +95,37 @@ export default {
     },
 
     async update() {
+      this.loading = true
       try {
-        this.loading = true
-
         const result = await this.updateBilling(this.billingModel)
-
         await this.fetchDealing(result.data.dealing.id)
 
-        this.loading = false
-
         alert('update success')
-
-        this.close()
       } catch (error) {
         const status = error.response.status
 
         if (status === 422) {
-          var responseErrors = error.response.data.errors
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
+          const errors = error.response.data.errors
+          const _errors = {}
+          for (let key in errors) {
+            _errors[key] = errors[key][0]
           }
-          this.errors = errors
+          this.errors = _errors
+          this.loading = false
           return
         }
-
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
-          this.close()
         }
-
         if (status >= 500) {
           message = 'Server Error'
-          this.close()
         }
 
         alert(message)
       }
+      this.loading = false
+      this.close()
     },
   },
 }

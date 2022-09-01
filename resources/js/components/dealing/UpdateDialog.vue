@@ -15,122 +15,84 @@
             <v-row>
               <v-col cols="12">
                 <v-select
+                  label="Domain"
                   v-model="dealingModel.domain_id"
                   :items="domains"
                   item-text="name"
                   item-value="id"
-                  label="Domain"
-                  hide-details
+                  :error-messages="errors.domain_id"
+                  :disabled="isBilled"
                 ></v-select>
-                <validation-error-message
-                  :message="errors.domain_id"
-                ></validation-error-message>
-
                 <v-select
-                  class="mt-5"
+                  label="Client"
                   v-model="dealingModel.client_id"
                   :items="clients"
                   item-text="name"
                   item-value="id"
-                  label="Client"
-                  hide-details
+                  :error-messages="errors.client_id"
+                  :disabled="isBilled"
                 ></v-select>
-                <validation-error-message
-                  :message="errors.client_id"
-                ></validation-error-message>
-
                 <v-text-field
-                  class="mt-5"
-                  label="Subtotal"
+                  label="Amount"
                   v-model="dealingModel.subtotal"
                   type="number"
                   min="0"
                   prefix="¥"
                   required
-                  hide-details
+                  :error-messages="errors.subtotal"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.subtotal"
-                ></validation-error-message>
-
                 <v-text-field
-                  class="mt-5"
                   label="Discount"
                   v-model="dealingModel.discount"
                   type="number"
                   min="0"
                   prefix="¥"
                   required
-                  hide-details
+                  :error-messages="errors.discount"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.discount"
-                ></validation-error-message>
-
                 <v-text-field
-                  class="mt-5"
                   label="Billing Date"
                   v-model="dealingModel.billing_date"
                   type="date"
                   required
-                  hide-details
+                  :error-messages="errors.billing_date"
+                  :disabled="isBilled"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.billing_date"
-                ></validation-error-message>
               </v-col>
               <v-col cols="2">
                 <v-text-field
-                  class="mt-5"
                   label="Interval"
                   v-model="dealingModel.interval"
                   type="number"
                   min="0"
                   required
-                  hide-details
+                  :error-messages="errors.interval"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.interval"
-                ></validation-error-message>
               </v-col>
               <v-col cols="4">
                 <v-select
-                  class="mt-5"
+                  label="IntervalCategory"
                   v-model="dealingModel.interval_category"
                   :items="intervalCategories"
-                  label="IntervalCategory"
-                  hide-details
+                  :error-messages="errors.interval_category"
                 ></v-select>
-                <validation-error-message
-                  :message="errors.interval_category"
-                ></validation-error-message>
               </v-col>
               <v-col cols="3">
                 <v-checkbox
-                  class="mt-5"
-                  v-model="dealingModel.is_auto_update"
                   label="AutoUpdate"
-                  hide-details
+                  v-model="dealingModel.is_auto_update"
+                  :error-messages="errors.is_auto_update"
                 ></v-checkbox>
-                <validation-error-message
-                  :message="errors.is_auto_update"
-                ></validation-error-message>
               </v-col>
               <v-col cols="3">
                 <v-checkbox
-                  class="mt-5"
                   v-model="dealingModel.is_halt"
                   label="Halt"
-                  hide-details
+                  :error-messages="errors.is_auto_update"
                 ></v-checkbox>
-                <validation-error-message
-                  :message="errors.is_halt"
-                ></validation-error-message>
               </v-col>
             </v-row>
-
             <div class="my-5"></div>
-
             <v-btn color="primary" @click="update">Update</v-btn>
           </v-form>
         </v-container>
@@ -145,13 +107,9 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'DealingUpdateDialog',
-  components: {
-    ValidationErrorMessage,
-  },
   props: {
     isOpen: {
       default: false,
@@ -164,49 +122,45 @@ export default {
       required: true,
     },
   },
-
   data() {
     return {
       loading: false,
       errors: {},
     }
   },
-
   computed: {
     ...mapGetters('domain', ['domains']),
     ...mapGetters('client', ['clients']),
     ...mapGetters('dealing', ['pageLoading', 'intervalCategories']),
 
     dealingModel() {
-      return this.dealing
+      return Object.assign({}, this.dealing)
+    },
+
+    isBilled() {
+      return new Date(this.dealing.billing_date).getTime() < Date.now()
     },
     open: {
       get() {
         return this.isOpen
       },
       set() {
-        this.errors = {}
         this.close()
       },
     },
   },
-
   methods: {
     ...mapActions('dealing', ['updateDealing', 'sendMessage']),
 
     close() {
+      this.errors = {}
       this.$emit('close')
     },
 
     async update() {
+      this.loading = true
       try {
-        this.loading = true
-
         await this.updateDealing(this.dealingModel)
-
-        this.close()
-
-        this.loading = false
 
         this.sendMessage({
           greeting: 'Update Success',
@@ -216,31 +170,29 @@ export default {
         const status = error.response.status
 
         if (status === 422) {
-          var responseErrors = error.response.data.errors
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
+          const errors = error.response.data.errors
+          const _errors = {}
+          for (let key in errors) {
+            _errors[key] = errors[key][0]
           }
-          this.errors = errors
+          this.errors = _errors
+          this.loading = false
           return
         }
-
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
         }
-
         if (status >= 500) {
           message = 'Server Error'
         }
-
         this.sendMessage({
           greeting: message,
           greetingType: 'error',
         })
-
-        this.close()
       }
+      this.close()
+      this.loading = false
     },
   },
 }

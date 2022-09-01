@@ -11,9 +11,7 @@
         ></v-text-field>
       </v-col>
     </v-row>
-
     <div class="my-2"></div>
-
     <v-data-table :headers="headers" :items="dealings" :search="search">
       <template v-slot:[`item.subtotal`]="{ item }">
         {{ $appHelper.formattedPriceYen(item.subtotal) }}
@@ -41,13 +39,11 @@
         >
       </template>
     </v-data-table>
-
     <update-dialog
       :isOpen="isOpenEditDialog"
       :dealing="dealing"
       @close="closeEditDialog"
     ></update-dialog>
-
     <detail-dialog
       :isOpen="isOpenDetailDialog"
       :dealing="dealing"
@@ -67,7 +63,6 @@ export default {
     UpdateDialog,
     DetailDialog,
   },
-
   props: {
     dealings: {
       default() {
@@ -76,7 +71,6 @@ export default {
       type: Array,
     },
   },
-
   data() {
     return {
       search: '',
@@ -122,11 +116,9 @@ export default {
       ],
     }
   },
-
   computed: {
     ...mapGetters('dealing', ['canUpdate', 'canDetail']),
   },
-
   methods: {
     ...mapMutations('dealing', { dealingCommit: 'dealing' }),
     ...mapActions('dealing', ['fetchDealing']),
@@ -148,19 +140,10 @@ export default {
     },
 
     edit(dealing) {
-      this.dealing.id = dealing.id
-      this.dealing.domain_id = dealing.domain_id
-      this.dealing.client_id = dealing.client_id
-      this.dealing.subtotal = dealing.subtotal
-      this.dealing.discount = dealing.discount
+      this.dealing = Object.assign({}, dealing)
       this.dealing.billing_date = this.$dateHelper.dateHyphen(
-        dealing.billing_date
+        this.dealing.billing_date
       )
-      this.dealing.interval = dealing.interval
-      this.dealing.interval_category = dealing.interval_category
-      this.dealing.is_auto_update = dealing.is_auto_update
-      this.dealing.is_halt = dealing.is_halt
-
       this.openEditDialog()
     },
 

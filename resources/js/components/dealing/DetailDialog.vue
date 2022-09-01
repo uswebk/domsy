@@ -18,11 +18,9 @@
             :type="greetingType"
             :message="greeting"
           ></greeting-message>
-
           <v-card-text>
             <v-list three-line subheader>
               <v-card-title>Billings</v-card-title>
-
               <v-data-table
                 :headers="headers"
                 :items="dealing.domain_billings"
@@ -61,7 +59,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
     <billing-dialog
       :isOpen="isOpenEditBillingDialog"
       :billing="billing"
@@ -88,7 +85,6 @@ export default {
       required: true,
     },
   },
-
   data() {
     return {
       isOpenEditBillingDialog: false,
@@ -110,7 +106,6 @@ export default {
       ],
     }
   },
-
   computed: {
     ...mapGetters('dealing', [
       'canUpdateBilling',
@@ -119,7 +114,6 @@ export default {
       'greetingType',
       'dealing',
     ]),
-
     open: {
       get() {
         return this.isOpen
@@ -130,7 +124,6 @@ export default {
       },
     },
   },
-
   methods: {
     close() {
       this.$emit('close')
@@ -145,13 +138,10 @@ export default {
     },
 
     async editBilling(billing) {
-      this.billing.id = billing.id
-      this.billing.total = billing.total
-      this.billing.is_fixed = billing.is_fixed
+      this.billing = Object.assign({}, billing)
       this.billing.billing_date = this.$dateHelper.dateHyphen(
-        billing.billing_date
+        this.billing.billing_date
       )
-
       this.openBillingEditDialog()
     },
   },
