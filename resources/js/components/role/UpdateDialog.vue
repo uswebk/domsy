@@ -19,11 +19,8 @@
                   label="Role Name"
                   v-model="roleModel.name"
                   required
-                  hide-details
+                  :error-messages="errors.name"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.name"
-                ></validation-error-message>
               </v-col>
               <div class="my-10"></div>
               <v-col cols="6" v-for="roleItem in roleItems" :key="roleItem.id">
@@ -34,9 +31,7 @@
                 </v-switch>
               </v-col>
             </v-row>
-
             <div class="my-5"></div>
-
             <v-btn color="primary" @click="update">Update</v-btn>
           </v-form>
         </v-container>
@@ -51,13 +46,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'RoleUpdateDialog',
-  components: {
-    ValidationErrorMessage,
-  },
   props: {
     isOpen: {
       default: false,
@@ -70,14 +61,12 @@ export default {
       required: true,
     },
   },
-
   data() {
     return {
       loading: false,
       errors: {},
     }
   },
-
   computed: {
     ...mapGetters('role', ['roleItems']),
 
@@ -94,7 +83,6 @@ export default {
       },
     },
   },
-
   methods: {
     ...mapActions('account', ['sendMessage']),
     ...mapActions('role', ['updateRole']),
@@ -104,14 +92,9 @@ export default {
     },
 
     async update() {
+      this.loading = true
       try {
-        this.loading = true
-
         await this.updateRole(this.roleModel)
-
-        this.close()
-
-        this.loading = false
 
         this.sendMessage({
           greeting: 'Create Success',
@@ -120,30 +103,29 @@ export default {
       } catch (error) {
         const status = error.response.status
         if (status === 422) {
-          var responseErrors = error.response.data.errors
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
+          const errors = error.response.data.errors
+          const _errors = {}
+          for (let key in errors) {
+            _errors[key] = errors[key][0]
           }
-          this.errors = errors
+          this.errors = _errors
+          this.loading = false
           return
         }
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
         }
-
         if (status >= 500) {
           message = 'Server Error'
         }
-
         this.sendMessage({
           greeting: message,
           greetingType: 'error',
         })
-
-        this.close()
       }
+      this.close()
+      this.loading = false
     },
   },
 }

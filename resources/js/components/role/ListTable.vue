@@ -20,13 +20,11 @@
         <v-btn v-if="canDelete" x-small @click="deletion(item)">delete</v-btn>
       </template>
     </v-data-table>
-
     <update-dialog
       :isOpen="isOpenEditDialog"
       :role="role"
       @close="closeEditDialog"
     ></update-dialog>
-
     <delete-dialog
       :isOpen="isOpenDeleteDialog"
       :role="role"
@@ -54,7 +52,6 @@ export default {
       type: Array,
     },
   },
-
   data() {
     return {
       search: '',
@@ -77,11 +74,9 @@ export default {
       ],
     }
   },
-
   computed: {
     ...mapGetters('role', ['canUpdate', 'canDelete']),
   },
-
   methods: {
     openEditDialog() {
       this.isOpenEditDialog = true
@@ -105,14 +100,12 @@ export default {
       for (let key in role.role_items) {
         this.role.roles[role.role_items[key].menu_item_id] = true
       }
-
       this.openEditDialog()
     },
 
     deletion(role) {
       this.role = role
       this.role.roles = {}
-
       this.openDeleteDialog()
     },
   },

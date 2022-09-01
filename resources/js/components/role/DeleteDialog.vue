@@ -32,7 +32,6 @@ export default {
       required: true,
     },
   },
-
   computed: {
     roleModel() {
       return this.role
@@ -47,7 +46,6 @@ export default {
       },
     },
   },
-
   methods: {
     ...mapActions('account', ['sendMessage']),
     ...mapActions('role', ['deleteRole']),
@@ -60,8 +58,6 @@ export default {
       try {
         await this.deleteRole(this.roleModel)
 
-        this.close()
-
         this.sendMessage({
           greeting: 'Delete Success',
           greetingType: 'success',
@@ -73,18 +69,15 @@ export default {
         if (status === 403) {
           message = 'Illegal operation was performed.'
         }
-
         if (status >= 500) {
           message = 'Server Error'
         }
-
         this.sendMessage({
           greeting: message,
           greetingType: 'error',
         })
-
-        this.close()
       }
+      this.close()
     },
   },
 }

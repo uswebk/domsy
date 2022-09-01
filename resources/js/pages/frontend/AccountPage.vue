@@ -5,14 +5,11 @@
         :icon="'mdi-account-multiple'"
         :headlineText="'Account'"
       ></icon-head-line>
-
       <div class="py-5"></div>
-
       <greeting-message
         :type="greetingType"
         :message="greeting"
       ></greeting-message>
-
       <v-progress-linear
         v-show="pageLoading"
         color="yellow darken-2"
@@ -20,12 +17,10 @@
         rounded
         height="6"
       ></v-progress-linear>
-
       <v-tabs v-model="tab">
         <v-tab href="#account">Account</v-tab>
         <v-tab href="#role">Role</v-tab>
       </v-tabs>
-
       <v-container class="py-1"></v-container>
       <v-tabs-items v-model="tab">
         <v-tab-item value="account">
@@ -53,12 +48,10 @@
           <role-list-table :roles="roles"></role-list-table>
         </v-tab-item>
       </v-tabs-items>
-
       <new-dialog
         :isOpen="isOpenNewDialog"
         @close="closeNewDialog"
       ></new-dialog>
-
       <role-new-dialog
         :isOpen="isOpenNewRoleDialog"
         @close="closeNewRoleDialog"
@@ -86,7 +79,6 @@ export default {
     NewDialog,
     RoleNewDialog,
   },
-
   data() {
     return {
       tab: '',
@@ -94,7 +86,6 @@ export default {
       isOpenNewRoleDialog: false,
     }
   },
-
   computed: {
     ...mapGetters('account', [
       'canStore',
@@ -110,12 +101,10 @@ export default {
       canRoleStore: 'canStore',
       pageLoadingRole: 'pageLoading',
     }),
-
     pageLoading() {
       return this.pageLoadingAccount || this.pageLoadingRole
     },
   },
-
   methods: {
     ...mapActions('account', ['initRole', 'fetchAccounts']),
     ...mapActions('role', {

@@ -28,13 +28,11 @@
         <v-btn v-if="canDelete" x-small @click="deletion(item)">delete</v-btn>
       </template>
     </v-data-table>
-
     <update-dialog
       :isOpen="isOpenEditDialog"
       :account="account"
       @close="closeEditDialog"
     ></update-dialog>
-
     <delete-dialog
       :isOpen="isOpenDeleteDialog"
       :account="account"
@@ -62,7 +60,6 @@ export default {
       type: Array,
     },
   },
-
   data() {
     return {
       search: '',
@@ -94,11 +91,9 @@ export default {
       ],
     }
   },
-
   computed: {
     ...mapGetters('account', ['canUpdate', 'canDelete']),
   },
-
   methods: {
     openEditDialog() {
       this.isOpenEditDialog = true
@@ -117,16 +112,12 @@ export default {
     },
 
     edit(account) {
-      this.account.id = account.id
-      this.account.name = account.name
-      this.account.email = account.email
-      this.account.role_id = account.role_id
-
+      this.account = Object.assign({}, account)
       this.openEditDialog()
     },
 
     deletion(account) {
-      this.account = account
+      this.account = Object.assign({}, account)
       this.openDeleteDialog()
     },
   },

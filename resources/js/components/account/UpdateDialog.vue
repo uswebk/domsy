@@ -15,39 +15,25 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                  class="mt-5"
                   label="Name"
                   v-model="accountModel.name"
                   required
-                  hide-details
+                  :error-messages="errors.name"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.name"
-                ></validation-error-message>
-
                 <v-text-field
-                  class="mt-5"
                   label="Email"
                   v-model="accountModel.email"
                   required
-                  hide-details
+                  :error-messages="errors.email"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.email"
-                ></validation-error-message>
-
                 <v-select
-                  class="mt-5"
                   v-model="accountModel.role_id"
                   :items="roles"
                   item-text="name"
                   item-value="id"
                   label="Role"
-                  hide-details
+                  :error-messages="errors.role_id"
                 ></v-select>
-                <validation-error-message
-                  :message="errors.role_id"
-                ></validation-error-message>
               </v-col>
             </v-row>
             <div class="my-5"></div>
@@ -65,13 +51,9 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'AccountUpdateDialog',
-  components: {
-    ValidationErrorMessage,
-  },
   props: {
     isOpen: {
       default: false,
@@ -84,14 +66,12 @@ export default {
       required: true,
     },
   },
-
   data() {
     return {
       loading: false,
       errors: {},
     }
   },
-
   computed: {
     ...mapGetters('role', ['roles']),
 
@@ -108,7 +88,6 @@ export default {
       },
     },
   },
-
   methods: {
     ...mapActions('account', ['updateAccount', 'sendMessage']),
 
@@ -117,14 +96,9 @@ export default {
     },
 
     async update() {
+      this.loading = true
       try {
-        this.loading = true
-
         await this.updateAccount(this.accountModel)
-
-        this.close()
-
-        this.loading = false
 
         this.sendMessage({
           greeting: 'Update Success',
@@ -134,31 +108,29 @@ export default {
         const status = error.response.status
 
         if (status === 422) {
-          var responseErrors = error.response.data.errors
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
+          const errors = error.response.data.errors
+          const _errors = {}
+          for (let key in errors) {
+            _errors[key] = errors[key][0]
           }
-          this.errors = errors
+          this.errors = _errors
+          this.loading = false
           return
         }
-
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
         }
-
         if (status >= 500) {
           message = 'Server Error'
         }
-
         this.sendMessage({
           greeting: message,
           greetingType: 'error',
         })
-
-        this.close()
       }
+      this.close()
+      this.loading = false
     },
   },
 }

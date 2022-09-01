@@ -32,7 +32,6 @@ export default {
       required: true,
     },
   },
-
   computed: {
     accountModel() {
       return this.account
@@ -47,7 +46,6 @@ export default {
       },
     },
   },
-
   methods: {
     ...mapActions('account', ['deleteAccount', 'sendMessage']),
 
@@ -67,12 +65,10 @@ export default {
         })
       } catch (error) {
         const status = error.response.status
-
         let message = ''
         if (status === 403) {
           message = 'Illegal operation was performed.'
         }
-
         if (status >= 500) {
           message = 'Server Error'
         }

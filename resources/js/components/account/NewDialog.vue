@@ -15,42 +15,26 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                  class="mt-5"
                   label="Name"
                   v-model="accountModel.name"
                   required
-                  hide-details
+                  :error-messages="errors.name"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.name"
-                ></validation-error-message>
-
                 <v-text-field
-                  class="mt-5"
                   label="Email"
                   v-model="accountModel.email"
                   required
-                  hide-details
+                  :error-messages="errors.email"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.email"
-                ></validation-error-message>
-
                 <v-select
-                  class="mt-5"
+                  label="Role"
                   v-model="accountModel.role_id"
                   :items="roles"
                   item-text="name"
                   item-value="id"
-                  label="Role"
-                  hide-details
+                  :error-messages="errors.role_id"
                 ></v-select>
-                <validation-error-message
-                  :message="errors.role_id"
-                ></validation-error-message>
-
                 <v-text-field
-                  class="mt-5"
                   v-model="accountModel.password"
                   type="password"
                   name="password"
@@ -58,28 +42,20 @@
                   hint="At least 8 characters"
                   counter
                   required
+                  :error-messages="errors.password"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.password"
-                ></validation-error-message>
-
                 <v-text-field
-                  class="mt-5"
                   v-model="accountModel.password_confirmation"
                   type="password"
                   name="password_confirmation"
                   label="Confirm Password"
                   counter
                   required
+                  :error-messages="errors.password_confirmation"
                 ></v-text-field>
-                <validation-error-message
-                  :message="errors.password_confirmation"
-                ></validation-error-message>
               </v-col>
             </v-row>
-
             <div class="my-5"></div>
-
             <v-btn color="primary" @click="store">Create</v-btn>
           </v-form>
         </v-container>
@@ -94,13 +70,9 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import ValidationErrorMessage from '../form/ValidationErrorMessage'
 
 export default {
   name: 'AccountNewDialog',
-  components: {
-    ValidationErrorMessage,
-  },
   props: {
     isOpen: {
       default: false,
@@ -108,7 +80,6 @@ export default {
       required: true,
     },
   },
-
   data() {
     return {
       loading: false,
@@ -122,7 +93,6 @@ export default {
       errors: {},
     }
   },
-
   computed: {
     ...mapGetters('role', ['roles']),
 
@@ -136,7 +106,6 @@ export default {
       },
     },
   },
-
   methods: {
     ...mapActions('account', ['storeAccount', 'sendMessage']),
 
@@ -155,14 +124,9 @@ export default {
     },
 
     async store() {
+      this.loading = true
       try {
-        this.loading = true
-
         await this.storeAccount(this.accountModel)
-
-        this.close()
-
-        this.loading = false
 
         this.sendMessage({
           greeting: 'Account Create Success',
@@ -172,12 +136,13 @@ export default {
         const status = error.response.status
 
         if (status === 422) {
-          var responseErrors = error.response.data.errors
-          var errors = {}
-          for (var key in responseErrors) {
-            errors[key] = responseErrors[key][0]
+          const errors = error.response.data.errors
+          const _errors = {}
+          for (let key in errors) {
+            _errors[key] = errors[key][0]
           }
-          this.errors = errors
+          this.errors = _errors
+          this.loading = false
           return
         }
 
@@ -185,20 +150,17 @@ export default {
         if (status === 403) {
           message = 'Illegal operation was performed.'
         }
-
         if (status >= 500) {
           message = 'Server Error'
         }
-
         this.sendMessage({
           greeting: message,
           greetingType: 'error',
         })
-
-        this.close()
       }
-
+      this.close()
       this.resetForm()
+      this.loading = false
     },
   },
 }
