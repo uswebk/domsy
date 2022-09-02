@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   web:
-    container_name: web-domsy
+    container_name: domsy-web
     build: ./docker/php
     volumes:
       - ./:/var/www
@@ -15,7 +15,7 @@ services:
       - '3000:3000'
 
   nginx:
-    container_name: nginx-domsy
+    container_name: domsy-nginx
     image: nginx
     ports:
       - "${IP}:8000:8000"
@@ -27,7 +27,7 @@ services:
 
   db:
     platform: linux/x86_64
-    container_name: db-domsy
+    container_name: domsy-db
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -44,7 +44,7 @@ services:
       - "${IP}:3306:3306"
   db-test:
     platform: linux/x86_64
-    container_name: db-domsy-test
+    container_name: domsy-db-test
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
