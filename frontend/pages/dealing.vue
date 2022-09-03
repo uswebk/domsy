@@ -4,8 +4,8 @@
       <v-main>
         <v-container>
           <common-icon-head-line
-            :icon="'mdi-database'"
-            :headline-text="'Domain'"
+            :icon="'mdi-handshake'"
+            :headline-text="'Dealing'"
           ></common-icon-head-line>
           <div class="py-5"></div>
           <common-greeting-message
@@ -24,7 +24,7 @@
             class="ma-2"
             color="primary"
             small
-            @click="openNewDialog"
+            @click="openNewDialog()"
           >
             <v-icon dark left> mdi-plus-circle </v-icon>New
           </v-btn>
@@ -38,16 +38,16 @@
           </v-tabs>
           <v-container class="py-1"></v-container>
           <v-tabs-items v-model="tab">
-            <div v-for="(domain, index) in categorizedDomains" :key="domain.id">
+            <div v-for="(dealing, index) in dealings" :key="dealing.id">
               <v-tab-item :value="index">
-                <domain-list-table :domains="domain"></domain-list-table>
+                <dealing-list-table :dealings="dealing"></dealing-list-table>
               </v-tab-item>
             </div>
           </v-tabs-items>
-          <domain-new-dialog
+          <dealing-new-dialog
             :is-open="isOpenNewDialog"
             @close="closeNewDialog"
-          ></domain-new-dialog>
+          ></dealing-new-dialog>
         </v-container>
       </v-main>
     </template>
@@ -58,7 +58,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'DomainPage',
+  name: 'DealingPage',
   data() {
     return {
       tab: '',
@@ -66,25 +66,27 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('domain', [
-      'categorizedDomains',
+    ...mapGetters('dealing', [
+      'dealings',
       'canStore',
       'pageLoading',
       'greeting',
       'greetingType',
     ]),
     tabs() {
-      return Object.keys(this.categorizedDomains)
+      return Object.keys(this.dealings)
     },
   },
   created() {
-    this.fetchCategorizedDomains()
-    this.fetchRegistrars()
+    this.fetchDealings()
+    this.fetchDomains()
+    this.fetchClients()
     this.initRole()
   },
   methods: {
-    ...mapActions('domain', ['fetchCategorizedDomains', 'initRole']),
-    ...mapActions('registrar', ['fetchRegistrars']),
+    ...mapActions('dealing', ['fetchDealings', 'initRole']),
+    ...mapActions('domain', ['fetchDomains']),
+    ...mapActions('client', ['fetchClients']),
     openNewDialog() {
       this.isOpenNewDialog = true
     },

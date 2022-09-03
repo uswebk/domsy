@@ -1,6 +1,4 @@
-import axios from 'axios'
-
-const state = {
+export const state = () => ({
   greeting: '',
   greetingType: '',
   canStore: false,
@@ -11,9 +9,10 @@ const state = {
   domains: [],
   dnsRecordTypes: [],
   domainId: {},
-}
+})
 
-const mutations = {
+
+export const mutations = {
   greeting: (state, value) => (state.greeting = value),
   greetingType: (state, value) => (state.greetingType = value),
   pageLoading: (state, value) => (state.pageLoading = value),
@@ -26,7 +25,7 @@ const mutations = {
   canDelete: (state, value) => (state.canDelete = value),
 }
 
-const actions = {
+export const actions  = {
   sendMessage({ commit }, payload) {
     commit('greeting', payload.greeting)
     commit('greetingType', payload.greetingType)
@@ -36,20 +35,20 @@ const actions = {
   async fetchDns({ commit }) {
     commit('pageLoading', true)
 
-    const result = await axios.get('/api/dns')
+    const result = await this.$axios.get('/api/dns')
 
     commit('dns', result.data)
     commit('pageLoading', false)
   },
 
   async fetchDnsRecordTypes({ commit }) {
-    const result = await axios.get('/api/dns-record-type')
+    const result = await this.$axios.get('/api/dns-record-type')
 
     commit('dnsRecordTypes', result.data)
   },
 
   async storeDns({ dispatch }, payload) {
-    const result = await axios.post('/api/dns/', {
+    const result = await this.$axios.post('/api/dns/', {
       ...payload,
     })
 
@@ -59,7 +58,7 @@ const actions = {
   },
 
   async updateDns({ dispatch }, payload) {
-    const result = await axios.put('/api/dns/' + payload.id, {
+    const result = await this.$axios.put('/api/dns/' + payload.id, {
       ...payload,
     })
 
@@ -69,7 +68,7 @@ const actions = {
   },
 
   async deleteDns({ dispatch }, payload) {
-    const result = await axios.delete('/api/dns/' + payload.id, {
+    const result = await this.$axios.delete('/api/dns/' + payload.id, {
       ...payload,
     })
 
@@ -79,7 +78,7 @@ const actions = {
   },
 
   async initRole({ commit }) {
-    const result = await axios.get('/api/roles/user/?menu_id=3')
+    const result = await this.$axios.get('/api/role/user/?menu_id=3')
 
     commit('canStore', result.data.store)
     commit('canUpdate', result.data.update)
@@ -87,7 +86,7 @@ const actions = {
   },
 }
 
-const getters = {
+export const getters = {
   greeting: (state) => state.greeting,
   greetingType: (state) => state.greetingType,
   dns: (state) => state.dns,
@@ -98,12 +97,4 @@ const getters = {
   canUpdate: (state) => state.canUpdate,
   canDelete: (state) => state.canDelete,
   pageLoading: (state) => state.pageLoading,
-}
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  mutations,
-  actions,
 }

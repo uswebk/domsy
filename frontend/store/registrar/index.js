@@ -1,4 +1,4 @@
-const state = {
+export const state = () => ({
   greeting: '',
   greetingType: '',
   canStore: false,
@@ -6,9 +6,9 @@ const state = {
   canDelete: false,
   pageLoading: true,
   registrars: [],
-}
+})
 
-const mutations = {
+export const mutations = {
   greeting: (state, value) => (state.greeting = value),
   greetingType: (state, value) => (state.greetingType = value),
   pageLoading: (state, value) => (state.pageLoading = value),
@@ -18,7 +18,7 @@ const mutations = {
   canDelete: (state, value) => (state.canDelete = value),
 }
 
-const actions = {
+export const actions  = {
   sendMessage({ commit }, payload) {
     commit('greeting', payload.greeting)
     commit('greetingType', payload.greetingType)
@@ -26,9 +26,7 @@ const actions = {
 
   async fetchRegistrars({ commit }) {
     commit('pageLoading', true)
-
     const result = await this.$axios.get('/api/registrar')
-
     commit('registrars', result.data)
     commit('pageLoading', false)
   },
@@ -37,7 +35,6 @@ const actions = {
     const result = await this.$axios.post('/api/registrar/', {
       ...payload,
     })
-
     dispatch('fetchRegistrars')
 
     return result
@@ -47,7 +44,6 @@ const actions = {
     const result = await this.$axios.put('/api/registrar/' + payload.id, {
       ...payload,
     })
-
     dispatch('fetchRegistrars')
 
     return result
@@ -57,7 +53,6 @@ const actions = {
     const result = await this.$axios.delete('/api/registrar/' + payload.id, {
       ...payload,
     })
-
     dispatch('fetchRegistrars')
 
     return result
@@ -72,7 +67,7 @@ const actions = {
   },
 }
 
-const getters = {
+export const getters = {
   greeting: (state) => state.greeting,
   greetingType: (state) => state.greetingType,
   registrars: (state) => state.registrars,
@@ -80,12 +75,4 @@ const getters = {
   canUpdate: (state) => state.canUpdate,
   canDelete: (state) => state.canDelete,
   pageLoading: (state) => state.pageLoading,
-}
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  mutations,
-  actions,
 }

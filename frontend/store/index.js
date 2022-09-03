@@ -1,6 +1,6 @@
-const state = {
+export const state = () => ({
   pageLoading: false,
-}
+})
 
 const mutations = {
   pageLoading: (state, value) => (state.pageLoading = value),
@@ -11,8 +11,6 @@ const getters = {
 }
 
 export default {
-  namespaced: true,
-  state,
   getters,
   mutations,
 }

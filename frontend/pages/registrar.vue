@@ -4,8 +4,8 @@
       <v-main>
         <v-container>
           <common-icon-head-line
-            :icon="'mdi-database'"
-            :headline-text="'Domain'"
+            :icon="'mdi-domain'"
+            :headline-text="'Registrar'"
           ></common-icon-head-line>
           <div class="py-5"></div>
           <common-greeting-message
@@ -28,26 +28,11 @@
           >
             <v-icon dark left> mdi-plus-circle </v-icon>New
           </v-btn>
-          <v-tabs v-model="tab">
-            <v-tab
-              v-for="(_tab, index) in tabs"
-              :key="index"
-              :href="'#' + _tab"
-              >{{ _tab }}</v-tab
-            >
-          </v-tabs>
-          <v-container class="py-1"></v-container>
-          <v-tabs-items v-model="tab">
-            <div v-for="(domain, index) in categorizedDomains" :key="domain.id">
-              <v-tab-item :value="index">
-                <domain-list-table :domains="domain"></domain-list-table>
-              </v-tab-item>
-            </div>
-          </v-tabs-items>
-          <domain-new-dialog
+          <registrar-list-table :registrars="registrars"></registrar-list-table>
+          <registrar-new-dialog
             :is-open="isOpenNewDialog"
             @close="closeNewDialog"
-          ></domain-new-dialog>
+          ></registrar-new-dialog>
         </v-container>
       </v-main>
     </template>
@@ -58,33 +43,28 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'DomainPage',
+  name: 'RegistrarPage',
   data() {
     return {
-      tab: '',
+      registrar: {},
       isOpenNewDialog: false,
     }
   },
   computed: {
-    ...mapGetters('domain', [
-      'categorizedDomains',
+    ...mapGetters('registrar', [
+      'registrars',
       'canStore',
       'pageLoading',
       'greeting',
       'greetingType',
     ]),
-    tabs() {
-      return Object.keys(this.categorizedDomains)
-    },
   },
   created() {
-    this.fetchCategorizedDomains()
     this.fetchRegistrars()
     this.initRole()
   },
   methods: {
-    ...mapActions('domain', ['fetchCategorizedDomains', 'initRole']),
-    ...mapActions('registrar', ['fetchRegistrars']),
+    ...mapActions('registrar', ['fetchRegistrars', 'initRole']),
     openNewDialog() {
       this.isOpenNewDialog = true
     },

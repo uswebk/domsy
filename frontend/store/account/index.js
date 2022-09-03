@@ -1,6 +1,4 @@
-import axios from 'axios'
-
-const state = {
+export const state = () => ({
   greeting: '',
   greetingType: '',
   canStore: false,
@@ -13,9 +11,9 @@ const state = {
   roles: [],
   accounts: [],
   tabs: [],
-}
+})
 
-const mutations = {
+export const mutations = {
   greeting: (state, value) => (state.greeting = value),
   greetingType: (state, value) => (state.greetingType = value),
   pageLoading: (state, value) => (state.pageLoading = value),
@@ -29,7 +27,7 @@ const mutations = {
   canRoleDelete: (state, value) => (state.canRoleDelete = value),
 }
 
-const actions = {
+export const actions  = {
   sendMessage({ commit }, payload) {
     commit('greeting', payload.greeting)
     commit('greetingType', payload.greetingType)
@@ -37,54 +35,47 @@ const actions = {
 
   async fetchRoles({ commit }) {
     commit('pageLoading', true)
-
-    const result = await axios.get('api/roles')
-
+    const result = await this.$axios.get('api/role')
     commit('roles', result.data)
     commit('pageLoading', false)
   },
 
   async fetchAccounts({ commit }) {
     commit('pageLoading', true)
-
-    const result = await axios.get('/api/users')
-
+    const result = await this.$axios.get('/api/user')
     commit('accounts', result.data)
     commit('pageLoading', false)
   },
 
   async storeAccount({ dispatch }, payload) {
-    const result = await axios.post('/api/accounts/', {
+    const result = await this.$axios.post('/api/account/', {
       ...payload,
     })
-
     dispatch('fetchAccounts')
 
     return result
   },
 
   async updateAccount({ dispatch }, payload) {
-    const result = await axios.put('/api/accounts/' + payload.id, {
+    const result = await this.$axios.put('/api/account/' + payload.id, {
       ...payload,
     })
-
     dispatch('fetchAccounts')
 
     return result
   },
 
   async deleteAccount({ dispatch }, payload) {
-    const result = await axios.delete('/api/accounts/' + payload.id, {
+    const result = await this.$axios.delete('/api/account/' + payload.id, {
       ...payload,
     })
-
     dispatch('fetchAccounts')
 
     return result
   },
 
   async initRole({ commit }) {
-    const result = await axios.get('/api/roles/user/?menu_id=8')
+    const result = await this.$axios.get('/api/role/user/?menu_id=8')
 
     commit('canStore', result.data.store)
     commit('canUpdate', result.data.update)
@@ -95,7 +86,7 @@ const actions = {
   },
 }
 
-const getters = {
+export const getters = {
   greeting: (state) => state.greeting,
   greetingType: (state) => state.greetingType,
   accounts: (state) => state.accounts,
@@ -108,12 +99,4 @@ const getters = {
   canRoleDelete: (state) => state.canRoleDelete,
   pageLoading: (state) => state.pageLoading,
   tabs: (state) => state.tabs,
-}
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  mutations,
-  actions,
 }

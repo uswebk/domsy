@@ -1,6 +1,4 @@
-import axios from 'axios'
-
-const state = {
+export const state = () => ({
   greeting: '',
   greetingType: '',
   canStore: false,
@@ -10,7 +8,7 @@ const state = {
   pageLoading: true,
   dealings: { active: [], stop: [] },
   dealing: { domain: [] },
-}
+})
 
 const mutations = {
   greeting: (state, value) => (state.greeting = value),
@@ -32,14 +30,11 @@ const actions = {
 
   async fetchDealings({ commit }) {
     commit('pageLoading', true)
-
-    const result = await axios.get('/api/dealings')
-
+    const result = await this.$axios.get('/api/dealing')
     const dealings = {
       active: [],
       stop: [],
     }
-
     result.data.forEach((dealing) => {
       if (dealing.is_halt) {
         dealings.stop.push(dealing)
@@ -47,39 +42,35 @@ const actions = {
         dealings.active.push(dealing)
       }
     })
-
     commit('dealings', dealings)
     commit('pageLoading', false)
   },
 
   async fetchDealing({ commit }, dealingId) {
-    const result = await axios.get('/api/dealings/' + dealingId)
-
+    const result = await this.$axios.get('/api/dealing/' + dealingId)
     commit('dealing', result.data)
   },
 
   async storeDealing({ dispatch }, payload) {
-    const result = await axios.post('/api/dealings', {
+    const result = await this.$axios.post('/api/dealing', {
       ...payload,
     })
-
     dispatch('fetchDealings')
 
     return result
   },
 
   async updateDealing({ dispatch }, payload) {
-    const result = await axios.put('/api/dealings/' + payload.id, {
+    const result = await this.$axios.put('/api/dealing/' + payload.id, {
       ...payload,
     })
-
     dispatch('fetchDealings')
 
     return result
   },
 
   async updateBilling({ dispatch }, payload) {
-    const result = await axios.put('/api/dealings/billings/' + payload.id, {
+    const result = await this.$axios.put('/api/dealing/billings/' + payload.id, {
       ...payload,
     })
 
@@ -87,7 +78,7 @@ const actions = {
   },
 
   async initRole({ commit }) {
-    const result = await axios.get('/api/roles/user/?menu_id=6')
+    const result = await this.$axios.get('/api/role/user/?menu_id=6')
 
     commit('canStore', result.data.store)
     commit('canUpdate', result.data.update)
@@ -110,8 +101,6 @@ const getters = {
 }
 
 export default {
-  namespaced: true,
-  state,
   getters,
   mutations,
   actions,

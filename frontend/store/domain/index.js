@@ -1,4 +1,4 @@
-const state = {
+export const state = () => ({
   greeting: '',
   greetingType: '',
   canStore: false,
@@ -13,9 +13,9 @@ const state = {
   },
   domains: [],
   tabs: [],
-}
+})
 
-const mutations = {
+export const mutations = {
   greeting: (state, value) => (state.greeting = value),
   greetingType: (state, value) => (state.greetingType = value),
   pageLoading: (state, value) => (state.pageLoading = value),
@@ -26,7 +26,7 @@ const mutations = {
   canDelete: (state, value) => (state.canDelete = value),
 }
 
-const actions = {
+export const actions = {
   sendMessage({ commit }, payload) {
     commit('greeting', payload.greeting)
     commit('greetingType', payload.greetingType)
@@ -104,7 +104,7 @@ const actions = {
   },
 }
 
-const getters = {
+export const getters = {
   greeting: (state) => state.greeting,
   greetingType: (state) => state.greetingType,
   domains: (state) => state.domains,
@@ -114,12 +114,4 @@ const getters = {
   canDelete: (state) => state.canDelete,
   pageLoading: (state) => state.pageLoading,
   tabs: (state) => state.tabs,
-}
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  mutations,
-  actions,
 }

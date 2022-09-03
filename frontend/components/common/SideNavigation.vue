@@ -68,11 +68,10 @@ export default {
     this.fetchMenus()
   },
   methods: {
-    ...mapMutations('common', ['pageLoading']),
+    ...mapMutations(['pageLoading']),
     ...mapActions('menu', ['fetchMenus']),
     ...mapActions('authentication', ['fetchMe']),
     ...mapActions('authentication', { logoutAction: 'logout' }),
-
     async logout() {
       this.pageLoading(true)
       await this.logoutAction()

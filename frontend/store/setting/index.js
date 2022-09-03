@@ -1,14 +1,12 @@
-import axios from 'axios'
-
-const state = {
+export const state = () => ({
   greeting: '',
   greetingType: '',
   pageLoading: false,
   mailSettings: [],
   generalSettings: [],
-}
+})
 
-const mutations = {
+export const mutations = {
   greeting: (state, value) => (state.greeting = value),
   greetingType: (state, value) => (state.greetingType = value),
   pageLoading: (state, value) => (state.pageLoading = value),
@@ -16,7 +14,7 @@ const mutations = {
   generalSettings: (state, value) => (state.generalSettings = value),
 }
 
-const actions = {
+export const actions  = {
   sendMessage({ commit }, payload) {
     commit('greeting', payload.greeting)
     commit('greetingType', payload.greetingType)
@@ -24,7 +22,7 @@ const actions = {
 
   async fetchMailSettings({ commit }) {
     commit('pageLoading', true)
-    const result = await axios.get('/api/settings/user-mails')
+    const result = await this.$axios.get('/api/setting/user-mails')
     const settings = {}
     for (const key in result.data) {
       settings[result.data[key].name] = result.data[key]
@@ -35,7 +33,7 @@ const actions = {
 
   async fetchGeneralSettings({ commit }) {
     commit('pageLoading', true)
-    const result = await axios.get('/api/settings/user-generals')
+    const result = await this.$axios.get('/api/setting/user-generals')
     const settings = {}
     for (const key in result.data) {
       settings[result.data[key].name] = result.data[key]
@@ -45,7 +43,7 @@ const actions = {
   },
 
   async updateMailSetting({ dispatch }, payload) {
-    const result = await axios.put('/api/settings/user-mails/', {
+    const result = await this.$axios.put('/api/setting/user-mails/', {
       ...payload,
     })
     await dispatch('fetchMailSettings')
@@ -54,7 +52,7 @@ const actions = {
   },
 
   async updateGeneralSetting({ dispatch }, payload) {
-    const result = await axios.put('/api/settings/user-generals/', {
+    const result = await this.$axios.put('/api/setting/user-generals/', {
       ...payload,
     })
     await dispatch('fetchGeneralSettings')
@@ -63,18 +61,10 @@ const actions = {
   },
 }
 
-const getters = {
+export const getters = {
   greeting: (state) => state.greeting,
   greetingType: (state) => state.greetingType,
   mailSettings: (state) => state.mailSettings,
   pageLoading: (state) => state.pageLoading,
   generalSettings: (state) => state.generalSettings,
-}
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  mutations,
-  actions,
 }

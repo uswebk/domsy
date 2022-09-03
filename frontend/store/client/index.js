@@ -1,6 +1,4 @@
-import axios from 'axios'
-
-const state = {
+export const state = () => ({
   greeting: '',
   greetingType: '',
   canStore: false,
@@ -8,9 +6,9 @@ const state = {
   canDelete: false,
   pageLoading: true,
   clients: [],
-}
+})
 
-const mutations = {
+export const mutations = {
   greeting: (state, value) => (state.greeting = value),
   greetingType: (state, value) => (state.greetingType = value),
   pageLoading: (state, value) => (state.pageLoading = value),
@@ -20,7 +18,7 @@ const mutations = {
   canDelete: (state, value) => (state.canDelete = value),
 }
 
-const actions = {
+export const actions  = {
   sendMessage({ commit }, payload) {
     commit('greeting', payload.greeting)
     commit('greetingType', payload.greetingType)
@@ -28,45 +26,40 @@ const actions = {
 
   async fetchClients({ commit }) {
     commit('pageLoading', true)
-
-    const result = await axios.get('/api/clients')
-
+    const result = await this.$axios.get('/api/client')
     commit('clients', result.data)
     commit('pageLoading', false)
   },
 
   async storeClient({ dispatch }, payload) {
-    const result = await axios.post('/api/clients/', {
+    const result = await this.$axios.post('/api/client', {
       ...payload,
     })
-
     dispatch('fetchClients')
 
     return result
   },
 
   async updateClient({ dispatch }, payload) {
-    const result = await axios.put('/api/clients/' + payload.id, {
+    const result = await this.$axios.put('/api/client/' + payload.id, {
       ...payload,
     })
-
     dispatch('fetchClients')
 
     return result
   },
 
   async deleteClient({ dispatch }, payload) {
-    const result = await axios.delete('/api/clients/' + payload.id, {
+    const result = await this.$axios.delete('/api/client/' + payload.id, {
       ...payload,
     })
-
     dispatch('fetchClients')
 
     return result
   },
 
   async initRole({ commit }) {
-    const result = await axios.get('/api/roles/user/?menu_id=5')
+    const result = await this.$axios.get('/api/role/user/?menu_id=5')
 
     commit('canStore', result.data.store)
     commit('canUpdate', result.data.update)
@@ -74,7 +67,7 @@ const actions = {
   },
 }
 
-const getters = {
+export const getters = {
   greeting: (state) => state.greeting,
   greetingType: (state) => state.greetingType,
   clients: (state) => state.clients,
@@ -82,12 +75,4 @@ const getters = {
   canUpdate: (state) => state.canUpdate,
   canDelete: (state) => state.canDelete,
   pageLoading: (state) => state.pageLoading,
-}
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  mutations,
-  actions,
 }

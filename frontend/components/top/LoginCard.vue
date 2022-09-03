@@ -43,7 +43,7 @@
         <v-btn class="mr-4" color="primary" @click="login">
           <v-icon dark left> mdi-login-variant </v-icon>Login
         </v-btn>
-        <a href="password/reset">Forgot Your Password?</a>
+        <a href="password/email">Forgot Your Password?</a>
       </v-form>
       <v-divider></v-divider>
       <v-tooltip bottom>
@@ -92,7 +92,6 @@ export default {
       pageLoadingCommit: 'pageLoading',
     }),
     ...mapActions('authentication', { loginAction: 'login' }),
-
     async login() {
       try {
         const result = await this.loginAction(this.authModel)
