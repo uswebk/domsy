@@ -12,9 +12,9 @@
       <v-card class="pa-5">
         <v-card-title>Billing Transition</v-card-title>
         <chart-line-chart
-          :shown="isChart"
-          :data="chartData"
-          :options="chartOptions"
+          :shown="shown"
+          :data="dataSet"
+          :options="options"
         ></chart-line-chart>
       </v-card>
     </div>
@@ -27,8 +27,8 @@ export default {
   data() {
     return {
       loading: true,
-      isChart: false,
-      chartData: {
+      shown: false,
+      dataSet: {
         labels: [],
         datasets: [
           {
@@ -38,32 +38,30 @@ export default {
           },
         ],
       },
-      chartOptions: {
+      options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          xAxes: [
-            {
+          x: {
+            display: true,
+            scaleLabel: {
               display: true,
-              scaleLabel: {
-                display: true,
-                labelString: 'Billing Month',
-              },
+              labelString: 'Billing Month',
             },
-          ],
-          yAxes: [
-            {
-              display: true,
-              scaleLabel: {
-                display: false,
-                labelString: 'Value',
-              },
-              autoSkip: true,
-              ticks: {
-                stepSize: 10000,
-              },
+          },
+
+          y: {
+            display: true,
+            beginAtZero: true,
+            scaleLabel: {
+              display: false,
+              labelString: 'Value',
             },
-          ],
+            autoSkip: true,
+            time: {
+              stepSize: 10000,
+            },
+          },
         },
       },
     }
@@ -84,9 +82,9 @@ export default {
         labels.push(key)
         data.push(result.data[key])
       }
-      this.chartData.labels = labels
-      this.chartData.datasets[0].data = data
-      this.isChart = true
+      this.dataSet.labels = labels
+      this.dataSet.datasets[0].data = data
+      this.shown = true
     },
   },
 }

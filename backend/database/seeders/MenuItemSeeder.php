@@ -166,7 +166,7 @@ class MenuItemSeeder extends Seeder
             'name' => 'List',
             'controller' => 'App\Http\Controllers\Controllers\Controller',
             'function' => 'index',
-            'route' => 'clients.index',
+            'route' => 'client.index',
             'description' => 'Client List View',
             'is_screen' => 1,
             'sort' => 400,
