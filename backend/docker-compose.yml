@@ -1,0 +1,70 @@
+version: "3.8"
+
+services:
+  web:
+    container_name: domsy-web
+    build: ./docker/php
+    volumes:
+      - ./:/var/www
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./log:/var/log
+    working_dir: /var/www
+    environment:
+      TZ: Asia/Tokyo
+    ports:
+      - '3000:3000'
+
+  nginx:
+    container_name: domsy-nginx
+    image: nginx
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    environment:
+      - VIRTUAL_HOST=dev.domsy.com
+
+  db:
+    platform: linux/x86_64
+    container_name: domsy-db
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: domsy
+      MYSQL_USER: domsy
+      MYSQL_PASSWORD: domsy
+      TZ: "Asia/Tokyo"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - db-volume-domsy:/var/lib/mysql
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/db/sql:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+  db-test:
+    platform: linux/x86_64
+    container_name: domsy-db-test
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: domsy_test
+      MYSQL_USER: domsy
+      MYSQL_PASSWORD: domsy
+      TZ: "Asia/Tokyo"
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - db-volume-domsy-test:/var/lib/mysql
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/db/sql:/docker-entrypoint-initdb.d
+    ports:
+      - "3307:3306"
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - 1080:1080
+
+volumes:
+    db-volume-domsy:
+    db-volume-domsy-test:
