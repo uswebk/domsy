@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -15,6 +15,10 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        $this->middleware('role:' . \Route::currentRouteName());
+        abort(403);
+    }
+
+    public function index()
+    {
     }
 }
