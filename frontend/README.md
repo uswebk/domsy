@@ -1,4 +1,4 @@
-# domsy_front
+# domsy
 
 ## Build Setup
 

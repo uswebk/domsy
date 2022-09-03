@@ -18,9 +18,9 @@ final class MenuItemResource extends JsonResource
     public function toArray($request): array
     {
         $user = User::find(Auth::id());
-
         try {
-            $routeName = route($this->route);
+            $route = route($this->route);
+            $routeName = '/' . pathinfo($route)['basename'];
         } catch (UrlGenerationException $e) {
             $routeName = '';
         }

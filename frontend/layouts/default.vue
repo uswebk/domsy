@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <nuxt />
+    <Nuxt />
   </v-app>
 </template>
 
@@ -9,10 +9,6 @@ export default {
   name: 'DefaultLayout',
   data() {
     return {}
-  },
-  mounted() {
-    // ユーザーを取得してきてメール認証がまだならメール認証ページにリダイレクト
-    console.log('ok')
   },
 }
 </script>

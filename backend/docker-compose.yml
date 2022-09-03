@@ -3,25 +3,16 @@ version: "3.8"
 services:
   web:
     container_name: domsy-web
-    build: ./backend/docker/php
+    build: ./docker/php
     volumes:
-      - ./backend/:/var/www
-      - ./backend/docker/php/php.ini:/usr/local/etc/php/php.ini
-      - ./backend/log:/var/log
+      - ./:/var/www
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./log:/var/log
     working_dir: /var/www
     environment:
       TZ: Asia/Tokyo
     ports:
       - '3000:3000'
-
-  nuxt:
-    build: ./frontend/docker
-    ports:
-      - 8080:3000
-    volumes:
-      - ./frontend:/workspace
-    working_dir: /workspace
-    command: yarn run dev
 
   nginx:
     container_name: domsy-nginx
@@ -29,8 +20,8 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./backend/:/var/www
-      - ./backend/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     environment:
       - VIRTUAL_HOST=dev.domsy.com
 
@@ -47,8 +38,8 @@ services:
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - db-volume-domsy:/var/lib/mysql
-      - ./backend/docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-      - ./backend/docker/db/sql:/docker-entrypoint-initdb.d
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/db/sql:/docker-entrypoint-initdb.d
     ports:
       - "3306:3306"
   db-test:
@@ -64,8 +55,8 @@ services:
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - db-volume-domsy-test:/var/lib/mysql
-      - ./backend/docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-      - ./backend/docker/db/sql:/docker-entrypoint-initdb.d
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/db/sql:/docker-entrypoint-initdb.d
     ports:
       - "3307:3306"
 

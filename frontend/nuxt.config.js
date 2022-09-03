@@ -6,8 +6,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - domsy_front',
-    title: 'domsy_front',
+    titleTemplate: '%s - domsy',
+    title: 'domsy',
     htmlAttrs: {
       lang: 'en'
     },
@@ -28,6 +28,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/modules/AppHelper',
+    '@/modules/DateHelper'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -53,27 +55,13 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://localhost:8000',
+    baseURL: "http://localhost:8000",
     credentials: true,
   },
 
-  auth: {
-    redirect: {
-      login: '/login',
-    },
-    strategies: {
-      laravelSanctum: {
-        provider: 'laravel/sanctum',
-        url: 'http://localhost:8000'
-      },
-    }
-  },
-
   router: {
-    mode: "history",
-    base: process.env.BASE_URL,
-    middleware: ['auth']
-},
+    middleware: ['authenticated']
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {

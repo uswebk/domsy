@@ -62,7 +62,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', ['pageLoading']),
+    ...mapGetters('auth/pageLoading'),
   },
   methods: {
     ...mapActions('auth', { loginAction: 'login' }),
