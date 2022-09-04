@@ -6,7 +6,6 @@ namespace App\Http\Resources;
 
 use App\Infrastructures\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Routing\Exceptions\UrlGenerationException;
 use Illuminate\Support\Facades\Auth;
 
 final class MenuItemResource extends JsonResource
@@ -18,12 +17,6 @@ final class MenuItemResource extends JsonResource
     public function toArray($request): array
     {
         $user = User::find(Auth::id());
-        try {
-            $route = route($this->route);
-            $routeName = '/' . pathinfo($route)['basename'];
-        } catch (UrlGenerationException $e) {
-            $routeName = '';
-        }
 
         return [
             'id' => $this->id,
@@ -31,7 +24,7 @@ final class MenuItemResource extends JsonResource
             'menu_name' => $this->menu->name,
             'icon' => $this->menu->icon,
             'route' => $this->route,
-            'route_name' => $routeName,
+            'endpoint' => $this->endpoint,
             'description' => $this->description,
             'is_screen' => $this->is_screen,
             'has_role' => $user->hasRoleItem($this->route),

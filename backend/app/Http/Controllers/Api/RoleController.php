@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Infrastructures\Models\Menu;
+use App\Infrastructures\Models\MenuItem;
 use App\Infrastructures\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +18,7 @@ final class RoleController extends Controller
     {
         parent::__construct();
 
-        $this->middleware('can:owner,role')->except(['fetch','store','user']);
+        $this->middleware('can:owner,role')->except(['fetch','store','user', 'userPage']);
     }
 
     /**
@@ -33,7 +35,7 @@ final class RoleController extends Controller
     }
 
     /**
-     * TODO: ApplicationService化
+     * //TODO: ApplicationService化
      *
      * @param \App\Http\Requests\Api\Role\UserRequest $request
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
@@ -42,7 +44,6 @@ final class RoleController extends Controller
         \App\Http\Requests\Api\Role\UserRequest $request
     ) {
         $user = User::find(Auth::id());
-
         $menus = Menu::with(['menuItems'])->findOrFail($request->menu_id);
 
         $response = new Collection();
@@ -53,6 +54,33 @@ final class RoleController extends Controller
         return response()->json(
             $response,
             Response::HTTP_OK
+        );
+    }
+
+    /**
+     * //TODO: ApplicationService化
+     *
+     * @param \App\Http\Requests\Api\Role\UserPageRequest $request
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function userPage(\App\Http\Requests\Api\Role\UserPageRequest $request)
+    {
+        try {
+            $menuItem = MenuItem::where('endpoint', $request->endpoint)->firstOrFail();
+            $hasRole = (User::findOrFail(Auth::id()))->hasRoleItem($menuItem->route);
+
+            if ($hasRole) {
+                $responseCode = Response::HTTP_OK;
+            } else {
+                $responseCode = Response::HTTP_FORBIDDEN;
+            }
+        } catch(ModelNotFoundException $e) {
+            $responseCode = Response::HTTP_FORBIDDEN;
+        }
+
+        return response()->json(
+            [],
+            $responseCode
         );
     }
 

@@ -15,9 +15,9 @@
             height="6"
           ></v-progress-linear>
           <v-container class="pa-14">
-            <v-row dense>
-              <v-col v-for="menu in menus" :key="menu.id" cols="4">
-                <v-card v-if="menu.has_role" outlined>
+            <v-row dense justify="start">
+              <v-col v-for="menu in menuItems" :key="menu.id" cols="4">
+                <v-card outlined>
                   <v-list-item three-line>
                     <v-list-item-content>
                       <v-list-item-title class="text-h6 mb-1">
@@ -38,7 +38,7 @@
                     >
                   </v-list-item>
                   <v-card-actions>
-                    <v-btn outlined rounded text :href="menu.route_name">
+                    <v-btn outlined rounded text :href="menu.endpoint">
                       Link <v-icon small>mdi-link-variant</v-icon>
                     </v-btn>
                   </v-card-actions>
@@ -59,6 +59,11 @@ export default {
   name: 'MyPage',
   computed: {
     ...mapGetters('menu', ['menus', 'pageLoading']),
+    menuItems() {
+      return this.menus.filter(function (menu) {
+        return menu.has_role
+      })
+    },
   },
 }
 </script>

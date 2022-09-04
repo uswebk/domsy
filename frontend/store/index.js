@@ -7,18 +7,8 @@ export const mutations = {
 }
 
 export const actions = {
-  async verifyUrl({commit},payload) {
-    const result = await this.$axios.get(
-      '/api/verify/url/' +
-        payload.params.id +
-        '/' +
-        payload.params.hash +
-        '?expires=' +
-        payload.query.expires +
-        '&signature=' +
-        payload.query.signature
-    )
-
+  async hasRole({ commit }, payload) {
+    const result = await this.$axios.get('/api/role/user/page?endpoint=' + payload)
     return result
   },
 }

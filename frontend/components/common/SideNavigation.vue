@@ -33,7 +33,7 @@
         <v-divider></v-divider>
         <span v-for="menu in menus" :key="menu.id">
           <v-list v-if="menu.has_role" nav dense>
-            <v-list-item link :href="menu.route_name">
+            <v-list-item link :href="menu.endpoint">
               <v-list-item-icon>
                 <v-icon>{{ menu.icon }}</v-icon>
               </v-list-item-icon>

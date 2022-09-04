@@ -60,7 +60,7 @@ export default {
   },
 
   router: {
-    middleware: ['authenticated','signature']
+    middleware: ['authenticated','role']
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Exceptions\Auth\AlreadyVerifiedException;
-
+use Exception;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 final class VerificationController extends Controller
 {
@@ -16,7 +16,6 @@ final class VerificationController extends Controller
 
     public function __construct(
     ) {
-        $this->middleware('auth');
         $this->middleware('signed')->only(['url']);
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
@@ -28,19 +27,21 @@ final class VerificationController extends Controller
     public function url(
         \App\Services\Application\Auth\EmailVerifyService $emailVerifyService
     ) {
+        $id = Auth::id();
+        if (!isset($id)) {
+            return redirect(env('FRONTEND_APP_URL') . '/login');
+        }
+
         try {
             $emailVerifyService->handle();
         } catch (AlreadyVerifiedException $e) {
-            return response()->json(
-                ['status' => 'already'],
-                Response::HTTP_OK
-            );
+            return redirect(env('FRONTEND_APP_URL') . '/mypage');
+        } catch(Exception $e) {
+            abort(403);
         }
 
-        return response()->json(
-            ['status' => 'success'],
-            Response::HTTP_OK
-        );
+        // TODO: 認証完了ページに遷移
+        return redirect(env('FRONTEND_APP_URL') . '/mypage');
     }
 
     /**
