@@ -20,7 +20,6 @@ export default async function ({ store, redirect, route }) {
     if (user.email_verified_at !== null && !isAuthPath(routePath)) {
       redirect('/mypage')
     }
-    return
   } catch (error) {
     redirect('/login')
   }

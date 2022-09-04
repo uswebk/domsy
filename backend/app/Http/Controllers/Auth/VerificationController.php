@@ -22,26 +22,24 @@ final class VerificationController extends Controller
 
     /**
      * @param \App\Services\Application\Auth\EmailVerifyService $emailVerifyService
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function url(
         \App\Services\Application\Auth\EmailVerifyService $emailVerifyService
     ) {
         $id = Auth::id();
         if (!isset($id)) {
-            return redirect(env('FRONTEND_APP_URL') . '/login');
+            return redirect(config('app.frontend_url') . '/login');
         }
 
         try {
             $emailVerifyService->handle();
+            return redirect(config('app.frontend_url') . '/verify/complete');
         } catch (AlreadyVerifiedException $e) {
-            return redirect(env('FRONTEND_APP_URL') . '/mypage');
+            return redirect(config('app.frontend_url') . '/mypage');
         } catch(Exception $e) {
-            abort(403);
+            return redirect(config('app.frontend_url') . '/login');
         }
-
-        // TODO: 認証完了ページに遷移
-        return redirect(env('FRONTEND_APP_URL') . '/mypage');
     }
 
     /**

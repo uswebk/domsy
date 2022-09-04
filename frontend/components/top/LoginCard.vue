@@ -1,8 +1,10 @@
 <template>
   <div>
-    <v-btn v-if="isLogin" color="primary" href="/mypage">
-      <v-icon dark left> mdi-account-box </v-icon>Mypage
-    </v-btn>
+    <div v-if="isLogin" class="ml-10">
+      <v-btn color="primary" href="/mypage">
+        <v-icon dark left> mdi-account-box </v-icon>Mypage
+      </v-btn>
+    </div>
     <v-card
       v-if="!isLogin"
       flat

@@ -26,4 +26,12 @@ class ResetPasswordController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::DASHBOARD;
+
+    public function showResetForm(\Illuminate\Http\Request $request)
+    {
+        $token = $request->route()->parameter('token');
+        $url = config('app.frontend_url') . '/password/reset/' . $token . '?email=' . $request->email;
+
+        return redirect($url);
+    }
 }
