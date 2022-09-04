@@ -1,9 +1,36 @@
 <template>
   <div>
-    <div v-if="isLogin" class="ml-10">
-      <v-btn color="primary" href="/mypage">
-        <v-icon dark left> mdi-account-box </v-icon>Mypage
-      </v-btn>
+    <div v-if="isLogin" class="ml-10" style="max-width: 500px">
+      <v-tooltip bottom>
+        <template #activator="{ on, attrs }">
+          <v-btn
+            color="primary"
+            href="/mypage"
+            v-bind="attrs"
+            fab
+            class="ma-2"
+            v-on="on"
+          >
+            <v-icon>mdi-account-box</v-icon>
+          </v-btn>
+        </template>
+        <span>MyPage</span>
+      </v-tooltip>
+      <v-tooltip v-for="menu in menuItems" :key="menu.id" bottom>
+        <template #activator="{ on, attrs }">
+          <v-btn
+            color="primary"
+            :href="menu.endpoint"
+            v-bind="attrs"
+            fab
+            class="ma-2"
+            v-on="on"
+          >
+            <v-icon>{{ menu.icon }}</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ menu.menu_name }}</span>
+      </v-tooltip>
     </div>
     <v-card
       v-if="!isLogin"
@@ -88,6 +115,15 @@ export default {
   },
   computed: {
     ...mapGetters('authentication', ['isLogin']),
+    ...mapGetters('menu', ['menus']),
+    menuItems() {
+      if (this.isLogin) {
+        return this.menus.filter(function (menu) {
+          return menu.has_role
+        })
+      }
+      return []
+    },
   },
   methods: {
     ...mapMutations('authentication', {

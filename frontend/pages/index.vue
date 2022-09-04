@@ -46,13 +46,21 @@ export default {
   name: 'IndexPage',
   authenticated: false,
   computed: {
-    ...mapGetters('authentication', ['pageLoading', 'finishedLoginCheck']),
+    ...mapGetters('authentication', [
+      'pageLoading',
+      'finishedLoginCheck',
+      'isLogin',
+    ]),
   },
-  mounted() {
-    this.checkLogin()
+  async mounted() {
+    await this.checkLogin()
+    if (this.isLogin) {
+      this.fetchMenus()
+    }
   },
   methods: {
     ...mapActions('authentication', ['checkLogin']),
+    ...mapActions('menu', ['fetchMenus']),
   },
 }
 </script>
