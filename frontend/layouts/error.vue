@@ -1,13 +1,12 @@
 <template>
   <v-app dark>
-    <h1 v-if="error.statusCode === 404">
-      {{ pageNotFound }}
-    </h1>
-    <h1 v-if="error.statusCode === 403">Forbidden</h1>
-    <h1 v-else>
-      {{ otherError }}
-    </h1>
-    <NuxtLink to="/"> Home page </NuxtLink>
+    <common-error-frame>
+      <template #message>
+        <h1>{{ errorMessage }}</h1>
+        <br />
+        <v-btn small href="/" color="primary">Back Top</v-btn>
+      </template>
+    </common-error-frame>
   </v-app>
 </template>
 
@@ -28,11 +27,29 @@ export default {
     }
   },
   head() {
-    const title =
-      this.error.statusCode === 404 ? this.pageNotFound : this.otherError
+    let title = ''
+    if (this.error.statusCode === 403) {
+      title = '403 Forbidden'
+    } else if (this.error.statusCode === 404) {
+      title = '404 Not Found'
+    } else {
+      title = 'Server Error'
+    }
     return {
       title,
     }
+  },
+  computed: {
+    errorMessage() {
+      if (this.error.statusCode === 403) {
+        return '404 Forbidden'
+      }
+      if (this.error.statusCode === 404) {
+        return '404 Not Found'
+      }
+
+      return 'Server Error'
+    },
   },
 }
 </script>

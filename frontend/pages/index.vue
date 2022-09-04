@@ -48,12 +48,11 @@ export default {
   computed: {
     ...mapGetters('authentication', ['pageLoading', 'finishedLoginCheck']),
   },
-  methods: {
-    ...mapActions('authentication', ['checkLogin']),
-  },
-  // eslint-disable-next-line vue/order-in-components
   mounted() {
     this.checkLogin()
+  },
+  methods: {
+    ...mapActions('authentication', ['checkLogin']),
   },
 }
 </script>

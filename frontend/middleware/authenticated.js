@@ -1,30 +1,23 @@
 export default async function ({ store, redirect, route }) {
   const routePath = route.path
-
   if (routePath === '/') return
 
   try {
     await store.dispatch('authentication/fetchMe')
     const user = store.state.authentication.me
-
     // 未ログイン
     if (user === null) {
-      if (routePath === '/login') {
-        return
-      }
-      if(!isNotAuthenticatePathByRoute(routePath)){
+      if (isAuthPath(routePath)) {
         redirect('/login')
       }
       return
     }
-
-    const emailVerifiedAt = user.email_verified_at
     // メール未認証
-    if (emailVerifiedAt === null && routePath !== '/verify') {
+    if (user.email_verified_at === null && routePath !== '/verify') {
       redirect('/verify')
     }
     // メール認証済
-    if (emailVerifiedAt !== null && isNotAuthenticatePathByRoute(routePath)) {
+    if (user.email_verified_at !== null && !isAuthPath(routePath)) {
       redirect('/mypage')
     }
     return
@@ -33,14 +26,12 @@ export default async function ({ store, redirect, route }) {
   }
 }
 
-function isNotAuthenticatePathByRoute(routePath) {
-  const pattern1 = /^\/password\/reset\/[\w]+/
-  const pattern2 = /^\/api\/verify\/url\/[\w]+/
-  const result1 = pattern1.test(routePath)
-  const result2 = pattern2.test(routePath)
+function isAuthPath(routePath) {
+  const pattern = /^\/password\/reset\/[\w]+/
+  const result1 = pattern.test(routePath)
 
-  if (result1 || result2) return true
+  if (result1) return false
 
-  const targetRoute = ['/', '/login', '/register', '/password/email']
-  return targetRoute.includes(routePath)
+  const targetRoute = ['/login', '/register', '/password/email']
+  return ! targetRoute.includes(routePath)
 }
