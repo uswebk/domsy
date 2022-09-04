@@ -8,6 +8,7 @@
 ![](https://img.shields.io/badge/Nginx-1.21.6-5684d5)
 ![](https://img.shields.io/badge/Vue-2.6.14-5684d5)
 ![](https://img.shields.io/badge/Vuetify-2.6.7-5684d5)
+![](https://img.shields.io/badge/Nuxt-2.15.8-5684d5)
 
 </div>
 
@@ -34,7 +35,6 @@ make build
 * Account
 
 <img width="1000" alt="image" src="https://user-images.githubusercontent.com/50518919/181744197-c6f58d33-52b9-4804-81d1-7999b3c7ef16.png">
-<img width="1457" alt="image" src="https://user-images.githubusercontent.com/50518919/183299930-f7d2af2a-ff3d-4eea-8b82-a83a2ae20e98.png">
 
 ## Batches
 * Domain expiration notification
