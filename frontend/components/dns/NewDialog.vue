@@ -124,6 +124,7 @@ export default {
     ...mapActions('dns', ['storeDns', 'sendMessage']),
     close() {
       this.errors = {}
+      this.resetForm()
       this.$emit('close')
     },
     resetForm() {

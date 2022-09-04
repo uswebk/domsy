@@ -140,7 +140,6 @@ export default {
         return this.isOpen
       },
       set() {
-        this.errors = {}
         this.close()
       },
     },
@@ -148,6 +147,8 @@ export default {
   methods: {
     ...mapActions('dealing', ['storeDealing', 'sendMessage']),
     close() {
+      this.errors = {}
+      this.resetForm()
       this.$emit('close')
     },
     resetForm() {

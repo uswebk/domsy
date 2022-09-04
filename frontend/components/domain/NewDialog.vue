@@ -138,6 +138,7 @@ export default {
     ...mapActions('domain', ['storeDomain', 'sendMessage']),
     close() {
       this.errors = {}
+      this.resetForm()
       this.$emit('close')
     },
     resetForm() {

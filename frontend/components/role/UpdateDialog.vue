@@ -7,33 +7,62 @@
         indeterminate
       ></v-progress-linear>
       <v-card-title class="pl-8">
-        <span class="text-h6"> Account Edit</span>
+        <span class="text-h6">Role Edit</span>
       </v-card-title>
       <v-card-text>
-        <v-container>
-          <v-form ref="form" lazy-validation>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="roleModel.name"
-                  label="Role Name"
-                  required
-                  :error-messages="errors.name"
-                ></v-text-field>
-              </v-col>
-              <div class="my-10"></div>
-              <v-col v-for="roleItem in roleItems" :key="roleItem.id" cols="6">
-                <v-switch
-                  v-model="roleModel.roles[roleItem.id]"
-                  :label="roleItem.description"
+        <v-form ref="form" lazy-validation>
+          <v-row justify="start">
+            <v-col cols="4">
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    v-model="roleModel.name"
+                    label="Role Name"
+                    required
+                    :error-messages="errors.name"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn color="primary" @click="update">Update</v-btn>
+                  <v-btn @click="close">Close</v-btn>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-divider vertical></v-divider>
+            <v-col cols="8" class="px-10">
+              <v-row>
+                <v-col cols="12" class="py-0">
+                  <v-switch
+                    v-model="isAllSelect"
+                    color="indigo"
+                    label="All"
+                    @click="toggleSwitch"
+                  >
+                  </v-switch>
+                  <v-divider></v-divider>
+                </v-col>
+                <v-col
+                  v-for="roleItem in roleItems"
+                  :key="roleItem.id"
+                  cols="3"
                 >
-                </v-switch>
-              </v-col>
-            </v-row>
-            <div class="my-5"></div>
-            <v-btn color="primary" @click="update">Update</v-btn>
-          </v-form>
-        </v-container>
+                  <v-switch
+                    v-model="roleModel.roles[roleItem.id]"
+                    :label="roleItem.description"
+                  >
+                    <template #label
+                      ><span class="text-caption font-weight-bold">
+                        {{ roleItem.description }}</span
+                      ></template
+                    >
+                  </v-switch>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -62,6 +91,7 @@ export default {
   },
   data() {
     return {
+      isAllSelect: false,
       loading: false,
       errors: {},
     }
@@ -122,6 +152,11 @@ export default {
       }
       this.close()
       this.loading = false
+    },
+    toggleSwitch() {
+      for (const key in this.roleItems) {
+        this.roleModel.roles[this.roleItems[key].id] = this.isAllSelect
+      }
     },
   },
 }
