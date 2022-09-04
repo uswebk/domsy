@@ -71,6 +71,7 @@ export const actions = {
 
     return result
   },
+
   async registerCorporation({ commit }, payload) {
     commit('pageLoading', true)
     const result = await this.$axios.post('/api/corporation/register', {
@@ -104,7 +105,6 @@ export const actions = {
 
     return result
   },
-
 }
 
 export const getters = {

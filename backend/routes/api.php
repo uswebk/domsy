@@ -12,17 +12,17 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::namespace('Api')->name('api.')->group(function () {
     Route::get('me', 'MeController@fetch')->name('me.fetch');
 });
 
 Route::namespace('Auth')->group(function () {
+    Route::get('verify/url/{id}/{hash}', 'VerificationController@url')->name('verify.url');
+    Route::post('email/resend', 'VerificationController@resend');
     Route::post('register', 'RegisterController@register');
     Route::post('corporation/register', 'RegisterController@corporationRegister');
     Route::post('login', 'LoginController@login');
     Route::post('logout', 'LoginController@logout');
-    Route::post('email/resend', 'VerificationController@resend');
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'ResetPasswordController@reset');
 });

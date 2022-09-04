@@ -1,7 +1,6 @@
 export default async function ({ store, redirect, route }) {
-  if (isNotAuthenticatePath(route)) {
-    return
-  }
+  if (isNotAuthenticatePath(route)) return
+
   try {
     await store.dispatch('authentication/fetchMe')
     const user = store.state.authentication.me
@@ -21,10 +20,12 @@ export default async function ({ store, redirect, route }) {
 }
 
 function isNotAuthenticatePath(route) {
-  const pattern = /^\/password\/reset\/[\w]+/
-  const result1 = pattern.test(route.path)
+  const pattern1 = /^\/password\/reset\/[\w]+/
+  const pattern2 = /^\/api\/verify\/url\/[\w]+/
+  const result1 = pattern1.test(route.path)
+  const result2 = pattern2.test(route.path)
 
-  if (result1) return true
+  if (result1 || result2) return true
 
   const targetRoute = ['/', '/login', '/register', '/password/email']
   return targetRoute.includes(route.path)

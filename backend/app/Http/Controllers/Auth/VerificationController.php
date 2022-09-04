@@ -8,6 +8,7 @@ use App\Exceptions\Auth\AlreadyVerifiedException;
 
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 final class VerificationController extends Controller
 {
@@ -16,7 +17,7 @@ final class VerificationController extends Controller
     public function __construct(
     ) {
         $this->middleware('auth');
-        $this->middleware('signed')->only('verify');
+        $this->middleware('signed')->only(['url']);
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 
@@ -24,16 +25,22 @@ final class VerificationController extends Controller
      * @param \App\Services\Application\Auth\EmailVerifyService $emailVerifyService
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function verify(
+    public function url(
         \App\Services\Application\Auth\EmailVerifyService $emailVerifyService
     ) {
         try {
             $emailVerifyService->handle();
         } catch (AlreadyVerifiedException $e) {
-            return redirect('mypage');
+            return response()->json(
+                ['status' => 'already'],
+                Response::HTTP_OK
+            );
         }
 
-        return view('auth.main.register');
+        return response()->json(
+            ['status' => 'success'],
+            Response::HTTP_OK
+        );
     }
 
     /**

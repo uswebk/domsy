@@ -2,10 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::namespace('Auth')->group(function () {
-    Route::get('email/verify/{id}/{hash}', 'VerificationController@verify')->name('verify');
-});
-
+/* Role Management */
 Route::get('mypage', 'Controller@index')->name('mypage.index');
 Route::get('dashboard', 'Controller@index')->name('dashboard.index');
 Route::get('domain', 'Controller@index')->name('domain.index');

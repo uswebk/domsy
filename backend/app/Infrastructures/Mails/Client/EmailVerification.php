@@ -44,7 +44,7 @@ final class EmailVerification extends Notification
     protected function verificationUrl($notifiable): string
     {
         return URL::temporarySignedRoute(
-            'verify',
+            'verify.url',
             Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
             [
                 'id' => $notifiable->getKey(),
