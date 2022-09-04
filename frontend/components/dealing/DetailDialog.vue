@@ -35,8 +35,8 @@
                       'background-color': item.is_fixed ? '#efefef' : '',
                     }"
                   >
-                    <td>{{ $dateHelper.dateHyphen(item.billing_date) }}</td>
-                    <td>{{ $appHelper.formattedPriceYen(item.total) }}</td>
+                    <td>{{ $dateHyphen(item.billing_date) }}</td>
+                    <td>{{ $formattedPriceYen(item.total) }}</td>
                     <td>
                       <v-icon
                         v-if="!item.is_fixed && canUpdateBilling"
@@ -130,9 +130,7 @@ export default {
     },
     editBilling(billing) {
       this.billing = Object.assign({}, billing)
-      this.billing.billing_date = this.$dateHelper.dateHyphen(
-        this.billing.billing_date
-      )
+      this.billing.billing_date = this.$dateHyphen(this.billing.billing_date)
       this.openBillingEditDialog()
     },
   },

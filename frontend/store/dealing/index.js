@@ -10,7 +10,7 @@ export const state = () => ({
   dealing: { domain: [] },
 })
 
-const mutations = {
+export const mutations = {
   greeting: (state, value) => (state.greeting = value),
   greetingType: (state, value) => (state.greetingType = value),
   pageLoading: (state, value) => (state.pageLoading = value),
@@ -22,7 +22,7 @@ const mutations = {
   canUpdateBilling: (state, value) => (state.canUpdateBilling = value),
 }
 
-const actions = {
+export const actions  = {
   sendMessage({ commit }, payload) {
     commit('greeting', payload.greeting)
     commit('greetingType', payload.greetingType)
@@ -87,7 +87,7 @@ const actions = {
   },
 }
 
-const getters = {
+export const getters = {
   greeting: (state) => state.greeting,
   greetingType: (state) => state.greetingType,
   dealings: (state) => state.dealings,
@@ -98,10 +98,4 @@ const getters = {
   canUpdateBilling: (state) => state.canUpdateBilling,
   pageLoading: (state) => state.pageLoading,
   intervalCategories: () => ['DAY', 'WEEK', 'MONTH', 'YEAR'],
-}
-
-export default {
-  getters,
-  mutations,
-  actions,
 }
