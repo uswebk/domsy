@@ -6,7 +6,7 @@
   </div>
   <div v-else>
     <v-card>
-      <v-card color="#2EBFAF" dark tile style="box-shadow: none">
+      <v-card color="#5684d5" dark tile style="box-shadow: none">
         <v-card-title class="justify-end"> Domain </v-card-title>
         <v-card-subtitle>Domain Seller </v-card-subtitle>
         <v-card-title class="text-h5 pt-0">
@@ -45,7 +45,7 @@ export default {
         datasets: [
           {
             label: 'Number of domains',
-            backgroundColor: ['#2EBFAF', '#CCCCCC'],
+            backgroundColor: ['#5684d5', '#CCCCCC'],
             data: [],
           },
         ],

@@ -10,7 +10,6 @@
     </div>
     <div v-else>
       <v-card class="pa-5">
-        <v-card-title>Billing Transition</v-card-title>
         <chart-line-chart
           :shown="shown"
           :data="dataSet"
@@ -29,10 +28,11 @@ export default {
       loading: true,
       shown: false,
       dataSet: {
+        type: 'line',
         labels: [],
         datasets: [
           {
-            label: 'Billings Price',
+            label: 'Billing amount',
             backgroundColor: '#2EBFAF',
             data: [],
           },
@@ -43,23 +43,19 @@ export default {
         maintainAspectRatio: false,
         scales: {
           x: {
-            display: true,
-            scaleLabel: {
+            grid: {
+              display: false,
+            },
+            title: {
               display: true,
-              labelString: 'Billing Month',
+              text: 'Billing Month',
             },
           },
-
           y: {
-            display: true,
             beginAtZero: true,
-            scaleLabel: {
+            type: 'linear',
+            grid: {
               display: false,
-              labelString: 'Value',
-            },
-            autoSkip: true,
-            time: {
-              stepSize: 10000,
             },
           },
         },

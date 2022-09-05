@@ -133,6 +133,21 @@ final class DomainDealing extends BaseModel
     }
 
     /**
+     * @return \App\Infrastructures\Models\DomainBilling
+     */
+    public function getNextBilling(): \App\Infrastructures\Models\DomainBilling
+    {
+        $domainBilling = $this->domainBillings->where('is_fixed', false)
+        ->sortBy('billing_date')->first();
+
+        if (isset($domainBilling)) {
+            return $domainBilling;
+        }
+
+        return new DomainBilling();
+    }
+
+    /**
      * @return integer
      */
     public function getTotalPrice(): int

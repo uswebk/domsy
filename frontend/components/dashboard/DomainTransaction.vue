@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <span>
     <div v-if="loading" style="text-align: center">
       <v-sheet color="grey lighten-4" class="pa-3">
         <v-progress-circular
@@ -17,7 +17,7 @@
         ></chart-line-chart>
       </v-card>
     </div>
-  </div>
+  </span>
 </template>
 
 <script>
@@ -28,15 +28,17 @@ export default {
       loading: true,
       shown: false,
       dataSet: {
+        type: 'line',
         labels: [],
         datasets: [
           {
-            label: 'Number of domains',
-            backgroundColor: '#2EBFAF',
+            type: 'line',
+            label: 'Number of Domains',
+            backgroundColor: '#5684d5',
             data: [],
+            yAxisID: 'y',
+            xAxisID: 'x',
             fill: false,
-            responsive: true,
-            maintainAspectRatio: false,
           },
         ],
       },
@@ -45,27 +47,22 @@ export default {
         maintainAspectRatio: false,
         scales: {
           x: {
-            display: true,
-            scaleLabel: {
-              display: true,
-              labelString: 'Purchased Month',
-            },
-          },
-
-          y: {
             grid: {
               display: false,
-              drawBorder: false,
             },
-            display: true,
+            title: {
+              display: true,
+              text: 'Purchased Month',
+            },
+          },
+          y: {
             beginAtZero: true,
-            scaleLabel: {
-              display: false,
-              labelString: 'Value',
-            },
-            autoSkip: true,
+            type: 'linear',
             ticks: {
-              stepSize: 10,
+              stepSize: 20,
+            },
+            grid: {
+              display: false,
             },
           },
         },

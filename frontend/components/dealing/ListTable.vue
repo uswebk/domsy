@@ -19,8 +19,8 @@
       <template #[`item.discount`]="{ item }">
         {{ $formattedPriceYen(item.discount) }}
       </template>
-      <template #[`item.billing_date`]="{ item }">
-        {{ $dateHyphen(item.billing_date) }}
+      <template #[`item.next_billing.billing_date`]="{ item }">
+        {{ $dateHyphen(item.next_billing.billing_date) }}
       </template>
       <template #[`item.interval`]="{ item }">
         <span>{{ item.interval }} {{ item.interval_category }}</span>
@@ -91,8 +91,8 @@ export default {
           value: 'discount',
         },
         {
-          text: 'First Billing Date',
-          value: 'billing_date',
+          text: 'Next Billing Date',
+          value: 'next_billing.billing_date',
         },
         {
           text: 'Interval',

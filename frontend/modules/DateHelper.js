@@ -1,7 +1,7 @@
 export default ({ app }, inject) => {
   inject('dateHyphen', (dateTime) => {
-    if (dateTime === null) {
-      return null
+    if (dateTime === null || dateTime === undefined) {
+      return ''
     }
 
     const date = new Date(dateTime)

@@ -14,10 +14,7 @@
             </v-col>
             <v-col cols="9">
               <dashboard-domain-transaction></dashboard-domain-transaction>
-            </v-col>
-          </v-row>
-          <v-row class="pa-5 mt-0" justify="center">
-            <v-col>
+              <div class="my-5"></div>
               <dashboard-domain-billings></dashboard-domain-billings>
             </v-col>
           </v-row>

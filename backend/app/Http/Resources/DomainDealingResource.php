@@ -21,6 +21,7 @@ final class DomainDealingResource extends JsonResource
             'subtotal' => $this->subtotal,
             'discount' => $this->discount,
             'billing_date' => $this->billing_date,
+            'next_billing' => $this->getNextBilling(),
             'interval' => $this->interval,
             'interval_category' => $this->interval_category,
             'is_auto_update' => $this->is_auto_update,

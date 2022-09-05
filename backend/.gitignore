@@ -17,3 +17,4 @@ yarn-error.log
 /public/js
 /log
 *.log
+./idea

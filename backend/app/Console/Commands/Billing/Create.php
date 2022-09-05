@@ -10,7 +10,7 @@ use Illuminate\Console\Command;
 
 final class Create extends Command
 {
-    protected $signature = 'billing:create {executeDate?}';
+    protected $signature = 'billing:create {executeDate}';
 
     private $createService;
 
@@ -30,13 +30,7 @@ final class Create extends Command
      */
     public function handle(): void
     {
-        $executeDateArgument = $this->argument('executeDate');
-
-        if (isset($executeDateArgument)) {
-            $executeDate = new Carbon($executeDateArgument);
-        } else {
-            $executeDate = new Carbon();
-        }
+        $executeDate = new Carbon($this->argument('executeDate'));
 
         $this->createService->handle($executeDate);
     }
