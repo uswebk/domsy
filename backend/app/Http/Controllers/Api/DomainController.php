@@ -17,7 +17,8 @@ final class DomainController extends Controller
             'fetchTotalSeller',
             'fetchTransition',
             'fetchSortExpired',
-            'store'
+            'fetchActiveSummary',
+            'store',
         ]);
     }
 
@@ -62,13 +63,22 @@ final class DomainController extends Controller
 
     /**
      * @param \App\Services\Application\DomainFetchSortExpiredService $domainFetchSortExpiredService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetchSortExpired(
         \App\Services\Application\DomainFetchSortExpiredService $domainFetchSortExpiredService
     ) {
         return response()->json(
             $domainFetchSortExpiredService->getResponseData(),
+            Response::HTTP_OK
+        );
+    }
+
+    public function fetchActiveSummary(
+        \App\Services\Application\DomainFetchActiveSummaryService $domainFetchActiveSummaryService
+    ) {
+        return response()->json(
+            $domainFetchActiveSummaryService->getResponseData(),
             Response::HTTP_OK
         );
     }

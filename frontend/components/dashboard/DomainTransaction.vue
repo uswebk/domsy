@@ -10,23 +10,20 @@
     </div>
     <div v-else>
       <v-card class="pa-7">
-        <chart-line-chart
-          :shown="shown"
-          :data="dataSet"
-          :options="options"
-        ></chart-line-chart>
+        <chart-line-chart :data="dataSet" :options="options"></chart-line-chart>
       </v-card>
     </div>
   </span>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'DomainTransaction',
   data() {
     return {
       loading: true,
-      shown: false,
       dataSet: {
         type: 'line',
         labels: [],
@@ -69,24 +66,24 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapGetters('dashboard/domains', ['domainNumbers', 'labels']),
+  },
+  watch: {
+    domainNumbers() {
+      this.dataSet.datasets[0].data = this.domainNumbers
+    },
+    labels() {
+      this.dataSet.labels = this.labels
+    },
+  },
   async created() {
     this.loading = true
-    await this.initDomains()
+    await this.fetchTransactionByMonths(6)
     this.loading = false
   },
   methods: {
-    async initDomains() {
-      const result = await this.$axios.get('/api/domain/transaction?months=6')
-      const labels = []
-      const data = []
-      for (const key in result.data) {
-        labels.push(key)
-        data.push(result.data[key])
-      }
-      this.dataSet.labels = labels
-      this.dataSet.datasets[0].data = data
-      this.shown = true
-    },
+    ...mapActions('dashboard/domains', ['fetchTransactionByMonths']),
   },
 }
 </script>

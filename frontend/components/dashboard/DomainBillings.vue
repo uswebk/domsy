@@ -10,31 +10,28 @@
     </div>
     <div v-else>
       <v-card class="pa-5">
-        <chart-line-chart
-          :shown="shown"
-          :data="dataSet"
-          :options="options"
-        ></chart-line-chart>
+        <chart-line-chart :data="dataSet" :options="options"></chart-line-chart>
       </v-card>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'DomainBillings',
   data() {
     return {
       loading: true,
-      shown: false,
       dataSet: {
-        type: 'line',
         labels: [],
         datasets: [
           {
             label: 'Billing amount',
             backgroundColor: '#2EBFAF',
             data: [],
+            fill: true,
           },
         ],
       },
@@ -53,7 +50,6 @@ export default {
           },
           y: {
             beginAtZero: true,
-            type: 'linear',
             grid: {
               display: false,
             },
@@ -62,26 +58,24 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapGetters('dashboard/dealings', ['amounts', 'labels']),
+  },
+  watch: {
+    amounts() {
+      this.dataSet.datasets[0].data = this.amounts
+    },
+    labels() {
+      this.dataSet.labels = this.labels
+    },
+  },
   async created() {
     this.loading = true
-    await this.initDomains()
+    await this.fetchAmountByMonths(12)
     this.loading = false
   },
   methods: {
-    async initDomains() {
-      const result = await this.$axios.get(
-        '/api/dealing/billings/transaction?months=12'
-      )
-      const labels = []
-      const data = []
-      for (const key in result.data) {
-        labels.push(key)
-        data.push(result.data[key])
-      }
-      this.dataSet.labels = labels
-      this.dataSet.datasets[0].data = data
-      this.shown = true
-    },
+    ...mapActions('dashboard/dealings', ['fetchAmountByMonths']),
   },
 }
 </script>

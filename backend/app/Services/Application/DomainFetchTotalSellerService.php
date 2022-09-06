@@ -26,7 +26,7 @@ final class DomainFetchTotalSellerService
         }
 
         $this->totalPrice = 0;
-
+        // TODO: 速度改善
         foreach ($this->domains as $domain) {
             $this->totalPrice += $domain->getTotalSeller();
         }

@@ -1,5 +1,5 @@
 <template>
-  <LineChart :chart-data="data" :options="options" :v-show="shown" />
+  <LineChart :chart-data="data" :options="options" />
 </template>
 
 <script>
@@ -12,11 +12,6 @@ export default {
     LineChart,
   },
   props: {
-    shown: {
-      default: false,
-      type: Boolean,
-      required: true,
-    },
     data: {
       default: null,
       type: Object,

@@ -10,7 +10,12 @@
     </div>
     <div v-else>
       <v-card class="pa-5">
-        <v-card-title>Billing Soon Dealing List</v-card-title>
+        <v-card-title class="light-blue--text text--darken-2">
+          <v-avatar class="mr-3 light-blue darken-2">
+            <v-icon dark>mdi-cash-multiple</v-icon>
+          </v-avatar>
+          Billing Soon Dealing List</v-card-title
+        >
         <v-simple-table>
           <thead>
             <tr>
@@ -20,7 +25,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="billing in billings" :key="billing.id">
+            <tr v-for="billing in soonBillings" :key="billing.id">
               <td>{{ billing.domain_name }}</td>
               <td>{{ $dateHyphen(billing.billing_date) }}</td>
               <td>{{ $formattedPriceYen(billing.total) }}</td>
@@ -33,26 +38,25 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'DomainBillingDateList',
   data() {
     return {
       loading: true,
-      billings: {},
     }
+  },
+  computed: {
+    ...mapGetters('dashboard/dealings', ['soonBillings']),
   },
   async created() {
     this.loading = true
-    await this.initBillings()
+    await this.fetchSortedBillingsByCount(5)
     this.loading = false
   },
   methods: {
-    async initBillings() {
-      const result = await this.$axios.get(
-        '/api/dealing/billings/sort-billing-date?count=5'
-      )
-      this.billings = result.data
-    },
+    ...mapActions('dashboard/dealings', ['fetchSortedBillingsByCount']),
   },
 }
 </script>

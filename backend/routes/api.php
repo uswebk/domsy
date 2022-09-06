@@ -42,6 +42,7 @@ Route::middleware(['verified','auth:sanctum'])->group(function () {
             Route::get('total-seller', 'DomainController@fetchTotalSeller')->name('fetch.total-seller');
             Route::get('sort-expired', 'DomainController@fetchSortExpired')->name('fetch.sort-expired');
             Route::get('transaction', 'DomainController@fetchTransition')->name('fetch.transaction');
+            Route::get('active-summary', 'DomainController@fetchActiveSummary')->name('fetch.active-summary');
             Route::post('/', 'DomainController@store')->name('store');
             Route::put('{domain}', 'DomainController@update')->where('domain', '[0-9]+')->name('update');
             Route::delete('{domain}', 'DomainController@delete')->where('domain', '[0-9]+')->name('delete');
