@@ -37,7 +37,6 @@ export const actions = {
 
   async fetchActiveSummary({ commit }) {
     const result = await this.$axios.get('/api/domain/active-summary')
-    console.log(result.data)
     commit('activeSummary', result.data)
   },
 }

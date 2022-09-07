@@ -1,5 +1,5 @@
 <template>
-  <v-alert dense text dismissible :type="type" v-if="message">
+  <v-alert v-if="shown" dense text dismissible :type="type">
     {{ message }}
   </v-alert>
 </template>
@@ -17,6 +17,11 @@ export default {
       default: '',
       type: String,
       required: true,
+    },
+  },
+  computed: {
+    shown() {
+      return this.message !== ''
     },
   },
 }
