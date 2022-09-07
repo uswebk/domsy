@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Dealing;
 
 use App\Infrastructures\Models\User;
 
 use Illuminate\Support\Facades\Auth;
 
-final class DealingFetchBillingTransactionService
+final class FetchBillingTransactionService
 {
     private $transactionResult;
 
@@ -33,6 +33,7 @@ final class DealingFetchBillingTransactionService
 
         $this->transactionResult = collect([]);
 
+        // TODO: 速度改善(GroupByで集計できるか検討)
         while ($backMonths >= 0) {
             $targetDate = now()->copy()->subMonth($backMonths);
             $targetDateInfo = $targetDate->toArray();
@@ -59,7 +60,7 @@ final class DealingFetchBillingTransactionService
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function getResponseData(): \Illuminate\Support\Collection
+    public function getResponse(): \Illuminate\Support\Collection
     {
         return $this->transactionResult;
     }

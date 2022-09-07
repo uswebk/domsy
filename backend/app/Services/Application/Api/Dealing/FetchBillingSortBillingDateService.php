@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Dealing;
 
 use App\Http\Resources\BillingResource;
 use App\Infrastructures\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-final class DealingFetchBillingSortBillingDateService
+final class FetchBillingSortBillingDateService
 {
     private $billings;
 
@@ -25,14 +25,14 @@ final class DealingFetchBillingSortBillingDateService
         $take = $request->take ?? self::DEFAULT_TAKE;
 
         $user = User::find(Auth::id());
-
         if ($user->isCompany()) {
             $userIds = $user->getMemberIds();
         } else {
             $userIds = [$user->id];
         }
 
-        $this->billings = $eloquentBillingQueryService->getSortBillingDateBillingsByUserIdsBillingDateGreaterThanTargetDatetimeTake(
+        $this->billings = $eloquentBillingQueryService
+        ->getSortBillingDateBillingsByUserIdsBillingDateGreaterThanTargetDatetimeTake(
             $userIds,
             now()->startOfDay(),
             (int)$take
@@ -42,7 +42,7 @@ final class DealingFetchBillingSortBillingDateService
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function getResponseData(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getResponse(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return BillingResource::collection($this->billings);
     }

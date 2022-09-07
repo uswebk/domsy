@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\BillingResource;
 use App\Http\Resources\DomainDealingResource;
+use Exception;
 use Illuminate\Http\Response;
 
 final class DealingController extends Controller
@@ -19,21 +20,21 @@ final class DealingController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\DealingFetchService $dealingFetchService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Dealing\FetchService $fetchService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetch(
-        \App\Services\Application\DealingFetchService $dealingFetchService
+        \App\Services\Application\Api\Dealing\FetchService $fetchService
     ) {
         return response()->json(
-            $dealingFetchService->getResponseData(),
+            $fetchService->getResponse(),
             Response::HTTP_OK
         );
     }
 
     /**
      * @param \App\Infrastructures\Models\DomainDealing $domainDealing
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetchId(
         \App\Infrastructures\Models\DomainDealing $domainDealing
@@ -45,27 +46,27 @@ final class DealingController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\DealingFetchBillingTransactionService $dealingFetchBillingTransactionService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Dealing\FetchBillingTransactionService $fetchBillingTransactionService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetchBillingTransaction(
-        \App\Services\Application\DealingFetchBillingTransactionService $dealingFetchBillingTransactionService
+        \App\Services\Application\Api\Dealing\FetchBillingTransactionService $fetchBillingTransactionService
     ) {
         return response()->json(
-            $dealingFetchBillingTransactionService->getResponseData(),
+            $fetchBillingTransactionService->getResponse(),
             Response::HTTP_OK
         );
     }
 
     /**
-     * @param \App\Services\Application\DealingFetchBillingSortBillingDateService $dealingFetchBillingSortBillingDateService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Dealing\FetchBillingSortBillingDateService $fetchBillingSortBillingDateService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetchBillingSortBillingDate(
-        \App\Services\Application\DealingFetchBillingSortBillingDateService $dealingFetchBillingSortBillingDateService
+        \App\Services\Application\Api\Dealing\FetchBillingSortBillingDateService $fetchBillingSortBillingDateService
     ) {
         return response()->json(
-            $dealingFetchBillingSortBillingDateService->getResponseData(),
+            $fetchBillingSortBillingDateService->getResponse(),
             Response::HTTP_OK
         );
     }
@@ -73,45 +74,57 @@ final class DealingController extends Controller
     /**
      * @param \App\Http\Requests\Api\Dealing\UpdateRequest $request
      * @param \App\Infrastructures\Models\DomainDealing $domainDealing
-     * @param \App\Services\Application\DealingUpdateService $dealingUpdateService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Dealing\UpdateService $updateService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(
         \App\Http\Requests\Api\Dealing\UpdateRequest $request,
         \App\Infrastructures\Models\DomainDealing $domainDealing,
-        \App\Services\Application\DealingUpdateService $dealingUpdateService
+        \App\Services\Application\Api\Dealing\UpdateService $updateService
     ) {
-        $domainDealingRequest = $request->makeInput();
-        $dealingUpdateService->handle($domainDealingRequest, $domainDealing);
+        try {
+            $updateService->handle($request->makeInput(), $domainDealing);
 
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                $updateService->getResponse(),
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
      * @param \App\Http\Requests\Api\Dealing\StoreRequest $request
-     * @param \App\Services\Application\DealingStoreService $dealingStoreService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Dealing\StoreService $storeService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(
         \App\Http\Requests\Api\Dealing\StoreRequest $request,
-        \App\Services\Application\DealingStoreService $dealingStoreService
+        \App\Services\Application\Api\Dealing\StoreService $storeService
     ) {
-        $domainDealingRequest = $request->makeInput();
-        $dealingStoreService->handle($domainDealingRequest);
+        try {
+            $storeService->handle($request->makeInput());
 
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                $storeService->getResponse(),
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
      * NOTE: Role Dummy
      *
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function detail()
     {
@@ -124,22 +137,27 @@ final class DealingController extends Controller
     /**
      * @param \App\Http\Requests\Api\Dealing\BillingUpdateRequest $request
      * @param \App\Infrastructures\Models\DomainBilling $domainBilling
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function updateBilling(
         \App\Http\Requests\Api\Dealing\BillingUpdateRequest $request,
         \App\Infrastructures\Models\DomainBilling $domainBilling,
         \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
     ) {
-        $domainDealingRequest = $request->makeInput();
+        $domainBilling->fill($request->makeInput());
 
-        $domainBilling->fill($domainDealingRequest);
+        try {
+            $domainBilling = $billingRepository->save($domainBilling);
 
-        $domainBilling = $billingRepository->save($domainBilling);
-
-        return response()->json(
-            new BillingResource($domainBilling),
-            Response::HTTP_OK
-        );
+            return response()->json(
+                new BillingResource($domainBilling),
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }

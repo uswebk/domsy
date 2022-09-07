@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Domain;
 
 use App\Infrastructures\Models\Domain;
 use App\Infrastructures\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-final class DomainFetchActiveSummaryService
+final class FetchActiveSummaryService
 {
     private $domainSummary;
 
@@ -22,7 +22,7 @@ final class DomainFetchActiveSummaryService
             $userIds = [$user->id];
         }
 
-        // TODO: Query
+        // TODO: move QueryService
         $this->domainSummary = Domain::select([
             DB::raw('COUNT(*) AS total'),
             DB::raw('COUNT(CASE WHEN is_active = 1 THEN 1 END) AS active'),
@@ -35,7 +35,7 @@ final class DomainFetchActiveSummaryService
     /**
      * @return \App\Infrastructures\Models\Domain
      */
-    public function getResponseData(): \App\Infrastructures\Models\Domain
+    public function getResponse(): \App\Infrastructures\Models\Domain
     {
         return $this->domainSummary;
     }

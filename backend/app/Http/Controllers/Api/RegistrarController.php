@@ -25,64 +25,81 @@ final class RegistrarController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\RegistrarFetchService $registrarFetchService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Registrar\FetchService $fetchService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetch(
-        \App\Services\Application\RegistrarFetchService $registrarFetchService
+        \App\Services\Application\Api\Registrar\FetchService $fetchService
     ) {
         return response()->json(
-            $registrarFetchService->getResponseData(),
+            $fetchService->getResponse(),
             Response::HTTP_OK
         );
     }
 
     /**
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(
         \App\Http\Requests\Api\Registrar\StoreRequest $request,
     ) {
-        $attribute = $request->makeInput();
+        try {
+            $registrar = $this->registrarRepository->store($request->makeInput());
 
-        $registrar = $this->registrarRepository->store($attribute);
-
-        return response()->json(
-            new RegistrarResource($registrar),
-            Response::HTTP_OK
-        );
+            return response()->json(
+                new RegistrarResource($registrar),
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(
         \App\Http\Requests\Api\Registrar\UpdateRequest $request,
         \App\Infrastructures\Models\Registrar $registrar
     ) {
-        $attributes = $request->makeInput();
+        try {
+            $registrar->fill($request->makeInput());
+            $registrar = $this->registrarRepository->save($registrar);
 
-        $registrar->fill($attributes);
-        $registrar = $this->registrarRepository->save($registrar);
-
-        return response()->json(
-            new RegistrarResource($registrar),
-            Response::HTTP_OK
-        );
+            return response()->json(
+                new RegistrarResource($registrar),
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
      * @param \App\Infrastructures\Models\Registrar $registrar
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function delete(
         \App\Infrastructures\Models\Registrar $registrar
     ) {
-        $this->registrarRepository->delete($registrar);
+        try {
+            $this->registrarRepository->delete($registrar);
 
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                [],
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }

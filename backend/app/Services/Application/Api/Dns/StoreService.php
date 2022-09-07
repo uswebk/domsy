@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Dns;
 
+use App\Http\Resources\SubdomainResource;
 use Exception;
 
-final class DnsStoreService
+final class StoreService
 {
     private $subdomainRepository;
+
+    private $subdomain;
 
     /**
      * @param \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
@@ -30,7 +33,7 @@ final class DnsStoreService
         $subdomainRequest = $dnsStoreRequest->getInput();
 
         try {
-            $this->subdomainRepository->store([
+            $this->subdomain = $this->subdomainRepository->store([
                 'prefix' => $subdomainRequest->prefix,
                 'domain_id' => $subdomainRequest->domain_id,
                 'type_id' => $subdomainRequest->type_id,
@@ -41,5 +44,13 @@ final class DnsStoreService
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    /**
+     * @return \App\Http\Resources\SubdomainResource
+     */
+    public function getResponse(): \App\Http\Resources\SubdomainResource
+    {
+        return new SubdomainResource($this->subdomain);
     }
 }

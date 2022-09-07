@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Domain;
 
-use App\Http\Resources\DnsResource;
+use App\Http\Resources\DomainResource;
 use App\Infrastructures\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-final class DnsFetchService
+final class FetchService
 {
     private $domains;
 
@@ -25,18 +25,13 @@ final class DnsFetchService
         } else {
             $this->domains = $user->domains;
         }
-
-        $this->domains->load([
-            'subdomains',
-            'subdomains.dnsRecordType'
-        ]);
     }
 
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function getResponseData(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getResponse(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        return DnsResource::collection($this->domains);
+        return DomainResource::collection($this->domains);
     }
 }

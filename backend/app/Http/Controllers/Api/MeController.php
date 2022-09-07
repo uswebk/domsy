@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 final class MeController
 {
     /**
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetch()
     {

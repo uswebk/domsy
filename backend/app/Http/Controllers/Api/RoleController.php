@@ -22,14 +22,14 @@ final class RoleController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\RoleFetchService $roleFetchService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Role\FetchService $fetchService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetch(
-        \App\Services\Application\RoleFetchService $roleFetchService
+        \App\Services\Application\Api\Role\FetchService $fetchService
     ) {
         return response()->json(
-            $roleFetchService->getResponseData(),
+            $fetchService->getResponse(),
             Response::HTTP_OK
         );
     }
@@ -38,7 +38,7 @@ final class RoleController extends Controller
      * //TODO: ApplicationService化
      *
      * @param \App\Http\Requests\Api\Role\UserRequest $request
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function user(
         \App\Http\Requests\Api\Role\UserRequest $request
@@ -61,7 +61,7 @@ final class RoleController extends Controller
      * //TODO: ApplicationService化
      *
      * @param \App\Http\Requests\Api\Role\UserPageRequest $request
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function userPage(\App\Http\Requests\Api\Role\UserPageRequest $request)
     {
@@ -87,54 +87,73 @@ final class RoleController extends Controller
     /**
      * @param \App\Http\Requests\Api\Role\StoreRequest $request
      * @param \App\Services\Application\RoleStoreService $roleStoreService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(
         \App\Http\Requests\Api\Role\StoreRequest $request,
-        \App\Services\Application\RoleStoreService $roleStoreService
+        \App\Services\Application\Api\Role\StoreService $storeService
     ) {
-        $attribute = $request->makeInput();
-        $roleStoreService->handle($attribute);
+        try {
+            $storeService->handle($request->makeInput());
 
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                $storeService->getResponse(),
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
      * @param \App\Http\Requests\Api\Role\UpdateRequest $request
-     * @param \App\Services\Application\RoleUpdateService $roleUpdateService
+     * @param \App\Services\Application\Api\Role\UpdateService $roleUpdateService
      * @param \App\Infrastructures\Models\Role $role
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return void
      */
     public function update(
         \App\Http\Requests\Api\Role\UpdateRequest $request,
-        \App\Services\Application\RoleUpdateService $roleUpdateService,
+        \App\Services\Application\Api\Role\UpdateService $updateService,
         \App\Infrastructures\Models\Role $role
     ) {
-        $attribute = $request->makeInput();
+        try {
+            $updateService->handle($request->makeInput(), $role);
 
-        $roleUpdateService->handle($attribute, $role);
-
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                $updateService->getResponse(),
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
      * @param \App\Infrastructures\Models\Role $role
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return\Illuminate\Http\JsonResponse
      */
     public function delete(
         \App\Infrastructures\Models\Role $role
     ) {
-        $role->delete();
+        try {
+            // TODO: Repository
+            $role->delete();
 
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                [],
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }

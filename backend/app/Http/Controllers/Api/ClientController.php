@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\ClientResource;
 use Illuminate\Http\Response;
 
 final class ClientController extends Controller
@@ -24,70 +25,84 @@ final class ClientController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\ClientFetchService $clientFetchService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Client\FetchService $fetchService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetch(
-        \App\Services\Application\ClientFetchService $clientFetchService
+        \App\Services\Application\Api\Client\FetchService $fetchService
     ) {
         return response()->json(
-            $clientFetchService->getResponseData(),
+            $fetchService->getResponse(),
             Response::HTTP_OK
         );
     }
 
     /**
      * @param \App\Http\Requests\Api\Client\StoreRequest $request
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(
         \App\Http\Requests\Api\Client\StoreRequest $request
     ) {
-        $attributes = $request->makeInput();
+        try {
+            $client = $this->clientRepository->store($request->makeInput());
 
-        $this->clientRepository->store($attributes);
-
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                new ClientResource($client),
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
-     * Undocumented function
-     *
      * @param \App\Http\Requests\Api\Client\UpdateRequest $request
      * @param \App\Infrastructures\Models\Client $client
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(
         \App\Http\Requests\Api\Client\UpdateRequest $request,
         \App\Infrastructures\Models\Client $client
     ) {
-        $attributes = $request->makeInput();
+        try {
+            $client->fill($request->makeInput());
+            $client = $this->clientRepository->save($client);
 
-        $client->fill($attributes);
-
-        $this->clientRepository->save($client);
-
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                new ClientResource($client),
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
      * @param \App\Infrastructures\Models\Client $client
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function delete(
         \App\Infrastructures\Models\Client $client
     ) {
-        $this->clientRepository->delete($client);
+        try {
+            $this->clientRepository->delete($client);
 
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                [],
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }

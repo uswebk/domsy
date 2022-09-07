@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Role;
 
 use App\Constants\RoleConstant;
 use App\Http\Resources\RoleResource;
 
 use Illuminate\Support\Facades\Auth;
 
-final class RoleFetchService
+final class FetchService
 {
     private $roles;
 
@@ -31,7 +31,7 @@ final class RoleFetchService
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function getResponseData(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getResponse(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return RoleResource::collection($this->roles);
     }

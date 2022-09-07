@@ -2,16 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Role;
 
+use App\Http\Resources\RoleResource;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-final class RoleUpdateService
+final class StoreService
 {
     private $roleRepository;
 
     private $roleItemRepository;
+
+    private $role;
 
     /**
      * @param \App\Infrastructures\Repositories\Role\RoleRepositoryInterface $roleRepository
@@ -27,28 +31,23 @@ final class RoleUpdateService
 
     /**
      * @param array $attribute
-     * @param \App\Infrastructures\Models\Role $role
      * @return void
      */
-    public function handle(
-        array $attribute,
-        \App\Infrastructures\Models\Role $role
-    ): void {
+    public function handle(array $attribute): void
+    {
         $user = Auth::user();
 
         DB::beginTransaction();
         try {
-            $role->fill([
+            $this->role = $this->roleRepository->store([
                 'name' => $attribute['name'],
+                'company_id' => $user->company_id,
             ]);
 
-            $this->roleRepository->save($role);
-
-            $this->roleItemRepository->deleteByRoleId($role->id);
             foreach ($attribute['roles'] as $menu_item_id => $enabled) {
                 if ($enabled) {
                     $this->roleItemRepository->store([
-                        'role_id' => $role->id,
+                        'role_id' => $this->role->id,
                         'menu_item_id' => $menu_item_id,
                     ]);
                 }
@@ -59,5 +58,13 @@ final class RoleUpdateService
 
             throw $e;
         }
+    }
+
+    /**
+     * @return \App\Http\Resources\RoleResource
+     */
+    public function getResponse(): \App\Http\Resources\RoleResource
+    {
+        return new RoleResource($this->role);
     }
 }

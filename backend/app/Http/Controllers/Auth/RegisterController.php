@@ -25,45 +25,48 @@ final class RegisterController extends Controller
     /**
      * @param \App\Http\Requests\Auth\RegisterRequest $request
      * @param \App\Services\Application\Auth\RegisterService $registerService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function register(
         \App\Http\Requests\Auth\RegisterRequest $request,
         \App\Services\Application\Auth\RegisterService $registerService
     ) {
-        $registerRequest = $request->makeInput();
-
         try {
-            $registerService->handle($registerRequest);
+            $registerService->handle($request->makeInput());
+
+            return response()->json(
+                [],
+                Response::HTTP_OK
+            );
         } catch (Exception $e) {
             return response()->json(
                 ['message' => $e->getMessage()],
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
-
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
     }
 
     /**
      * @param \App\Http\Requests\Auth\Corporation\RegisterRequest $request
      * @param \App\Services\Application\Auth\Corporation\RegisterService $registerService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return\Illuminate\Http\JsonResponse
      */
     public function corporationRegister(
         \App\Http\Requests\Auth\Corporation\RegisterRequest $request,
         \App\Services\Application\Auth\Corporation\RegisterService $registerService
     ) {
-        $registerRequest = $request->makeInput();
+        try {
+            $registerService->handle($request->makeInput());
 
-        $registerService->handle($registerRequest);
-
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                [],
+                Response::HTTP_OK
+            );
+        } catch (Exception $e) {
+            return response()->json(
+                ['message' => $e->getMessage()],
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }

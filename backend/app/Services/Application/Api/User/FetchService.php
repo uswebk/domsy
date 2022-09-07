@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\User;
 
 use App\Http\Resources\UserResource;
 use App\Infrastructures\Models\User;
-
 use Illuminate\Support\Facades\Auth;
 
-final class UserFetchService
+final class FetchService
 {
     private $users;
 
@@ -31,7 +30,7 @@ final class UserFetchService
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function getResponseData(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getResponse(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return UserResource::collection($this->users);
     }

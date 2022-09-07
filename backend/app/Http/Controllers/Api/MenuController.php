@@ -11,20 +11,20 @@ use Illuminate\Http\Response;
 final class MenuController
 {
     /**
-     * @param \App\Services\Application\MenuFetchService $menuFetchService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Menu\FetchService $fetchService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetch(
-        \App\Services\Application\MenuFetchService $menuFetchService
+        \App\Services\Application\Api\Menu\FetchService $fetchService
     ) {
         return response()->json(
-            $menuFetchService->getResponseData(),
+            $fetchService->getResponse(),
             Response::HTTP_OK
         );
     }
 
     /**
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetchItems()
     {

@@ -23,62 +23,66 @@ final class DomainController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\DomainFetchService $domainFetchService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Domain\FetchService $fetchService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetch(
-        \App\Services\Application\DomainFetchService $domainFetchService
+        \App\Services\Application\Api\Domain\FetchService $fetchService
     ) {
         return response()->json(
-            $domainFetchService->getResponseData(),
+            $fetchService->getResponse(),
             Response::HTTP_OK
         );
     }
 
     /**
-     * @param \App\Services\Application\DomainFetchTotalSellerService $domainFetchTotalSellerService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Domain\FetchTotalSellerService $fetchTotalSellerService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetchTotalSeller(
-        \App\Services\Application\DomainFetchTotalSellerService $domainFetchTotalSellerService
+        \App\Services\Application\Api\Domain\FetchTotalSellerService $fetchTotalSellerService
     ) {
         return response()->json(
-            $domainFetchTotalSellerService->getResponseData(),
+            $fetchTotalSellerService->getResponse(),
             Response::HTTP_OK
         );
     }
 
     /**
-     * @param \App\Services\Application\DomainFetchTransactionService $domainFetchTransactionService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Domain\FetchTransactionService $fetchTransactionService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetchTransition(
-        \App\Services\Application\DomainFetchTransactionService $domainFetchTransactionService
+        \App\Services\Application\Api\Domain\FetchTransactionService $fetchTransactionService
     ) {
         return response()->json(
-            $domainFetchTransactionService->getResponseData(),
+            $fetchTransactionService->getResponse(),
             Response::HTTP_OK
         );
     }
 
     /**
-     * @param \App\Services\Application\DomainFetchSortExpiredService $domainFetchSortExpiredService
+     * @param \App\Services\Application\Api\Domain\FetchSortExpiredService $fetchSortExpiredService
      * @return \Illuminate\Http\JsonResponse
      */
     public function fetchSortExpired(
-        \App\Services\Application\DomainFetchSortExpiredService $domainFetchSortExpiredService
+        \App\Services\Application\Api\Domain\FetchSortExpiredService $fetchSortExpiredService
     ) {
         return response()->json(
-            $domainFetchSortExpiredService->getResponseData(),
+            $fetchSortExpiredService->getResponse(),
             Response::HTTP_OK
         );
     }
 
+    /**
+     * @param \App\Services\Application\Api\Domain\FetchActiveSummaryService $fetchActiveSummaryService
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function fetchActiveSummary(
-        \App\Services\Application\DomainFetchActiveSummaryService $domainFetchActiveSummaryService
+        \App\Services\Application\Api\Domain\FetchActiveSummaryService $fetchActiveSummaryService
     ) {
         return response()->json(
-            $domainFetchActiveSummaryService->getResponseData(),
+            $fetchActiveSummaryService->getResponse(),
             Response::HTTP_OK
         );
     }
@@ -86,56 +90,74 @@ final class DomainController extends Controller
     /**
      * @param \App\Http\Requests\Api\Domain\UpdateRequest $request
      * @param \App\Infrastructures\Models\Domain $domain
-     * @param \App\Services\Application\DomainUpdateService $domainUpdateService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Domain\UpdateService $updateService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(
         \App\Http\Requests\Api\Domain\UpdateRequest $request,
         \App\Infrastructures\Models\Domain $domain,
-        \App\Services\Application\DomainUpdateService $domainUpdateService
+        \App\Services\Application\Api\Domain\UpdateService $updateService
     ) {
-        $domainRequest = $request->makeInput();
-        $domainUpdateService->handle($domainRequest, $domain);
+        try {
+            $updateService->handle($request->makeInput(), $domain);
 
-        return response()->json(
-            $domainUpdateService->getResponseData(),
-            Response::HTTP_OK
-        );
+            return response()->json(
+                $updateService->getResponse(),
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
      * @param \App\Http\Requests\Api\Domain\StoreRequest $request
-     * @param \App\Services\Application\DomainStoreService $domainStoreService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Domain\StoreService $storeService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(
         \App\Http\Requests\Api\Domain\StoreRequest $request,
-        \App\Services\Application\DomainStoreService $domainStoreService
+        \App\Services\Application\Api\Domain\StoreService $storeService
     ) {
-        $domainRequest = $request->makeInput();
+        try {
+            $storeService->handle($request->makeInput());
 
-        $domainStoreService->handle($domainRequest);
-
-        return response()->json(
-            $domainStoreService->getResponseData(),
-            Response::HTTP_OK
-        );
+            return response()->json(
+                $storeService->getResponse(),
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
      * @param \App\Infrastructures\Models\Domain $domain
      * @param \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function delete(
         \App\Infrastructures\Models\Domain $domain,
         \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
     ) {
-        $domainRepository->delete($domain);
+        try {
+            $domainRepository->delete($domain);
 
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                [],
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }

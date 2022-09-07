@@ -10,13 +10,13 @@ final class UserController
 {
     /**
      * @param \App\Services\Application\UserFetchService $userFetchService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetch(
-        \App\Services\Application\UserFetchService $userFetchService
+        \App\Services\Application\Api\User\FetchService $fetchService
     ) {
         return response()->json(
-            $userFetchService->getResponseData(),
+            $fetchService->getResponse(),
             Response::HTTP_OK
         );
     }

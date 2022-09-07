@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Setting;
 
 final class SettingGeneralSaveService
 {

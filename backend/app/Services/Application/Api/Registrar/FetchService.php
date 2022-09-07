@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Registrar;
 
 use App\Http\Resources\RegistrarResource;
 use App\Infrastructures\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-final class RegistrarFetchService
+final class FetchService
 {
     private $registrars;
 
@@ -30,7 +30,7 @@ final class RegistrarFetchService
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function getResponseData(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getResponse(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return RegistrarResource::collection($this->registrars);
     }

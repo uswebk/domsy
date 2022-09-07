@@ -2,20 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Dealing;
 
+use App\Http\Resources\DomainDealingResource;
 use Exception;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-final class DealingStoreService
+final class StoreService
 {
     private $dealingRepository;
 
     private $billingRepository;
 
     private $userId;
+
+    private $dealing;
 
     /**
      * @param \App\Infrastructures\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
@@ -39,27 +41,27 @@ final class DealingStoreService
     public function handle(
         \App\Services\Application\InputData\DealingStoreRequest $domainDealingRequest
     ): void {
-        $domainDealingInput = $domainDealingRequest->getInput();
+        $dealingInput = $domainDealingRequest->getInput();
 
         DB::beginTransaction();
         try {
-            $domainDealing = $this->dealingRepository->store([
+            $this->dealing = $this->dealingRepository->store([
                 'user_id' => $this->userId,
-                'domain_id' => $domainDealingInput->domain_id,
-                'client_id' => $domainDealingInput->client_id,
-                'subtotal' => $domainDealingInput->subtotal,
-                'discount' => $domainDealingInput->discount,
-                'billing_date' => $domainDealingInput->billing_date,
-                'interval' => $domainDealingInput->interval,
-                'interval_category' => $domainDealingInput->interval_category,
-                'is_auto_update' => $domainDealingInput->is_auto_update,
-                'is_halt' => $domainDealingInput->is_halt,
+                'domain_id' => $dealingInput->domain_id,
+                'client_id' => $dealingInput->client_id,
+                'subtotal' => $dealingInput->subtotal,
+                'discount' => $dealingInput->discount,
+                'billing_date' => $dealingInput->billing_date,
+                'interval' => $dealingInput->interval,
+                'interval_category' => $dealingInput->interval_category,
+                'is_auto_update' => $dealingInput->is_auto_update,
+                'is_halt' => $dealingInput->is_halt,
             ]);
 
             $this->billingRepository->store([
-                'dealing_id' => $domainDealing->id,
-                'total' => $domainDealing->getBillingAmount(),
-                'billing_date' => $domainDealing->getNextBillingDate(),
+                'dealing_id' => $this->dealing->id,
+                'total' => $this->dealing->getBillingAmount(),
+                'billing_date' => $this->dealing->getNextBillingDate(),
                 'is_fixed' => false,
                 'changed_at' => null,
             ]);
@@ -72,5 +74,13 @@ final class DealingStoreService
 
             throw $e;
         }
+    }
+
+    /**
+     * @return \App\Http\Resources\DomainDealingResource
+     */
+    public function getResponse(): \App\Http\Resources\DomainDealingResource
+    {
+        return new DomainDealingResource($this->dealing);
     }
 }

@@ -11,7 +11,7 @@ final class DnsRecordTypeController
 {
     /**
      * @param \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $eloquentDnsRecordTypeQueryService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function fetch(
         \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $eloquentDnsRecordTypeQueryService

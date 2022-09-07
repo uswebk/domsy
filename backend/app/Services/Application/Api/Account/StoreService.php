@@ -2,20 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Account;
 
+use App\Http\Resources\UserResource;
 use Exception;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-final class AccountStoreService
+final class StoreService
 {
     private $userRepository;
 
     private $userLatestCodeRepository;
 
     private $emailVerificationService;
+
+    private $user;
 
     /**
      * @param \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
@@ -46,8 +48,7 @@ final class AccountStoreService
         DB::beginTransaction();
         try {
             $code = $this->userLatestCodeRepository->next();
-
-            $user = $this->userRepository->store([
+            $this->user = $this->userRepository->store([
                 'name' => $userRequest->name,
                 'company_id' => $this->user->company_id,
                 'role_id' => $userRequest->role_id,
@@ -57,7 +58,7 @@ final class AccountStoreService
                 'email_verify_token' => $userRequest->email_verify_token,
             ]);
 
-            $this->emailVerificationService->execute($user);
+            $this->emailVerificationService->execute($this->user);
 
             DB::commit();
         } catch (Exception $e) {
@@ -65,5 +66,13 @@ final class AccountStoreService
 
             throw new Exception('Failed registration');
         }
+    }
+
+    /**
+     * @return \App\Http\Resources\UserResource
+     */
+    public function getResponse(): \App\Http\Resources\UserResource
+    {
+        return new UserResource($this->user);
     }
 }

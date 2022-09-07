@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Domain;
 
 use App\Infrastructures\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-final class DomainFetchTotalSellerService
+final class FetchTotalSellerService
 {
     private $totalPrice;
 
@@ -35,7 +35,7 @@ final class DomainFetchTotalSellerService
     /**
      * @return array
      */
-    public function getResponseData(): array
+    public function getResponse(): array
     {
         return [
             'totalPrice' => $this->totalPrice,

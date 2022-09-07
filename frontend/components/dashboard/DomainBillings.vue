@@ -29,7 +29,7 @@ export default {
         datasets: [
           {
             label: 'Billing amount',
-            backgroundColor: '#2EBFAF',
+            backgroundColor: '#e8c46a',
             data: [],
             fill: true,
           },

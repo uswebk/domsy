@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Dealing;
 
 use App\Http\Resources\DomainDealingResource;
 
@@ -10,7 +10,7 @@ use App\Infrastructures\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
-final class DealingFetchService
+final class FetchService
 {
     private $domainDealings;
 
@@ -49,7 +49,7 @@ final class DealingFetchService
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function getResponseData(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getResponse(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return DomainDealingResource::collection($this->domainDealings);
     }

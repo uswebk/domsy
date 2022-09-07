@@ -15,7 +15,7 @@ use Illuminate\Http\Response;
 final class SettingController extends Controller
 {
     /**
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getMails()
     {
@@ -28,7 +28,7 @@ final class SettingController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getGenerals()
     {
@@ -41,38 +41,50 @@ final class SettingController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Setting\SaveMailRequest $request
-     * @param \App\Services\Application\SettingMailSaveService $settingSaveService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
-     */
+      * @param \App\Http\Requests\Api\Setting\SaveMailRequest $request
+      * @param \App\Services\Application\Api\Setting\MailSaveService $mailSaveService
+      * @return \Illuminate\Http\JsonResponse
+      */
     public function saveMails(
         \App\Http\Requests\Api\Setting\SaveMailRequest $request,
-        \App\Services\Application\SettingMailSaveService $settingSaveService
+        \App\Services\Application\Api\Setting\MailSaveService $mailSaveService
     ) {
-        $settingMailSaveRequest = $request->makeInput();
-        $settingSaveService->handle($settingMailSaveRequest);
+        try {
+            $mailSaveService->handle($request->makeInput());
 
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                [],
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
      * @param \App\Http\Requests\Api\Setting\SaveGeneralRequest $request
-     * @param \App\Services\Application\SettingGeneralSaveService $settingSaveService
-     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     * @param \App\Services\Application\Api\Setting\GeneralSaveService $settingSaveService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function saveGenerals(
         \App\Http\Requests\Api\Setting\SaveGeneralRequest $request,
-        \App\Services\Application\SettingGeneralSaveService $settingSaveService
+        \App\Services\Application\Api\Setting\GeneralSaveService $generalSaveService
     ) {
-        $settingGeneralSaveRequest = $request->makeInput();
-        $settingSaveService->handle($settingGeneralSaveRequest);
+        try {
+            $generalSaveService->handle($request->makeInput());
 
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                [],
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }

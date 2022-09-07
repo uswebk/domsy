@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Menu;
 
 use App\Constants\MenuConstant;
 use App\Http\Resources\MenuItemResource;
@@ -11,7 +11,7 @@ use App\Infrastructures\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
-final class MenuFetchService
+final class FetchService
 {
     private $menuItems;
 
@@ -40,7 +40,7 @@ final class MenuFetchService
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function getResponseData(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getResponse(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return MenuItemResource::collection($this->menuItems);
     }

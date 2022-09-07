@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application;
+namespace App\Services\Application\Api\Domain;
 
 use App\Http\Resources\DomainResource;
 
@@ -10,42 +10,38 @@ use Exception;
 
 use Illuminate\Support\Facades\DB;
 
-final class DomainStoreService
+final class UpdateService
 {
     private $domainRepository;
-
-    private $subdomainRepository;
 
     private $domain;
 
     /**
      * @param \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
-     * @param \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository,
-        \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
+        \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
     ) {
         $this->domainRepository = $domainRepository;
-        $this->subdomainRepository = $subdomainRepository;
     }
 
     /**
-     * @param \App\Services\Application\InputData\DomainStoreRequest $domainStoreRequest
+     * @param \App\Services\Application\InputData\DomainUpdateRequest $domainUpdateRequest
+     * @param \App\Infrastructures\Models\Domain $domain
      *
      * @return void
      */
     public function handle(
-        \App\Services\Application\InputData\DomainStoreRequest $domainStoreRequest
+        \App\Services\Application\InputData\DomainUpdateRequest $domainUpdateRequest,
+        \App\Infrastructures\Models\Domain $domain
     ): void {
-        $domainRequest = $domainStoreRequest->getInput();
+        $domainRequest = $domainUpdateRequest->getInput();
 
         DB::beginTransaction();
         try {
-            $this->domain = $this->domainRepository->store([
+            $domain->fill([
                 'name' => $domainRequest->name,
                 'price' => $domainRequest->price,
-                'user_id' => $domainRequest->user_id,
                 'registrar_id' => $domainRequest->registrar_id,
                 'is_active' => $domainRequest->is_active,
                 'is_transferred' => $domainRequest->is_transferred,
@@ -55,10 +51,7 @@ final class DomainStoreService
                 'canceled_at' => $domainRequest->canceled_at,
             ]);
 
-            $this->subdomainRepository->store([
-                'domain_id' => $this->domain->id,
-                'subdomain' => '',
-            ]);
+            $this->domain = $this->domainRepository->save($domain);
 
             DB::commit();
         } catch (Exception $e) {
@@ -71,7 +64,7 @@ final class DomainStoreService
     /**
      * @return \App\Http\Resources\DomainResource
      */
-    public function getResponseData(): \App\Http\Resources\DomainResource
+    public function getResponse(): \App\Http\Resources\DomainResource
     {
         return new DomainResource($this->domain);
     }
