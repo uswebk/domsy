@@ -90,7 +90,7 @@ final class Domain extends BaseModel
      */
     public function isOwned(): bool
     {
-        return $this->is_active && ! $this->is_transferred;
+        return $this->is_active && !$this->is_transferred;
     }
 
     /**

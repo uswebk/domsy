@@ -137,15 +137,14 @@ final class EloquentDomainQueryService implements EloquentDomainQueryServiceInte
     /**
      * @param array $userIds
      * @param boolean $isFixed
-     * @return \App\Infrastructures\Models\Domain
+     * @return void
      */
-    public function getAggregatedBillingTotalPriceByUserIdsIsFixed(array $userIds, bool $isFixed): \App\Infrastructures\Models\Domain
+    public function getAggregatedBillingTotalPriceByUserIdsIsFixed(array $userIds, bool $isFixed): int
     {
-        return Domain::join('domain_dealings', 'domains.id', '=', 'domain_dealings.domain_id')
+        return (int) Domain::join('domain_dealings', 'domains.id', '=', 'domain_dealings.domain_id')
         ->join('domain_billings', 'domain_dealings.id', '=', 'domain_billings.dealing_id')
         ->where('domain_billings.is_fixed', $isFixed)
         ->whereIn('domains.user_id', $userIds)
-        ->select(DB::raw("sum(domain_billings.total) as total"))
-        ->first();
+        ->sum('domain_billings.total');
     }
 }

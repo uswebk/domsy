@@ -8,7 +8,9 @@ export const mutations = {
 
 export const actions = {
   async hasRole({ commit }, payload) {
-    const result = await this.$axios.get('/api/role/user/page?endpoint=' + payload)
+    const result = await this.$axios.get(
+      '/api/role/has/page?endpoint=' + payload
+    )
     return result
   },
 }

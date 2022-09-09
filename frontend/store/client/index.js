@@ -18,7 +18,7 @@ export const mutations = {
   canDelete: (state, value) => (state.canDelete = value),
 }
 
-export const actions  = {
+export const actions = {
   sendMessage({ commit }, payload) {
     commit('greeting', payload.greeting)
     commit('greetingType', payload.greetingType)
@@ -59,7 +59,7 @@ export const actions  = {
   },
 
   async initRole({ commit }) {
-    const result = await this.$axios.get('/api/role/user/?menu_id=5')
+    const result = await this.$axios.get('/api/role/has/?menu_id=5')
 
     commit('canStore', result.data.store)
     commit('canUpdate', result.data.update)

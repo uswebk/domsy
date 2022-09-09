@@ -22,7 +22,7 @@ export const mutations = {
   canUpdateBilling: (state, value) => (state.canUpdateBilling = value),
 }
 
-export const actions  = {
+export const actions = {
   sendMessage({ commit }, payload) {
     commit('greeting', payload.greeting)
     commit('greetingType', payload.greetingType)
@@ -70,15 +70,18 @@ export const actions  = {
   },
 
   async updateBilling({ dispatch }, payload) {
-    const result = await this.$axios.put('/api/dealing/billings/' + payload.id, {
-      ...payload,
-    })
+    const result = await this.$axios.put(
+      '/api/dealing/billings/' + payload.id,
+      {
+        ...payload,
+      }
+    )
 
     return result
   },
 
   async initRole({ commit }) {
-    const result = await this.$axios.get('/api/role/user/?menu_id=6')
+    const result = await this.$axios.get('/api/role/has/?menu_id=6')
 
     commit('canStore', result.data.store)
     commit('canUpdate', result.data.update)

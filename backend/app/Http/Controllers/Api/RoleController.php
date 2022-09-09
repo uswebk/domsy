@@ -4,13 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Infrastructures\Models\Menu;
-use App\Infrastructures\Models\MenuItem;
-use App\Infrastructures\Models\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 
 final class RoleController extends Controller
 {
@@ -18,7 +12,12 @@ final class RoleController extends Controller
     {
         parent::__construct();
 
-        $this->middleware('can:owner,role')->except(['fetch','store','user', 'userPage']);
+        $this->middleware('can:owner,role')->except([
+            'fetch',
+            'store',
+            'has',
+            'hasPage'
+        ]);
     }
 
     /**
@@ -35,52 +34,28 @@ final class RoleController extends Controller
     }
 
     /**
-     * //TODO: ApplicationService化
-     *
-     * @param \App\Http\Requests\Api\Role\UserRequest $request
+     * @param \App\Services\Application\Api\Role\HasService $hasService
      * @return \Illuminate\Http\JsonResponse
      */
-    public function user(
-        \App\Http\Requests\Api\Role\UserRequest $request
+    public function has(
+        \App\Services\Application\Api\Role\HasService $hasService
     ) {
-        $user = User::find(Auth::id());
-        $menus = Menu::with(['menuItems'])->findOrFail($request->menu_id);
-
-        $response = new Collection();
-        foreach ($menus->menuItems as $menuItem) {
-            $response[$menuItem->function] = $user->hasRoleItem($menuItem->route);
-        }
-
         return response()->json(
-            $response,
+            $hasService->getResponse(),
             Response::HTTP_OK
         );
     }
 
     /**
-     * //TODO: ApplicationService化
-     *
-     * @param \App\Http\Requests\Api\Role\UserPageRequest $request
+     * @param \App\Services\Application\Api\Role\HasPageService $hasPageService
      * @return \Illuminate\Http\JsonResponse
      */
-    public function userPage(\App\Http\Requests\Api\Role\UserPageRequest $request)
-    {
-        try {
-            $menuItem = MenuItem::where('endpoint', $request->endpoint)->firstOrFail();
-            $hasRole = (User::findOrFail(Auth::id()))->hasRoleItem($menuItem->route);
-
-            if ($hasRole) {
-                $responseCode = Response::HTTP_OK;
-            } else {
-                $responseCode = Response::HTTP_FORBIDDEN;
-            }
-        } catch(ModelNotFoundException $e) {
-            $responseCode = Response::HTTP_FORBIDDEN;
-        }
-
+    public function hasPage(
+        \App\Services\Application\Api\Role\HasPageService $hasPageService
+    ) {
         return response()->json(
             [],
-            $responseCode
+            $hasPageService->getResponseCode()
         );
     }
 

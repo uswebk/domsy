@@ -96,7 +96,7 @@ export const actions = {
   },
 
   async initRole({ commit }) {
-    const result = await this.$axios.get('/api/role/user/?menu_id=2')
+    const result = await this.$axios.get('/api/role/has/?menu_id=2')
 
     commit('canStore', result.data.store)
     commit('canUpdate', result.data.update)

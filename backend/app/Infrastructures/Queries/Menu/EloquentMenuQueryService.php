@@ -9,6 +9,15 @@ use App\Infrastructures\Models\Menu;
 final class EloquentMenuQueryService implements EloquentMenuQueryServiceInterface
 {
     /**
+     * @param integer $id
+     * @return \App\Infrastructures\Models\Menu
+     */
+    public function findById(int $id): \App\Infrastructures\Models\Menu
+    {
+        return Menu::findOrFail($id);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getWithMenuItemsDisplayOnDashboard(): \Illuminate\Database\Eloquent\Collection

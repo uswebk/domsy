@@ -6,7 +6,7 @@ namespace App\Http\Requests\Api\Role;
 
 use App\Http\Requests\Request;
 
-final class UserPageRequest extends Request
+final class HasRequest extends Request
 {
     /**
      * @return boolean
@@ -22,7 +22,7 @@ final class UserPageRequest extends Request
     public function rules(): array
     {
         return [
-            'endpoint' => 'required|string',
+            'menu_id' => 'required|integer',
         ];
     }
 }

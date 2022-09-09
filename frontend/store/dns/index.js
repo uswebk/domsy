@@ -11,7 +11,6 @@ export const state = () => ({
   domainId: {},
 })
 
-
 export const mutations = {
   greeting: (state, value) => (state.greeting = value),
   greetingType: (state, value) => (state.greetingType = value),
@@ -25,7 +24,7 @@ export const mutations = {
   canDelete: (state, value) => (state.canDelete = value),
 }
 
-export const actions  = {
+export const actions = {
   sendMessage({ commit }, payload) {
     commit('greeting', payload.greeting)
     commit('greetingType', payload.greetingType)
@@ -78,7 +77,7 @@ export const actions  = {
   },
 
   async initRole({ commit }) {
-    const result = await this.$axios.get('/api/role/user/?menu_id=3')
+    const result = await this.$axios.get('/api/role/has/?menu_id=3')
 
     commit('canStore', result.data.store)
     commit('canUpdate', result.data.update)

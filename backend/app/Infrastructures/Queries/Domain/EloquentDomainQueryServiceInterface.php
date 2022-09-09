@@ -83,5 +83,5 @@ interface EloquentDomainQueryServiceInterface
      * @param boolean $isFixed
      * @return \App\Infrastructures\Models\Domain
      */
-    public function getAggregatedBillingTotalPriceByUserIdsIsFixed(array $userIds, bool $isFixed): \App\Infrastructures\Models\Domain;
+    public function getAggregatedBillingTotalPriceByUserIdsIsFixed(array $userIds, bool $isFixed): int;
 }

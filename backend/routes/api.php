@@ -57,8 +57,8 @@ Route::middleware(['verified','auth:sanctum'])->group(function () {
 
         Route::prefix('role')->name('role.')->group(function () {
             Route::get('/', 'RoleController@fetch')->name('fetch');
-            Route::get('user', 'RoleController@user')->name('user');
-            Route::get('user/page', 'RoleController@userPage')->name('user.page');
+            Route::get('has', 'RoleController@has')->name('has');
+            Route::get('has/page', 'RoleController@hasPage')->name('has.page');
 
             Route::post('/', 'RoleController@store')->name('store');
             Route::put('{role}', 'RoleController@update')->name('update');

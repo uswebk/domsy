@@ -19,7 +19,10 @@ final class FetchTotalSellerService
     ) {
         $user = User::find(Auth::id());
 
-        $this->totalPrice = ($eloquentDomainQueryService->getAggregatedBillingTotalPriceByUserIdsIsFixed($user->getMemberIds(), true))->total;
+        $this->totalPrice = $eloquentDomainQueryService->getAggregatedBillingTotalPriceByUserIdsIsFixed(
+            $user->getMemberIds(),
+            true
+        );
     }
 
     /**
