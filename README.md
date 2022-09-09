@@ -25,6 +25,7 @@ make build
 
 ## Pages
 * Top
+* Mypage
 * Dashboard
 * Domain Management
 * DNS Management
