@@ -71,4 +71,10 @@ interface EloquentDomainQueryServiceInterface
         \Carbon\Carbon $targetDatetime,
         int $take
     ): \Illuminate\Database\Eloquent\Collection;
+
+    /**
+     * @param array $userIds
+     * @return \App\Infrastructures\Models\Domain
+     */
+    public function getAggregatedActiveCountByUserIds(array $userIds): \App\Infrastructures\Models\Domain;
 }

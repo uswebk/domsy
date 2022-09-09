@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructures\Queries\Domain;
 
 use App\Infrastructures\Models\Domain;
+use Illuminate\Support\Facades\DB;
 
 final class EloquentDomainQueryService implements EloquentDomainQueryServiceInterface
 {
@@ -116,5 +117,20 @@ final class EloquentDomainQueryService implements EloquentDomainQueryServiceInte
         ->orderBy('domain_billings.billing_date')
         ->take($take)
         ->get();
+    }
+
+    /**
+     * @param array $userIds
+     * @return \App\Infrastructures\Models\Domain
+     */
+    public function getAggregatedActiveCountByUserIds(array $userIds): \App\Infrastructures\Models\Domain
+    {
+        return Domain::select([
+            DB::raw('COUNT(*) AS total'),
+            DB::raw('COUNT(CASE WHEN is_active = 1 THEN 1 END) AS active'),
+            DB::raw('COUNT(CASE WHEN is_active = 0 THEN 0 END) AS inactive'),
+        ])
+        ->whereIn('user_id', $userIds)
+        ->first();
     }
 }
