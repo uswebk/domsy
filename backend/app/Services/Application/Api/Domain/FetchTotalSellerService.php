@@ -19,17 +19,7 @@ final class FetchTotalSellerService
     ) {
         $user = User::find(Auth::id());
 
-        if ($user->isCompany()) {
-            $this->domains = $eloquentDomainQueryService->getByUserIds($user->getMemberIds());
-        } else {
-            $this->domains = $user->domains;
-        }
-
-        $this->totalPrice = 0;
-        // TODO: 速度改善
-        foreach ($this->domains as $domain) {
-            $this->totalPrice += $domain->getTotalSeller();
-        }
+        $this->totalPrice = ($eloquentDomainQueryService->getAggregatedBillingTotalPriceByUserIdsIsFixed($user->getMemberIds(), true))->total;
     }
 
     /**

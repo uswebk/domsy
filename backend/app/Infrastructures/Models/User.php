@@ -233,7 +233,7 @@ final class User extends Authenticatable implements MustVerifyEmail
             return $this->company->users;
         }
 
-        return  new Collection();
+        return  (new Collection())->push($this);
     }
 
     /**

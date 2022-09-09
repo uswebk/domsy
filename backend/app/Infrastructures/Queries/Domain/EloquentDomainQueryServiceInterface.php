@@ -77,4 +77,11 @@ interface EloquentDomainQueryServiceInterface
      * @return \App\Infrastructures\Models\Domain
      */
     public function getAggregatedActiveCountByUserIds(array $userIds): \App\Infrastructures\Models\Domain;
+
+    /**
+     * @param array $userIds
+     * @param boolean $isFixed
+     * @return \App\Infrastructures\Models\Domain
+     */
+    public function getAggregatedBillingTotalPriceByUserIdsIsFixed(array $userIds, bool $isFixed): \App\Infrastructures\Models\Domain;
 }
