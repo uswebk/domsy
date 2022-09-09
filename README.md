@@ -19,12 +19,18 @@ Management system of domain etc.
 
 ## Development
 ```
+#backend
 make build
+
+#frontend
+docker-compose up
 ```
 
 
 ## Pages
 * Top
+* Login
+* Register(Individual / Company)
 * Mypage
 * Dashboard
 * Domain Management
