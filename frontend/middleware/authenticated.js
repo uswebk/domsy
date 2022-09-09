@@ -20,6 +20,10 @@ export default async function ({ store, redirect, route }) {
     if (user.email_verified_at !== null && !isAuthPath(routePath)) {
       redirect('/mypage')
     }
+    // 個人でアカウントページアクセス
+    if (!user.is_company && routePath === '/account') {
+      return this.$nuxt.error({ statusCode: 403, message: 'Forbidden' })
+    }
   } catch (error) {
     redirect('/login')
   }
@@ -32,5 +36,5 @@ function isAuthPath(routePath) {
   if (result1) return false
 
   const targetRoute = ['/login', '/register', '/password/email']
-  return ! targetRoute.includes(routePath)
+  return !targetRoute.includes(routePath)
 }

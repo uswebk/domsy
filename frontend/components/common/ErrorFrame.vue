@@ -22,11 +22,5 @@ export default {
       default: null,
     },
   },
-  head() {
-    const title = '403 Forbidden'
-    return {
-      title,
-    }
-  },
 }
 </script>

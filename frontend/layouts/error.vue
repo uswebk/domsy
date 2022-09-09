@@ -4,7 +4,7 @@
       <template #message>
         <h1>{{ errorMessage }}</h1>
         <br />
-        <v-btn small href="/" color="primary">Back Top</v-btn>
+        <v-btn to="/" small color="primary" nuxt>Back Top</v-btn>
       </template>
     </common-error-frame>
   </v-app>
@@ -21,10 +21,7 @@ export default {
     },
   },
   data() {
-    return {
-      pageNotFound: '404 Not Found',
-      otherError: 'An error occurred',
-    }
+    return {}
   },
   head() {
     let title = ''
@@ -42,9 +39,8 @@ export default {
   computed: {
     errorMessage() {
       if (this.error.statusCode === 403) {
-        return '404 Forbidden'
-      }
-      if (this.error.statusCode === 404) {
+        return '403 Forbidden'
+      } else if (this.error.statusCode === 404) {
         return '404 Not Found'
       }
 
