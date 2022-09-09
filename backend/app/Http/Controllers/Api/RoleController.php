@@ -111,14 +111,15 @@ final class RoleController extends Controller
 
     /**
      * @param \App\Infrastructures\Models\Role $role
+     * @param \App\Infrastructures\Repositories\Role\RoleRepositoryInterface $roleRepository
      * @return\Illuminate\Http\JsonResponse
      */
     public function delete(
-        \App\Infrastructures\Models\Role $role
+        \App\Infrastructures\Models\Role $role,
+        \App\Infrastructures\Repositories\Role\RoleRepositoryInterface $roleRepository
     ) {
         try {
-            // TODO: Repository
-            $role->delete();
+            $roleRepository->delete($role);
 
             return response()->json(
                 [],

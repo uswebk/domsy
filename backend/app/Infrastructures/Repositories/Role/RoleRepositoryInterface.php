@@ -17,4 +17,10 @@ interface RoleRepositoryInterface
      * @return \App\Infrastructures\Models\Role
      */
     public function save(\App\Infrastructures\Models\Role $role): \App\Infrastructures\Models\Role;
+
+    /**
+     * @param \App\Infrastructures\Models\Role $role
+     * @return void
+     */
+    public function delete(\App\Infrastructures\Models\Role $role): void;
 }

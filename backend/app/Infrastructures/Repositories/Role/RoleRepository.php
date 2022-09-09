@@ -21,6 +21,15 @@ final class RoleRepository implements RoleRepositoryInterface
 
     /**
      * @param \App\Infrastructures\Models\Role $role
+     * @return void
+     */
+    public function delete(\App\Infrastructures\Models\Role $role): void
+    {
+        $role->delete();
+    }
+
+    /**
+     * @param \App\Infrastructures\Models\Role $role
      * @return \App\Infrastructures\Models\Role
      */
     public function save(\App\Infrastructures\Models\Role $role): \App\Infrastructures\Models\Role
