@@ -67,11 +67,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('dashboard/domains', ['domainNumbers', 'labels']),
+    ...mapGetters('dashboard/domains', ['countOfDomains', 'labels']),
   },
   watch: {
-    domainNumbers() {
-      this.dataSet.datasets[0].data = this.domainNumbers
+    countOfDomains() {
+      this.dataSet.datasets[0].data = this.countOfDomains
     },
     labels() {
       this.dataSet.labels = this.labels

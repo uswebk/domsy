@@ -1,13 +1,13 @@
 export const state = () => ({
   labels: [],
-  domainNumbers: [],
+  countOfDomains: [],
   soonExpiredDomains: [],
   totalPrice: 0,
   activeSummary: [],
 })
 
 export const mutations = {
-  domainNumbers: (state, value) => (state.domainNumbers = value),
+  countOfDomains: (state, value) => (state.countOfDomains = value),
   soonExpiredDomains: (state, value) => (state.soonExpiredDomains = value),
   labels: (state, value) => (state.labels = value),
   totalPrice: (state, value) => (state.totalPrice = value),
@@ -20,7 +20,7 @@ export const actions = {
       '/api/domain/transaction?months=' + months
     )
     commit('labels', Object.keys(result.data))
-    commit('domainNumbers', Object.values(result.data))
+    commit('countOfDomains', Object.values(result.data))
   },
 
   async fetchSortedExpiryByCount({ commit }, count) {
@@ -43,7 +43,7 @@ export const actions = {
 
 export const getters = {
   labels: (state) => state.labels,
-  domainNumbers: (state) => state.domainNumbers,
+  countOfDomains: (state) => state.countOfDomains,
   soonExpiredDomains: (state) => state.soonExpiredDomains,
   totalPrice: (state) => state.totalPrice,
   activeSummary: (state) => state.activeSummary,

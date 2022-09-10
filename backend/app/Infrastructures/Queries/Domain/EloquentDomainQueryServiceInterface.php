@@ -84,4 +84,16 @@ interface EloquentDomainQueryServiceInterface
      * @return \App\Infrastructures\Models\Domain
      */
     public function getAggregatedBillingTotalPriceByUserIdsIsFixed(array $userIds, bool $isFixed): int;
+
+    /**
+     * @param array $userIds
+     * @param \Carbon\Carbon $startDate
+     * @param \Carbon\Carbon $endDate
+     * @return array
+     */
+    public function getCountOfActiveDomainBetweenPurchasedAtByUserIdsStartDateEndDate(
+        array $userIds,
+        \Carbon\Carbon $startDate,
+        \Carbon\Carbon $endDate
+    ): array;
 }

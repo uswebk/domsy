@@ -147,4 +147,30 @@ final class EloquentDomainQueryService implements EloquentDomainQueryServiceInte
         ->whereIn('domains.user_id', $userIds)
         ->sum('domain_billings.total');
     }
+
+    /**
+     * @param array $userIds
+     * @param \Carbon\Carbon $startDate
+     * @param \Carbon\Carbon $endDate
+     * @return array
+     */
+    public function getCountOfActiveDomainBetweenPurchasedAtByUserIdsStartDateEndDate(
+        array $userIds,
+        \Carbon\Carbon $startDate,
+        \Carbon\Carbon $endDate
+    ):array {
+        return Domain::select([
+            DB::raw('DATE_FORMAT(purchased_at,\'%Y/%m\') AS month'),
+            DB::raw('COUNT(*) AS count'),
+        ])
+        ->whereIn('user_id', $userIds)
+        ->where('is_active', true)
+        ->where('is_transferred', false)
+        ->whereNull('canceled_at')
+        ->groupBy('month')
+        ->whereBetween('purchased_at', [$startDate->toDateString(), $endDate->toDateString()])
+        ->get()
+        ->keyBy('month')
+        ->toArray();
+    }
 }

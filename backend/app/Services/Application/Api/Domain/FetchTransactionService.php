@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 final class FetchTransactionService
 {
-    private $transactionResult;
+    private $countOfDomains;
 
     const DEFAULT_MONTHS = 6;
 
@@ -22,37 +22,35 @@ final class FetchTransactionService
         \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
     ) {
         $backMonths = $request->months ?? self::DEFAULT_MONTHS;
+        $startMonth = now()->subMonths($backMonths)->startOfMonth();
+        $endMonth = now()->copy()->endOfMonth();
 
         $user = User::find(Auth::id());
-        if ($user->isCompany()) {
-            $userIds = $user->getMemberIds();
-        } else {
-            $userIds = [$user->id];
-        }
 
-        $this->transactionResult = collect([]);
+        $countOfDomains = $eloquentDomainQueryService->getCountOfActiveDomainBetweenPurchasedAtByUserIdsStartDateEndDate(
+            $user->getMemberIds(),
+            $startMonth,
+            $endMonth,
+        );
 
-        while ($backMonths >= 0) {
-            $targetDate = now()->copy()->subMonth($backMonths);
-            $targetDateInfo = $targetDate->toArray();
+        while ($startMonth->lt($endMonth)) {
+            $month = $startMonth->format('Y/m');
 
-            $domains = $eloquentDomainQueryService->getActiveByUserIdsPurchasedAtLessThanTargetDatetime(
-                $userIds,
-                $targetDate->copy()->endOfMonth()
-            );
+            if (isset($countOfDomains[$month])) {
+                $this->countOfDomains[$month] = $countOfDomains[$month]['count'];
+            } else {
+                $this->countOfDomains[$month] = 0;
+            }
 
-            $label = $targetDateInfo['month'] . '/' . $targetDateInfo['year'];
-            $this->transactionResult[$label] = $domains->count();
-
-            $backMonths--;
+            $startMonth->addMonth();
         }
     }
 
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function getResponse(): \Illuminate\Support\Collection
+    public function getResponse(): array
     {
-        return $this->transactionResult;
+        return $this->countOfDomains;
     }
 }
