@@ -48,4 +48,30 @@ final class EloquentBillingQueryService implements EloquentBillingQueryServiceIn
         ->take($take)
         ->get();
     }
+
+    /**
+     * @param array $userIds
+     * @param \Carbon\Carbon $startDate
+     * @param \Carbon\Carbon $endDate
+     * @return array
+     */
+    public function getOfFixedTotalAmountBetweenBillingDateByUserIdsStartDateEndDate(
+        array $userIds,
+        \Carbon\Carbon $startDate,
+        \Carbon\Carbon $endDate
+    ): array {
+        return DomainBilling::select([
+            \Illuminate\Support\Facades\DB::raw('DATE_FORMAT(domain_billings.billing_date,\'%Y/%m\') AS month'),
+            \Illuminate\Support\Facades\DB::raw('SUM(domain_billings.total) AS amount'),
+        ])
+        ->join('domain_dealings', 'domain_dealings.id', '=', 'domain_billings.dealing_id')
+        ->join('domains', 'domains.id', '=', 'domain_dealings.domain_id')
+        ->whereIn('domains.user_id', $userIds)
+        ->where('domain_billings.is_fixed', true)
+        ->groupBy('month')
+        ->whereBetween('domain_billings.billing_date', [$startDate->toDateString(), $endDate->toDateString()])
+        ->get()
+        ->keyBy('month')
+        ->toArray();
+    }
 }

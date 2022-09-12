@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 final class FetchBillingTransactionService
 {
-    private $transactionResult;
+    private $billingAmounts;
 
     const DEFAULT_MONTHS = 12;
 
@@ -23,45 +23,35 @@ final class FetchBillingTransactionService
         \App\Infrastructures\Queries\Domain\Billing\EloquentBillingQueryServiceInterface $eloquentBillingQueryService
     ) {
         $backMonths = $request->months ?? self::DEFAULT_MONTHS;
+        $startMonth = now()->subMonths($backMonths)->startOfMonth();
+        $endMonth = now()->copy()->endOfMonth();
 
         $user = User::find(Auth::id());
-        if ($user->isCompany()) {
-            $userIds = $user->getMemberIds();
-        } else {
-            $userIds = [$user->id];
-        }
 
-        $this->transactionResult = collect([]);
+        $billingAmounts = $eloquentBillingQueryService->getOfFixedTotalAmountBetweenBillingDateByUserIdsStartDateEndDate(
+            $user->getMemberIds(),
+            $startMonth,
+            $endMonth,
+        );
 
-        // TODO: 速度改善(GroupByで集計できるか検討)
-        while ($backMonths >= 0) {
-            $targetDate = now()->copy()->subMonth($backMonths);
-            $targetDateInfo = $targetDate->toArray();
+        while ($startMonth->lt($endMonth)) {
+            $month = $startMonth->format('Y/m');
 
-            $billings = $eloquentBillingQueryService->getBillingByUserIdsBillingDateBetweenStartDatetimeEndDatetime(
-                $userIds,
-                $targetDate->copy()->startOfMonth(),
-                $targetDate->copy()->endOfMonth()
-            );
-
-            $label = $targetDateInfo['month'] . '/' . $targetDateInfo['year'];
-
-            $totalPrice = 0;
-            foreach ($billings as $billing) {
-                $totalPrice += $billing->total;
+            if (isset($billingAmounts[$month])) {
+                $this->billingAmounts[$month] = $billingAmounts[$month]['amount'];
+            } else {
+                $this->billingAmounts[$month] = 0;
             }
 
-            $this->transactionResult[$label] = $totalPrice;
-
-            $backMonths--;
+            $startMonth->addMonth();
         }
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return array
      */
-    public function getResponse(): \Illuminate\Support\Collection
+    public function getResponse(): array
     {
-        return $this->transactionResult;
+        return $this->billingAmounts;
     }
 }

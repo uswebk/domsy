@@ -158,7 +158,7 @@ final class EloquentDomainQueryService implements EloquentDomainQueryServiceInte
         array $userIds,
         \Carbon\Carbon $startDate,
         \Carbon\Carbon $endDate
-    ):array {
+    ): array {
         return Domain::select([
             DB::raw('DATE_FORMAT(purchased_at,\'%Y/%m\') AS month'),
             DB::raw('COUNT(*) AS count'),

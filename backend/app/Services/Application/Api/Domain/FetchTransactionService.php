@@ -47,7 +47,7 @@ final class FetchTransactionService
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return array
      */
     public function getResponse(): array
     {

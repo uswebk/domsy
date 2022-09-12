@@ -29,4 +29,16 @@ interface EloquentBillingQueryServiceInterface
         \Carbon\Carbon $targetDatetime,
         int $take
     ): \Illuminate\Database\Eloquent\Collection;
+
+    /**
+     * @param array $userIds
+     * @param \Carbon\Carbon $startDate
+     * @param \Carbon\Carbon $endDate
+     * @return array
+     */
+    public function getOfFixedTotalAmountBetweenBillingDateByUserIdsStartDateEndDate(
+        array $userIds,
+        \Carbon\Carbon $startDate,
+        \Carbon\Carbon $endDate
+    ): array;
 }
