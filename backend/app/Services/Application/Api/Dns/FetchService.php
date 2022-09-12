@@ -13,23 +13,16 @@ final class FetchService
     private $domains;
 
     /**
+     * @param \Illuminate\Http\Request $request
      * @param \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
      */
     public function __construct(
+        \Illuminate\Http\Request $request,
         \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
     ) {
         $user = User::find(Auth::id());
-
-        if ($user->isCompany()) {
-            $this->domains = $eloquentDomainQueryService->getByUserIds($user->getMemberIds());
-        } else {
-            $this->domains = $user->domains;
-        }
-
-        $this->domains->load([
-            'subdomains',
-            'subdomains.dnsRecordType'
-        ]);
+        $this->domains = $eloquentDomainQueryService
+        ->getPageNationByUserIdsPage($user->getMemberIds(), (int) $request->size);
     }
 
     /**

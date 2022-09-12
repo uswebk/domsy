@@ -19,6 +19,11 @@
             rounded
             height="6"
           ></v-progress-linear>
+          <v-pagination
+            v-model="pageModel.page"
+            :length="6"
+            @input="changePage"
+          ></v-pagination>
           <div v-for="domain in dns" :key="domain.id" class="mb-4">
             <v-card>
               <v-card-title>{{ domain.name }}</v-card-title>
@@ -52,6 +57,7 @@ export default {
   data() {
     return {
       subdomain: {},
+      hoge: 1,
       isOpenNewDialog: false,
     }
   },
@@ -62,24 +68,44 @@ export default {
       'pageLoading',
       'greeting',
       'greetingType',
+      'pagiNation',
     ]),
+    pageModel: {
+      get() {
+        return Object.assign({}, this.pagiNation)
+      },
+      set() {
+        this.pagiNationCommit(this.pageModel)
+      },
+    },
   },
   created() {
-    this.fetchDns()
+    this.fetchDnsPaging(this.pageModel)
     this.fetchDomains()
     this.fetchDnsRecordTypes()
     this.initRole()
   },
   methods: {
-    ...mapMutations('dns', ['domainId']),
-    ...mapActions('dns', ['fetchDns', 'fetchDnsRecordTypes', 'initRole']),
+    ...mapMutations('dns', {
+      domainIdCommit: 'domainId',
+      pagiNationCommit: 'pagiNation',
+    }),
+    ...mapActions('dns', [
+      'fetchDns',
+      'fetchDnsRecordTypes',
+      'initRole',
+      'fetchDnsPaging',
+    ]),
     ...mapActions('domain', ['fetchDomains']),
     openNewDialog(domain) {
-      this.domainId(domain.id)
+      this.domainIdCommit(domain.id)
       this.isOpenNewDialog = true
     },
     closeNewDialog() {
       this.isOpenNewDialog = false
+    },
+    changePage() {
+      this.fetchDnsPaging(this.pageModel)
     },
   },
 }

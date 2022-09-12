@@ -28,6 +28,13 @@ interface EloquentDomainQueryServiceInterface
 
     /**
      * @param array $userIds
+     * @param integer $page
+     * @return void
+     */
+    public function getPageNationByUserIdsPage(array $userIds, int $page);
+
+    /**
+     * @param array $userIds
      * @param \Carbon\Carbon $targetDatetime
      * @return \Illuminate\Database\Eloquent\Collection
      */

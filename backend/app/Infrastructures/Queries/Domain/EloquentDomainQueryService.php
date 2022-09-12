@@ -42,6 +42,19 @@ final class EloquentDomainQueryService implements EloquentDomainQueryServiceInte
 
     /**
      * @param array $userIds
+     * @param integer $page
+     * @return void
+     */
+    public function getPageNationByUserIdsPage(array $userIds, int $page)
+    {
+        return Domain::with([
+            'subdomains',
+            'subdomains.dnsRecordType'
+        ])->whereIn('user_id', $userIds)->paginate($page);
+    }
+
+    /**
+     * @param array $userIds
      * @param \Carbon\Carbon $targetDatetime
      * @return \Illuminate\Database\Eloquent\Collection
      */
