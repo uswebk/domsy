@@ -15,7 +15,7 @@
 ## Description
 This is a portfolio.
 
-Management system of domain etc.
+Management system of domain, dealing etc...
 
 ## Development
 ```
