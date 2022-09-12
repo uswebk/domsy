@@ -31,6 +31,7 @@ docker-compose up
 * Top
 * Login
 * Register(Individual / Company)
+* Password Reset
 * Mypage
 * Dashboard
 * Domain Management
