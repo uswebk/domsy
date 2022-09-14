@@ -19,16 +19,23 @@
             rounded
             height="6"
           ></v-progress-linear>
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details
-            @input="filterSubdomains"
-          ></v-text-field>
+          <v-row justify="end">
+            <v-col cols="4">
+              <v-text-field
+                v-model="search"
+                append-icon="mdi-magnify"
+                label="Search"
+                single-line
+                hide-details
+                placeholder="Domain Name"
+                @input="searchSubdomains"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <div class="my-5"></div>
           <v-pagination
             v-model="pageNumber"
+            class="my-5"
             :length="length"
             :total-visible="10"
             @input="filterSubdomains"
@@ -48,6 +55,13 @@
               <dns-list-table :subdomains="domain.subdomains"></dns-list-table>
             </v-card>
           </div>
+          <v-pagination
+            v-model="pageNumber"
+            class="my-5"
+            :length="length"
+            :total-visible="10"
+            @input="filterSubdomains"
+          ></v-pagination>
           <dns-new-dialog
             :is-open="isOpenNewDialog"
             @close="closeNewDialog"
@@ -139,16 +153,19 @@ export default {
     filterSubdomains() {
       let dns = this.dns
       const search = this.search.trim()
-      const offset = this.limit * (this.pageNumber - 1)
-      const limit = this.limit * this.pageNumber
       if (search !== '') {
         dns = this.dns.filter(function (subdomain) {
-          const name = subdomain.name
-          return name.includes(search)
+          return subdomain.name.includes(search)
         })
       }
+      const offset = this.limit * (this.pageNumber - 1)
+      const limit = this.limit * this.pageNumber
       this.length = Math.ceil(dns.length / this.pageSize)
       this.subdomains = dns.slice(offset, limit)
+    },
+    searchSubdomains() {
+      this.pageNumber = 1
+      this.filterSubdomains()
     },
   },
 }
