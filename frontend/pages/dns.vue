@@ -19,12 +19,21 @@
             rounded
             height="6"
           ></v-progress-linear>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+            @input="filterSubdomains"
+          ></v-text-field>
           <v-pagination
-            v-model="pageModel.page"
-            :length="6"
-            @input="changePage"
+            v-model="pageNumber"
+            :length="length"
+            :total-visible="10"
+            @input="filterSubdomains"
           ></v-pagination>
-          <div v-for="domain in dns" :key="domain.id" class="mb-4">
+          <div v-for="domain in subdomains" :key="domain.id" class="mb-4">
             <v-card>
               <v-card-title>{{ domain.name }}</v-card-title>
               <v-btn
@@ -57,7 +66,8 @@ export default {
   data() {
     return {
       subdomain: {},
-      hoge: 1,
+      subdomains: [],
+      length: 0,
       isOpenNewDialog: false,
     }
   },
@@ -68,19 +78,40 @@ export default {
       'pageLoading',
       'greeting',
       'greetingType',
-      'pagiNation',
+      'page',
+      'pageSize',
+      'searchWord',
     ]),
-    pageModel: {
+    pageNumber: {
       get() {
-        return Object.assign({}, this.pagiNation)
+        return this.page
       },
-      set() {
-        this.pagiNationCommit(this.pageModel)
+      set(page) {
+        this.pageCommit(page)
+      },
+    },
+    limit: {
+      get() {
+        return this.pageSize
+      },
+    },
+    search: {
+      get() {
+        return this.searchWord
+      },
+      set(keyword) {
+        this.searchWordCommit(keyword)
       },
     },
   },
-  created() {
-    this.fetchDnsPaging(this.pageModel)
+  watch: {
+    dns() {
+      this.filterSubdomains()
+    },
+  },
+  async created() {
+    await this.fetchDns()
+    this.filterSubdomains()
     this.fetchDomains()
     this.fetchDnsRecordTypes()
     this.initRole()
@@ -88,7 +119,8 @@ export default {
   methods: {
     ...mapMutations('dns', {
       domainIdCommit: 'domainId',
-      pagiNationCommit: 'pagiNation',
+      pageCommit: 'page',
+      searchWordCommit: 'searchWord',
     }),
     ...mapActions('dns', [
       'fetchDns',
@@ -104,8 +136,19 @@ export default {
     closeNewDialog() {
       this.isOpenNewDialog = false
     },
-    changePage() {
-      this.fetchDnsPaging(this.pageModel)
+    filterSubdomains() {
+      let dns = this.dns
+      const search = this.search.trim()
+      const offset = this.limit * (this.pageNumber - 1)
+      const limit = this.limit * this.pageNumber
+      if (search !== '') {
+        dns = this.dns.filter(function (subdomain) {
+          const name = subdomain.name
+          return name.includes(search)
+        })
+      }
+      this.length = Math.ceil(dns.length / this.pageSize)
+      this.subdomains = dns.slice(offset, limit)
     },
   },
 }

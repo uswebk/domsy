@@ -9,10 +9,9 @@ export const state = () => ({
   domains: [],
   dnsRecordTypes: [],
   domainId: {},
-  pagiNation: {
-    page: 1,
-    size: 10,
-  },
+  page: 1,
+  pageSize: 10,
+  searchWord: '',
 })
 
 export const mutations = {
@@ -26,7 +25,8 @@ export const mutations = {
   canStore: (state, value) => (state.canStore = value),
   canUpdate: (state, value) => (state.canUpdate = value),
   canDelete: (state, value) => (state.canDelete = value),
-  pagiNation: (state, value) => (state.pagiNation = value),
+  page: (state, value) => (state.page = value),
+  searchWord: (state, value) => (state.searchWord = value),
 }
 
 export const actions = {
@@ -47,18 +47,6 @@ export const actions = {
     commit('pageLoading', false)
   },
 
-  async fetchDnsPaging({ commit }, pagiNation) {
-    commit('pageLoading', true)
-    // TODO: use keyword query
-    const result = await this.$axios.get('/api/dns', {
-      params: {
-        ...pagiNation,
-      },
-    })
-    commit('dns', result.data)
-    commit('pageLoading', false)
-  },
-
   async fetchDnsRecordTypes({ commit }) {
     const result = await this.$axios.get('/api/dns-record-type')
 
@@ -66,33 +54,27 @@ export const actions = {
   },
 
   async storeDns({ dispatch }, payload) {
-    // TODO: Pagination
     const result = await this.$axios.post('/api/dns/', {
       ...payload,
     })
-
     dispatch('fetchDns')
 
     return result
   },
 
   async updateDns({ dispatch }, payload) {
-    // TODO: Pagination
     const result = await this.$axios.put('/api/dns/' + payload.id, {
       ...payload,
     })
-
     dispatch('fetchDns')
 
     return result
   },
 
   async deleteDns({ dispatch }, payload) {
-    // TODO: Pagination
     const result = await this.$axios.delete('/api/dns/' + payload.id, {
       ...payload,
     })
-
     dispatch('fetchDns')
 
     return result
@@ -118,5 +100,7 @@ export const getters = {
   canUpdate: (state) => state.canUpdate,
   canDelete: (state) => state.canDelete,
   pageLoading: (state) => state.pageLoading,
-  pagiNation: (state) => state.pagiNation,
+  page: (state) => state.page,
+  pageSize: (state) => state.pageSize,
+  searchWord: (state) => state.searchWord,
 }
