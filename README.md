@@ -42,9 +42,9 @@ docker-compose up
 * Settings( General / Mail )
 * Account
 
+## Screen
 <img width="1000" alt="image" src="https://user-images.githubusercontent.com/50518919/181744197-c6f58d33-52b9-4804-81d1-7999b3c7ef16.png">
-<img width="1000" alt="image" src="https://user-images.githubusercontent.com/50518919/188494044-140f524f-1886-4c77-a34e-5ffc61fa5d95.png">
-
+<img width="1000" alt="image" src="https://user-images.githubusercontent.com/50518919/190405435-67d0f9e5-49a5-43b3-9ba9-d4d10d11523f.png">
 
 ## Batches
 * Domain expiration notification
