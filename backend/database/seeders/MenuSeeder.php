@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Database\Seeders;
@@ -71,7 +72,7 @@ final class MenuSeeder extends Seeder
             'type_id' => 2,
             'name' => 'Dealing',
             'description' => 'Manage dealing information.',
-            'icon' => 'mdi-note-edit',
+            'icon' => 'mdi-handshake',
             'is_nav' => 1,
             'sort' => 60,
         ]);

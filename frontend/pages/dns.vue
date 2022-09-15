@@ -123,9 +123,8 @@ export default {
       this.filterSubdomains()
     },
   },
-  async created() {
-    await this.fetchDns()
-    this.filterSubdomains()
+  created() {
+    this.fetchDns()
     this.fetchDomains()
     this.fetchDnsRecordTypes()
     this.initRole()

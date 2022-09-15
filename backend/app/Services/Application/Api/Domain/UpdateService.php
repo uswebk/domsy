@@ -6,23 +6,23 @@ namespace App\Services\Application\Api\Domain;
 
 use App\Http\Resources\DomainResource;
 
-use Exception;
 
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 final class UpdateService
 {
-    private $domainRepository;
+    private $updateDomainService;
 
     private $domain;
 
     /**
-     * @param \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
+     * @param \App\Services\Domain\Domain\UpdateDomainService $updateDomainService
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
+        \App\Services\Domain\Domain\UpdateDomainService $updateDomainService,
     ) {
-        $this->domainRepository = $domainRepository;
+        $this->updateDomainService = $updateDomainService;
     }
 
     /**
@@ -51,7 +51,7 @@ final class UpdateService
                 'canceled_at' => $domainRequest->canceled_at,
             ]);
 
-            $this->domain = $this->domainRepository->save($domain);
+            $this->domain = $this->updateDomainService->execute($domain);
 
             DB::commit();
         } catch (Exception $e) {
