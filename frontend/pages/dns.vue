@@ -33,7 +33,9 @@
             </v-col>
           </v-row>
           <div class="my-5"></div>
+          <div v-show="length === 0">There is no data...</div>
           <v-pagination
+            v-show="length"
             v-model="pageNumber"
             class="my-5"
             :length="length"
@@ -56,6 +58,7 @@
             </v-card>
           </div>
           <v-pagination
+            v-show="length"
             v-model="pageNumber"
             class="my-5"
             :length="length"
