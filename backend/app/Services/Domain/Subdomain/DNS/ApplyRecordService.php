@@ -86,4 +86,14 @@ final class ApplyRecordService
             throw $e;
         }
     }
+
+    public function getSuccesses(): array
+    {
+        return [];
+    }
+
+    public function getErrors(): array
+    {
+        return [];
+    }
 }

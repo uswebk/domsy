@@ -80,6 +80,13 @@ export const actions = {
     return result
   },
 
+  async applyRecord({ dispatch }) {
+    const result = await this.$axios.post('/api/dns/apply')
+    dispatch('fetchDns')
+
+    return result
+  },
+
   async initRole({ commit }) {
     const result = await this.$axios.get('/api/role/has/?menu_id=3')
 

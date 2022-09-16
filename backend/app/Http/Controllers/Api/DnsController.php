@@ -19,7 +19,7 @@ final class DnsController extends Controller
     ) {
         parent::__construct();
 
-        $this->middleware('can:owner,subdomain')->except(['fetch', 'store']);
+        $this->middleware('can:owner,subdomain')->except(['fetch', 'store', 'apply']);
 
         $this->subdomainRepository = $subdomainRepository;
     }
@@ -98,6 +98,28 @@ final class DnsController extends Controller
 
             return response()->json(
                 [],
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    /**
+     * @param \App\Services\Application\Api\Dns\ApplyService $applyService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function apply(
+        \App\Services\Application\Api\Dns\ApplyService $applyService
+    ) {
+        try {
+            $applyService->handle();
+
+            return response()->json(
+                $applyService->getResponse(),
                 Response::HTTP_OK
             );
         } catch(Exception $e) {

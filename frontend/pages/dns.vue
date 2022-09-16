@@ -2,6 +2,14 @@
   <common-base-frame>
     <template #main>
       <v-main>
+        <v-dialog v-model="overlay" fullscreen full-width>
+          <v-container id="loading" fluid fill-height>
+            <v-layout justify-center align-center>
+              <v-progress-circular indeterminate color="primary">
+              </v-progress-circular>
+            </v-layout>
+          </v-container>
+        </v-dialog>
         <v-container>
           <common-icon-head-line
             :icon="'mdi-web'"
@@ -19,7 +27,7 @@
             rounded
             height="6"
           ></v-progress-linear>
-          <v-row justify="end">
+          <v-row justify="end" align="end">
             <v-col cols="4">
               <v-text-field
                 v-model="search"
@@ -30,6 +38,11 @@
                 placeholder="Domain Name"
                 @input="searchSubdomains"
               ></v-text-field>
+            </v-col>
+            <v-col cols="1">
+              <v-btn small @click="applyDns"
+                ><v-icon dark left> mdi-download </v-icon>Get DNS</v-btn
+              >
             </v-col>
           </v-row>
           <div class="my-5"></div>
@@ -86,6 +99,9 @@ export default {
       subdomains: [],
       length: 0,
       isOpenNewDialog: false,
+      overlay: false,
+      applyResultDialog: false,
+      applyResults: [],
     }
   },
   computed: {
@@ -143,6 +159,7 @@ export default {
       'fetchDnsRecordTypes',
       'initRole',
       'fetchDnsPaging',
+      'applyRecord',
     ]),
     ...mapActions('domain', ['fetchDomains']),
     openNewDialog(domain) {
@@ -169,6 +186,17 @@ export default {
       this.pageNumber = 1
       this.filterSubdomains()
     },
+    async applyDns() {
+      this.overlay = true
+      this.applyResult = await this.applyRecord()
+      this.overlay = false
+      this.applyResultDialog = true
+    },
   },
 }
 </script>
+<style scoped>
+#loading {
+  background-color: rgb(255 255 255 / 80%);
+}
+</style>

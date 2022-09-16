@@ -34,54 +34,56 @@ Route::middleware(['verified','auth:sanctum'])->group(function () {
         Route::get('menus/items', 'MenuController@fetchItems')->name('menus.items.fetch');
 
         Route::prefix('user')->name('user.')->group(function () {
-            Route::get('/', 'UserController@fetch');
+            Route::get('', 'UserController@fetch');
         });
 
         Route::prefix('domain')->name('domain.')->group(function () {
-            Route::get('/', 'DomainController@fetch')->name('fetch');
+            Route::get('', 'DomainController@fetch')->name('fetch');
             Route::get('total-seller', 'DomainController@fetchTotalSeller')->name('fetch.total-seller');
             Route::get('sort-expired', 'DomainController@fetchSortExpired')->name('fetch.sort-expired');
             Route::get('transaction', 'DomainController@fetchTransition')->name('fetch.transaction');
             Route::get('active-summary', 'DomainController@fetchActiveSummary')->name('fetch.active-summary');
-            Route::post('/', 'DomainController@store')->name('store');
+            Route::post('', 'DomainController@store')->name('store');
             Route::put('{domain}', 'DomainController@update')->where('domain', '[0-9]+')->name('update');
             Route::delete('{domain}', 'DomainController@delete')->where('domain', '[0-9]+')->name('delete');
         });
 
         Route::prefix('dns')->name('dns.')->group(function () {
-            Route::get('/', 'DnsController@fetch')->name('fetch');
-            Route::post('/', 'DnsController@store')->name('store');
+            Route::get('', 'DnsController@fetch')->name('fetch');
+            Route::post('', 'DnsController@store')->name('store');
             Route::put('{subdomain}', 'DnsController@update')->where('subdomain', '[0-9]+')->name('update');
             Route::delete('{subdomain}', 'DnsController@delete')->where('subdomain', '[0-9]+')->name('delete');
+
+            Route::post('apply', 'DnsController@apply')->name('apply');
         });
 
         Route::prefix('role')->name('role.')->group(function () {
-            Route::get('/', 'RoleController@fetch')->name('fetch');
+            Route::get('', 'RoleController@fetch')->name('fetch');
             Route::get('has', 'RoleController@has')->name('has');
             Route::get('has/page', 'RoleController@hasPage')->name('has.page');
 
-            Route::post('/', 'RoleController@store')->name('store');
+            Route::post('', 'RoleController@store')->name('store');
             Route::put('{role}', 'RoleController@update')->name('update');
             Route::delete('{role}', 'RoleController@delete')->name('delete');
         });
 
         Route::prefix('registrar')->name('registrar.')->group(function () {
-            Route::get('/', 'RegistrarController@fetch')->name('fetch');
-            Route::post('/', 'RegistrarController@store')->name('store');
+            Route::get('', 'RegistrarController@fetch')->name('fetch');
+            Route::post('', 'RegistrarController@store')->name('store');
             Route::put('{registrar}', 'RegistrarController@update')->where('registrar', '[0-9]+')->name('update');
             Route::delete('{registrar}', 'RegistrarController@delete')->where('registrar', '[0-9]+')->name('delete');
         });
 
         Route::prefix('client')->name('client.')->group(function () {
-            Route::get('/', 'ClientController@fetch')->name('fetch');
-            Route::post('/', 'ClientController@store')->name('store');
+            Route::get('', 'ClientController@fetch')->name('fetch');
+            Route::post('', 'ClientController@store')->name('store');
             Route::put('{client}', 'ClientController@update')->where('client', '[0-9]+')->name('update');
             Route::delete('{client}', 'ClientController@delete')->where('client', '[0-9]+')->name('delete');
         });
 
         Route::prefix('dealing')->name('dealing.')->group(function () {
-            Route::get('/', 'DealingController@fetch')->name('fetch');
-            Route::post('/', 'DealingController@store')->name('store');
+            Route::get('', 'DealingController@fetch')->name('fetch');
+            Route::post('', 'DealingController@store')->name('store');
             Route::get('{domainDealing}', 'DealingController@fetchId')->where('domainDealing', '[0-9]+')->name('fetch-id');
             Route::put('{domainDealing}', 'DealingController@update')->where('domainDealing', '[0-9]+')->name('update');
             Route::get('billings/transaction', 'DealingController@fetchBillingTransaction')->name('fetch.billings.transaction');
@@ -98,7 +100,7 @@ Route::middleware(['verified','auth:sanctum'])->group(function () {
         });
 
         Route::prefix('account')->name('account.')->group(function () {
-            Route::post('/', 'AccountController@store')->name('store');
+            Route::post('', 'AccountController@store')->name('store');
             Route::put('{user}', 'AccountController@update')->where('user', '[0-9]+')->name('update');
             Route::delete('{user}', 'AccountController@delete')->where('user', '[0-9]+')->name('delete');
         });
