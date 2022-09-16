@@ -48,6 +48,14 @@ final class Subdomain extends BaseModel
     /**
      * @return string
      */
+    public function getDomainName(): string
+    {
+        return $this->domain->name;
+    }
+
+    /**
+     * @return string
+     */
     public function getFullDomainName(): string
     {
         if ($this->prefix !== '') {

@@ -12,6 +12,12 @@ export const state = () => ({
   page: 1,
   pageSize: 10,
   searchWord: '',
+  applyResults: [
+    {
+      successList: [],
+      errorList: [],
+    },
+  ],
 })
 
 export const mutations = {
@@ -27,6 +33,7 @@ export const mutations = {
   canDelete: (state, value) => (state.canDelete = value),
   page: (state, value) => (state.page = value),
   searchWord: (state, value) => (state.searchWord = value),
+  applyResults: (state, value) => (state.applyResults = value),
 }
 
 export const actions = {
@@ -42,7 +49,6 @@ export const actions = {
         ...payload,
       },
     })
-
     commit('dns', result.data)
     commit('pageLoading', false)
   },
@@ -80,10 +86,14 @@ export const actions = {
     return result
   },
 
-  async applyRecord({ dispatch }) {
+  async applyRecord({ dispatch, commit }) {
     const result = await this.$axios.post('/api/dns/apply')
     dispatch('fetchDns')
 
+    console.log(result.data)
+    commit('applyResults', result.data)
+
+    // 成功ドメインリスト, 失敗ドメインリスト を格納
     return result
   },
 
@@ -110,4 +120,5 @@ export const getters = {
   page: (state) => state.page,
   pageSize: (state) => state.pageSize,
   searchWord: (state) => state.searchWord,
+  applyResults: (state) => state.applyResults,
 }

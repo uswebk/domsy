@@ -50,8 +50,8 @@ final class ApplyService
     public function getResponse(): array
     {
         return [
-            'success_list' => $this->applyRecordService->getSuccesses(),
-            'errors_list' => $this->applyRecordService->getErrors(),
+            'success_list' => $this->applyRecordService->getSuccessDomains(),
+            'errors_list' => $this->applyRecordService->getErrorDomains(),
         ];
     }
 }

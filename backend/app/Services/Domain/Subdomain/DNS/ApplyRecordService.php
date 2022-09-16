@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Subdomain\DNS;
 
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 final class ApplyRecordService
@@ -13,6 +14,10 @@ final class ApplyRecordService
     private $dnsRecordTypes;
 
     private $subdomainRepository;
+
+    private $successDomains = [];
+
+    private $errorDomains = [];
 
     /**
      * @param \App\Services\Domain\Subdomain\DNS\MakeRecordService $makeRecordService
@@ -34,6 +39,8 @@ final class ApplyRecordService
         \App\Services\Domain\Subdomain\Dns\RecordService $dnsRecord,
         \App\Infrastructures\Models\Subdomain $subdomain
     ): void {
+        $subdomain->delete();
+
         if (in_array($dnsRecord->getType(), $this->dnsRecordTypes)) {
             $this->subdomainRepository->updateOfTtlPriority(
                 $subdomain->domain_id,
@@ -53,12 +60,25 @@ final class ApplyRecordService
     private function executeOfSubdomain(
         \App\Infrastructures\Models\Subdomain $subdomain
     ): void {
-        $subdomain->delete();
-        $dnsRecords = $this->makeRecordService->make($subdomain);
+        $domainName = $subdomain->getDomainName();
 
-        foreach ($dnsRecords as $dnsRecord) {
-            $this->updateOfDnsRecordBySubdomain($dnsRecord, $subdomain);
+        DB::beginTransaction();
+        try {
+            $dnsRecords = $this->makeRecordService->make($subdomain);
+            foreach ($dnsRecords as $dnsRecord) {
+                $this->updateOfDnsRecordBySubdomain($dnsRecord, $subdomain);
+            }
+            $this->successDomains[] = $domainName;
+
+            DB::commit();
+        } catch(Exception $e) {
+            DB::rollBack();
+
+            $this->errorDomains[] = $domainName;
         }
+
+        $this->successDomains = array_unique($this->successDomains);
+        $this->errorDomains = array_unique($this->errorDomains);
     }
 
     /**
@@ -71,29 +91,26 @@ final class ApplyRecordService
         array $dnsRecordTypes,
     ): void {
         $this->dnsRecordTypes = $dnsRecordTypes;
+
         $subdomainCollapses = $subdomains->collapse();
-
-        DB::beginTransaction();
-        try {
-            foreach ($subdomainCollapses as $subdomain) {
-                $this->executeOfSubdomain($subdomain);
-            }
-
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            throw $e;
+        foreach ($subdomainCollapses as $subdomain) {
+            $this->executeOfSubdomain($subdomain);
         }
     }
 
-    public function getSuccesses(): array
+    /**
+     * @return array
+     */
+    public function getSuccessDomains(): array
     {
-        return [];
+        return $this->successDomains;
     }
 
-    public function getErrors(): array
+    /**
+     * @return array
+     */
+    public function getErrorDomains(): array
     {
-        return [];
+        return $this->errorDomains;
     }
 }

@@ -51,10 +51,9 @@ Route::middleware(['verified','auth:sanctum'])->group(function () {
         Route::prefix('dns')->name('dns.')->group(function () {
             Route::get('', 'DnsController@fetch')->name('fetch');
             Route::post('', 'DnsController@store')->name('store');
+            Route::post('apply', 'DnsController@apply')->name('apply');
             Route::put('{subdomain}', 'DnsController@update')->where('subdomain', '[0-9]+')->name('update');
             Route::delete('{subdomain}', 'DnsController@delete')->where('subdomain', '[0-9]+')->name('delete');
-
-            Route::post('apply', 'DnsController@apply')->name('apply');
         });
 
         Route::prefix('role')->name('role.')->group(function () {

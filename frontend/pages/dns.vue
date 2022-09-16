@@ -2,7 +2,7 @@
   <common-base-frame>
     <template #main>
       <v-main>
-        <v-dialog v-model="overlay" fullscreen full-width>
+        <v-dialog v-model="overlay" fullscreen>
           <v-container id="loading" fluid fill-height>
             <v-layout justify-center align-center>
               <v-progress-circular indeterminate color="primary">
@@ -40,7 +40,7 @@
               ></v-text-field>
             </v-col>
             <v-col cols="1">
-              <v-btn small @click="applyDns"
+              <v-btn small color="amber lighten-1" @click="applyDns"
                 ><v-icon dark left> mdi-download </v-icon>Get DNS</v-btn
               >
             </v-col>
@@ -82,6 +82,10 @@
             :is-open="isOpenNewDialog"
             @close="closeNewDialog"
           ></dns-new-dialog>
+          <dns-apply-result-dialog
+            :is-open="isOpenApplyResultDialog"
+            @close="closeApplyResultDialog"
+          ></dns-apply-result-dialog>
         </v-container>
       </v-main>
     </template>
@@ -100,8 +104,7 @@ export default {
       length: 0,
       isOpenNewDialog: false,
       overlay: false,
-      applyResultDialog: false,
-      applyResults: [],
+      isOpenApplyResultDialog: false,
     }
   },
   computed: {
@@ -169,6 +172,9 @@ export default {
     closeNewDialog() {
       this.isOpenNewDialog = false
     },
+    closeApplyResultDialog() {
+      this.isOpenApplyResultDialog = false
+    },
     filterSubdomains() {
       let dns = this.dns
       const search = this.search.trim()
@@ -190,7 +196,7 @@ export default {
       this.overlay = true
       this.applyResult = await this.applyRecord()
       this.overlay = false
-      this.applyResultDialog = true
+      this.isOpenApplyResultDialog = true
     },
   },
 }
