@@ -5,6 +5,7 @@
         <v-col cols="6">
           <v-card class="mx-auto" flat>
             <v-card-title class="white--text green">
+              <v-icon dark left> mdi-check-circle</v-icon>
               Success Domain List
             </v-card-title>
             <v-divider></v-divider>
@@ -16,7 +17,10 @@
               <template #default="{ item }">
                 <v-list-item>
                   <v-list-item-content>
-                    <v-list-item-title>- {{ item }}</v-list-item-title>
+                    <v-list-item-title
+                      ><v-icon small left> mdi-check-circle</v-icon>
+                      {{ item }}</v-list-item-title
+                    >
                   </v-list-item-content>
                 </v-list-item>
               </template>
@@ -26,6 +30,7 @@
         <v-col cols="6">
           <v-card class="mx-auto" flat>
             <v-card-title class="white--text orange darken-4">
+              <v-icon dark left> mdi-alert-circle</v-icon>
               Error Domain List
             </v-card-title>
             <v-divider></v-divider>
@@ -33,7 +38,10 @@
               <template #default="{ item }">
                 <v-list-item>
                   <v-list-item-content>
-                    <v-list-item-title>- {{ item }}</v-list-item-title>
+                    <v-list-item-title>
+                      <v-icon small left> mdi-alert-rhombus</v-icon>
+                      {{ item }}</v-list-item-title
+                    >
                   </v-list-item-content>
                 </v-list-item>
               </template>

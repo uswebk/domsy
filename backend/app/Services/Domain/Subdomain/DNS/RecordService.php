@@ -31,7 +31,7 @@ final class RecordService
         'CNAME' => 'target',
         'NS' => 'target',
         'PTR' => 'target',
-        'TXT' => 'target',
+        'TXT' => 'txt',
         'SRV' => 'target',
     ];
 
@@ -49,6 +49,8 @@ final class RecordService
         $this->type = $dnsRecord['type'];
 
         $this->ip = $dnsRecord['ip'] ?? '';
+
+        $this->ipv6 = $dnsRecord['ipv6'] ?? '';
 
         $this->target = $dnsRecord['target'] ?? '';
 

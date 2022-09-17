@@ -68,9 +68,9 @@ final class ApplyRecordService
             foreach ($dnsRecords as $dnsRecord) {
                 $this->updateOfDnsRecordBySubdomain($dnsRecord, $subdomain);
             }
-            $this->successDomains[] = $domainName;
-
             DB::commit();
+
+            $this->successDomains[] = $domainName;
         } catch(Exception $e) {
             DB::rollBack();
 

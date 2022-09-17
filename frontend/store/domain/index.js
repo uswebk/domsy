@@ -91,6 +91,7 @@ export const actions = {
       ...payload,
     })
     dispatch('fetchDomains')
+    dispatch('fetchCategorizedDomains')
 
     return result
   },

@@ -27,7 +27,12 @@
             rounded
             height="6"
           ></v-progress-linear>
-          <v-row justify="end" align="end">
+          <v-row justify="space-between" align="end">
+            <v-col cols="1">
+              <v-btn small dark color="yellow darken-3" @click="applyDns"
+                ><v-icon dark left> mdi-refresh </v-icon>Update DNS</v-btn
+              >
+            </v-col>
             <v-col cols="4">
               <v-text-field
                 v-model="search"
@@ -38,11 +43,6 @@
                 placeholder="Domain Name"
                 @input="searchSubdomains"
               ></v-text-field>
-            </v-col>
-            <v-col cols="1">
-              <v-btn small color="amber lighten-1" @click="applyDns"
-                ><v-icon dark left> mdi-download </v-icon>Get DNS</v-btn
-              >
             </v-col>
           </v-row>
           <div class="my-5"></div>

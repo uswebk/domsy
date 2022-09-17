@@ -32,6 +32,9 @@ final class ApplyService
         return $dnsRecordTypes->pluck('name', 'id')->toArray();
     }
 
+    /**
+     * @return void
+     */
     public function handle(): void
     {
         $user = User::find(Auth::id());

@@ -89,11 +89,8 @@ export const actions = {
   async applyRecord({ dispatch, commit }) {
     const result = await this.$axios.post('/api/dns/apply')
     dispatch('fetchDns')
-
-    console.log(result.data)
     commit('applyResults', result.data)
 
-    // 成功ドメインリスト, 失敗ドメインリスト を格納
     return result
   },
 
