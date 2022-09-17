@@ -29,7 +29,11 @@
           ></v-progress-linear>
           <v-row justify="space-between" align="end">
             <v-col cols="1">
-              <v-btn small dark color="yellow darken-3" @click="applyDns"
+              <v-btn
+                small
+                dark
+                color="yellow darken-3"
+                @click="openConfirmDialog"
                 ><v-icon dark left> mdi-refresh </v-icon>Update DNS</v-btn
               >
             </v-col>
@@ -82,6 +86,11 @@
             :is-open="isOpenNewDialog"
             @close="closeNewDialog"
           ></dns-new-dialog>
+          <dns-confirm-dialog
+            :is-open="isOpenConfirmDialog"
+            @close="closeConfirmDialog"
+            @execute="applyDns"
+          ></dns-confirm-dialog>
           <dns-apply-result-dialog
             :is-open="isOpenApplyResultDialog"
             @close="closeApplyResultDialog"
@@ -103,8 +112,9 @@ export default {
       subdomains: [],
       length: 0,
       isOpenNewDialog: false,
-      overlay: false,
+      isOpenConfirmDialog: false,
       isOpenApplyResultDialog: false,
+      overlay: false,
     }
   },
   computed: {
@@ -169,8 +179,17 @@ export default {
       this.domainIdCommit(domain.id)
       this.isOpenNewDialog = true
     },
+    openConfirmDialog() {
+      this.isOpenConfirmDialog = true
+    },
+    openApplyResultDialog() {
+      this.isOpenApplyResultDialog = true
+    },
     closeNewDialog() {
       this.isOpenNewDialog = false
+    },
+    closeConfirmDialog() {
+      this.isOpenConfirmDialog = false
     },
     closeApplyResultDialog() {
       this.isOpenApplyResultDialog = false
@@ -193,10 +212,11 @@ export default {
       this.filterSubdomains()
     },
     async applyDns() {
+      this.closeConfirmDialog()
       this.overlay = true
       this.applyResult = await this.applyRecord()
       this.overlay = false
-      this.isOpenApplyResultDialog = true
+      this.openApplyResultDialog()
     },
   },
 }
