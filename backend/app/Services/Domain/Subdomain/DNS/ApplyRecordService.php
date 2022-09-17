@@ -39,8 +39,6 @@ final class ApplyRecordService
         \App\Services\Domain\Subdomain\Dns\RecordService $dnsRecord,
         \App\Infrastructures\Models\Subdomain $subdomain
     ): void {
-        $subdomain->delete();
-
         if (in_array($dnsRecord->getType(), $this->dnsRecordTypes)) {
             $this->subdomainRepository->updateOfTtlPriority(
                 $subdomain->domain_id,
@@ -65,9 +63,17 @@ final class ApplyRecordService
         DB::beginTransaction();
         try {
             $dnsRecords = $this->makeRecordService->make($subdomain);
+
+            if ($dnsRecords->isEmpty()) {
+                $this->errorDomains[] = $domainName;
+                return;
+            }
+
+            $subdomain->delete();
             foreach ($dnsRecords as $dnsRecord) {
                 $this->updateOfDnsRecordBySubdomain($dnsRecord, $subdomain);
             }
+
             DB::commit();
 
             $this->successDomains[] = $domainName;
@@ -76,9 +82,6 @@ final class ApplyRecordService
 
             $this->errorDomains[] = $domainName;
         }
-
-        $this->successDomains = array_unique($this->successDomains);
-        $this->errorDomains = array_unique($this->errorDomains);
     }
 
     /**
@@ -102,7 +105,7 @@ final class ApplyRecordService
      */
     public function getSuccessDomains(): array
     {
-        return $this->successDomains;
+        return array_unique($this->successDomains);
     }
 
     /**
@@ -110,6 +113,6 @@ final class ApplyRecordService
      */
     public function getErrorDomains(): array
     {
-        return $this->errorDomains;
+        return array_unique($this->errorDomains);
     }
 }
