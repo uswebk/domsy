@@ -92,8 +92,7 @@ final class ApplyRecordService
     ): void {
         $this->dnsRecordTypes = $dnsRecordTypes;
 
-        $subdomainCollapses = $subdomains->collapse();
-        foreach ($subdomainCollapses as $subdomain) {
+        foreach ($subdomains as $subdomain) {
             $this->executeOfSubdomain($subdomain);
         }
     }

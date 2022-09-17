@@ -15,21 +15,29 @@ final class MakeRecordService
     public function make(
         \App\Infrastructures\Models\Subdomain $subdomain
     ): \Illuminate\Support\Collection {
-        $dnsRecordCollection = new Collection();
-        $name = $subdomain->getFullDomainName();
-
         $dnsValues = [];
-        $dnsValues = array_merge($dnsValues, dns_get_record($name, DNS_NS));
-        $dnsValues = array_merge($dnsValues, dns_get_record($name, DNS_A));
-        $dnsValues = array_merge($dnsValues, dns_get_record($name, DNS_MX));
-        $dnsValues = array_merge($dnsValues, dns_get_record($name, DNS_AAAA));
-        $dnsValues = array_merge($dnsValues, dns_get_record($name, DNS_CNAME));
-        $dnsValues = array_merge($dnsValues, dns_get_record($name, DNS_TXT));
-
-        foreach ($dnsValues as $dnsValue) {
-            $dnsRecordCollection->push(new RecordService($dnsValue));
+        $name = $subdomain->getFullDomainName();
+        if ($nsRecords = @dns_get_record($name, DNS_NS)) {
+            $dnsValues = array_merge($dnsValues, $nsRecords);
+        }
+        if ($aRecords = @dns_get_record($name, DNS_A)) {
+            $dnsValues = array_merge($dnsValues, $aRecords);
+        }
+        if ($mxRecords = @dns_get_record($name, DNS_MX)) {
+            $dnsValues = array_merge($dnsValues, $mxRecords);
+        }
+        if ($aaaaRecords = @dns_get_record($name, DNS_AAAA)) {
+            $dnsValues = array_merge($dnsValues, $aaaaRecords);
+        }
+        if ($txtRecords = @dns_get_record($name, DNS_TXT)) {
+            $dnsValues = array_merge($dnsValues, $txtRecords);
         }
 
-        return $dnsRecordCollection;
+        $dnsRecords = new Collection();
+        foreach ($dnsValues as $dnsValue) {
+            $dnsRecords->push(new RecordService($dnsValue));
+        }
+
+        return $dnsRecords;
     }
 }

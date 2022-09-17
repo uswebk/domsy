@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\DNS;
 
+use App\Infrastructures\Models\Subdomain;
 use App\Infrastructures\Models\User;
-
 use Illuminate\Console\Command;
 
 final class Fetch extends Command
@@ -37,9 +37,14 @@ final class Fetch extends Command
                 if (! $user->enableDnsAutoFetch()) {
                     continue;
                 }
-                $subdomains = $user->getSubdomains();
 
-                $this->fetchService->handle($subdomains);
+                Subdomain::join('domains', 'subdomains.domain_id', '=', 'domains.id')
+                ->whereIn('domains.user_id', $user->getMemberIds())
+                ->chunk(self::CHUNK_SIZE, function (
+                    \Illuminate\Database\Eloquent\Collection $subdomains
+                ) {
+                    $this->fetchService->handle($subdomains);
+                });
             }
         });
     }

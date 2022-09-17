@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Api\Dns;
 
+use App\Infrastructures\Models\Subdomain;
 use App\Infrastructures\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 
 final class ApplyService
 {
+    private const CHUNK_SIZE = 1000;
+
     /**
      * @param \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService
      * @param \App\Services\Domain\Subdomain\DNS\ApplyRecordService $applyRecordService
@@ -38,13 +41,18 @@ final class ApplyService
     public function handle(): void
     {
         $user = User::find(Auth::id());
-        $subdomains = $user->getSubdomains();
 
-        try {
-            $this->applyRecordService->execute($subdomains, $this->getDnsRecodeTypeNames());
-        } catch (Exception $e) {
-            throw $e;
-        }
+        Subdomain::join('domains', 'subdomains.domain_id', '=', 'domains.id')
+        ->whereIn('domains.user_id', $user->getMemberIds())
+        ->chunk(self::CHUNK_SIZE, function (
+            \Illuminate\Database\Eloquent\Collection $subdomains
+        ) {
+            try {
+                $this->applyRecordService->execute($subdomains, $this->getDnsRecodeTypeNames());
+            } catch (Exception $e) {
+                throw $e;
+            }
+        });
     }
 
     /**
