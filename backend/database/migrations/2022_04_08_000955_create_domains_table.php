@@ -23,6 +23,7 @@ class CreateDomainsTable extends Migration
             $table->boolean('is_active')->comment('稼働フラグ');
             $table->boolean('is_transferred')->comment('移管フラグ');
             $table->boolean('is_management_only')->comment('管理のみ');
+            $table->boolean('is_fetching_dns')->comment('DNS自動取得');
             $table->dateTime('purchased_at')->comment('購入日');
             $table->dateTime('expired_at')->comment('更新期限日');
             $table->dateTime('canceled_at')->nullable(true)->comment('解約日');
