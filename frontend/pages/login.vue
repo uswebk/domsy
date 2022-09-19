@@ -75,7 +75,7 @@ export default {
         const result = await this.loginAction(this.authModel)
 
         if (result.status === 200 || result.status === 204) {
-          this.$router.push('/mypage')
+          location.href = '/mypage'
         }
       } catch (error) {
         const responseErrors = error.response.data.errors

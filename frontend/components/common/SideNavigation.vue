@@ -76,7 +76,7 @@ export default {
       this.pageLoading(true)
       await this.logoutAction()
       this.pageLoading(false)
-      this.$router.push('/login')
+      location.href = '/login'
     },
   },
 }
