@@ -62,7 +62,7 @@ final class ApplyService
     {
         return [
             'success_list' => $this->applyRecordService->getSuccessDomains(),
-            'errors_list' => $this->applyRecordService->getErrorDomains(),
+            'error_list' => $this->applyRecordService->getErrorDomains(),
         ];
     }
 }

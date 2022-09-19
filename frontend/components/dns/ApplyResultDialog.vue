@@ -6,7 +6,7 @@
           <v-card class="mx-auto" flat>
             <v-card-title class="white--text green">
               <v-icon dark left> mdi-check-circle</v-icon>
-              Success Domain List
+              Success
             </v-card-title>
             <v-divider></v-divider>
             <v-virtual-scroll
@@ -31,7 +31,7 @@
           <v-card class="mx-auto" flat>
             <v-card-title class="white--text orange darken-4">
               <v-icon dark left> mdi-alert-circle</v-icon>
-              Error Domain List
+              Error
             </v-card-title>
             <v-divider></v-divider>
             <v-virtual-scroll :items="errorList" :item-height="50" height="300">
@@ -74,11 +74,19 @@ export default {
   },
   computed: {
     ...mapGetters('dns', ['applyResults']),
-    successList() {
-      return this.applyResults.success_list
+    successList: {
+      get() {
+        if (this.applyResults.success_list) {
+          return Object.values(this.applyResults.success_list)
+        }
+        return []
+      },
     },
     errorList() {
-      return this.applyResults.errors_list
+      if (this.applyResults.error_list) {
+        return Object.values(this.applyResults.error_list)
+      }
+      return []
     },
     open: {
       get() {
