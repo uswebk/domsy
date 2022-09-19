@@ -22,14 +22,15 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="9">
-                <v-select
+                <v-autocomplete
                   v-model="domainId"
                   label="Domain"
                   :items="domains"
                   item-text="name"
                   item-value="id"
+                  placeholder="Domain Name"
                   :error-messages="errors.domain_id"
-                ></v-select>
+                ></v-autocomplete>
               </v-col>
               <v-col cols="3">
                 <v-select

@@ -14,24 +14,26 @@
           <v-form ref="form" lazy-validation>
             <v-row>
               <v-col cols="12">
-                <v-select
+                <v-autocomplete
                   v-model="dealingModel.domain_id"
                   label="Domain"
                   :items="domains"
                   item-text="name"
                   item-value="id"
+                  placeholder="Domain Name"
                   :error-messages="errors.domain_id"
                   :disabled="isBilled"
-                ></v-select>
-                <v-select
+                ></v-autocomplete>
+                <v-autocomplete
                   v-model="dealingModel.client_id"
                   label="Client"
                   :items="clients"
                   item-text="name"
                   item-value="id"
+                  placeholder="Client Name"
                   :error-messages="errors.client_id"
                   :disabled="isBilled"
-                ></v-select>
+                ></v-autocomplete>
                 <v-text-field
                   v-model="dealingModel.subtotal"
                   label="Amount"

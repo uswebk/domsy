@@ -20,14 +20,16 @@
                   required
                   :error-messages="errors.name"
                 ></v-text-field>
-                <v-select
+                <v-autocomplete
                   v-model="domainModel.registrar_id"
-                  label="Registrar"
                   :items="registrars"
                   item-text="name"
                   item-value="id"
+                  label="Registrar"
+                  placeholder="Registrar Name"
                   :error-messages="errors.registrar_id"
-                ></v-select>
+                >
+                </v-autocomplete>
                 <v-text-field
                   v-model="domainModel.price"
                   label="Price"

@@ -26,14 +26,15 @@
                   required
                   :error-messages="errors.email"
                 ></v-text-field>
-                <v-select
+                <v-autocomplete
                   v-model="accountModel.role_id"
                   label="Role"
                   :items="roles"
                   item-text="name"
                   item-value="id"
+                  placeholder="Role Name"
                   :error-messages="errors.role_id"
-                ></v-select>
+                ></v-autocomplete>
                 <v-text-field
                   v-model="accountModel.password"
                   type="password"
