@@ -6,7 +6,7 @@
           <v-card align="center" class="pb-10">
             <v-img src="/images/domsy.jpg"> </v-img>
             <br />
-            <v-btn color="primary" href="/mypage"> Start Domsy </v-btn>
+            <v-btn color="primary" to="/mypage" nuxt> Start Domsy </v-btn>
           </v-card>
         </v-col>
       </v-row>

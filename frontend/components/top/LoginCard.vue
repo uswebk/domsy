@@ -5,10 +5,11 @@
         <template #activator="{ on, attrs }">
           <v-btn
             color="primary"
-            href="/mypage"
+            to="/mypage"
             v-bind="attrs"
             fab
             class="ma-2"
+            nuxt
             v-on="on"
           >
             <v-icon>mdi-account-box</v-icon>
@@ -20,10 +21,11 @@
         <template #activator="{ on, attrs }">
           <v-btn
             color="primary"
-            :href="menu.endpoint"
+            :to="menu.endpoint"
             v-bind="attrs"
             fab
             class="ma-2"
+            nuxt
             v-on="on"
           >
             <v-icon>{{ menu.icon }}</v-icon>
@@ -72,7 +74,7 @@
         <v-btn class="mr-4" color="primary" @click="login">
           <v-icon dark left> mdi-login-variant </v-icon>Login
         </v-btn>
-        <a href="password/email">Forgot Your Password?</a>
+        <nuxt-link to="password/email">Forgot Your Password?</nuxt-link>
       </v-form>
       <v-divider></v-divider>
       <v-tooltip bottom>
@@ -84,8 +86,9 @@
             right
             color="primary"
             style="bottom: -20px"
-            href="/register"
+            to="/register"
             v-bind="attrs"
+            nuxt
             v-on="on"
           >
             <v-icon>mdi-account-plus</v-icon>
@@ -135,7 +138,7 @@ export default {
         const result = await this.loginAction(this.authModel)
 
         if (result.status === 200 || result.status === 204) {
-          location.href = '/mypage'
+          this.$router.push('/mypage')
         }
       } catch (error) {
         const errors = error.response.data.errors

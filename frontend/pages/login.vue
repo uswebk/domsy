@@ -39,7 +39,7 @@
           </div>
           <div class="my-5"></div>
           <v-btn class="mr-4" color="primary" @click="login"> Login </v-btn>
-          <a href="password/email">Forgot Your Password?</a>
+          <nuxt-link to="password/email">Forgot Your Password?</nuxt-link>
         </v-form>
       </v-card>
     </v-container>
@@ -75,7 +75,7 @@ export default {
         const result = await this.loginAction(this.authModel)
 
         if (result.status === 200 || result.status === 204) {
-          location.href = '/mypage'
+          this.$router.push('/mypage')
         }
       } catch (error) {
         const responseErrors = error.response.data.errors

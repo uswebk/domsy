@@ -38,7 +38,7 @@
                     >
                   </v-list-item>
                   <v-card-actions>
-                    <v-btn outlined rounded text :href="menu.endpoint">
+                    <v-btn outlined rounded text :to="menu.endpoint" nuxt>
                       Link <v-icon small>mdi-link-variant</v-icon>
                     </v-btn>
                   </v-card-actions>

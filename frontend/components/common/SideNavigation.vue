@@ -6,7 +6,7 @@
           <v-list-item>
             <v-list-item-icon>
               <v-avatar size="32">
-                <v-btn color="#e8c46a" href="/mypage">
+                <v-btn color="#e8c46a" to="/mypage" nuxt>
                   <span class="white--text text-h6">{{ me.avatarName }}</span>
                 </v-btn>
               </v-avatar>
@@ -33,7 +33,7 @@
         <v-divider></v-divider>
         <span v-for="menu in menus" :key="menu.id">
           <v-list v-if="menu.has_role" nav dense>
-            <v-list-item link :href="menu.endpoint">
+            <v-list-item link :to="menu.endpoint" nuxt>
               <v-list-item-icon>
                 <v-icon>{{ menu.icon }}</v-icon>
               </v-list-item-icon>
@@ -76,7 +76,7 @@ export default {
       this.pageLoading(true)
       await this.logoutAction()
       this.pageLoading(false)
-      location.href = '/login'
+      this.$router.push('/login')
     },
   },
 }
