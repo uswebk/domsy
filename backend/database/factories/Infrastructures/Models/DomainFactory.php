@@ -29,6 +29,7 @@ class DomainFactory extends Factory
             'is_active' => $this->faker->boolean,
             'is_transferred' => $this->faker->boolean,
             'is_management_only' => $this->faker->boolean,
+            'is_fetching_dns' => $this->faker->boolean,
             'purchased_at' => now(),
             'expired_at' => $this->faker->dateTimeBetween('now', '+1 year'),
             'canceled_at' => null,

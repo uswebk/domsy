@@ -19,6 +19,11 @@
           ><v-icon small>mdi-checkbox-marked-circle</v-icon></span
         >
       </template>
+      <template #[`item.is_fetching_dns`]="{ item }">
+        <span v-if="item.is_fetching_dns" class="text-center"
+          ><v-icon small>mdi-checkbox-marked-circle</v-icon></span
+        >
+      </template>
       <template #[`item.price`]="{ item }"
         >{{ $formattedPriceYen(item.price) }}
       </template>
@@ -27,9 +32,6 @@
       </template>
       <template #[`item.expired_at`]="{ item }"
         >{{ $dateHyphen(item.expired_at) }}
-      </template>
-      <template #[`item.canceled_at`]="{ item }"
-        >{{ $dateHyphen(item.canceled_at) }}
       </template>
       <template #[`item.action`]="{ item }">
         <v-btn v-if="canUpdate" x-small color="primary" @click="edit(item)"
@@ -86,6 +88,11 @@ export default {
           filterable: false,
         },
         {
+          text: 'DNS Auto',
+          value: 'is_fetching_dns',
+          filterable: false,
+        },
+        {
           text: 'Purchased Date',
           value: 'purchased_at',
           filterable: false,
@@ -93,11 +100,6 @@ export default {
         {
           text: 'Expired Date',
           value: 'expired_at',
-          filterable: false,
-        },
-        {
-          text: 'Canceled Date',
-          value: 'canceled_at',
           filterable: false,
         },
         {

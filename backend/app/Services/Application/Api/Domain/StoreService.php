@@ -48,6 +48,7 @@ final class StoreService
                 'is_active' => $domainRequest->is_active,
                 'is_transferred' => $domainRequest->is_transferred,
                 'is_management_only' => $domainRequest->is_management_only,
+                'is_fetching_dns' => $domainRequest->is_fetching_dns,
                 'purchased_at' => $domainRequest->purchased_at,
                 'expired_at' => $domainRequest->expired_at,
                 'canceled_at' => $domainRequest->canceled_at,

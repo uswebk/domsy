@@ -42,7 +42,9 @@ final class ApplyService
     {
         $user = User::find(Auth::id());
 
-        Subdomain::join('domains', 'subdomains.domain_id', '=', 'domains.id')
+        Subdomain::select('subdomains.*')
+        ->with(['domain'])
+        ->join('domains', 'subdomains.domain_id', '=', 'domains.id')
         ->whereIn('domains.user_id', $user->getMemberIds())
         ->chunk(self::CHUNK_SIZE, function (
             \Illuminate\Database\Eloquent\Collection $subdomains

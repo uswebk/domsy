@@ -66,6 +66,11 @@
                   label="isActive"
                   :error-messages="errors.is_active"
                 ></v-checkbox>
+                <v-checkbox
+                  v-model="domainModel.is_fetching_dns"
+                  label="isDnsAutoFetch"
+                  :error-messages="errors.is_fetching_dns"
+                ></v-checkbox>
               </v-col>
               <v-col cols="3">
                 <v-checkbox
@@ -117,6 +122,7 @@ export default {
         is_active: true,
         is_transferred: false,
         is_management_only: false,
+        is_fetching_dns: true,
         purchased_at: '',
         expired_at: '',
         canceled_at: '',

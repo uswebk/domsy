@@ -20,6 +20,9 @@ final class MakeRecordService
         if ($nsRecords = @dns_get_record($name, DNS_NS)) {
             $dnsValues = array_merge($dnsValues, $nsRecords);
         }
+        if ($cnameRecords = @dns_get_record($name, DNS_CNAME)) {
+            $dnsValues = array_merge($dnsValues, $cnameRecords);
+        }
         if ($aRecords = @dns_get_record($name, DNS_A)) {
             $dnsValues = array_merge($dnsValues, $aRecords);
         }

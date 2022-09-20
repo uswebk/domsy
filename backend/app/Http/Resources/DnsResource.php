@@ -22,6 +22,7 @@ final class DnsResource extends JsonResource
             'is_active' => $this->is_active,
             'is_transferred' => $this->is_transferred,
             'is_management_only' => $this->is_management_only,
+            'is_fetching_dns' => $this->is_fetching_dns,
             'purchased_at' => $this->purchased_at,
             'expired_at' => $this->expired_at,
             'canceled_at' => $this->canceled_at,

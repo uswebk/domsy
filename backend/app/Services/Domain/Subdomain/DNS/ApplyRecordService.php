@@ -62,6 +62,7 @@ final class ApplyRecordService
 
         DB::beginTransaction();
         try {
+            $subdomain->delete();
             $dnsRecords = $this->makeRecordService->make($subdomain);
 
             if ($dnsRecords->isEmpty()) {
@@ -69,9 +70,10 @@ final class ApplyRecordService
                 return;
             }
 
-            $subdomain->delete();
             foreach ($dnsRecords as $dnsRecord) {
-                $this->updateOfDnsRecordBySubdomain($dnsRecord, $subdomain);
+                if ($dnsRecord->getHost() === $subdomain->getFullDomainName()) {
+                    $this->updateOfDnsRecordBySubdomain($dnsRecord, $subdomain);
+                }
             }
 
             DB::commit();

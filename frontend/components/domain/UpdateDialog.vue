@@ -67,6 +67,11 @@
                   label="isActive"
                   :error-messages="errors.is_active"
                 ></v-checkbox>
+                <v-checkbox
+                  v-model="domainModel.is_fetching_dns"
+                  label="isDnsAutoFetch"
+                  :error-messages="errors.is_fetching_dns"
+                ></v-checkbox>
               </v-col>
               <v-col cols="3">
                 <v-checkbox
