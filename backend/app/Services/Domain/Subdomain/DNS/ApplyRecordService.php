@@ -63,8 +63,8 @@ final class ApplyRecordService
         DB::beginTransaction();
         try {
             $subdomain->delete();
-            $dnsRecords = $this->makeRecordService->make($subdomain);
 
+            $dnsRecords = $this->makeRecordService->make($subdomain);
             if ($dnsRecords->isEmpty()) {
                 $this->errorDomains[] = $domainName;
                 return;

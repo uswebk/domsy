@@ -45,6 +45,7 @@ final class ApplyService
         Subdomain::select('subdomains.*')
         ->with(['domain'])
         ->join('domains', 'subdomains.domain_id', '=', 'domains.id')
+        ->where('domains.is_fetching_dns', true)
         ->whereIn('domains.user_id', $user->getMemberIds())
         ->chunk(self::CHUNK_SIZE, function (
             \Illuminate\Database\Eloquent\Collection $subdomains
