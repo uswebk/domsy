@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('email_verify_token')->nullable(true);
             $table->dateTime('email_verified_at')->nullable(true);
+            $table->dateTime('last_login_at')->nullable(true);
             $table->rememberToken();
             $table->dateTime('deleted_at')->default(null)->nullable(true);
             $table->dateTime('updated_at')->nullable(false);

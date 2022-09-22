@@ -18,3 +18,5 @@ yarn-error.log
 /log
 *.log
 ./idea
+*.php-cs-fixer.cache*
+*backend.iml*

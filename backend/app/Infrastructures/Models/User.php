@@ -27,6 +27,7 @@ final class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'email_verify_token',
+        'last_login_at',
         'deleted_at',
     ];
 
@@ -37,6 +38,7 @@ final class User extends Authenticatable implements MustVerifyEmail
 
     protected $dates = [
         'email_verified_at',
+        'last_login_at',
         'deleted_at',
         'updated_at',
         'created_at',
@@ -44,6 +46,7 @@ final class User extends Authenticatable implements MustVerifyEmail
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_login_at' => 'datetime',
         'deleted_at' => 'datetime',
         'updated_at' => 'datetime',
         'created_at' => 'datetime',
@@ -166,7 +169,7 @@ final class User extends Authenticatable implements MustVerifyEmail
     public function getMailSettingNoticeNumberDaysByMailCategoryId(int $mailCategoryId): int
     {
         $mailSetting = $this->mailSettings->where('mail_category_id', '=', $mailCategoryId)
-        ->first();
+            ->first();
 
         if (isset($mailSetting)) {
             return $mailSetting->notice_number_days;
@@ -233,7 +236,7 @@ final class User extends Authenticatable implements MustVerifyEmail
             return $this->company->users;
         }
 
-        return  (new Collection())->push($this);
+        return (new Collection())->push($this);
     }
 
     /**
