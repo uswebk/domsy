@@ -27,6 +27,7 @@ final class UserSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => '$2y$10$KqpJK5/P2CJUyh4ZSkple.jTh6wFluQNA3/9sIUusug3fUYk9b7hC',
+            'emoji' => '128512',
             'email_verify_token' => 'dGVzdEBleGFtcGxlLmNvbQ==',
             'email_verified_at' => Carbon::now(),
         ]);

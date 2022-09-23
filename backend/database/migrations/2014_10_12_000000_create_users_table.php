@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('emoji');
             $table->string('email_verify_token')->nullable(true);
             $table->dateTime('email_verified_at')->nullable(true);
             $table->dateTime('last_login_at')->nullable(true);

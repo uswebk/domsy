@@ -26,6 +26,7 @@ final class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'emoji',
         'email_verify_token',
         'last_login_at',
         'deleted_at',
@@ -168,8 +169,7 @@ final class User extends Authenticatable implements MustVerifyEmail
      */
     public function getMailSettingNoticeNumberDaysByMailCategoryId(int $mailCategoryId): int
     {
-        $mailSetting = $this->mailSettings->where('mail_category_id', '=', $mailCategoryId)
-            ->first();
+        $mailSetting = $this->mailSettings->where('mail_category_id', '=', $mailCategoryId)->first();
 
         if (isset($mailSetting)) {
             return $mailSetting->notice_number_days;
