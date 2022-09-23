@@ -6,8 +6,8 @@
           <v-list-item>
             <v-list-item-icon>
               <v-avatar size="32">
-                <v-btn color="#e8c46a" to="/mypage" nuxt>
-                  <span class="white--text text-h6">{{ me.avatarName }}</span>
+                <v-btn color="#efefef" to="/mypage" nuxt>
+                  <span class="white--text text-h6">{{ me.emoji }}</span>
                 </v-btn>
               </v-avatar>
             </v-list-item-icon>

@@ -17,9 +17,8 @@
           <v-container class="pa-14">
             <v-row justify="center" class="d-flex align-center">
               <v-col cols="1">
-                <v-avatar size="46" color="#e8c46a">
-                  <!-- TODO: use Emoji -->
-                  <span class="white--text text-h4"> {{ me.avatarName }} </span>
+                <v-avatar size="52" color="#efefef">
+                  <span class="white--text text-h5"> {{ me.emoji }} </span>
                 </v-avatar>
               </v-col>
               <v-col cols="3">
