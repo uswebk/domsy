@@ -54,6 +54,7 @@ final class RegisterService
                 'role_id' => RoleConstant::DEFAULT_ROLE_ID,
                 'code' => $code,
                 'email' => $userRequest->email,
+                'emoji' => $userRequest->emoji,
                 'password' => $userRequest->password,
                 'email_verify_token' => $userRequest->email_verify_token,
             ]);

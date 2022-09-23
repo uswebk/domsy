@@ -49,6 +49,7 @@ export default {
         email: '',
         password: '',
         password_confirmation: '',
+        emoji: '',
       },
       errors: {},
       showPassword: false,
@@ -62,6 +63,7 @@ export default {
     }),
     async register() {
       try {
+        this.authModel.emoji = this.getEmoji()
         await this.registerAction(this.authModel)
 
         this.sendMessage({
@@ -77,6 +79,17 @@ export default {
         this.errors = errorTmp
         this.pageLoading(false)
       }
+    },
+    random(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min
+    },
+    getEmoji() {
+      const emojiCode =
+        Math.random(10) * 10 > 7.75
+          ? Math.floor(this.random(128512, 128592))
+          : Math.floor(this.random(127744, 128318))
+
+      return String.fromCodePoint(emojiCode)
     },
   },
 }
