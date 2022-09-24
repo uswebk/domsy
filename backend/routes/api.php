@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::namespace('Api')->name('api.')->group(function () {
     Route::get('me', 'MeController@fetch')->name('me.fetch');
-    Route::put('me', 'MeController@update')->name('me.update');
+    Route::put('me/{user}', 'MeController@update')->name('me.update');
 });
 
 Route::namespace('Auth')->group(function () {

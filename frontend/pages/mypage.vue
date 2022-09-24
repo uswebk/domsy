@@ -7,6 +7,10 @@
             <v-icon large>mdi-account-box</v-icon> Mypage
           </h1>
           <div class="py-5"></div>
+          <common-greeting-message
+            :type="greetingType"
+            :message="greeting"
+          ></common-greeting-message>
           <v-progress-linear
             v-show="pageLoading"
             color="yellow darken-2"
@@ -18,12 +22,14 @@
             <v-row justify="center" class="d-flex align-center">
               <v-col cols="1">
                 <v-avatar size="52" color="#efefef">
-                  <span class="white--text text-h5"> {{ me.emoji }} </span>
+                  <span class="white--text text-h5">
+                    {{ userModel.emoji }}
+                  </span>
                 </v-avatar>
               </v-col>
               <v-col cols="3">
                 <v-text-field
-                  v-model="name"
+                  v-model="userModel.name"
                   label="Name"
                   type="text"
                   hide-details="false"
@@ -31,7 +37,7 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="2">
-                <v-btn small>Save</v-btn>
+                <v-btn small @click="update">Save</v-btn>
               </v-col>
             </v-row>
             <v-divider class="my-10"></v-divider>
@@ -73,7 +79,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'MyPage',
@@ -85,13 +91,41 @@ export default {
   computed: {
     ...mapGetters('menu', ['menus', 'pageLoading']),
     ...mapGetters('authentication', ['me']),
+    ...mapGetters('account', ['greeting', 'greetingType']),
     menuItems() {
       return this.menus.filter(function (menu) {
         return menu.has_role
       })
     },
-    name() {
-      return this.me.name
+    userModel() {
+      return Object.assign({}, this.me)
+    },
+  },
+  methods: {
+    ...mapActions('account', ['updateProfile', 'sendMessage']),
+    ...mapActions('authentication', ['fetchMe']),
+    async update() {
+      try {
+        await this.updateProfile(this.userModel)
+        this.fetchMe()
+
+        this.sendMessage({
+          greeting: 'Update Profile Success',
+          greetingType: 'success',
+        })
+      } catch (error) {
+        const status = error.response.status
+
+        if (status === 422) {
+          const errors = error.response.data.errors
+          const _errors = {}
+          for (const key in errors) {
+            _errors[key] = errors[key][0]
+          }
+          this.errors = _errors
+          this.loading = false
+        }
+      }
     },
   },
 }

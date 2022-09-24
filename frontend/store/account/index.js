@@ -65,6 +65,13 @@ export const actions = {
     return result
   },
 
+  async updateProfile({ dispatch }, payload) {
+    const result = await this.$axios.put('/api/me/' + payload.id, {
+      ...payload,
+    })
+    return result
+  },
+
   async deleteAccount({ dispatch }, payload) {
     const result = await this.$axios.delete('/api/account/' + payload.id, {
       ...payload,
