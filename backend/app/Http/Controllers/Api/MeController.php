@@ -31,4 +31,29 @@ final class MeController
             Response::HTTP_OK
         );
     }
+
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(\Illuminate\Http\Request $request)
+    {
+        $userId = Auth::id();
+
+        if (!isset($userId)) {
+            return response()->json(
+                [],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        $user = User::find(Auth::id());
+        $user->name = $request->name;
+        $user->save();
+
+        return response()->json(
+            new UserResource($user),
+            Response::HTTP_OK
+        );
+    }
 }

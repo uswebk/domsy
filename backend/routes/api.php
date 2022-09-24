@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::namespace('Api')->name('api.')->group(function () {
     Route::get('me', 'MeController@fetch')->name('me.fetch');
+    Route::put('me', 'MeController@update')->name('me.update');
 });
 
 Route::namespace('Auth')->group(function () {
@@ -27,7 +28,7 @@ Route::namespace('Auth')->group(function () {
     Route::post('password/reset', 'ResetPasswordController@reset');
 });
 
-Route::middleware(['verified','auth:sanctum'])->group(function () {
+Route::middleware(['verified', 'auth:sanctum'])->group(function () {
     Route::namespace('Api')->name('api.')->group(function () {
         Route::get('menus', 'MenuController@fetch')->name('menus.fetch');
         Route::get('dns-record-type', 'DnsRecordTypeController@fetch')->name('dns-record-type.fetch');
