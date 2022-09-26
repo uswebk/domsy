@@ -21,11 +21,19 @@
           <v-container class="pa-14">
             <v-row justify="center" class="d-flex align-center">
               <v-col cols="1">
-                <v-avatar size="52" color="#efefef">
+                <v-avatar
+                  size="52"
+                  color="#efefef"
+                  style="cursor: pointer"
+                  @click="openEmojiPicker"
+                >
                   <span class="white--text text-h5">
                     {{ userModel.emoji }}
                   </span>
                 </v-avatar>
+                <v-dialog v-model="shownEmoji" max-width="325px">
+                  <v-emoji-picker @select="selectEmoji"></v-emoji-picker>
+                </v-dialog>
               </v-col>
               <v-col cols="3">
                 <v-text-field
@@ -80,12 +88,18 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { VEmojiPicker } from 'v-emoji-picker'
 
 export default {
   name: 'MyPage',
+  components: {
+    VEmojiPicker,
+  },
   data() {
     return {
       errors: [],
+      shownEmoji: false,
+      emoji: '🦁',
     }
   },
   computed: {
@@ -104,6 +118,13 @@ export default {
   methods: {
     ...mapActions('account', ['updateProfile', 'sendMessage']),
     ...mapActions('authentication', ['fetchMe']),
+    selectEmoji(emoji) {
+      this.shownEmoji = false
+      this.userModel.emoji = emoji.data
+    },
+    openEmojiPicker() {
+      this.shownEmoji = true
+    },
     async update() {
       try {
         await this.updateProfile(this.userModel)

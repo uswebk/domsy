@@ -47,8 +47,9 @@ final class MeController
             );
         }
 
-        $user = User::find(Auth::id());
+        $user = User::find($userId);
         $user->name = $request->name;
+        $user->emoji = $request->emoji;
         $user->save();
 
         return response()->json(
