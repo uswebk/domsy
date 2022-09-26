@@ -26,6 +26,7 @@ final class UserResource extends JsonResource
             'emoji' => $this->emoji,
             'role' => new RoleResource($this->role),
             'email_verified_at' => $this->email_verified_at,
+            'last_login_at' => $this->last_login_at,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
         ];

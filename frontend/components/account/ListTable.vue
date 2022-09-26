@@ -13,13 +13,19 @@
     </v-row>
     <div class="my-2"></div>
     <v-data-table :headers="headers" :items="accounts" :search="search">
+      <template #[`item.name`]="{ item }">
+        {{ item.emoji }} - {{ item.name }}
+      </template>
       <template #[`item.role_id`]="{ item }">
         {{ item.role.name }}
       </template>
+      <template #[`item.last_login_at`]="{ item }"
+        >{{ $dateTimeHyphen(item.last_login_at) }}
+      </template>
       <template #[`item.email_verified_at`]="{ item }">
-        <span v-if="item.email_verified_at"
-          ><v-icon small>mdi-checkbox-marked-circle</v-icon></span
-        >
+        <span v-if="item.email_verified_at">
+          <v-icon small>mdi-checkbox-marked-circle</v-icon>
+        </span>
       </template>
       <template #[`item.action`]="{ item }">
         <v-btn v-if="canUpdate" x-small color="primary" @click="edit(item)"
@@ -72,6 +78,10 @@ export default {
         {
           text: 'Role',
           value: 'role_id',
+        },
+        {
+          text: 'Last Login',
+          value: 'last_login_at',
         },
         {
           text: 'Verified',
