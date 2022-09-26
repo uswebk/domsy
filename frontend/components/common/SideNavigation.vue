@@ -6,7 +6,11 @@
           <v-list-item>
             <v-list-item-icon>
               <v-avatar size="36">
-                <v-btn to="/mypage" nuxt style="background-color: #efefef">
+                <v-btn
+                  style="background-color: #efefef"
+                  active-class="no-active"
+                  @click="toMypage"
+                >
                   <span class="white--text text-h6">{{ me.emoji }}</span>
                 </v-btn>
               </v-avatar>
@@ -72,6 +76,9 @@ export default {
     ...mapActions('menu', ['fetchMenus']),
     ...mapActions('authentication', ['fetchMe']),
     ...mapActions('authentication', { logoutAction: 'logout' }),
+    toMypage() {
+      this.$router.push({ path: '/mypage' })
+    },
     async logout() {
       this.pageLoading(true)
       await this.logoutAction()

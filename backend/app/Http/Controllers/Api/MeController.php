@@ -33,11 +33,14 @@ final class MeController
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\Api\Me\UpdateRequest $request
+     * @param \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(\Illuminate\Http\Request $request)
-    {
+    public function update(
+        \App\Http\Requests\Api\Me\UpdateRequest $request,
+        \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
+    ) {
         $userId = Auth::id();
 
         if (!isset($userId)) {
@@ -48,9 +51,8 @@ final class MeController
         }
 
         $user = User::find($userId);
-        $user->name = $request->name;
-        $user->emoji = $request->emoji;
-        $user->save();
+        $user->fill($request->makeInput());
+        $userRepository->save($user);
 
         return response()->json(
             new UserResource($user),
