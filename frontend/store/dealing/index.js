@@ -4,6 +4,7 @@ export const state = () => ({
   canStore: false,
   canUpdate: false,
   canDetail: false,
+  canDelete: false,
   canUpdateBilling: false,
   pageLoading: true,
   dealings: { active: [], stop: [] },
@@ -19,6 +20,7 @@ export const mutations = {
   canStore: (state, value) => (state.canStore = value),
   canUpdate: (state, value) => (state.canUpdate = value),
   canDetail: (state, value) => (state.canDetail = value),
+  canDelete: (state, value) => (state.canDelete = value),
   canUpdateBilling: (state, value) => (state.canUpdateBilling = value),
 }
 
@@ -69,6 +71,15 @@ export const actions = {
     return result
   },
 
+  async deleteDealing({ dispatch }, payload) {
+    const result = await this.$axios.delete('/api/dealing/' + payload.id, {
+      ...payload,
+    })
+    dispatch('fetchDealings')
+
+    return result
+  },
+
   async updateBilling({ dispatch }, payload) {
     const result = await this.$axios.put(
       '/api/dealing/billings/' + payload.id,
@@ -86,6 +97,7 @@ export const actions = {
     commit('canStore', result.data.store)
     commit('canUpdate', result.data.update)
     commit('canDetail', result.data.detail)
+    commit('canDelete', result.data.delete)
     commit('canUpdateBilling', result.data.updateBilling)
   },
 }
@@ -98,6 +110,7 @@ export const getters = {
   canStore: (state) => state.canStore,
   canUpdate: (state) => state.canUpdate,
   canDetail: (state) => state.canDetail,
+  canDelete: (state) => state.canDelete,
   canUpdateBilling: (state) => state.canUpdateBilling,
   pageLoading: (state) => state.pageLoading,
   intervalCategories: () => ['DAY', 'WEEK', 'MONTH', 'YEAR'],

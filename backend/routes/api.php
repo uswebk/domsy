@@ -86,6 +86,7 @@ Route::middleware(['verified', 'auth:sanctum'])->group(function () {
             Route::post('', 'DealingController@store')->name('store');
             Route::get('{domainDealing}', 'DealingController@fetchId')->where('domainDealing', '[0-9]+')->name('fetch-id');
             Route::put('{domainDealing}', 'DealingController@update')->where('domainDealing', '[0-9]+')->name('update');
+            Route::delete('{domainDealing}', 'DealingController@delete')->where('domainDealing', '[0-9]+')->name('delete');
             Route::get('billings/transaction', 'DealingController@fetchBillingTransaction')->name('fetch.billings.transaction');
             Route::get('billings/sort-billing-date', 'DealingController@fetchBillingSortBillingDate')->name('fetch.billings.sort-billing-date');
             Route::get('detail', 'DealingController@detail')->where('domainDealing', '[0-9]+')->name('detail');

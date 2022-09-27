@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\Api\ExistsFixedBillingException;
 use App\Http\Resources\BillingResource;
 use App\Http\Resources\DomainDealingResource;
 use Exception;
@@ -132,6 +133,35 @@ final class DealingController extends Controller
             [],
             Response::HTTP_OK
         );
+    }
+
+    /**
+     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Services\Application\Api\Dealing\DeleteService $deleteService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(
+        \App\Infrastructures\Models\DomainDealing $domainDealing,
+        \App\Services\Application\Api\Dealing\DeleteService $deleteService
+    ) {
+        try {
+            $deleteService->handle($domainDealing);
+
+            return response()->json(
+                [],
+                Response::HTTP_OK
+            );
+        } catch(ExistsFixedBillingException $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_FORBIDDEN
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**

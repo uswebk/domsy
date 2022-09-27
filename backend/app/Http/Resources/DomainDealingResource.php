@@ -26,6 +26,7 @@ final class DomainDealingResource extends JsonResource
             'interval_category' => $this->interval_category,
             'is_auto_update' => $this->is_auto_update,
             'is_halt' => $this->is_halt,
+            'has_fixed_billing' => $this->hasFixedBilling(),
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
             'client' => new ClientResource($this->client),

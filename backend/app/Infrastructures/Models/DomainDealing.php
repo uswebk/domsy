@@ -170,4 +170,18 @@ final class DomainDealing extends BaseModel
     {
         return $this->domain->name;
     }
+
+    /**
+     * @return boolean
+     */
+    public function hasFixedBilling(): bool
+    {
+        foreach ($this->domainBillings as $domainBilling) {
+            if ($domainBilling->isFixed()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

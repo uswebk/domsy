@@ -37,6 +37,12 @@
         <v-btn v-if="canDetail" x-small color="primary" @click="detail(item)"
           >detail</v-btn
         >
+        <v-btn
+          v-if="canDelete && !item.has_fixed_billing"
+          x-small
+          @click="deletion(item)"
+          >delete</v-btn
+        >
       </template>
     </v-data-table>
     <dealing-update-dialog
@@ -49,6 +55,11 @@
       :dealing="dealing"
       @close="closeDetailDialog"
     ></dealing-detail-dialog>
+    <dealing-delete-dialog
+      :is-open="isOpenDeleteDialog"
+      :dealing="dealing"
+      @close="closeDeleteDialog"
+    ></dealing-delete-dialog>
   </div>
 </template>
 
@@ -70,6 +81,7 @@ export default {
       search: '',
       isOpenEditDialog: false,
       isOpenDetailDialog: false,
+      isOpenDeleteDialog: false,
       dealing: {
         domain: [],
       },
@@ -111,7 +123,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('dealing', ['canUpdate', 'canDetail']),
+    ...mapGetters('dealing', ['canUpdate', 'canDelete', 'canDetail']),
   },
   methods: {
     ...mapMutations('dealing', { dealingCommit: 'dealing' }),
@@ -128,6 +140,12 @@ export default {
     closeDetailDialog() {
       this.isOpenDetailDialog = false
     },
+    openDeleteDialog() {
+      this.isOpenDeleteDialog = true
+    },
+    closeDeleteDialog() {
+      this.isOpenDeleteDialog = false
+    },
     edit(dealing) {
       this.dealing = Object.assign({}, dealing)
       this.dealing.billing_date = this.$dateHyphen(this.dealing.billing_date)
@@ -136,6 +154,11 @@ export default {
     detail(dealing) {
       this.dealingCommit(dealing)
       this.openDetailDialog()
+    },
+    deletion(dealing) {
+      this.dealing = Object.assign({}, dealing)
+      this.dealing.billing_date = this.$dateHyphen(this.dealing.billing_date)
+      this.openDeleteDialog()
     },
   },
 }

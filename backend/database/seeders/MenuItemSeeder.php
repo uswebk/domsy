@@ -273,6 +273,18 @@ class MenuItemSeeder extends Seeder
 
         MenuItem::create([
             'parent_id' => 6,
+            'name' => 'Delete',
+            'controller' => 'App\Http\Controllers\Api\DealingController',
+            'function' => 'delete',
+            'route' => 'api.dealing.delete',
+            'endpoint' => '/api/dealing',
+            'description' => 'Dealing Detail',
+            'is_screen' => 0,
+            'sort' => 540,
+        ]);
+
+        MenuItem::create([
+            'parent_id' => 6,
             'name' => 'Billing Update',
             'controller' => 'App\Http\Controllers\Api\DealingController',
             'function' => 'updateBilling',
@@ -280,13 +292,13 @@ class MenuItemSeeder extends Seeder
             'endpoint' => '/api/dealing/billing',
             'description' => 'Billing Update',
             'is_screen' => 0,
-            'sort' => 540,
+            'sort' => 550,
         ]);
 
         MenuItem::create([
             'parent_id' => 7,
             'name' => 'List',
-            'controller' => 'App\Http\Controllers\Controllers\Controller',
+            'controller' => 'App\Http\Controllers\Api\SettingController',
             'function' => 'index',
             'route' => 'setting.index',
             'endpoint' => '/setting',
