@@ -7,7 +7,6 @@
             :icon="'mdi-handshake'"
             :headline-text="'Dealing'"
           ></common-icon-head-line>
-          <div class="py-5"></div>
           <common-greeting-message
             :type="greetingType"
             :message="greeting"

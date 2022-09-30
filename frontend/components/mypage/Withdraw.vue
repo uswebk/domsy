@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center" class="d-flex align-center">
     <v-col cols="1">
-      <v-btn @click="openWithdrawDialog"
+      <v-btn small @click="openWithdrawDialog"
         ><v-icon dark left> mdi-account-cancel </v-icon> Withdraw</v-btn
       >
     </v-col>

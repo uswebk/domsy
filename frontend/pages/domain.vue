@@ -7,7 +7,6 @@
             :icon="'mdi-database'"
             :headline-text="'Domain'"
           ></common-icon-head-line>
-          <div class="py-5"></div>
           <common-greeting-message
             :type="greetingType"
             :message="greeting"

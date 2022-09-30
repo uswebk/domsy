@@ -7,7 +7,6 @@
             :icon="'mdi-monitor-dashboard'"
             :headline-text="'Dashboard'"
           ></common-icon-head-line>
-          <div class="py-5"></div>
           <v-row class="pa-5" justify="center">
             <v-col cols="3">
               <dashboard-domain-summary></dashboard-domain-summary>
