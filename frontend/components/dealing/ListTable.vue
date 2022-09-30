@@ -84,6 +84,7 @@ export default {
       isOpenDeleteDialog: false,
       dealing: {
         domain: [],
+        client: [],
       },
       headers: [
         {
