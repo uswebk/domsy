@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Commands\DNS;
+namespace App\Console\Commands\Dns;
 
 use App\Infrastructures\Models\Subdomain;
 use App\Infrastructures\Models\User;

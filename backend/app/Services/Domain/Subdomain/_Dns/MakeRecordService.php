@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Domain\Subdomain\DNS;
+namespace App\Services\Domain\Subdomain\Dns;
 
 use Illuminate\Support\Collection;
 

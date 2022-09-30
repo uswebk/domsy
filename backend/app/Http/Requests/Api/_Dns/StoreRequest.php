@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Api\DNS;
+namespace App\Http\Requests\Api\Dns;
 
 use App\Http\Requests\Request;
 use App\Rules\DnsType;
 use App\Rules\DomainOwner;
+use App\Services\Application\InputData\DnsStoreRequest;
 
-final class UpdateRequest extends Request
+final class StoreRequest extends Request
 {
     /**
      * @return array
@@ -26,17 +27,10 @@ final class UpdateRequest extends Request
     }
 
     /**
-     * @return array
+     * @return \App\Services\Application\InputData\DnsStoreRequest
      */
-    public function makeInput(): array
+    public function makeInput(): \App\Services\Application\InputData\DnsStoreRequest
     {
-        return [
-            'prefix' => $this->prefix ?? '',
-            'domain_id' => $this->domain_id,
-            'type_id' => $this->type_id ?? 0,
-            'value' => $this->value ?? '',
-            'ttl' => $this->ttl ?? 0,
-            'priority' => $this->priority ?? 0,
-        ];
+        return new DnsStoreRequest($this);
     }
 }

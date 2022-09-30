@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application\Commands\DNS;
+namespace App\Services\Application\Commands\Dns;
 
 use Exception;
 
