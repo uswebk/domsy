@@ -1,0 +1,52 @@
+name: Dev-ManuallyUnitTest
+
+on:
+  workflow_dispatch:
+
+jobs:
+  laravel-tests:
+    name: phpunit test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+        
+    services:
+        mysql:
+          image: mysql:8.0.19
+          ports:
+            - 3306:3306
+          options: --health-cmd "mysqladmin ping -h localhost" --health-interval 20s --health-timeout 10s --health-retries 10
+          env:
+            MYSQL_ROOT_PASSWORD: pass
+            MYSQL_DATABASE: domsy_test
+
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: domsy_test
+      DB_USERNAME: root
+      DB_PASSWORD: pass
+  
+    steps:
+      - uses: actions/checkout@v2
+      - name: cache vendor
+        id: cache
+        uses: actions/cache@v1
+        with:
+          path: ./vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - name: composer install
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: composer install -n --prefer-dist
+      - name: composer dump autoload
+        run: composer dump-autoload
+      - name: generate key
+        run: cp .env.example .env & php artisan key:generate
+      - name: migrate
+        run: php artisan migrate
+      - name: unit test
+        run: ./vendor/bin/phpunit --testsuite Unit
