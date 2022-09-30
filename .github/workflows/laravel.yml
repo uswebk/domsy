@@ -1,10 +1,14 @@
-name: AutoUnitTest
+name: Dev-AutoUnitTest
 
 on:
   push:
     branches: [ "develop" ]
+    paths:
+      - "backend/**"
   pull_request:
     branches: [ "develop" ]
+    paths:
+      - "backend/**"
 
 jobs:
   laravel-tests:
