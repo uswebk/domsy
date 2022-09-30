@@ -48,7 +48,7 @@ jobs:
       - name: composer dump autoload
         run: composer dump-autoload
       - name: generate key
-        run: php artisan key:generate
+        run: cp .env.example .env & php artisan key:generate
       - name: migrate
         run: php artisan migrate
       - name: unit test
