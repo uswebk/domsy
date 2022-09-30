@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: 'MypageWithdraw',
+  name: 'MypageAccountOperation',
   data() {
     return {
       isWithoutDialog: false,

@@ -23,7 +23,7 @@
             <v-divider class="my-10"></v-divider>
             <mypage-menu-list></mypage-menu-list>
             <v-divider class="my-10"></v-divider>
-            <mypage-withdraw></mypage-withdraw>
+            <mypage-account-operation></mypage-account-operation>
           </v-container>
         </v-container>
       </v-main>
