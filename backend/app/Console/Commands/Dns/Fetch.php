@@ -17,10 +17,10 @@ final class Fetch extends Command
     private const CHUNK_SIZE = 1000;
 
     /**
-     * @param \App\Services\Application\Commands\DNS\FetchService $fetchService
+     * @param \App\Services\Application\Commands\Dns\FetchService $fetchService
      */
     public function __construct(
-        \App\Services\Application\Commands\DNS\FetchService $fetchService,
+        \App\Services\Application\Commands\Dns\FetchService $fetchService,
     ) {
         parent::__construct();
 

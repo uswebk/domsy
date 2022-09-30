@@ -20,11 +20,11 @@ final class ApplyRecordService
     private $errorDomains = [];
 
     /**
-     * @param \App\Services\Domain\Subdomain\DNS\MakeRecordService $makeRecordService
+     * @param \App\Services\Domain\Subdomain\Dns\MakeRecordService $makeRecordService
      */
     public function __construct(
         \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
-        \App\Services\Domain\Subdomain\DNS\MakeRecordService $makeRecordService
+        \App\Services\Domain\Subdomain\Dns\MakeRecordService $makeRecordService
     ) {
         $this->makeRecordService = $makeRecordService;
         $this->subdomainRepository = $subdomainRepository;
