@@ -102,6 +102,7 @@ Route::middleware(['verified', 'auth:sanctum'])->group(function () {
 
         Route::prefix('account')->name('account.')->group(function () {
             Route::post('', 'AccountController@store')->name('store');
+            Route::post('withdraw/{user}', 'AccountController@withdraw')->where('user', '[0-9]+')->name('withdraw');
             Route::put('{user}', 'AccountController@update')->where('user', '[0-9]+')->name('update');
             Route::delete('{user}', 'AccountController@delete')->where('user', '[0-9]+')->name('delete');
         });
