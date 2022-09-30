@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Infrastructures\Queries\Client;
+namespace Tests\Unit\Infrastructures\Queries\User;
 
 use App\Infrastructures\Models\User;
 use App\Infrastructures\Queries\User\EloquentUserQueryService;
