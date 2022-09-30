@@ -70,4 +70,47 @@ final class EloquentUserQueryServiceTest extends TestCase
             $this->assertTrue($isException);
         }
     }
+
+        /**
+     * @return array
+     */
+    public function dataProviderOfGetActiveUsers(): array
+    {
+        return [
+            'exists active user' => [
+                [
+                    'id' => self::USER_ID1,
+                    'deleted_at' => null,
+                ],
+                1,
+            ],
+            'not exists active user' => [
+                [
+                    'id' => self::USER_ID1,
+                    'deleted_at' => now(),
+                ],
+                0,
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider dataProviderOfGetActiveUsers
+     *
+     * @param array $parameterOfUsers
+     * @param integer $assertionCount
+     * @return void
+     */
+    public function caseOfGetActiveUsers(
+        array $parameterOfUsers,
+        int $assertionCount
+    ) {
+        User::factory($parameterOfUsers)->create();
+
+        $userQueryService = new EloquentUserQueryService();
+        $users = $userQueryService->getActiveUsers();
+
+        $this->assertSame($users->count(), $assertionCount);
+    }
 }
