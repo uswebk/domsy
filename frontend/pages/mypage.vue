@@ -3,10 +3,10 @@
     <template #main>
       <v-main>
         <v-container>
-          <h1 class="text-h5 font-weight-bold">
-            <v-icon large>mdi-account-box</v-icon> Mypage
-          </h1>
-          <div class="py-5"></div>
+          <common-icon-head-line
+            :icon="'mdi-account-box'"
+            :headline-text="'Mypage'"
+          ></common-icon-head-line>
           <common-greeting-message
             :type="greetingType"
             :message="greeting"
@@ -22,6 +22,8 @@
             <mypage-profile></mypage-profile>
             <v-divider class="my-10"></v-divider>
             <mypage-menu-list></mypage-menu-list>
+            <v-divider class="my-10"></v-divider>
+            <mypage-withdraw></mypage-withdraw>
           </v-container>
         </v-container>
       </v-main>
@@ -30,13 +32,19 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'MyPage',
   computed: {
     ...mapGetters('menu', ['pageLoading']),
     ...mapGetters('account', ['greeting', 'greetingType']),
+  },
+  mounted() {
+    this.initMessage()
+  },
+  methods: {
+    ...mapActions('account', ['initMessage']),
   },
 }
 </script>

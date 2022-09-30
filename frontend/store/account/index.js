@@ -33,6 +33,11 @@ export const actions = {
     commit('greetingType', payload.greetingType)
   },
 
+  initMessage({ commit }) {
+    commit('greeting', '')
+    commit('greetingType', '')
+  },
+
   async fetchRoles({ commit }) {
     commit('pageLoading', true)
     const result = await this.$axios.get('api/role')
@@ -79,6 +84,11 @@ export const actions = {
     dispatch('fetchAccounts')
 
     return result
+  },
+
+  async withdrawAccount({ dispatch }, payload) {
+    // const result = await this.$axios.post('/api/account/withdraw/' + payload.id)
+    // return result
   },
 
   async initRole({ commit }) {
