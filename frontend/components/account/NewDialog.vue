@@ -116,6 +116,7 @@ export default {
       this.accountModel = {
         name: '',
         email: '',
+        emoji: '',
         role_id: null,
         password: '',
         password_confirmation: '',
@@ -124,6 +125,7 @@ export default {
     async store() {
       this.loading = true
       try {
+        this.accountModel.emoji = this.$getEmoji()
         await this.storeAccount(this.accountModel)
 
         this.sendMessage({

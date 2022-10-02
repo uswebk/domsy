@@ -24,7 +24,10 @@ final class FetchService
             abort(403);
         }
 
-        $this->users = $eloquentUserQueryService->getActiveUsersByCompanyId($user->company_id);
+        $this->users = ($eloquentUserQueryService->getActiveUsersByCompanyId($user->company_id))
+        ->filter(function ($value, $key) use ($user) {
+            return $value->id !== $user->id;
+        });
     }
 
     /**
