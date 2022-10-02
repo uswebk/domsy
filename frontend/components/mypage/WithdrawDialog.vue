@@ -52,9 +52,13 @@ export default {
     },
     async execute() {
       this.loading = true
-      await this.withdrawAccount(this.me)
+      try {
+        await this.withdrawAccount(this.me)
+        this.$router.push({ path: '/login' })
+      } catch (error) {
+        alert('fail remove account')
+      }
       this.loading = false
-      this.$router.push({ path: '/login' })
     },
   },
 }

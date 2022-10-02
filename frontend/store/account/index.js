@@ -87,8 +87,8 @@ export const actions = {
   },
 
   async withdrawAccount({ dispatch }, payload) {
-    // const result = await this.$axios.post('/api/account/withdraw/' + payload.id)
-    // return result
+    const result = await this.$axios.post('/api/account/withdraw/' + payload.id)
+    return result
   },
 
   async initRole({ commit }) {

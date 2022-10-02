@@ -19,7 +19,7 @@ final class AccountController extends Controller
     ) {
         parent::__construct();
 
-        $this->middleware('can:owner,user')->except(['store']);
+        $this->middleware('can:owner,user')->except(['store','withdraw']);
 
         $this->userRepository = $userRepository;
     }
@@ -82,5 +82,27 @@ final class AccountController extends Controller
             [],
             Response::HTTP_OK
         );
+    }
+
+    /**
+     * @param \App\Services\Application\Api\Account\WithdrawService $withdrawService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function withdraw(
+        \App\Services\Application\Api\Account\WithdrawService $withdrawService
+    ) {
+        try {
+            $withdrawService->handle();
+
+            return response()->json(
+                $withdrawService->getResponse(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $withdrawService->getResponse(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }

@@ -29,7 +29,7 @@ export const actions = {
       me.avatarName = me.name.charAt(0)
       commit('me', me)
     } catch (error) {
-      commit('me', null)
+      commit('me', {})
     }
   },
 
