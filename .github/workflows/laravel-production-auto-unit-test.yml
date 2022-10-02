@@ -1,12 +1,12 @@
-name: Dev-AutoUnitTest
+name: Production-AutoUnitTest
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "main" ]
     paths:
       - "backend/**"
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "main" ]
     paths:
       - "backend/**"
 
