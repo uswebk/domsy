@@ -30,6 +30,11 @@ export const actions = {
     commit('greetingType', payload.greetingType)
   },
 
+  initMessage({ commit }) {
+    commit('greeting', '')
+    commit('greetingType', '')
+  },
+
   async fetchDealings({ commit }) {
     commit('pageLoading', true)
     const result = await this.$axios.get('/api/dealing')
@@ -81,12 +86,10 @@ export const actions = {
   },
 
   async updateBilling({ dispatch }, payload) {
-    const result = await this.$axios.put(
-      '/api/dealing/billings/' + payload.id,
-      {
-        ...payload,
-      }
-    )
+    const result = await this.$axios.put('/api/dealing/billing/' + payload.id, {
+      ...payload,
+    })
+    dispatch('fetchDealings')
 
     return result
   },

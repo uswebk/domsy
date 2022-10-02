@@ -21,6 +21,19 @@
           <v-card-text>
             <v-list three-line subheader>
               <v-card-title>Billings</v-card-title>
+              <v-card-actions style="height: 50px; position: relative">
+                <v-btn
+                  fab
+                  absolute
+                  top
+                  right
+                  color="primary"
+                  small
+                  @click="openBillingNewDialog"
+                >
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </v-card-actions>
               <v-data-table
                 :headers="headers"
                 :items="dealing.domain_billings"
@@ -59,16 +72,20 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <dealing-billing-dialog
+    <dealing-billing-new-dialog
+      :is-open="isOpenNewBillingDialog"
+      @close="closeBillingNewDialog"
+    ></dealing-billing-new-dialog>
+    <dealing-billing-update-dialog
       :is-open="isOpenEditBillingDialog"
       :billing="billing"
       @close="closeBillingEditDialog"
-    ></dealing-billing-dialog>
+    ></dealing-billing-update-dialog>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'DealingDetailDialog',
@@ -81,6 +98,7 @@ export default {
   },
   data() {
     return {
+      isOpenNewBillingDialog: false,
       isOpenEditBillingDialog: false,
       billing: {},
       headers: [
@@ -110,6 +128,7 @@ export default {
     ]),
     open: {
       get() {
+        this.initMessage()
         return this.isOpen
       },
       set() {
@@ -119,8 +138,15 @@ export default {
     },
   },
   methods: {
+    ...mapActions('dealing', ['initMessage']),
     close() {
       this.$emit('close')
+    },
+    openBillingNewDialog() {
+      this.isOpenNewBillingDialog = true
+    },
+    closeBillingNewDialog() {
+      this.isOpenNewBillingDialog = false
     },
     openBillingEditDialog() {
       this.isOpenEditBillingDialog = true

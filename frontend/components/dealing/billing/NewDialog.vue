@@ -7,7 +7,7 @@
         indeterminate
       ></v-progress-linear>
       <v-card-title class="pl-8">
-        <span class="text-h6">Billing Edit</span>
+        <span class="text-h6">Billing Create</span>
       </v-card-title>
       <v-card-text>
         <v-container>
@@ -38,7 +38,7 @@
               </v-col>
             </v-row>
             <div class="my-5"></div>
-            <v-btn color="primary" @click="update">Update</v-btn>
+            <v-btn color="primary" @click="update">Create</v-btn>
           </v-form>
         </v-container>
       </v-card-text>
@@ -54,29 +54,27 @@
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'BillingDialog',
+  name: 'BillingUpdateDialog',
   props: {
     isOpen: {
       default: false,
       type: Boolean,
       required: true,
     },
-    billing: {
-      default: null,
-      type: Object,
-      required: true,
-    },
   },
   data() {
     return {
       loading: false,
+      billingModel: {
+        billing_date: '',
+        total: 0,
+        is_fixed: false,
+      },
+
       errors: {},
     }
   },
   computed: {
-    billingModel() {
-      return this.billing
-    },
     open: {
       get() {
         return this.isOpen
