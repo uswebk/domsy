@@ -96,11 +96,11 @@ final class AccountController extends Controller
 
             return response()->json(
                 $withdrawService->getResponse(),
-                Response::HTTP_INTERNAL_SERVER_ERROR
+                Response::HTTP_OK
             );
         } catch(Exception $e) {
             return response()->json(
-                $withdrawService->getResponse(),
+                $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
         }
