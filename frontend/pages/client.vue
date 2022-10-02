@@ -7,7 +7,6 @@
             :icon="'mdi-account-group'"
             :headline-text="'Client'"
           ></common-icon-head-line>
-          <div class="py-5"></div>
           <common-greeting-message
             :type="greetingType"
             :message="greeting"

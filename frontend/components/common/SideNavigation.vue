@@ -9,7 +9,7 @@
                 <v-btn
                   style="background-color: #efefef"
                   active-class="no-active"
-                  @click="toMypage"
+                  @click="pushMypage"
                 >
                   <span class="white--text text-h6">{{ me.emoji }}</span>
                 </v-btn>
@@ -76,7 +76,7 @@ export default {
     ...mapActions('menu', ['fetchMenus']),
     ...mapActions('authentication', ['fetchMe']),
     ...mapActions('authentication', { logoutAction: 'logout' }),
-    toMypage() {
+    pushMypage() {
       this.$router.push({ path: '/mypage' })
     },
     async logout() {

@@ -15,11 +15,11 @@ final class ApplyService
 
     /**
      * @param \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService
-     * @param \App\Services\Domain\Subdomain\DNS\ApplyRecordService $applyRecordService
+     * @param \App\Services\Domain\Subdomain\Dns\ApplyRecordService $applyRecordService
      */
     public function __construct(
         \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService,
-        \App\Services\Domain\Subdomain\DNS\ApplyRecordService $applyRecordService
+        \App\Services\Domain\Subdomain\Dns\ApplyRecordService $applyRecordService
     ) {
         $this->dnsRecodeTypeQueryService = $dnsRecodeTypeQueryService;
         $this->applyRecordService = $applyRecordService;

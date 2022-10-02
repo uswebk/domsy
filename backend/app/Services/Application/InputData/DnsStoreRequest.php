@@ -14,7 +14,7 @@ final class DnsStoreRequest
      * @param \App\Http\Requests\Frontend\Dns\StoreRequest $storeRequest
      */
     public function __construct(
-        \App\Http\Requests\Api\DNS\StoreRequest $storeRequest
+        \App\Http\Requests\Api\Dns\StoreRequest $storeRequest
     ) {
         $validated = $storeRequest->validated();
 

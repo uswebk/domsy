@@ -6,7 +6,7 @@ export default async function ({ store, redirect, route }) {
     await store.dispatch('authentication/fetchMe')
     const user = store.state.authentication.me
     // 未ログイン
-    if (user === null) {
+    if (user === null || Object.keys(user).length === 0) {
       if (isAuthPath(routePath)) {
         redirect('/login')
       }

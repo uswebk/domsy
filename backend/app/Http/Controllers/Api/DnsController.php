@@ -38,12 +38,12 @@ final class DnsController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\DNS\UpdateRequest $request
+     * @param \App\Http\Requests\Api\Dns\UpdateRequest $request
      * @param \App\Infrastructures\Models\Subdomain $subdomain
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(
-        \App\Http\Requests\Api\DNS\UpdateRequest $request,
+        \App\Http\Requests\Api\Dns\UpdateRequest $request,
         \App\Infrastructures\Models\Subdomain $subdomain,
     ) {
         try {
@@ -63,12 +63,12 @@ final class DnsController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\DNS\StoreRequest $request
+     * @param \App\Http\Requests\Api\Dns\StoreRequest $request
      * @param \App\Services\Application\DnsStoreService $dnsStoreService
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(
-        \App\Http\Requests\Api\DNS\StoreRequest $request,
+        \App\Http\Requests\Api\Dns\StoreRequest $request,
         \App\Services\Application\Api\Dns\StoreService $storeService
     ) {
         try {
