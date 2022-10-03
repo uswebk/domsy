@@ -6,9 +6,7 @@
         color="info"
         indeterminate
       ></v-progress-linear>
-      <v-card-title class="pl-8">
-        <span class="text-h6">Billing Edit</span>
-      </v-card-title>
+      <v-toolbar color="primary" dark dense flat>Billing Edit</v-toolbar>
       <v-card-text>
         <v-container>
           <v-form ref="form" lazy-validation>

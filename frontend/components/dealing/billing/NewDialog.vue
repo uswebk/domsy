@@ -6,9 +6,7 @@
         color="info"
         indeterminate
       ></v-progress-linear>
-      <v-card-title class="pl-8">
-        <span class="text-h6">Billing Create</span>
-      </v-card-title>
+      <v-toolbar color="primary" dark dense flat>Billing Create</v-toolbar>
       <v-card-text>
         <v-container>
           <v-form ref="form" lazy-validation>
@@ -51,10 +49,10 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'BillingUpdateDialog',
+  name: 'BillingNewDialog',
   props: {
     isOpen: {
       default: false,
@@ -66,15 +64,18 @@ export default {
     return {
       loading: false,
       billingModel: {
+        dealing_id: '',
         billing_date: '',
         total: 0,
         is_fixed: false,
+        is_auto: false,
       },
 
       errors: {},
     }
   },
   computed: {
+    ...mapGetters('dealing', ['dealing']),
     open: {
       get() {
         return this.isOpen
@@ -86,17 +87,18 @@ export default {
     },
   },
   methods: {
-    ...mapActions('dealing', ['fetchDealing', 'updateBilling']),
+    ...mapActions('dealing', ['fetchDealing', 'storeBilling']),
     close() {
       this.$emit('close')
     },
     async update() {
       this.loading = true
       try {
-        const result = await this.updateBilling(this.billingModel)
+        this.billingModel.dealing_id = this.dealing.id
+        const result = await this.storeBilling(this.billingModel)
         await this.fetchDealing(result.data.dealing.id)
 
-        alert('update success')
+        alert('create success')
       } catch (error) {
         const status = error.response.status
 

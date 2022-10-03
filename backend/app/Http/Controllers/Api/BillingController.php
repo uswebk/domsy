@@ -71,7 +71,27 @@ final class BillingController extends Controller
         }
     }
 
-    public function store()
-    {
+    /**
+     * @param \App\Http\Requests\Api\Billing\StoreRequest $request
+     * @param \App\Services\Application\Api\Billing\StoreService $storeService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(
+        \App\Http\Requests\Api\Billing\StoreRequest $request,
+        \App\Services\Application\Api\Billing\StoreService $storeService
+    ) {
+        try {
+            $storeService->handle($request->makeInput());
+
+            return response()->json(
+                $storeService->getResponse(),
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }

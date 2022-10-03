@@ -94,6 +94,15 @@ export const actions = {
     return result
   },
 
+  async storeBilling({ dispatch }, payload) {
+    const result = await this.$axios.post('/api/dealing/billing/', {
+      ...payload,
+    })
+    dispatch('fetchDealings')
+
+    return result
+  },
+
   async initRole({ commit }) {
     const result = await this.$axios.get('/api/role/has/?menu_id=6')
 

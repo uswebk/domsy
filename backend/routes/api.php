@@ -93,7 +93,7 @@ Route::middleware(['verified', 'auth:sanctum'])->group(function () {
                 Route::get('transaction', 'BillingController@fetchTransaction')->name('fetch.transaction');
                 Route::get('sort-billing-date', 'BillingController@fetchSortBillingDate')->name('fetch.sort-billing-date');
                 Route::put('{domainBilling}', 'BillingController@update')->where('domainBilling', '[0-9]+')->name('update');
-                Route::post('', 'BillingController@storeBilling')->name('store');
+                Route::post('', 'BillingController@store')->name('store');
             });
         });
 

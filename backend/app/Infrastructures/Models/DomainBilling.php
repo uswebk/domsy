@@ -11,12 +11,14 @@ final class DomainBilling extends BaseModel
         'total',
         'billing_date',
         'is_fixed',
+        'is_auto',
         'changed_at',
     ];
 
     protected $casts = [
         'total' => 'integer',
         'is_fixed' => 'boolean',
+        'is_auto' => 'boolean',
     ];
 
     protected $dates = [
