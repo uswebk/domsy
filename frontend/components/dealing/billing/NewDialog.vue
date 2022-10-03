@@ -69,6 +69,7 @@ export default {
         total: 0,
         is_fixed: false,
         is_auto: false,
+        changed_at: null,
       },
 
       errors: {},

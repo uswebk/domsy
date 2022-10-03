@@ -31,14 +31,7 @@ final class StoreService
     {
         DB::beginTransaction();
         try {
-            $this->billing = $this->billingRepository->store([
-                'dealing_id' => $attribute['dealing_id'],
-                'total' => $attribute['total'],
-                'billing_date' => $attribute['billing_date'],
-                'is_fixed' => $attribute['is_fixed'],
-                'is_auto' => $attribute['is_auto'],
-                'changed_at' => null,
-            ]);
+            $this->billing = $this->billingRepository->store($attribute);
 
             DB::commit();
         } catch (Exception $e) {

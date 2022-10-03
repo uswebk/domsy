@@ -19,6 +19,7 @@ final class StoreRequest extends Request
             'total' => 'required|integer',
             'is_fixed' => 'required|boolean',
             'is_auto' => 'required|boolean',
+            'changed_at' => 'nullable',
         ];
     }
 
@@ -33,6 +34,7 @@ final class StoreRequest extends Request
             'total' => $this->total,
             'is_fixed' => $this->is_fixed,
             'is_auto' => $this->is_auto,
+            'changed_at' => $this->changed_at,
         ];
     }
 }
