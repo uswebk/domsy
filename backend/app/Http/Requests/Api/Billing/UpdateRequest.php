@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\Api\Dealing;
+namespace App\Http\Requests\Api\Billing;
 
 use App\Http\Requests\Request;
 
-final class BillingUpdateRequest extends Request
+final class UpdateRequest extends Request
 {
     /**
      * @return array

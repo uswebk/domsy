@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Exceptions\Api\ExistsFixedBillingException;
-use App\Http\Resources\BillingResource;
 use App\Http\Resources\DomainDealingResource;
 use Exception;
 use Illuminate\Http\Response;
@@ -16,7 +15,6 @@ final class DealingController extends Controller
     {
         parent::__construct();
 
-        $this->middleware('can:owner,domainBilling')->only(['updateBilling']);
         $this->middleware('can:owner,domainDealing')->only(['fetchId']);
     }
 
@@ -42,32 +40,6 @@ final class DealingController extends Controller
     ) {
         return response()->json(
             new DomainDealingResource($domainDealing),
-            Response::HTTP_OK
-        );
-    }
-
-    /**
-     * @param \App\Services\Application\Api\Dealing\FetchBillingTransactionService $fetchBillingTransactionService
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function fetchBillingTransaction(
-        \App\Services\Application\Api\Dealing\FetchBillingTransactionService $fetchBillingTransactionService
-    ) {
-        return response()->json(
-            $fetchBillingTransactionService->getResponse(),
-            Response::HTTP_OK
-        );
-    }
-
-    /**
-     * @param \App\Services\Application\Api\Dealing\FetchBillingSortBillingDateService $fetchBillingSortBillingDateService
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function fetchBillingSortBillingDate(
-        \App\Services\Application\Api\Dealing\FetchBillingSortBillingDateService $fetchBillingSortBillingDateService
-    ) {
-        return response()->json(
-            $fetchBillingSortBillingDateService->getResponse(),
             Response::HTTP_OK
         );
     }
@@ -155,33 +127,6 @@ final class DealingController extends Controller
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_FORBIDDEN
-            );
-        } catch(Exception $e) {
-            return response()->json(
-                $e->getMessage(),
-                Response::HTTP_INTERNAL_SERVER_ERROR
-            );
-        }
-    }
-
-    /**
-     * @param \App\Http\Requests\Api\Dealing\BillingUpdateRequest $request
-     * @param \App\Infrastructures\Models\DomainBilling $domainBilling
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function updateBilling(
-        \App\Http\Requests\Api\Dealing\BillingUpdateRequest $request,
-        \App\Infrastructures\Models\DomainBilling $domainBilling,
-        \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
-    ) {
-        $domainBilling->fill($request->makeInput());
-
-        try {
-            $domainBilling = $billingRepository->save($domainBilling);
-
-            return response()->json(
-                new BillingResource($domainBilling),
-                Response::HTTP_OK
             );
         } catch(Exception $e) {
             return response()->json(

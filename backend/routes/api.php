@@ -87,10 +87,14 @@ Route::middleware(['verified', 'auth:sanctum'])->group(function () {
             Route::get('{domainDealing}', 'DealingController@fetchId')->where('domainDealing', '[0-9]+')->name('fetch-id');
             Route::put('{domainDealing}', 'DealingController@update')->where('domainDealing', '[0-9]+')->name('update');
             Route::delete('{domainDealing}', 'DealingController@delete')->where('domainDealing', '[0-9]+')->name('delete');
-            Route::get('billing/transaction', 'DealingController@fetchBillingTransaction')->name('fetch.billings.transaction');
-            Route::get('billing/sort-billing-date', 'DealingController@fetchBillingSortBillingDate')->name('fetch.billings.sort-billing-date');
             Route::get('detail', 'DealingController@detail')->where('domainDealing', '[0-9]+')->name('detail');
-            Route::put('billing/{domainBilling}', 'DealingController@updateBilling')->where('domainBilling', '[0-9]+')->name('updateBilling');
+
+            Route::prefix('billing')->name('billing.')->group(function () {
+                Route::get('transaction', 'BillingController@fetchTransaction')->name('fetch.transaction');
+                Route::get('sort-billing-date', 'BillingController@fetchSortBillingDate')->name('fetch.sort-billing-date');
+                Route::put('{domainBilling}', 'BillingController@update')->where('domainBilling', '[0-9]+')->name('update');
+                Route::post('', 'BillingController@storeBilling')->name('store');
+            });
         });
 
         Route::prefix('setting')->name('setting.')->group(function () {
