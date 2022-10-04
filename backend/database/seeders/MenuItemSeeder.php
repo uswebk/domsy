@@ -286,13 +286,25 @@ class MenuItemSeeder extends Seeder
         MenuItem::create([
             'parent_id' => 6,
             'name' => 'Billing Update',
-            'controller' => 'App\Http\Controllers\Api\DealingController',
-            'function' => 'updateBilling',
-            'route' => 'api.dealing.updateBilling',
+            'controller' => 'App\Http\Controllers\Api\BillingController',
+            'function' => 'update',
+            'route' => 'api.dealing.billing.update',
             'endpoint' => '/api/dealing/billing',
             'description' => 'Billing Update',
             'is_screen' => 0,
             'sort' => 550,
+        ]);
+
+        MenuItem::create([
+            'parent_id' => 6,
+            'name' => 'Billing Create',
+            'controller' => 'App\Http\Controllers\Api\BillingController',
+            'function' => 'store',
+            'route' => 'api.dealing.billing.store',
+            'endpoint' => '/api/dealing/billing',
+            'description' => 'Billing Create',
+            'is_screen' => 0,
+            'sort' => 560,
         ]);
 
         MenuItem::create([

@@ -17,6 +17,7 @@ final class UpdateRequest extends Request
         return [
             'total' => 'required|integer',
             'is_fixed' => 'required|boolean',
+            'changed_at' => 'nullable',
         ];
     }
 
@@ -29,6 +30,7 @@ final class UpdateRequest extends Request
             'billing_date' => $this->billing_date,
             'total' => $this->total,
             'is_fixed' => $this->is_fixed,
+            'changed_at' => $this->changed_at,
         ];
     }
 

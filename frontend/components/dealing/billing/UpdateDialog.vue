@@ -93,6 +93,7 @@ export default {
     async update() {
       this.loading = true
       try {
+        this.billingModel.changed_at = this.$dateTimeHyphen(new Date())
         const result = await this.updateBilling(this.billingModel)
         await this.fetchDealing(result.data.dealing.id)
 
