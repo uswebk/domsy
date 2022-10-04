@@ -21,7 +21,10 @@
           <v-card-text>
             <v-list three-line subheader>
               <v-card-title>Billings</v-card-title>
-              <v-card-actions style="height: 50px; position: relative">
+              <v-card-actions
+                v-if="!isHalt"
+                style="height: 50px; position: relative"
+              >
                 <v-btn
                   fab
                   absolute
@@ -135,6 +138,9 @@ export default {
         this.errors = {}
         this.close()
       },
+    },
+    isHalt() {
+      return this.dealing.is_halt
     },
   },
   methods: {
