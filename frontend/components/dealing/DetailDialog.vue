@@ -22,7 +22,7 @@
             <v-list three-line subheader>
               <v-card-title>Billings</v-card-title>
               <v-card-actions
-                v-if="!isHalt"
+                v-if="canStoreBilling && !isHalt"
                 style="height: 50px; position: relative"
               >
                 <v-btn
@@ -123,6 +123,7 @@ export default {
   },
   computed: {
     ...mapGetters('dealing', [
+      'canStoreBilling',
       'canUpdateBilling',
       'pageLoading',
       'greeting',

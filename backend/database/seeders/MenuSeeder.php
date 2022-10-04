@@ -79,20 +79,20 @@ final class MenuSeeder extends Seeder
 
         Menu::create([
             'id' => 7,
-            'type_id' => 3,
-            'name' => 'Settings',
-            'description' => 'User setting',
-            'icon' => 'mdi-cog',
-            'is_nav' => 1,
+            'type_id' => 2,
+            'name' => 'Billing',
+            'description' => 'Manage billing information.',
+            'icon' => 'mdi-handshake',
+            'is_nav' => 0,
             'sort' => 70,
         ]);
 
         Menu::create([
             'id' => 8,
-            'type_id' => 4,
-            'name' => 'Account',
-            'description' => 'Manage accounts',
-            'icon' => 'mdi-account-multiple',
+            'type_id' => 3,
+            'name' => 'Settings',
+            'description' => 'User setting',
+            'icon' => 'mdi-cog',
             'is_nav' => 1,
             'sort' => 80,
         ]);
@@ -100,11 +100,21 @@ final class MenuSeeder extends Seeder
         Menu::create([
             'id' => 9,
             'type_id' => 4,
+            'name' => 'Account',
+            'description' => 'Manage accounts',
+            'icon' => 'mdi-account-multiple',
+            'is_nav' => 1,
+            'sort' => 90,
+        ]);
+
+        Menu::create([
+            'id' => 10,
+            'type_id' => 4,
             'name' => 'Role',
             'description' => 'Manage roles',
             'icon' => 'mdi-card-account-details',
             'is_nav' => 0,
-            'sort' => 90,
+            'sort' => 100,
         ]);
     }
 }

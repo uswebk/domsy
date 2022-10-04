@@ -5,6 +5,7 @@ export const state = () => ({
   canUpdate: false,
   canDetail: false,
   canDelete: false,
+  canStoreBilling: false,
   canUpdateBilling: false,
   pageLoading: true,
   dealings: { active: [], stop: [] },
@@ -21,6 +22,7 @@ export const mutations = {
   canUpdate: (state, value) => (state.canUpdate = value),
   canDetail: (state, value) => (state.canDetail = value),
   canDelete: (state, value) => (state.canDelete = value),
+  canStoreBilling: (state, value) => (state.canStoreBilling = value),
   canUpdateBilling: (state, value) => (state.canUpdateBilling = value),
 }
 
@@ -104,13 +106,17 @@ export const actions = {
   },
 
   async initRole({ commit }) {
-    const result = await this.$axios.get('/api/role/has/?menu_id=6')
+    const resultDealing = await this.$axios.get('/api/role/has/?menu_id=6')
 
-    commit('canStore', result.data.store)
-    commit('canUpdate', result.data.update)
-    commit('canDetail', result.data.detail)
-    commit('canDelete', result.data.delete)
-    commit('canUpdateBilling', result.data.updateBilling)
+    commit('canStore', resultDealing.data.store)
+    commit('canUpdate', resultDealing.data.update)
+    commit('canDetail', resultDealing.data.detail)
+    commit('canDelete', resultDealing.data.delete)
+
+    const resultBilling = await this.$axios.get('/api/role/has/?menu_id=7')
+
+    commit('canStoreBilling', resultBilling.data.store)
+    commit('canUpdateBilling', resultBilling.data.update)
   },
 }
 
@@ -123,6 +129,7 @@ export const getters = {
   canUpdate: (state) => state.canUpdate,
   canDetail: (state) => state.canDetail,
   canDelete: (state) => state.canDelete,
+  canStoreBilling: (state) => state.canStoreBilling,
   canUpdateBilling: (state) => state.canUpdateBilling,
   pageLoading: (state) => state.pageLoading,
   intervalCategories: () => ['DAY', 'WEEK', 'MONTH', 'YEAR'],
