@@ -2,6 +2,12 @@ name: Dev-ManuallyUnitTest
 
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Please select branch (default=main)'
+        default: 'main'
+        required: false
+        type: string
 
 jobs:
   laravel-tests:
