@@ -61,7 +61,7 @@ final class StoreService
             $this->billingRepository->store([
                 'dealing_id' => $this->dealing->id,
                 'total' => $this->dealing->getBillingAmount(),
-                'billing_date' => $this->dealing->getNextBillingDate(),
+                'billing_date' => $this->dealing->billing_date,
                 'is_fixed' => false,
                 'changed_at' => null,
             ]);
@@ -69,8 +69,6 @@ final class StoreService
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();
-
-            report($e);
 
             throw $e;
         }
