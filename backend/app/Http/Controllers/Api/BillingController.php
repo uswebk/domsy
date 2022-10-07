@@ -94,4 +94,9 @@ final class BillingController extends Controller
             );
         }
     }
+
+    public function cancel(
+        \App\Infrastructures\Models\DomainBilling $domainBilling
+    ) {
+    }
 }

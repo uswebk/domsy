@@ -308,6 +308,18 @@ class MenuItemSeeder extends Seeder
         ]);
 
         MenuItem::create([
+            'parent_id' => 7,
+            'name' => 'Billing Cancel',
+            'controller' => 'App\Http\Controllers\Api\BillingController',
+            'function' => 'cancel',
+            'route' => 'api.dealing.billing.cancel',
+            'endpoint' => '/api/dealing/billing/{domainBilling}/cancel',
+            'description' => 'Billing Cancel',
+            'is_screen' => 0,
+            'sort' => 570,
+        ]);
+
+        MenuItem::create([
             'parent_id' => 8,
             'name' => 'List',
             'controller' => 'App\Http\Controllers\Api\SettingController',
