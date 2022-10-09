@@ -87,6 +87,15 @@ export const actions = {
     return result
   },
 
+  async resumeDealing({ dispatch }, payload) {
+    const result = await this.$axios.patch('/api/dealing/' + payload.id + 'resume', {
+      ...payload,
+    })
+    dispatch('fetchDealings')
+
+    return result
+  },
+
   async updateBilling({ dispatch }, payload) {
     const result = await this.$axios.put('/api/dealing/billing/' + payload.id, {
       ...payload,
@@ -111,8 +120,6 @@ export const actions = {
 
     return result
   },
-
-
 
   async initRole({ commit }) {
     const resultDealing = await this.$axios.get('/api/role/has/?menu_id=6')

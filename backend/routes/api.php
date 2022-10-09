@@ -86,7 +86,7 @@ Route::middleware(['verified', 'auth:sanctum'])->group(function () {
             Route::post('', 'DealingController@store')->name('store');
             Route::get('{domainDealing}', 'DealingController@fetchId')->where('domainDealing', '[0-9]+')->name('fetch-id');
             Route::put('{domainDealing}', 'DealingController@update')->where('domainDealing', '[0-9]+')->name('update');
-            Route::put('{domainDealing}/resume', 'DealingController@resume')->where('domainDealing', '[0-9]+')->name('resume');
+            Route::patch('{domainDealing}/resume', 'DealingController@resume')->where('domainDealing', '[0-9]+')->name('resume');
             Route::delete('{domainDealing}', 'DealingController@delete')->where('domainDealing', '[0-9]+')->name('delete');
             Route::get('detail', 'DealingController@detail')->where('domainDealing', '[0-9]+')->name('detail');
 
