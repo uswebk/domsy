@@ -2,7 +2,7 @@ name: Production-AutoUnitTest
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "develop"]
     paths:
       - "backend/**"
   pull_request:
