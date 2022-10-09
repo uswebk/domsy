@@ -22,6 +22,7 @@ final class RegisterRequest extends Request
             'corporation.phone_number' => 'required|numeric',
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'emoji' => 'required|string',
             'password' => 'required|string|min:8|confirmed',
         ];
     }
