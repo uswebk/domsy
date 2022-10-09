@@ -158,6 +158,7 @@ final class EloquentDomainQueryService implements EloquentDomainQueryServiceInte
         ->join('domain_billings', 'domain_dealings.id', '=', 'domain_billings.dealing_id')
         ->where('domain_billings.is_fixed', $isFixed)
         ->whereIn('domains.user_id', $userIds)
+        ->whereNull('domain_billings.canceled_at')
         ->sum('domain_billings.total');
     }
 
