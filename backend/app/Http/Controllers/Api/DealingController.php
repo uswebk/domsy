@@ -135,4 +135,8 @@ final class DealingController extends Controller
             );
         }
     }
+
+    public function resume()
+    {
+    }
 }
