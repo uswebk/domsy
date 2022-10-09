@@ -31,7 +31,11 @@
         >
       </template>
       <template #[`item.action`]="{ item }">
-        <v-btn v-if="canUpdate" x-small color="primary" @click="edit(item)"
+        <v-btn
+          v-if="canUpdate && !item.is_halt"
+          x-small
+          color="primary"
+          @click="edit(item)"
           >edit</v-btn
         >
         <v-btn v-if="canDetail" x-small color="primary" @click="detail(item)"

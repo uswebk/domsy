@@ -54,6 +54,7 @@ final class StoreService
                 'role_id' => $userRequest->role_id,
                 'code' => $code,
                 'email' => $userRequest->email,
+                'emoji' => $userRequest->emoji,
                 'password' => $userRequest->password,
                 'email_verify_token' => $userRequest->email_verify_token,
             ]);

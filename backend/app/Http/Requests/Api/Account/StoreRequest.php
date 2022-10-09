@@ -17,6 +17,7 @@ final class StoreRequest extends Request
     {
         return [
             'name' => 'required|string|max:255',
+            'emoji' => 'required|string',
             'role_id' => new RoleOwner(),
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',

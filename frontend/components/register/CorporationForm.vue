@@ -84,6 +84,7 @@ export default {
           phone_number: '',
         },
         name: '',
+        emoji: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -99,6 +100,7 @@ export default {
     ...mapActions('authentication', ['registerCorporation', 'sendMessage']),
     async register() {
       try {
+        this.authModel.emoji = this.$getEmoji()
         await this.registerCorporation(this.authModel)
 
         this.sendMessage({

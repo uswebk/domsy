@@ -6,9 +6,7 @@
         color="info"
         indeterminate
       ></v-progress-linear>
-      <v-card-title class="pl-8">
-        <span class="text-h6">Billing Edit</span>
-      </v-card-title>
+      <v-toolbar color="primary" dark dense flat>Billing Edit</v-toolbar>
       <v-card-text>
         <v-container>
           <v-form ref="form" lazy-validation>
@@ -54,7 +52,7 @@
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'BillingDialog',
+  name: 'BillingUpdateDialog',
   props: {
     isOpen: {
       default: false,
@@ -95,6 +93,7 @@ export default {
     async update() {
       this.loading = true
       try {
+        this.billingModel.changed_at = this.$dateTimeHyphen(new Date())
         const result = await this.updateBilling(this.billingModel)
         await this.fetchDealing(result.data.dealing.id)
 

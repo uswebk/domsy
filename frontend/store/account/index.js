@@ -4,9 +4,6 @@ export const state = () => ({
   canStore: false,
   canUpdate: false,
   canDelete: false,
-  canRoleStore: false,
-  canRoleUpdate: false,
-  canRoleDelete: false,
   pageLoading: false,
   roles: [],
   accounts: [],
@@ -22,9 +19,6 @@ export const mutations = {
   canStore: (state, value) => (state.canStore = value),
   canUpdate: (state, value) => (state.canUpdate = value),
   canDelete: (state, value) => (state.canDelete = value),
-  canRoleStore: (state, value) => (state.canRoleStore = value),
-  canRoleUpdate: (state, value) => (state.canRoleUpdate = value),
-  canRoleDelete: (state, value) => (state.canRoleDelete = value),
 }
 
 export const actions = {
@@ -92,14 +86,11 @@ export const actions = {
   },
 
   async initRole({ commit }) {
-    const result = await this.$axios.get('/api/role/has/?menu_id=8')
+    const result = await this.$axios.get('/api/role/has/?menu_id=9')
 
     commit('canStore', result.data.store)
     commit('canUpdate', result.data.update)
     commit('canDelete', result.data.delete)
-    commit('canRoleStore', result.data.roleStore)
-    commit('canRoleUpdate', result.data.roleUpdate)
-    commit('canRoleDelete', result.data.roleDelete)
   },
 }
 
@@ -111,9 +102,6 @@ export const getters = {
   canStore: (state) => state.canStore,
   canUpdate: (state) => state.canUpdate,
   canDelete: (state) => state.canDelete,
-  canRoleStore: (state) => state.canRoleStore,
-  canRoleUpdate: (state) => state.canRoleUpdate,
-  canRoleDelete: (state) => state.canRoleDelete,
   pageLoading: (state) => state.pageLoading,
   tabs: (state) => state.tabs,
 }

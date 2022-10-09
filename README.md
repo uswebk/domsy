@@ -2,6 +2,7 @@
 
 <div align="center">
 
+[![Production-AutoUnitTest](https://github.com/uswebk/domsy/actions/workflows/laravel-production-auto-unit-test.yml/badge.svg)](https://github.com/uswebk/domsy/actions/workflows/laravel-production-auto-unit-test.yml) <br>
 ![](https://img.shields.io/badge/Laravel-8.83.6-5684d5)
 ![](https://img.shields.io/badge/PHP-8.0.19-5684d5)
 ![](https://img.shields.io/badge/MySQL-8.0.29-5684d5)

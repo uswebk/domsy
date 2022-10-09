@@ -123,7 +123,7 @@ export default {
         await this.updateRole(this.roleModel)
 
         this.sendMessage({
-          greeting: 'Create Success',
+          greeting: 'Update Success',
           greetingType: 'success',
         })
       } catch (error) {

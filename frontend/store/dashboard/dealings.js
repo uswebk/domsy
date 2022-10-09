@@ -13,7 +13,7 @@ export const mutations = {
 export const actions = {
   async fetchAmountByMonths({ commit }, months) {
     const result = await this.$axios.get(
-      '/api/dealing/billings/transaction?months=' + months
+      '/api/dealing/billing/transaction?months=' + months
     )
     commit('labels', Object.keys(result.data))
     commit('amounts', Object.values(result.data))
@@ -21,7 +21,7 @@ export const actions = {
 
   async fetchSortedBillingsByCount({ commit }, count) {
     const result = await this.$axios.get(
-      '/api/dealing/billings/sort-billing-date?count=' + count
+      '/api/dealing/billing/sort-billing-date?count=' + count
     )
     commit('soonBillings', Object.values(result.data))
   },

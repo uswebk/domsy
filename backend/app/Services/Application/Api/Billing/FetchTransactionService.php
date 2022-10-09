@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application\Api\Dealing;
+namespace App\Services\Application\Api\Billing;
 
 use App\Infrastructures\Models\User;
 
 use Illuminate\Support\Facades\Auth;
 
-final class FetchBillingTransactionService
+final class FetchTransactionService
 {
     private $billingAmounts;
 

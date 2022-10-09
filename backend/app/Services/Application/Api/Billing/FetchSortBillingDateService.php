@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Application\Api\Dealing;
+namespace App\Services\Application\Api\Billing;
 
 use App\Http\Resources\BillingResource;
 use App\Infrastructures\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-final class FetchBillingSortBillingDateService
+final class FetchSortBillingDateService
 {
     private $billings;
 
@@ -35,7 +35,7 @@ final class FetchBillingSortBillingDateService
         ->getSortBillingDateBillingsByUserIdsBillingDateGreaterThanTargetDatetimeTake(
             $userIds,
             now()->startOfDay(),
-            (int)$take
+            (int) $take
         );
     }
 

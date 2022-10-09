@@ -284,19 +284,43 @@ class MenuItemSeeder extends Seeder
         ]);
 
         MenuItem::create([
-            'parent_id' => 6,
-            'name' => 'Billing Update',
-            'controller' => 'App\Http\Controllers\Api\DealingController',
-            'function' => 'updateBilling',
-            'route' => 'api.dealing.updateBilling',
+            'parent_id' => 7,
+            'name' => 'Billing Create',
+            'controller' => 'App\Http\Controllers\Api\BillingController',
+            'function' => 'store',
+            'route' => 'api.dealing.billing.store',
             'endpoint' => '/api/dealing/billing',
-            'description' => 'Billing Update',
+            'description' => 'Billing Create',
             'is_screen' => 0,
             'sort' => 550,
         ]);
 
         MenuItem::create([
             'parent_id' => 7,
+            'name' => 'Billing Update',
+            'controller' => 'App\Http\Controllers\Api\BillingController',
+            'function' => 'update',
+            'route' => 'api.dealing.billing.update',
+            'endpoint' => '/api/dealing/billing',
+            'description' => 'Billing Update',
+            'is_screen' => 0,
+            'sort' => 560,
+        ]);
+
+        MenuItem::create([
+            'parent_id' => 7,
+            'name' => 'Billing Cancel',
+            'controller' => 'App\Http\Controllers\Api\BillingController',
+            'function' => 'cancel',
+            'route' => 'api.dealing.billing.cancel',
+            'endpoint' => '/api/dealing/billing/{domainBilling}/cancel',
+            'description' => 'Billing Cancel',
+            'is_screen' => 0,
+            'sort' => 570,
+        ]);
+
+        MenuItem::create([
+            'parent_id' => 8,
             'name' => 'List',
             'controller' => 'App\Http\Controllers\Api\SettingController',
             'function' => 'index',
@@ -309,7 +333,7 @@ class MenuItemSeeder extends Seeder
 
         /* Account */
         MenuItem::create([
-            'parent_id' => 8,
+            'parent_id' => 9,
             'name' => 'List',
             'controller' => 'App\Http\Controllers\Controllers\Controller',
             'function' => 'index',
@@ -321,7 +345,7 @@ class MenuItemSeeder extends Seeder
         ]);
 
         MenuItem::create([
-            'parent_id' => 8,
+            'parent_id' => 9,
             'name' => 'Create',
             'controller' => 'App\Http\Controllers\Api\AccountController',
             'function' => 'store',
@@ -333,7 +357,7 @@ class MenuItemSeeder extends Seeder
         ]);
 
         MenuItem::create([
-            'parent_id' => 8,
+            'parent_id' => 9,
             'name' => 'Create',
             'controller' => 'App\Http\Controllers\Api\AccountController',
             'function' => 'update',
@@ -345,7 +369,7 @@ class MenuItemSeeder extends Seeder
         ]);
 
         MenuItem::create([
-            'parent_id' => 8,
+            'parent_id' => 9,
             'name' => 'Delete',
             'controller' => 'App\Http\Controllers\Api\AccountController',
             'function' => 'delete',
@@ -358,7 +382,7 @@ class MenuItemSeeder extends Seeder
 
         /* Role */
         MenuItem::create([
-            'parent_id' => 9,
+            'parent_id' => 10,
             'name' => 'Create',
             'controller' => 'App\Http\Controllers\Api\RoleController',
             'function' => 'store',
@@ -370,7 +394,7 @@ class MenuItemSeeder extends Seeder
         ]);
 
         MenuItem::create([
-            'parent_id' => 9,
+            'parent_id' => 10,
             'name' => 'Update',
             'controller' => 'App\Http\Controllers\Api\RoleController',
             'function' => 'update',
@@ -382,7 +406,7 @@ class MenuItemSeeder extends Seeder
         ]);
 
         MenuItem::create([
-            'parent_id' => 9,
+            'parent_id' => 10,
             'name' => 'Delete',
             'controller' => 'App\Http\Controllers\Api\RoleController',
             'function' => 'delete',
