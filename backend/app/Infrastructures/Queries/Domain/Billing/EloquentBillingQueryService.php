@@ -43,6 +43,7 @@ final class EloquentBillingQueryService implements EloquentBillingQueryServiceIn
         ->select('domain_billings.*')
         ->whereIn('domains.user_id', $userIds)
         ->where('domain_billings.is_fixed', false)
+        ->whereNull('domain_billings.canceled_at')
         ->where('domain_billings.billing_date', '>=', $targetDatetime)
         ->orderBy('domain_billings.billing_date')
         ->take($take)
@@ -70,6 +71,7 @@ final class EloquentBillingQueryService implements EloquentBillingQueryServiceIn
         ->where('domain_billings.is_fixed', true)
         ->groupBy('month')
         ->whereBetween('domain_billings.billing_date', [$startDate->toDateString(), $endDate->toDateString()])
+        ->whereNull('domain_billings.canceled_at')
         ->get()
         ->keyBy('month')
         ->toArray();
