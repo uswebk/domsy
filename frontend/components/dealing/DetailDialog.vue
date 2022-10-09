@@ -63,13 +63,19 @@
                       </v-chip>
                     </td>
                     <td>
-                      <v-icon
+                      <v-tooltip
                         v-if="!item.is_fixed && canUpdateBilling"
-                        small
-                        @click="editBilling(item)"
+                        bottom
                       >
-                        mdi-pencil
-                      </v-icon>
+                        <template #activator="{ on, attrs }">
+                          <v-btn icon v-bind="attrs" v-on="on">
+                            <v-icon small @click="editBilling(item)">
+                              mdi-pencil
+                            </v-icon>
+                          </v-btn>
+                        </template>
+                        <span>Edit</span>
+                      </v-tooltip>
                       <v-tooltip v-if="!item.canceled_at" bottom>
                         <template #activator="{ on, attrs }">
                           <v-btn icon v-bind="attrs" v-on="on">
