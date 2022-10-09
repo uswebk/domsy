@@ -70,12 +70,10 @@
                       >
                         mdi-pencil
                       </v-icon>
-                      <v-tooltip bottom>
+                      <v-tooltip v-if="!item.canceled_at" bottom>
                         <template #activator="{ on, attrs }">
                           <v-btn icon v-bind="attrs" v-on="on">
-                            <v-icon v-if="!item.canceled_at" small>
-                              mdi-cancel
-                            </v-icon>
+                            <v-icon small> mdi-cancel </v-icon>
                           </v-btn>
                         </template>
                         <span>Cancel</span>
