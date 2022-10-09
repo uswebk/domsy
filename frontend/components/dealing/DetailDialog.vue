@@ -48,11 +48,20 @@
                 <template #item="{ item }">
                   <tr
                     :style="{
-                      'background-color': item.is_fixed ? '#efefef' : '',
+                      'background-color': item.is_fixed ? 'linen' : '',
                     }"
                   >
                     <td>{{ $dateHyphen(item.billing_date) }}</td>
                     <td>{{ $formattedPriceYen(item.total) }}</td>
+                    <td>
+                      <v-chip
+                        :color="getBillingStatusColor(item)"
+                        text-color="white"
+                        small
+                      >
+                        {{ getBillingStatus(item) }}
+                      </v-chip>
+                    </td>
                     <td>
                       <v-icon
                         v-if="!item.is_fixed && canUpdateBilling"
@@ -61,6 +70,16 @@
                       >
                         mdi-pencil
                       </v-icon>
+                      <v-tooltip bottom>
+                        <template #activator="{ on, attrs }">
+                          <v-btn icon v-bind="attrs" v-on="on">
+                            <v-icon v-if="!item.canceled_at" small>
+                              mdi-cancel
+                            </v-icon>
+                          </v-btn>
+                        </template>
+                        <span>Cancel</span>
+                      </v-tooltip>
                     </td>
                   </tr>
                 </template>
@@ -112,6 +131,10 @@ export default {
         {
           text: 'Amount',
           value: 'total',
+        },
+        {
+          text: 'Status',
+          value: 'status',
         },
         {
           text: 'Action',
@@ -166,6 +189,29 @@ export default {
       this.billing.billing_date = this.$dateHyphen(this.billing.billing_date)
       this.openBillingEditDialog()
     },
+    getBillingStatus(billing) {
+      if (billing.canceled_at !== null) {
+        return 'cancel'
+      }
+
+      if (billing.is_fixed) {
+        return 'fixed'
+      }
+
+      return 'valid'
+    },
+    getBillingStatusColor(billing) {
+      if (billing.canceled_at !== null) {
+        return 'red'
+      }
+
+      if (billing.is_fixed) {
+        return 'green'
+      }
+
+      return 'primary'
+    },
   },
 }
 </script>
+<style lang="scss"></style>
