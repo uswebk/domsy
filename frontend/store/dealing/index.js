@@ -105,6 +105,15 @@ export const actions = {
     return result
   },
 
+  async cancelBilling({ dispatch }, payload) {
+    const result = await this.$axios.put('/api/dealing/billing/' + payload.id + '/cancel')
+    dispatch('fetchDealings')
+
+    return result
+  },
+
+
+
   async initRole({ commit }) {
     const resultDealing = await this.$axios.get('/api/role/has/?menu_id=6')
 

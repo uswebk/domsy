@@ -14,7 +14,7 @@ final class BillingController extends Controller
     {
         parent::__construct();
 
-        $this->middleware('can:owner,domainBilling')->only(['updateBilling']);
+        $this->middleware('can:owner,domainBilling')->only(['update', 'cancel']);
     }
 
         /**
@@ -95,8 +95,27 @@ final class BillingController extends Controller
         }
     }
 
+    /**
+     * @param \App\Infrastructures\Models\DomainBilling $domainBilling
+     * @param \App\Services\Application\Api\Billing\CancelService $cancelService
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function cancel(
-        \App\Infrastructures\Models\DomainBilling $domainBilling
+        \App\Infrastructures\Models\DomainBilling $domainBilling,
+        \App\Services\Application\Api\Billing\CancelService $cancelService
     ) {
+        try {
+            $cancelService->handle($domainBilling);
+
+            return response()->json(
+                $cancelService->getResponse(),
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }

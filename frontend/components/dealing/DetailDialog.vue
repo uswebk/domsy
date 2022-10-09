@@ -79,7 +79,9 @@
                       <v-tooltip v-if="!item.canceled_at" bottom>
                         <template #activator="{ on, attrs }">
                           <v-btn icon v-bind="attrs" v-on="on">
-                            <v-icon small> mdi-cancel </v-icon>
+                            <v-icon small @click="cancelBilling(item)">
+                              mdi-cancel
+                            </v-icon>
                           </v-btn>
                         </template>
                         <span>Cancel</span>
@@ -92,10 +94,6 @@
             <v-divider></v-divider>
           </v-card-text>
         </v-container>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="close"> Close </v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
     <dealing-billing-new-dialog
@@ -107,6 +105,11 @@
       :billing="billing"
       @close="closeBillingEditDialog"
     ></dealing-billing-update-dialog>
+    <dealing-billing-cancel-dialog
+      :is-open="isOpenCancelBillingDialog"
+      :billing="billing"
+      @close="closeBillingCancelDialog"
+    ></dealing-billing-cancel-dialog>
   </div>
 </template>
 
@@ -126,6 +129,7 @@ export default {
     return {
       isOpenNewBillingDialog: false,
       isOpenEditBillingDialog: false,
+      isOpenCancelBillingDialog: false,
       billing: {},
       headers: [
         {
@@ -188,10 +192,20 @@ export default {
     closeBillingEditDialog() {
       this.isOpenEditBillingDialog = false
     },
+    openBillingCancelDialog() {
+      this.isOpenCancelBillingDialog = true
+    },
+    closeBillingCancelDialog() {
+      this.isOpenCancelBillingDialog = false
+    },
     editBilling(billing) {
       this.billing = Object.assign({}, billing)
       this.billing.billing_date = this.$dateHyphen(this.billing.billing_date)
       this.openBillingEditDialog()
+    },
+    cancelBilling(billing) {
+      this.billing = Object.assign({}, billing)
+      this.openBillingCancelDialog()
     },
     getBillingStatus(billing) {
       if (billing.canceled_at !== null) {
@@ -218,4 +232,3 @@ export default {
   },
 }
 </script>
-<style lang="scss"></style>
