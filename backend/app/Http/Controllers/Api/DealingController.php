@@ -136,7 +136,27 @@ final class DealingController extends Controller
         }
     }
 
-    public function resume()
-    {
+    /**
+     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Services\Application\Api\Dealing\ResumeService $resumeService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function resume(
+        \App\Infrastructures\Models\DomainDealing $domainDealing,
+        \App\Services\Application\Api\Dealing\ResumeService $resumeService
+    ) {
+        try {
+            $resumeService->handle($domainDealing);
+
+            return response()->json(
+                $resumeService->getResponse(),
+                Response::HTTP_OK
+            );
+        } catch(Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 }

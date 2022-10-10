@@ -88,9 +88,7 @@ export const actions = {
   },
 
   async resumeDealing({ dispatch }, payload) {
-    const result = await this.$axios.patch('/api/dealing/' + payload.id + 'resume', {
-      ...payload,
-    })
+    const result = await this.$axios.patch('/api/dealing/' + payload.id + '/resume')
     dispatch('fetchDealings')
 
     return result

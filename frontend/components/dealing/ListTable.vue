@@ -48,7 +48,7 @@
           >delete</v-btn
         >
         <v-btn
-          v-if="item.is_halt"
+          v-if="canUpdate && item.is_halt"
           x-small
           color="green"
           dark
@@ -187,7 +187,6 @@ export default {
     },
     resume(dealing) {
       this.dealing = Object.assign({}, dealing)
-      this.dealing.billing_date = this.$dateHyphen(this.dealing.billing_date)
       this.openResumeDialog()
     },
   },
