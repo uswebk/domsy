@@ -47,6 +47,14 @@
           @click="deletion(item)"
           >delete</v-btn
         >
+        <v-btn
+          v-if="canUpdate && item.is_halt"
+          x-small
+          color="green"
+          dark
+          @click="resume(item)"
+          >resume</v-btn
+        >
       </template>
     </v-data-table>
     <dealing-update-dialog
@@ -64,6 +72,11 @@
       :dealing="dealing"
       @close="closeDeleteDialog"
     ></dealing-delete-dialog>
+    <dealing-resume-dialog
+      :is-open="isOpenResumeDialog"
+      :dealing="dealing"
+      @close="closeResumeDialog"
+    ></dealing-resume-dialog>
   </div>
 </template>
 
@@ -86,6 +99,7 @@ export default {
       isOpenEditDialog: false,
       isOpenDetailDialog: false,
       isOpenDeleteDialog: false,
+      isOpenResumeDialog: false,
       dealing: {
         domain: [],
         client: [],
@@ -151,6 +165,12 @@ export default {
     closeDeleteDialog() {
       this.isOpenDeleteDialog = false
     },
+    openResumeDialog() {
+      this.isOpenResumeDialog = true
+    },
+    closeResumeDialog() {
+      this.isOpenResumeDialog = false
+    },
     edit(dealing) {
       this.dealing = Object.assign({}, dealing)
       this.dealing.billing_date = this.$dateHyphen(this.dealing.billing_date)
@@ -164,6 +184,10 @@ export default {
       this.dealing = Object.assign({}, dealing)
       this.dealing.billing_date = this.$dateHyphen(this.dealing.billing_date)
       this.openDeleteDialog()
+    },
+    resume(dealing) {
+      this.dealing = Object.assign({}, dealing)
+      this.openResumeDialog()
     },
   },
 }

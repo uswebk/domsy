@@ -27,6 +27,7 @@ final class CorporationRegisterRequest
 
         $validated['individual']['name'] = $validated['name'];
         $validated['individual']['email'] = $validated['email'];
+        $validated['individual']['emoji'] = $validated['emoji'];
         $validated['individual']['password'] = Hash::make($registerRequest['password']);
         $validated['individual']['email_verify_token'] = base64_encode($registerRequest['email']);
 

@@ -63,6 +63,7 @@ final class RegisterController extends Controller
                 Response::HTTP_OK
             );
         } catch (Exception $e) {
+            report($e);
             return response()->json(
                 ['message' => $e->getMessage()],
                 Response::HTTP_INTERNAL_SERVER_ERROR
