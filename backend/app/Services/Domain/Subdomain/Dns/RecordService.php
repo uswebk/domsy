@@ -8,21 +8,7 @@ use App\Infrastructures\Models\DnsRecordType;
 
 final class RecordService
 {
-    private $host;
-
-    private $class;
-
-    private $ttl;
-
-    private $type;
-
-    private $txt;
-
-    private $pri;
-
-    private $target;
-
-    private $entries;
+    private $records = [];
 
     private const DNS_TYPE_VALUE_INDEXES = [
         'A' => 'ip',
@@ -40,25 +26,25 @@ final class RecordService
      */
     public function __construct(array $dnsRecord)
     {
-        $this->host = $dnsRecord['host'];
+        $this->records['host'] = $dnsRecord['host'] ?? '';
 
-        $this->class = $dnsRecord['class'];
+        $this->records['class'] = $dnsRecord['class'] ?? '';
 
-        $this->ttl = $dnsRecord['ttl'];
+        $this->records['type'] = $dnsRecord['type'] ?? '';
 
-        $this->type = $dnsRecord['type'];
+        $this->records['ttl'] = $dnsRecord['ttl'] ?? '';
 
-        $this->ip = $dnsRecord['ip'] ?? '';
+        $this->records['ip'] = $dnsRecord['ip'] ?? '';
 
-        $this->ipv6 = $dnsRecord['ipv6'] ?? '';
+        $this->records['ipv6'] = $dnsRecord['ipv6'] ?? '';
 
-        $this->target = $dnsRecord['target'] ?? '';
+        $this->records['target'] = $dnsRecord['target'] ?? '';
 
-        $this->txt = $dnsRecord['txt'] ?? '';
+        $this->records['txt'] = $dnsRecord['txt'] ?? '';
 
-        $this->pri = $dnsRecord['pri'] ?? 0;
+        $this->records['pri'] = $dnsRecord['pri'] ?? 0;
 
-        $this->entries = $dnsRecord['entries'] ?? [];
+        $this->records['entries'] = $dnsRecord['entries'] ?? [];
     }
 
     /**
@@ -66,15 +52,7 @@ final class RecordService
      */
     public function getHost(): string
     {
-        return $this->host;
-    }
-
-    /**
-     * @return string
-     */
-    public function getClass(): string
-    {
-        return $this->class;
+        return $this->records['host'];
     }
 
     /**
@@ -82,7 +60,7 @@ final class RecordService
      */
     public function getTtl(): int
     {
-        return $this->ttl;
+        return (int) $this->records['ttl'];
     }
 
     /**
@@ -90,7 +68,7 @@ final class RecordService
      */
     public function getType(): string
     {
-        return $this->type;
+        return $this->records['type'];
     }
 
     /**
@@ -98,26 +76,10 @@ final class RecordService
      */
     public function getTypeId(): int
     {
-        $dnsRecordType = DnsRecordType::where('name', '=', $this->type)
+        $dnsRecordType = DnsRecordType::where('name', '=', $this->getType())
         ->firstOrFail();
 
         return $dnsRecordType->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTxt(): string
-    {
-        return $this->txt;
-    }
-
-    /**
-     * @return array
-     */
-    public function getEntries(): array
-    {
-        return $this->entries;
     }
 
     /**
@@ -125,29 +87,13 @@ final class RecordService
      */
     public function getPriority(): int
     {
-        return $this->pri;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIp(): string
-    {
-        return $this->ip;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTarget(): string
-    {
-        return $this->target;
+        return (int) $this->records['pri'];
     }
 
     /**
      * @return array
      */
-    public function getDnsTypeValueIndexes(): array
+    private function getDnsTypeValueIndexes(): array
     {
         return self::DNS_TYPE_VALUE_INDEXES;
     }
@@ -159,9 +105,9 @@ final class RecordService
     {
         $dnsTypeValueIndexes = $this->getDnsTypeValueIndexes();
 
-        $index = $dnsTypeValueIndexes[$this->type];
+        $index = $dnsTypeValueIndexes[$this->getType()];
 
-        $value = $this->{$index};
+        $value = $this->records[$index];
 
         if (isset($value)) {
             return $value;
