@@ -60,10 +60,8 @@ final class EloquentUserQueryServiceTest extends TestCase
     ): void {
         User::factory($parameterOfUsers)->create();
 
-        $userQueryService = new EloquentUserQueryService();
-
         try {
-            $user = $userQueryService->findById($userId);
+            $user = (new EloquentUserQueryService())->findById($userId);
 
             $this->assertSame($userId, $user->id);
         } catch (ModelNotFoundException $e) {
@@ -108,8 +106,7 @@ final class EloquentUserQueryServiceTest extends TestCase
     ) {
         User::factory($parameterOfUsers)->create();
 
-        $userQueryService = new EloquentUserQueryService();
-        $users = $userQueryService->getActiveUsers();
+        $users = (new EloquentUserQueryService())->getActiveUsers();
 
         $this->assertSame($users->count(), $assertionCount);
     }
@@ -177,10 +174,8 @@ final class EloquentUserQueryServiceTest extends TestCase
     ) {
         User::factory($parameterOfUsers)->create();
 
-        $userQueryService = new EloquentUserQueryService();
-
         try {
-            $user = $userQueryService->firstByIdEmailVerifyToken($id, $emailVerifyToken);
+            $user = (new EloquentUserQueryService())->firstByIdEmailVerifyToken($id, $emailVerifyToken);
 
             $this->assertSame($id, $user->id);
         } catch (ModelNotFoundException $e) {
