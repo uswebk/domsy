@@ -21,6 +21,8 @@ class MailCategoryFactory extends Factory
             'name' => $this->faker->word,
             'annotation' => $this->faker->word,
             'sort' => $this->faker->numberBetween(10, 100),
+            'is_specify_number_days' => $this->faker->boolean,
+            'default_days' => $this->faker->numberBetween(10, 100),
         ];
     }
 }

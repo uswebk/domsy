@@ -10,22 +10,16 @@ final class GetNotificationService
 {
     private $notificationDomains;
 
-    private $domainExpirationMailSetting;
-
-    private $user;
-
-    private $targetDate;
-
     /**
+     * @param \App\Infrastructures\Models\User $user
+     * @param \Carbon\Carbon $notificationDate
      * @return void
      */
-    private function initNotificationDomains(): void
-    {
-        $domainNoticeNumberDays = $this->domainExpirationMailSetting->notice_number_days;
-
-        $notificationDate = $this->targetDate->copy()->addDays($domainNoticeNumberDays);
-
-        $domains = $this->user->domains;
+    private function initNotificationDomains(
+        \App\Infrastructures\Models\User $user,
+        \Carbon\Carbon $notificationDate,
+    ): void {
+        $domains = $user->domains;
 
         foreach ($domains as $domain) {
             if (! $domain->isExpirationDateByTargetDate($notificationDate)) {
@@ -51,11 +45,11 @@ final class GetNotificationService
         \Carbon\Carbon $targetDate,
     ) {
         $this->notificationDomains = new Collection();
-        $this->domainExpirationMailSetting = $domainExpirationMailSetting;
-        $this->user = $user;
-        $this->targetDate = $targetDate;
 
-        $this->initNotificationDomains();
+        $noticeNumberDaysOfDomain = $domainExpirationMailSetting->notice_number_days;
+        $notificationDate = $targetDate->copy()->addDays($noticeNumberDaysOfDomain);
+
+        $this->initNotificationDomains($user, $notificationDate);
     }
 
     /**

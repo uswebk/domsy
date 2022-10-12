@@ -78,9 +78,8 @@ final class Domain extends BaseModel
      * @param \Carbon\Carbon $targetDatetime
      * @return boolean
      */
-    public function isExpirationDateByTargetDate(
-        \Carbon\Carbon $targetDate
-    ): bool {
+    public function isExpirationDateByTargetDate(\Carbon\Carbon $targetDate): bool
+    {
         $targetStartDate = $targetDate->copy()->startOfDay();
         $expirationStartDate = $this->expired_at->copy()->startOfDay();
 
