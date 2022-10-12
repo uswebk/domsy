@@ -14,10 +14,10 @@ final class DnsRecordType extends BaseModel
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function subdomain(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function subdomains(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsTo('App\Infrastructures\Models\Subdomain', 'type_id');
+        return $this->hasMany('App\Infrastructures\Models\Subdomain', 'type_id');
     }
 }
