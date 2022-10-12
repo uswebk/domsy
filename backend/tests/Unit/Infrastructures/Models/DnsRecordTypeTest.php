@@ -21,7 +21,6 @@ final class DnsRecordTypeTest extends TestCase
             'type_id' => $dnsRecordType->id
         ])->create();
 
-        $hoge = $dnsRecordType->subdomains;
         $this->assertTrue($dnsRecordType->subdomains()->exists());
     }
 }
