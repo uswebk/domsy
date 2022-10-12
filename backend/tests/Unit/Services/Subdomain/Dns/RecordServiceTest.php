@@ -120,10 +120,76 @@ final class RecordServiceTest extends TestCase
     ): void {
         $recordService = new RecordService($records);
 
-        $this->assertEquals($recordService->getHost(), 'example.com');
-        $this->assertEquals($recordService->getTtl(), '4502');
         $this->assertEquals($recordService->getType(), $assertType);
-        $this->assertEquals($recordService->getPriority(), 100);
         $this->assertEquals($recordService->getValue(), $assertValue);
+    }
+
+    /**
+     * @test
+     */
+    public function get_host(): void
+    {
+        $recordService = new RecordService(
+            [
+                'host' => 'example.com',
+                'class' => 'IN',
+                'ttl' => '4502',
+                'type' => 'CNAME',
+                'ip' => '123.456.789',
+                'ipv6' => '1000:test:2000:3333:abcd:0000:0000',
+                'target' => 'ns3.google.com',
+                'txt' => 'spf=xxxxxxx',
+                'pri' => '100',
+                'entries' => [],
+            ],
+        );
+
+        $this->assertEquals($recordService->getHost(), 'example.com');
+    }
+
+    /**
+     * @test
+     */
+    public function get_ttl(): void
+    {
+        $recordService = new RecordService(
+            [
+                'host' => 'example.com',
+                'class' => 'IN',
+                'ttl' => '4502',
+                'type' => 'CNAME',
+                'ip' => '123.456.789',
+                'ipv6' => '1000:test:2000:3333:abcd:0000:0000',
+                'target' => 'ns3.google.com',
+                'txt' => 'spf=xxxxxxx',
+                'pri' => '100',
+                'entries' => [],
+            ],
+        );
+
+        $this->assertEquals($recordService->getTtl(), '4502');
+    }
+
+    /**
+     * @test
+     */
+    public function get_priority(): void
+    {
+        $recordService = new RecordService(
+            [
+                'host' => 'example.com',
+                'class' => 'IN',
+                'ttl' => '4502',
+                'type' => 'CNAME',
+                'ip' => '123.456.789',
+                'ipv6' => '1000:test:2000:3333:abcd:0000:0000',
+                'target' => 'ns3.google.com',
+                'txt' => 'spf=xxxxxxx',
+                'pri' => '100',
+                'entries' => [],
+            ],
+        );
+
+        $this->assertEquals($recordService->getPriority(), 100);
     }
 }
