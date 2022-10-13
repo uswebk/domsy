@@ -51,14 +51,6 @@ final class Domain extends BaseModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function subdomains(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany('App\Infrastructures\Models\Subdomain');
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function registrar(): \Illuminate\Database\Eloquent\Relations\BelongsTo
