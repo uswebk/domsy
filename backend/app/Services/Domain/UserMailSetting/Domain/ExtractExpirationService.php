@@ -6,7 +6,7 @@ namespace App\Services\Domain\UserMailSetting\Domain;
 
 use Illuminate\Database\Eloquent\Collection;
 
-final class GetNotificationService
+final class ExtractExpirationService
 {
     private $notificationDomains;
 

@@ -7,11 +7,11 @@ namespace Tests\Unit\Service\Domain\UserMailSetting\Domain;
 use App\Infrastructures\Models\Domain;
 use App\Infrastructures\Models\User;
 use App\Infrastructures\Models\UserMailSetting;
-use App\Services\Domain\UserMailSetting\Domain\GetNotificationService;
+use App\Services\Domain\UserMailSetting\Domain\ExtractExpirationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-final class GetNotificationServiceTest extends TestCase
+final class ExtractExpirationServiceTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -43,7 +43,7 @@ final class GetNotificationServiceTest extends TestCase
      */
     public function get_domains_when_expiration_date_domain_exists(): void
     {
-        $domains = (new GetNotificationService($this->userMailSetting, $this->user, $this->now))->getDomains();
+        $domains = (new ExtractExpirationService($this->userMailSetting, $this->user, $this->now))->getDomains();
 
         $this->assertTrue($domains->contains($this->domain));
     }
@@ -53,8 +53,8 @@ final class GetNotificationServiceTest extends TestCase
      */
     public function get_domains_when_expiration_date_domain_not_exists(): void
     {
-        $domains = (new GetNotificationService($this->userMailSetting, $this->user, $this->now->copy()->addDay()))->getDomains();
+        $domains = (new ExtractExpirationService($this->userMailSetting, $this->user, $this->now->copy()->addDay()))->getDomains();
 
-        $this->assertTrue(!$domains->contains($this->domain));
+        $this->assertFalse($domains->contains($this->domain));
     }
 }
