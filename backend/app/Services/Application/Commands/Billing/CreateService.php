@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Commands\Billing;
 
-use App\Helpers\DateHelper;
 use App\Infrastructures\Models\DomainBilling;
-
+use App\Services\Domain\Domain\Dealing\NextBillingDateService;
 use Exception;
-
 use Illuminate\Support\Facades\DB;
 
 final class CreateService
 {
-    private $executeDate;
-
     private $billingRepository;
 
     private const CHUNK_SIZE = 1000;
@@ -40,25 +36,12 @@ final class CreateService
         $this->billingRepository->firstOrCreate([
             'dealing_id' => $domainDealing->id,
             'total' => $domainDealing->getBillingAmount(),
-            'billing_date' => $domainDealing->getNextBillingDateByTargetDate($this->executeDate),
+            'billing_date' => (new NextBillingDateService($domainDealing))->getNext(),
+            'is_auto' => true,
             'is_fixed' => false,
         ]);
 
         $this->billingRepository->updateIsFixed($domainBilling, true);
-    }
-
-    /**
-     * @return \Illuminate\Database\Builder
-     */
-    private function getQueryBuilderOfDomainBilling(): \Illuminate\Database\Builder
-    {
-        $datetimeStartString = DateHelper::getDatetimeStartString($this->executeDate);
-
-        return DomainBilling::join('domain_dealings', 'domain_billings.dealing_id', '=', 'domain_dealings.id')
-        ->where('domain_dealings.is_auto_update', '=', true)
-        ->where('domain_dealings.is_halt', '=', false)
-        ->where('domain_billings.billing_date', '=', $datetimeStartString)
-        ->select('domain_billings.*');
     }
 
     /**
@@ -67,11 +50,13 @@ final class CreateService
      */
     public function handle(\Carbon\Carbon $executeDate): void
     {
-        $this->executeDate = $executeDate;
-
-        $query = $this->getQueryBuilderOfDomainBilling();
-
-        $query->chunk(self::CHUNK_SIZE, function (
+        DomainBilling::join('domain_dealings', 'domain_billings.dealing_id', '=', 'domain_dealings.id')
+        ->where('domain_dealings.is_auto_update', '=', true)
+        ->where('domain_dealings.is_halt', '=', false)
+        ->where('domain_billings.is_fixed', '=', false)
+        ->where('domain_billings.billing_date', '=', $executeDate->toDateTimeString())
+        ->select('domain_billings.*')
+        ->chunk(self::CHUNK_SIZE, function (
             \Illuminate\Database\Eloquent\Collection $domainBillings
         ) {
             foreach ($domainBillings as $domainBilling) {
