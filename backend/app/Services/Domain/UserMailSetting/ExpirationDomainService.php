@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Services\Domain\UserMailSetting\Domain;
+namespace App\Services\Domain\UserMailSetting;
 
 use Illuminate\Database\Eloquent\Collection;
 
-final class ExtractExpirationService
+final class ExpirationDomainService
 {
     private $notificationDomains;
 
