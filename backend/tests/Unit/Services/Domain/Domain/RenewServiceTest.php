@@ -8,11 +8,11 @@ use App\Infrastructures\Models\Domain;
 use App\Infrastructures\Models\Subdomain;
 use App\Infrastructures\Repositories\Domain\DomainRepository;
 use App\Infrastructures\Repositories\Subdomain\SubdomainRepository;
-use App\Services\Domain\Domain\UpdateDomainService;
+use App\Services\Domain\Domain\RenewService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-final class UpdateDomainServiceTest extends TestCase
+final class RenewServiceTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -29,8 +29,8 @@ final class UpdateDomainServiceTest extends TestCase
 
         $domain->name = 'test2.com';
 
-        $updateDomainService = new UpdateDomainService(new DomainRepository(), new SubdomainRepository());
-        $updateDomainService->execute($domain);
+        $renewService = new RenewService(new DomainRepository(), new SubdomainRepository());
+        $renewService->execute($domain);
 
         $this->assertDatabaseCount('subdomains', 1);
         $this->assertDatabaseHas('domains', [
@@ -49,8 +49,8 @@ final class UpdateDomainServiceTest extends TestCase
             'domain_id' => $domain->id,
         ])->count(10)->create();
 
-        $updateDomainService = new UpdateDomainService(new DomainRepository(), new SubdomainRepository());
-        $updateDomainService->execute($domain);
+        $renewService = new RenewService(new DomainRepository(), new SubdomainRepository());
+        $renewService->execute($domain);
 
         $this->assertDatabaseCount('subdomains', 10);
         $this->assertDatabaseHas('domains', [
