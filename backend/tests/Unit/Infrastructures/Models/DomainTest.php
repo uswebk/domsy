@@ -58,7 +58,7 @@ final class DomainTest extends TestCase
         ])->create();
 
         $this->assertTrue($domain->isExpirationDateByTargetDate($now));
-        $this->assertTrue(!$domain->isExpirationDateByTargetDate($now->copy()->addDay()));
+        $this->assertFalse($domain->isExpirationDateByTargetDate($now->copy()->addDay()));
     }
 
     /** @test */
@@ -69,7 +69,7 @@ final class DomainTest extends TestCase
             'expired_at' => $now->toDateTimeString()
         ])->create();
 
-        $this->assertTrue(!$domain->isExpirationDateByTargetDate($now->copy()->addDay()));
+        $this->assertFalse($domain->isExpirationDateByTargetDate($now->copy()->addDay()));
     }
 
     /** @test */
@@ -91,7 +91,7 @@ final class DomainTest extends TestCase
             'is_transferred' => true
         ])->create();
 
-        $this->assertTrue(!$domain->isOwned());
+        $this->assertFalse($domain->isOwned());
     }
 
     /** @test */

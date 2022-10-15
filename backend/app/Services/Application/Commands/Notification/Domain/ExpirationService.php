@@ -35,7 +35,7 @@ final class ExpirationService
         foreach ($users as $user) {
             $domainExpirationMailSetting = $user->getReceiveDomainExpirationMailSetting();
 
-            if (! isset($domainExpirationMailSetting)) {
+            if (!isset($domainExpirationMailSetting)) {
                 continue;
             }
 
