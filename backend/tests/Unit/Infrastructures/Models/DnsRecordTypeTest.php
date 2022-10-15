@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Infrastructures\Queries\User;
+namespace Tests\Unit\Infrastructures\Models;
 
 use App\Infrastructures\Models\DnsRecordType;
 use App\Infrastructures\Models\Subdomain;

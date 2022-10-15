@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Infrastructures\Queries\User;
+namespace Tests\Unit\Services\Domain\Subdomain\Dns;
 
 use App\Services\Domain\Subdomain\Dns\RecordService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
