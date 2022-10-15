@@ -7,7 +7,7 @@ namespace Tests\Unit\Service\Domain\UserMailSetting;
 use App\Infrastructures\Models\Domain;
 use App\Infrastructures\Models\User;
 use App\Infrastructures\Models\UserMailSetting;
-use App\Services\Domain\UserMailSetting\Domain\ExtractExpirationService;
+use App\Services\Domain\UserMailSetting\ExpirationDomainService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -43,7 +43,7 @@ final class ExpirationDomainServiceTest extends TestCase
      */
     public function get_domains_when_expiration_date_domain_exists(): void
     {
-        $domains = (new ExtractExpirationService($this->userMailSetting, $this->user, $this->now))->getDomains();
+        $domains = (new ExpirationDomainService($this->userMailSetting, $this->user, $this->now))->getDomains();
 
         $this->assertTrue($domains->contains($this->domain));
     }
@@ -53,7 +53,7 @@ final class ExpirationDomainServiceTest extends TestCase
      */
     public function get_domains_when_expiration_date_domain_not_exists(): void
     {
-        $domains = (new ExtractExpirationService($this->userMailSetting, $this->user, $this->now->copy()->addDay()))->getDomains();
+        $domains = (new ExpirationDomainService($this->userMailSetting, $this->user, $this->now->copy()->addDay()))->getDomains();
 
         $this->assertFalse($domains->contains($this->domain));
     }
