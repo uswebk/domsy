@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Service\Domain\UserMailSetting\Domain;
+namespace Tests\Unit\Service\Domain\UserMailSetting;
 
 use App\Infrastructures\Models\Domain;
 use App\Infrastructures\Models\User;
@@ -11,13 +11,13 @@ use App\Services\Domain\UserMailSetting\Domain\ExtractExpirationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-final class ExtractExpirationServiceTest extends TestCase
+final class ExpirationDomainServiceTest extends TestCase
 {
     use RefreshDatabase;
 
     private const NOTICE_NUMBER_DAYS = 20;
 
-    public function setUp() :void
+    public function setUp(): void
     {
         parent::setUp();
 

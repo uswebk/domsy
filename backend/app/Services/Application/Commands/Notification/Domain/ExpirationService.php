@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Commands\Notification\Domain;
 
-use App\Services\Domain\UserMailSetting\Domain\ExtractExpirationService;
+use App\Services\Domain\UserMailSetting\ExpirationDomainService;
 
 final class ExpirationService
 {
@@ -35,7 +35,7 @@ final class ExpirationService
         foreach ($users as $user) {
             $domainExpirationMailSetting = $user->getReceiveDomainExpirationMailSetting();
 
-            if (! isset($domainExpirationMailSetting)) {
+            if (!isset($domainExpirationMailSetting)) {
                 continue;
             }
 
@@ -43,7 +43,7 @@ final class ExpirationService
                 continue;
             }
 
-            $notificationDomains = (new ExtractExpirationService(
+            $notificationDomains = (new ExpirationDomainService(
                 $domainExpirationMailSetting,
                 $user,
                 $executeDate
