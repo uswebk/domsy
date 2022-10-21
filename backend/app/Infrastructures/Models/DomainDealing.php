@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models;
 
+use function now;
+
 final class DomainDealing extends BaseModel
 {
     protected $fillable = [
@@ -61,21 +63,13 @@ final class DomainDealing extends BaseModel
     {
         return $this->hasMany('App\Infrastructures\Models\DomainBilling', 'dealing_id');
     }
-
-    /**
-     * @return boolean
-     */
-    public function isBilled(): bool
-    {
-        return $this->billing_date->lt(now());
-    }
-
+    
     /**
      * @return boolean
      */
     public function isUnclaimed(): bool
     {
-        return ! $this->isBilled();
+        return $this->billing_date->gte(now());
     }
 
     /**
@@ -100,9 +94,9 @@ final class DomainDealing extends BaseModel
     public function getNextBilling(): \App\Infrastructures\Models\DomainBilling
     {
         $domainBilling = $this->domainBillings->where('is_fixed', false)
-        ->where('is_auto', true)
-        ->sortBy('billing_date')
-        ->first();
+            ->where('is_auto', true)
+            ->sortBy('billing_date')
+            ->first();
 
         if (isset($domainBilling)) {
             return $domainBilling;
