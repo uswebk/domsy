@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models;
 
-use function now;
-
 final class DomainDealing extends BaseModel
 {
     protected $fillable = [
@@ -63,7 +61,7 @@ final class DomainDealing extends BaseModel
     {
         return $this->hasMany('App\Infrastructures\Models\DomainBilling', 'dealing_id');
     }
-    
+
     /**
      * @return boolean
      */
@@ -95,8 +93,7 @@ final class DomainDealing extends BaseModel
     {
         $domainBilling = $this->domainBillings->where('is_fixed', false)
             ->where('is_auto', true)
-            ->sortBy('billing_date')
-            ->first();
+            ->sortBy('billing_date')->first();
 
         if (isset($domainBilling)) {
             return $domainBilling;
