@@ -14,10 +14,10 @@ final class MenuType extends BaseModel
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function menu(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function menu(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsTo('App\Infrastructures\Models\Menu', 'type_id');
+        return $this->hasMany('App\Infrastructures\Models\Menu', 'type_id');
     }
 }
