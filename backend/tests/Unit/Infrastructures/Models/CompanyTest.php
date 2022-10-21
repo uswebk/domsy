@@ -14,7 +14,7 @@ final class CompanyTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function has_many_users(): void
+    public function it_has_many_users(): void
     {
         $company = Company::factory()->create();
         User::factory([

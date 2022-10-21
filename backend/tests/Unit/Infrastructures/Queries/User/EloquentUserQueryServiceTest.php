@@ -53,7 +53,7 @@ final class EloquentUserQueryServiceTest extends TestCase
      * @param boolean $isException
      * @return void
      */
-    public function find_by_id(
+    public function it_find_by_id(
         array $parameterOfUsers,
         int $userId,
         bool $isException
@@ -100,7 +100,7 @@ final class EloquentUserQueryServiceTest extends TestCase
      * @param integer $assertionCount
      * @return void
      */
-    public function get_active_users(
+    public function it_get_active_users(
         array $parameterOfUsers,
         int $assertionCount
     ) {
@@ -166,7 +166,7 @@ final class EloquentUserQueryServiceTest extends TestCase
      * @param integer $isException
      * @return void
      */
-    public function get_user_by_id_and_email_verify_token(
+    public function it_get_user_by_id_and_email_verify_token(
         array $parameterOfUsers,
         int $id,
         string $emailVerifyToken,

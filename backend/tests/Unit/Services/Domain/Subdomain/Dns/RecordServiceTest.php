@@ -12,7 +12,7 @@ final class RecordServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function setUp() :void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -113,7 +113,7 @@ final class RecordServiceTest extends TestCase
      * @dataProvider dataProviderOfGetValue
      *
      */
-    public function get_value(
+    public function it_get_value(
         array $records,
         string $assertType,
         string $assertValue
@@ -127,7 +127,7 @@ final class RecordServiceTest extends TestCase
     /**
      * @test
      */
-    public function get_host(): void
+    public function it_get_host(): void
     {
         $recordService = new RecordService(
             [
@@ -150,7 +150,7 @@ final class RecordServiceTest extends TestCase
     /**
      * @test
      */
-    public function get_ttl(): void
+    public function it_get_ttl(): void
     {
         $recordService = new RecordService(
             [
@@ -173,7 +173,7 @@ final class RecordServiceTest extends TestCase
     /**
      * @test
      */
-    public function get_priority(): void
+    public function it_get_priority(): void
     {
         $recordService = new RecordService(
             [

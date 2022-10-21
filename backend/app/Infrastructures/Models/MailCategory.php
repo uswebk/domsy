@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models;
 
+use App\Constants\MailCategoryConstant;
+
 final class MailCategory extends BaseModel
 {
     public $timestamps = false;
@@ -40,7 +42,7 @@ final class MailCategory extends BaseModel
      */
     public function isDomainExpiration(): bool
     {
-        return $this->isMatchByMailCategoryName(self::DOMAIN_EXPIRATION_NAME);
+        return $this->isMatchByMailCategoryName(MailCategoryConstant::DOMAIN_EXPIRATION_NAME);
     }
 
     /**

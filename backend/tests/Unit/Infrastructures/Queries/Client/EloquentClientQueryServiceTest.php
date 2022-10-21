@@ -54,7 +54,7 @@ final class EloquentClientQueryServiceTest extends TestCase
      * @param boolean $isException
      * @return void
      */
-    public function find_by_id(
+    public function it_find_by_id(
         array $parameterOfClients,
         int $id,
         bool $isException
@@ -114,7 +114,7 @@ final class EloquentClientQueryServiceTest extends TestCase
      * @param boolean $isException
      * @return void
      */
-    public function first_by_id_and_user_id(
+    public function it_first_by_id_and_user_id(
         array $parameterOfUsers,
         array $parameterOfClients,
         int $id,
@@ -158,7 +158,7 @@ final class EloquentClientQueryServiceTest extends TestCase
                         'user_id' => 2,
                     ],
                 ],
-                [1,2,],
+                [1, 2,],
                 2
             ],
             'not match clients' => [
@@ -180,7 +180,7 @@ final class EloquentClientQueryServiceTest extends TestCase
                         'user_id' => 2,
                     ],
                 ],
-                [3,4,],
+                [3, 4,],
                 0
             ],
         ];
@@ -196,7 +196,7 @@ final class EloquentClientQueryServiceTest extends TestCase
      * @param integer $count
      * @return void
      */
-    public function get_by_user_ids(
+    public function it_get_by_user_ids(
         array $parameterOfUsers,
         array $parameterOfClients,
         array $userIds,
@@ -206,7 +206,7 @@ final class EloquentClientQueryServiceTest extends TestCase
             User::factory($parameterOfUser)->create();
         }
 
-        foreach ($parameterOfClients as  $parameterOfClient) {
+        foreach ($parameterOfClients as $parameterOfClient) {
             Client::factory($parameterOfClient)->create();
         }
 

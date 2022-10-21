@@ -14,7 +14,7 @@ final class DnsRecordTypeTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function has_subdomain(): void
+    public function it_has_subdomain(): void
     {
         $dnsRecordType = DnsRecordType::factory()->create();
         Subdomain::factory([
