@@ -41,7 +41,7 @@ final class ExpirationDomainServiceTest extends TestCase
     /**
      * @test
      */
-    public function get_domains_when_expiration_date_domain_exists(): void
+    public function it_get_domains_when_expiration_date_domain_exists(): void
     {
         $domains = (new ExpirationDomainService($this->userMailSetting, $this->user, $this->now))->getDomains();
 
@@ -51,7 +51,7 @@ final class ExpirationDomainServiceTest extends TestCase
     /**
      * @test
      */
-    public function get_domains_when_expiration_date_domain_not_exists(): void
+    public function it_get_domains_when_expiration_date_domain_not_exists(): void
     {
         $domains = (new ExpirationDomainService($this->userMailSetting, $this->user, $this->now->copy()->addDay()))->getDomains();
 

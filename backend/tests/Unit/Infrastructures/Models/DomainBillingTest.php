@@ -17,7 +17,7 @@ final class DomainBillingTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function has_domain_dealing()
+    public function it_has_domain_dealing()
     {
         $domainDealing = DomainDealing::factory()->create();
         $domainBilling = DomainBilling::factory([
@@ -29,7 +29,7 @@ final class DomainBillingTest extends TestCase
     }
 
     /** @test */
-    public function get_user_id()
+    public function it_get_user_id()
     {
         $userId = User::factory()->create()->id;
         $domainId = Domain::factory([
@@ -46,7 +46,7 @@ final class DomainBillingTest extends TestCase
     }
 
     /** @test */
-    public function get_domain_name()
+    public function it_get_domain_name()
     {
         $domainName = 'test.com';
         $domainId = Domain::factory([
@@ -63,7 +63,7 @@ final class DomainBillingTest extends TestCase
     }
 
     /** @test */
-    public function when_is_fixed()
+    public function it_when_is_fixed()
     {
         $domainBilling = DomainBilling::factory([
             'is_fixed' => true,
@@ -73,7 +73,7 @@ final class DomainBillingTest extends TestCase
     }
 
     /** @test */
-    public function when_is_not_fixed()
+    public function it_when_is_not_fixed()
     {
         $domainBilling = DomainBilling::factory([
             'is_fixed' => false,

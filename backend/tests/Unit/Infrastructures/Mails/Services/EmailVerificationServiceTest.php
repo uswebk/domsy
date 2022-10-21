@@ -18,9 +18,9 @@ final class EmailVerificationServiceTest extends TestCase
     use RefreshDatabase;
 
     /**
-    * @test
-    */
-    public function email_is_send_with_email_verify_token_included_in_the_action_url_of_the_email(): void
+     * @test
+     */
+    public function it_email_is_send_with_email_verify_token_included_in_the_action_url_of_the_email(): void
     {
         Notification::fake();
         Notification::assertNothingSent();

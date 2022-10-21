@@ -15,7 +15,7 @@ final class MenuTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function has_menu_type()
+    public function it_has_menu_type()
     {
         $menu = Menu::factory()->for(MenuType::factory())->create();
 
@@ -23,7 +23,7 @@ final class MenuTest extends TestCase
     }
 
     /** @test */
-    public function has_many_menu_items()
+    public function it_has_many_menu_items()
     {
         $menu = Menu::factory()->has(MenuItem::factory()->count(3))->create();
 
@@ -31,7 +31,7 @@ final class MenuTest extends TestCase
     }
 
     /** @test */
-    public function is_nav()
+    public function it_is_nav()
     {
         $menu = Menu::factory([
             'is_nav' => true
@@ -41,7 +41,7 @@ final class MenuTest extends TestCase
     }
 
     /** @test */
-    public function is_not_nav()
+    public function it_is_not_nav()
     {
         $menu = Menu::factory([
             'is_nav' => false

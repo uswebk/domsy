@@ -13,7 +13,7 @@ final class GeneralSettingCategoryTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function is_match_by_general_category_name(): void
+    public function it_is_match_by_general_category_name(): void
     {
         $name = 'dns_auto_fetch';
         $generalSettingCategory = GeneralSettingCategory::factory([
@@ -24,7 +24,7 @@ final class GeneralSettingCategoryTest extends TestCase
     }
 
     /** @test */
-    public function is_not_match_by_general_category_name(): void
+    public function it_is_not_match_by_general_category_name(): void
     {
         $name = 'dns_auto_fetch';
         $generalSettingCategory = GeneralSettingCategory::factory([
@@ -35,7 +35,7 @@ final class GeneralSettingCategoryTest extends TestCase
     }
 
     /** @test */
-    public function is_dns_auto_fetch(): void
+    public function it_is_dns_auto_fetch(): void
     {
         $name = 'dns_auto_fetch';
         $generalSettingCategory = GeneralSettingCategory::factory([
@@ -46,7 +46,7 @@ final class GeneralSettingCategoryTest extends TestCase
     }
 
     /** @test */
-    public function is_not_dns_auto_fetch(): void
+    public function it_is_not_dns_auto_fetch(): void
     {
         $name = 'dns_auto_fetch_dummy';
         $generalSettingCategory = GeneralSettingCategory::factory([

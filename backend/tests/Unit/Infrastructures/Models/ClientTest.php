@@ -14,7 +14,7 @@ final class ClientTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function has_user(): void
+    public function it_has_user(): void
     {
         $client = Client::factory()->create();
 
@@ -22,7 +22,7 @@ final class ClientTest extends TestCase
     }
 
     /** @test */
-    public function has_many_domain_dealings(): void
+    public function it_has_many_domain_dealings(): void
     {
         $client = Client::factory()->create();
         DomainDealing::factory([

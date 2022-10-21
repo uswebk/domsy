@@ -15,7 +15,7 @@ final class NextBillingDateServiceTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function get_next_when_interval_year(): void
+    public function it_get_next_when_interval_year(): void
     {
         $interval = 1;
         $domainDealing = DomainDealing::factory([
@@ -36,7 +36,7 @@ final class NextBillingDateServiceTest extends TestCase
     }
 
     /** @test */
-    public function get_next_when_interval_month(): void
+    public function it_get_next_when_interval_month(): void
     {
         $interval = 1;
         $domainDealing = DomainDealing::factory([
@@ -57,7 +57,7 @@ final class NextBillingDateServiceTest extends TestCase
     }
 
     /** @test */
-    public function get_next_when_interval_week(): void
+    public function it_get_next_when_interval_week(): void
     {
         $interval = 1;
         $domainDealing = DomainDealing::factory([
@@ -78,7 +78,7 @@ final class NextBillingDateServiceTest extends TestCase
     }
 
     /** @test */
-    public function get_next_when_interval_day(): void
+    public function it_get_next_when_interval_day(): void
     {
         $interval = 1;
         $domainDealing = DomainDealing::factory([

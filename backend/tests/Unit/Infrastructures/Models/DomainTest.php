@@ -17,7 +17,7 @@ final class DomainTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function has_user()
+    public function it_has_user()
     {
         $user = User::factory()->create();
         $domain = Domain::factory([
@@ -28,7 +28,7 @@ final class DomainTest extends TestCase
     }
 
     /** @test */
-    public function has_registrar()
+    public function it_has_registrar()
     {
         $registrar = Registrar::factory()->create();
         $domain = Domain::factory([
@@ -39,7 +39,7 @@ final class DomainTest extends TestCase
     }
 
     /** @test */
-    public function has_many_dealings()
+    public function it_has_many_dealings()
     {
         $domain = Domain::factory()->create();
         DomainDealing::factory([
@@ -50,7 +50,7 @@ final class DomainTest extends TestCase
     }
 
     /** @test */
-    public function is_expiration_date_by_target_date()
+    public function it_is_expiration_date_by_target_date()
     {
         $now = now();
         $domain = Domain::factory([
@@ -62,7 +62,7 @@ final class DomainTest extends TestCase
     }
 
     /** @test */
-    public function is_not_expiration_date_by_target_date()
+    public function it_is_not_expiration_date_by_target_date()
     {
         $now = now();
         $domain = Domain::factory([
@@ -73,7 +73,7 @@ final class DomainTest extends TestCase
     }
 
     /** @test */
-    public function is_owned()
+    public function it_is_owned()
     {
         $domain = Domain::factory([
             'is_active' => true,
@@ -84,7 +84,7 @@ final class DomainTest extends TestCase
     }
 
     /** @test */
-    public function is_not_owned()
+    public function it_is_not_owned()
     {
         $domain = Domain::factory([
             'is_active' => true,
@@ -95,7 +95,7 @@ final class DomainTest extends TestCase
     }
 
     /** @test */
-    public function get_total_seller()
+    public function it_get_total_seller()
     {
         $count = 10;
         $price = 1000;
