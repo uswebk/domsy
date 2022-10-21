@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Infrastructures\Models;
 
+use App\Constants\MailCategoryConstant;
 use App\Infrastructures\Models\MailCategory;
-use App\Infrastructures\Models\Menu;
-use App\Infrastructures\Models\MenuItem;
-use App\Infrastructures\Models\MenuType;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -36,7 +34,7 @@ final class MailCategoryTest extends TestCase
     /** @test */
     public function it_is_domain_expiration()
     {
-        $mailCategory = MailCategory::factory(['name' => 'domain_expiration'])->create();
+        $mailCategory = MailCategory::factory(['name' => MailCategoryConstant::DOMAIN_EXPIRATION_NAME])->create();
 
         $this->assertTrue($mailCategory->isDomainExpiration());
     }
