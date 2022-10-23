@@ -1,0 +1,95 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Services\Application\Auth;
+
+use App\Constants\CompanyConstant;
+use App\Constants\RoleConstant;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Laravel\Socialite\Facades\Socialite;
+use function now;
+
+final class SocialService
+{
+    private $userRepository;
+
+    private $userLatestCodeRepository;
+
+    private $socialAccountRepository;
+
+    private $socialAccountQueryService;
+
+    /**
+     * @param \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
+     * @param \App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository
+     * @param \App\Infrastructures\Repositories\SocialAccount\SocialAccountRepositoryInterface $socialAccountRepository
+     * @param \App\Infrastructures\Queries\SocialAccount\EloquentSocialAccountQueryServiceInterface $socialAccountQueryService
+     */
+    public function __construct(
+        \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository,
+        \App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository,
+        \App\Infrastructures\Repositories\SocialAccount\SocialAccountRepositoryInterface $socialAccountRepository,
+        \App\Infrastructures\Queries\SocialAccount\EloquentSocialAccountQueryServiceInterface $socialAccountQueryService
+    ) {
+        $this->userRepository = $userRepository;
+        $this->userLatestCodeRepository = $userLatestCodeRepository;
+        $this->socialAccountRepository = $socialAccountRepository;
+        $this->socialAccountQueryService = $socialAccountQueryService;
+    }
+
+    /**
+     * @param string $provider
+     * @return void
+     * @throws Exception
+     */
+    public function handle(string $provider): void
+    {
+        $userSocial = Socialite::driver($provider)->stateless()->user();
+        $provider_id = $userSocial->id;
+
+        DB::beginTransaction();
+        try {
+            $socialAccount = $this->socialAccountQueryService->firstByProviderIdProvider($provider_id, $provider);
+
+            $user = $socialAccount->user;
+            $user->last_login_at = now();
+            $this->userRepository->save($user);
+
+            DB::commit();
+        } catch (ModelNotFoundException $e) {
+            $code = $this->userLatestCodeRepository->next();
+
+            $user = $this->userRepository->store([
+                'name' => $userSocial->name,
+                'company_id' => CompanyConstant::INDEPENDENT_COMPANY_ID,
+                'role_id' => RoleConstant::DEFAULT_ROLE_ID,
+                'code' => $code,
+                'email' => $userSocial->email,
+                'emoji' => '',
+                'password' => '',
+                'email_verify_token' => '',
+                'last_login_at' => now(),
+                'email_verified_at' => now()->toDateTimeString(),
+            ]);
+
+            $this->socialAccountRepository->store([
+                'user_id' => $user->id,
+                'provider_id' => $provider_id,
+                'provider_name' => $provider,
+                'avatar_path' => $userSocial->avatar,
+            ]);
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw new Exception('Failed registration');
+        }
+
+        Auth::login($user);
+    }
+}

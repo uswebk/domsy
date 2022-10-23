@@ -28,6 +28,7 @@ final class User extends Authenticatable implements MustVerifyEmail
         'password',
         'emoji',
         'email_verify_token',
+        'email_verified_at',
         'last_login_at',
         'deleted_at',
     ];
@@ -67,6 +68,14 @@ final class User extends Authenticatable implements MustVerifyEmail
     public function role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Role', 'role_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function socialAccounts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Infrastructures\Models\SocialAccounts');
     }
 
     /**

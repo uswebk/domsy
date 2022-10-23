@@ -20,6 +20,8 @@ use App\Infrastructures\Repositories\Role\RoleItemRepository;
 use App\Infrastructures\Repositories\Role\RoleItemRepositoryInterface;
 use App\Infrastructures\Repositories\Role\RoleRepository;
 use App\Infrastructures\Repositories\Role\RoleRepositoryInterface;
+use App\Infrastructures\Repositories\SocialAccount\SocialAccountRepository;
+use App\Infrastructures\Repositories\SocialAccount\SocialAccountRepositoryInterface;
 use App\Infrastructures\Repositories\Subdomain\SubdomainRepository;
 use App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface;
 use App\Infrastructures\Repositories\User\UserGeneralSettingRepository;
@@ -88,6 +90,10 @@ final class RepositoryProvider extends ServiceProvider
 
         $this->app->bind(UserRepositoryInterface::class, function () {
             return new UserRepository();
+        });
+
+        $this->app->bind(SocialAccountRepositoryInterface::class, function () {
+            return new SocialAccountRepository();
         });
 
         $this->app->bind(UserGeneralSettingRepositoryInterface::class, function () {
