@@ -75,7 +75,7 @@ final class User extends Authenticatable implements MustVerifyEmail
      */
     public function socialAccounts(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany('App\Infrastructures\Models\SocialAccounts');
+        return $this->hasMany('App\Infrastructures\Models\SocialAccount');
     }
 
     /**
@@ -256,5 +256,26 @@ final class User extends Authenticatable implements MustVerifyEmail
         $users = $this->getMembers();
 
         return $users->pluck('id')->toArray();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSocial(): bool
+    {
+        return isset($this->socialAccounts);
+    }
+
+    /**
+     * TODO: When more socials are added, need to get images of current socials
+     * @return string
+     */
+    public function getSocialAvatar(): string
+    {
+        if ($this->isSocial()) {
+            return $this->socialAccounts->first()->avatar_path;
+        }
+
+        return '';
     }
 }
