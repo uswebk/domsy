@@ -77,6 +77,18 @@
         <nuxt-link to="password/email">Forgot Your Password?</nuxt-link>
       </v-form>
       <v-divider></v-divider>
+      <v-container>
+        <v-row class="d-flex" align-content="center" justify="center">
+          <v-col md="4" align="center">
+            <v-img
+              src="/images/google.png"
+              width="220px"
+              style="cursor: pointer"
+              @click="pushGoogleLogin"
+            ></v-img>
+          </v-col>
+        </v-row>
+      </v-container>
       <v-tooltip bottom>
         <template #activator="{ on, attrs }">
           <v-btn
@@ -132,7 +144,10 @@ export default {
     ...mapMutations('authentication', {
       pageLoadingCommit: 'pageLoading',
     }),
-    ...mapActions('authentication', { loginAction: 'login' }),
+    ...mapActions('authentication', {
+      loginAction: 'login',
+      providerLogin: 'providerLogin',
+    }),
     async login() {
       try {
         const result = await this.loginAction(this.authModel)
@@ -149,6 +164,10 @@ export default {
         this.errors = _errors
         this.pageLoadingCommit(false)
       }
+    },
+    async pushGoogleLogin() {
+      const response = await this.providerLogin('google')
+      location.href = response.data
     },
   },
 }

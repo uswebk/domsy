@@ -58,10 +58,20 @@ export const actions = {
 
   async providerLogin({ commit }, payload) {
     commit('pageLoading', true)
-    const result = await this.$axios.get('/api/login/' + payload, {
-      ...payload,
-    })
+    const result = await this.$axios.get('/api/login/' + payload)
     commit('pageLoading', false)
+
+    return result
+  },
+
+  async providerCallback({ commit }, payload) {
+    const params = payload.params
+    const result = await this.$axios.get(
+      'api/login/' + payload.name + '/callback',
+      {
+        params,
+      }
+    )
 
     return result
   },
