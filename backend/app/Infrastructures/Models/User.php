@@ -263,7 +263,7 @@ final class User extends Authenticatable implements MustVerifyEmail
      */
     public function isSocial(): bool
     {
-        return isset($this->socialAccounts);
+        return !$this->socialAccounts->empty();
     }
 
     /**
