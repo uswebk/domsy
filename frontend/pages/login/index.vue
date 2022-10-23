@@ -41,6 +41,7 @@
           <v-btn class="mr-4" color="primary" @click="login"> Login </v-btn>
           <nuxt-link to="password/email">Forgot Your Password?</nuxt-link>
         </v-form>
+        <v-btn @click="pushGoogleLogin">Google login</v-btn>
       </v-card>
     </v-container>
   </v-app>
@@ -69,7 +70,10 @@ export default {
     ...mapMutations('authentication', {
       pageLoadingCommit: 'pageLoading',
     }),
-    ...mapActions('authentication', { loginAction: 'login' }),
+    ...mapActions('authentication', {
+      loginAction: 'login',
+      providerLogin: 'providerLogin',
+    }),
     async login() {
       try {
         const result = await this.loginAction(this.authModel)
@@ -86,6 +90,10 @@ export default {
         this.errors = errors
       }
       this.pageLoadingCommit(false)
+    },
+    async pushGoogleLogin() {
+      const response = await this.providerLogin('google')
+      location.href = response.data
     },
   },
 }

@@ -17,6 +17,8 @@ Route::namespace('Api')->name('api.')->group(function () {
     Route::put('me/{user}', 'MeController@update')->name('me.update');
 });
 
+Route::get('auth/login/google', 'SocialController@redirect');
+
 
 Route::namespace('Auth')->group(function () {
     Route::get('verify/url/{id}/{hash}', 'VerificationController@url')->name('verify.url');
@@ -28,11 +30,12 @@ Route::namespace('Auth')->group(function () {
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'ResetPasswordController@reset');
 
-    Route::middleware(['session'])->group(function () {
-        Route::get('login/{provider}', 'SocialController@redirectProvider');
-        Route::get('login/{provider}/callback', 'SocialController@callback');
-    });
+    Route::get('login/{provider}', 'SocialController@redirect');
+    Route::get('login/{provider}/callback', 'SocialController@callback');
 });
+
+Route::get('test', 'Auth\SocialController@redirect');
+
 
 Route::middleware(['verified', 'auth:sanctum'])->group(function () {
     Route::namespace('Api')->name('api.')->group(function () {
