@@ -91,9 +91,9 @@ final class DomainDealing extends BaseModel
      */
     public function getNextBilling(): \App\Infrastructures\Models\DomainBilling
     {
-        $domainBilling = $this->domainBillings->where('is_fixed', false)->where('is_auto', true)
-        ->sortBy('billing_date')
-        ->first();
+        $domainBilling = $this->domainBillings->where('is_fixed', false)
+            ->where('is_auto', true)
+            ->sortBy('billing_date')->first();
 
         if (isset($domainBilling)) {
             return $domainBilling;
