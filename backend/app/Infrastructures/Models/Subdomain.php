@@ -64,12 +64,4 @@ final class Subdomain extends BaseModel
 
         return $this->domain->name;
     }
-
-    /**
-     * @return string
-     */
-    public function getDnsTypeAttribute(): string
-    {
-        return (isset($this->dnsRecordType)) ? $this->dnsRecordType->name : '';
-    }
 }
