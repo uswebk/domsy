@@ -19,6 +19,7 @@ final class DomainResource extends JsonResource
             'name' => $this->name,
             'price' => $this->price,
             'registrar_id' => $this->registrar_id,
+            'registrar' => new RegistrarResource($this->registrar),
             'is_active' => $this->is_active,
             'is_transferred' => $this->is_transferred,
             'is_management_only' => $this->is_management_only,

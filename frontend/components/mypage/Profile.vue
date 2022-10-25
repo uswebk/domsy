@@ -1,7 +1,11 @@
 <template>
   <v-row justify="center" class="d-flex align-center">
     <v-col cols="1">
+      <v-avatar v-if="userModel.is_social" size="52px">
+        <img alt="Avatar" :src="userModel.social_avatar" />
+      </v-avatar>
       <v-avatar
+        v-else
         size="52"
         color="#efefef"
         style="cursor: pointer"

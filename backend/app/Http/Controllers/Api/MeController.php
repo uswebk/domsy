@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\UserResource;
 use App\Infrastructures\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,18 +19,26 @@ final class MeController
     {
         $userId = Auth::id();
 
-        if (!isset($userId)) {
+        if (! isset($userId)) {
             return response()->json(
                 [],
                 Response::HTTP_NOT_FOUND
             );
         }
 
-        $user = User::find(Auth::id());
-        return response()->json(
-            new UserResource($user),
-            Response::HTTP_OK
-        );
+        try {
+            $user = User::findOrFail($userId);
+
+            return response()->json(
+                new UserResource($user),
+                Response::HTTP_OK
+            );
+        } catch (ModelNotFoundException $e) {
+            return response()->json(
+                [],
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 
     /**

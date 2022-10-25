@@ -30,13 +30,26 @@
             <register-corporation-form></register-corporation-form>
           </v-tab-item>
         </v-tabs-items>
+        <v-divider></v-divider>
+        <v-container>
+          <v-row class="d-flex" align-content="center" justify="center">
+            <v-col md="4" align="center">
+              <v-img
+                src="/images/google.png"
+                width="220px"
+                style="cursor: pointer"
+                @click="pushGoogleLogin"
+              ></v-img>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-card>
     </v-container>
   </v-app>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'RegisterPage',
@@ -51,6 +64,13 @@ export default {
       'greeting',
       'greetingType',
     ]),
+  },
+  methods: {
+    ...mapActions('authentication', ['pushGoogleLogin']),
+    async pushGoogleLogin() {
+      const response = await this.providerLogin('google')
+      location.href = response.data
+    },
   },
 }
 </script>

@@ -27,7 +27,7 @@
             height="6"
           ></v-progress-linear>
           <v-row justify="space-between" align="end">
-            <v-col cols="1">
+            <v-col cols="8">
               <v-btn
                 small
                 dark
@@ -35,6 +35,22 @@
                 @click="openConfirmDialog"
                 ><v-icon dark left> mdi-refresh </v-icon>Update DNS</v-btn
               >
+              <VueJsonToCsv
+                v-if="subdomains.length > 0"
+                :json-data="subdomainCsv"
+                :labels="labels"
+                :csv-title="title"
+              >
+                <v-btn
+                  small
+                  color="light-green darken-1"
+                  dark
+                  @click="downloadCsv"
+                >
+                  <v-icon dark left> mdi-download </v-icon>
+                  CSV Download
+                </v-btn>
+              </VueJsonToCsv>
             </v-col>
             <v-col cols="4">
               <v-text-field
@@ -102,9 +118,13 @@
 
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
+import VueJsonToCsv from 'vue-json-to-csv'
 
 export default {
   name: 'DnsPage',
+  components: {
+    VueJsonToCsv,
+  },
   data() {
     return {
       subdomain: {},
@@ -114,6 +134,15 @@ export default {
       isOpenConfirmDialog: false,
       isOpenApplyResultDialog: false,
       overlay: false,
+      subdomainCsv: [],
+      labels: {
+        domain_name: { title: 'Domain Name' },
+        dns_type: { title: 'Type' },
+        priority: { title: 'Priority' },
+        ttl: { title: 'TTL' },
+        value: { title: 'Value' },
+      },
+      title: '',
     }
   },
   computed: {
@@ -216,6 +245,21 @@ export default {
       this.applyResult = await this.applyRecord()
       this.overlay = false
       this.openApplyResultDialog()
+    },
+    downloadCsv() {
+      this.title = 'subdomain_list_' + Date.now()
+      this.subdomainCsv = []
+      this.subdomains.forEach((subdomain) => {
+        subdomain.subdomains.forEach((dns) => {
+          this.subdomainCsv.push({
+            domain_name: dns.full_domain,
+            dns_type: dns.dns_record_name,
+            priority: dns.priority,
+            ttl: dns.ttl,
+            value: dns.value,
+          })
+        })
+      })
     },
   },
 }

@@ -5,7 +5,10 @@
         <v-list>
           <v-list-item>
             <v-list-item-icon>
-              <v-avatar size="36">
+              <v-avatar v-if="me.is_social" size="36px" style="cursor: pointer">
+                <img alt="Avatar" :src="me.social_avatar" @click="pushMypage" />
+              </v-avatar>
+              <v-avatar v-else size="36">
                 <v-btn
                   style="background-color: #efefef"
                   active-class="no-active"

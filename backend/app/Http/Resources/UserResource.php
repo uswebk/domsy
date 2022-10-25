@@ -20,6 +20,8 @@ final class UserResource extends JsonResource
             'role_id' => $this->role_id,
             'company_id' => $this->company_id,
             'is_company' => $this->isCompany(),
+            'is_social' => $this->isSocial(),
+            'social_avatar' => $this->getSocialAvatar(),
             'company' => new CompanyResource($this->company),
             'name' => $this->name,
             'email' => $this->email,
