@@ -56,3 +56,7 @@ docker-compose up
 
 ## Others
 * Role Management
+* Google Login
+* Domain Csv Export
+* DNS Csv Export
+* Dealing Csv Export
