@@ -47,7 +47,7 @@
             <v-col md="4" align="center">
               <v-img
                 src="/images/google.png"
-                width="220px"
+                width="180px"
                 style="cursor: pointer"
                 @click="pushGoogleLogin"
               ></v-img>
