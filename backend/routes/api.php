@@ -26,6 +26,9 @@ Route::namespace('Auth')->group(function () {
     Route::post('logout', 'LoginController@logout');
     Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'ResetPasswordController@reset');
+
+    Route::get('login/{provider}', 'SocialController@redirect');
+    Route::get('login/{provider}/callback', 'SocialController@callback');
 });
 
 Route::middleware(['verified', 'auth:sanctum'])->group(function () {

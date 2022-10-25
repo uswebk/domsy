@@ -1,8 +1,12 @@
 <template>
   <v-dialog v-model="open" max-width="290">
     <v-card :loading="loading">
-      <v-card-title class="text-h5"> Billing Cancel </v-card-title>
-      <v-card-text> Cancel billing? </v-card-text>
+      <v-toolbar color="primary" dark dense flat>
+        <v-card-title class="text-h6">Billing Cancel</v-card-title>
+      </v-toolbar>
+      <v-card-text>
+        <v-container>Cancel this billing?</v-container>
+      </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="gray darken-1" text @click="close"> Close </v-btn>

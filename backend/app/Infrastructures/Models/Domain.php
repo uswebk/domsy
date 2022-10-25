@@ -51,19 +51,19 @@ final class Domain extends BaseModel
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function subdomains(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany('App\Infrastructures\Models\Subdomain');
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function registrar(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo('App\Infrastructures\Models\Registrar', 'registrar_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function subdomains(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany('App\Infrastructures\Models\Subdomain');
     }
 
     /**
@@ -78,9 +78,8 @@ final class Domain extends BaseModel
      * @param \Carbon\Carbon $targetDatetime
      * @return boolean
      */
-    public function isExpirationDateByTargetDate(
-        \Carbon\Carbon $targetDate
-    ): bool {
+    public function isExpirationDateByTargetDate(\Carbon\Carbon $targetDate): bool
+    {
         $targetStartDate = $targetDate->copy()->startOfDay();
         $expirationStartDate = $this->expired_at->copy()->startOfDay();
 

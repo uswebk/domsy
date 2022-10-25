@@ -35,9 +35,9 @@ final class DomainExpirationServiceTest extends TestCase
     }
 
     /**
-    * @test
-    */
-    public function domainNameAndNotificationNumberDaysIncludedInTheBodyOfEmailAndSend(): void
+     * @test
+     */
+    public function it_domain_name_and_notification_number_days_included_in_the_body_of_email_and_send(): void
     {
         $user = User::factory()->create();
         $userOther = User::factory()->create();

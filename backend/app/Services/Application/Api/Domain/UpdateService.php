@@ -12,17 +12,17 @@ use Illuminate\Support\Facades\DB;
 
 final class UpdateService
 {
-    private $updateDomainService;
+    private $renewService;
 
     private $domain;
 
     /**
-     * @param \App\Services\Domain\Domain\UpdateDomainService $updateDomainService
+     * @param \App\Services\Domain\Domain\RenewService $renewService
      */
     public function __construct(
-        \App\Services\Domain\Domain\UpdateDomainService $updateDomainService,
+        \App\Services\Domain\Domain\RenewService $renewService,
     ) {
-        $this->updateDomainService = $updateDomainService;
+        $this->renewService = $renewService;
     }
 
     /**
@@ -52,7 +52,7 @@ final class UpdateService
                 'canceled_at' => $domainRequest->canceled_at,
             ]);
 
-            $this->domain = $this->updateDomainService->execute($domain);
+            $this->domain = $this->renewService->execute($domain);
 
             DB::commit();
         } catch (Exception $e) {

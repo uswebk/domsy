@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Models;
 
-use App\Enums\Interval;
-
 final class DomainDealing extends BaseModel
 {
     protected $fillable = [
@@ -67,17 +65,9 @@ final class DomainDealing extends BaseModel
     /**
      * @return boolean
      */
-    public function isBilled(): bool
-    {
-        return $this->billing_date->lt(now());
-    }
-
-    /**
-     * @return boolean
-     */
     public function isUnclaimed(): bool
     {
-        return ! $this->isBilled();
+        return $this->billing_date->gte(now());
     }
 
     /**
@@ -97,48 +87,13 @@ final class DomainDealing extends BaseModel
     }
 
     /**
-     * @param \Carbon\Carbon $targetDate
-     * @return \Carbon\Carbon
-     */
-    public function getNextBillingDateByTargetDate(
-        \Carbon\Carbon $targetDate
-    ): \Carbon\Carbon {
-        $billingDate = $targetDate->copy()->startOfDay();
-        $interval = $this->interval;
-        $intervalCategory = $this->interval_category;
-
-        if ($intervalCategory === Interval::DAY->name) {
-            return $billingDate->addDays($interval);
-        }
-
-        if ($intervalCategory === Interval::WEEK->name) {
-            return $billingDate->addWeeks($interval);
-        }
-
-        if ($intervalCategory === Interval::MONTH->name) {
-            return $billingDate->addMonths($interval);
-        }
-
-        if ($intervalCategory === Interval::YEAR->name) {
-            return $billingDate->addYears($interval);
-        }
-    }
-
-    /**
-     * @return \Carbon\Carbon
-     */
-    public function getNextBillingDate(): \Carbon\Carbon
-    {
-        return $this->getNextBillingDateByTargetDate($this->billing_date);
-    }
-
-    /**
      * @return \App\Infrastructures\Models\DomainBilling
      */
     public function getNextBilling(): \App\Infrastructures\Models\DomainBilling
     {
         $domainBilling = $this->domainBillings->where('is_fixed', false)
-        ->sortBy('billing_date')->first();
+            ->where('is_auto', true)
+            ->sortBy('billing_date')->first();
 
         if (isset($domainBilling)) {
             return $domainBilling;

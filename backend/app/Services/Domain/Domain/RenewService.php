@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Domain;
 
-final class UpdateDomainService
+final class RenewService
 {
     private $domainRepository;
 

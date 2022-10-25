@@ -6,9 +6,9 @@
         color="info"
         indeterminate
       ></v-progress-linear>
-      <v-card-title class="pl-8">
-        <span class="text-h6">Domain Create</span>
-      </v-card-title>
+      <v-toolbar color="primary" dark dense flat>
+        <v-card-title class="text-h6">Domain Create</v-card-title>
+      </v-toolbar>
       <v-card-text>
         <v-container>
           <v-form ref="form" lazy-validation>
@@ -157,6 +157,7 @@ export default {
         is_active: true,
         is_transferred: false,
         is_management_only: false,
+        is_fetching_dns: true,
         purchased_at: '',
         expired_at: '',
         canceled_at: '',
