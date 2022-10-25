@@ -6,7 +6,7 @@ namespace App\Services\Domain\Subdomain\Dns;
 
 use Illuminate\Support\Collection;
 
-final class MakeRecordService
+class MakeRecordService
 {
     /**
      * @param \App\Infrastructures\Models\Subdomain $subdomain

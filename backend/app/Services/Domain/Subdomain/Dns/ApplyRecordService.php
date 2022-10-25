@@ -20,7 +20,8 @@ final class ApplyRecordService
     private $errorDomains = [];
 
     /**
-     * @param \App\Services\Domain\Subdomain\Dns\MakeRecordService $makeRecordService
+     * @param \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     * @param MakeRecordService $makeRecordService
      */
     public function __construct(
         \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
@@ -31,7 +32,7 @@ final class ApplyRecordService
     }
 
     /**
-     * @param \App\Services\Domain\Subdomain\Dns\RecordService $dnsRecord
+     * @param RecordService $dnsRecord
      * @param \App\Infrastructures\Models\Subdomain $subdomain
      * @return void
      */
@@ -79,7 +80,7 @@ final class ApplyRecordService
             DB::commit();
 
             $this->successDomains[] = $domainName;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
 
             $this->errorDomains[] = $domainName;
@@ -93,7 +94,7 @@ final class ApplyRecordService
      */
     public function execute(
         \Illuminate\Database\Eloquent\Collection $subdomains,
-        array $dnsRecordTypes,
+        array $dnsRecordTypes
     ): void {
         $this->dnsRecordTypes = $dnsRecordTypes;
 
