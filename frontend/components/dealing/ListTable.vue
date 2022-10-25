@@ -1,6 +1,19 @@
 <template>
   <div>
-    <v-row justify="end">
+    <v-row justify="space-between" align="end">
+      <v-col cols="2">
+        <VueJsonToCsv
+          v-if="dealings.length > 0"
+          :json-data="dealingCsv"
+          :labels="labels"
+          :csv-title="title"
+        >
+          <v-btn small color="light-green darken-1" dark @click="downloadCsv">
+            <v-icon dark left> mdi-download </v-icon>
+            CSV Download
+          </v-btn>
+        </VueJsonToCsv>
+      </v-col>
       <v-col cols="4">
         <v-text-field
           v-model="search"
@@ -82,9 +95,13 @@
 
 <script>
 import { mapActions, mapMutations, mapGetters } from 'vuex'
+import VueJsonToCsv from 'vue-json-to-csv'
 
 export default {
   name: 'DealingListTable',
+  components: {
+    VueJsonToCsv,
+  },
   props: {
     dealings: {
       default() {
@@ -104,6 +121,7 @@ export default {
         domain: [],
         client: [],
       },
+      dealingCsv: [],
       headers: [
         {
           text: 'Domain Name',
@@ -139,6 +157,21 @@ export default {
           sortable: false,
         },
       ],
+      labels: {
+        id: { title: 'ID' },
+        domain_name: { title: 'Domain Name' },
+        client_name: { title: 'Client Name' },
+        client_email: { title: 'Client Email' },
+        client_zip: { title: 'Client Zip' },
+        client_address: { title: 'Client Address' },
+        client_phone_number: { title: 'Client Phone Number' },
+        subtotal: { title: 'Subtotal' },
+        discount: { title: 'Discount' },
+        interval: { title: 'Interval' },
+        is_auto_update: { title: 'Auto update' },
+        is_halt: { title: 'Halt' },
+      },
+      title: '',
     }
   },
   computed: {
@@ -188,6 +221,26 @@ export default {
     resume(dealing) {
       this.dealing = Object.assign({}, dealing)
       this.openResumeDialog()
+    },
+    downloadCsv() {
+      this.title = 'dealing_list_' + Date.now()
+      this.dealingCsv = []
+      this.dealings.forEach((dealing) => {
+        this.dealingCsv.push({
+          id: dealing.id,
+          domain_name: dealing.domain.name,
+          client_name: dealing.client.name,
+          client_email: dealing.client.email,
+          client_zip: dealing.client.zip,
+          client_address: dealing.client.address,
+          client_phone_number: dealing.client.phone_number,
+          subtotal: dealing.subtotal,
+          discount: dealing.discount,
+          interval: dealing.interval + dealing.interval_category,
+          is_auto_update: dealing.is_auto_update,
+          is_halt: dealing.is_halt,
+        })
+      })
     },
   },
 }

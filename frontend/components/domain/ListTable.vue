@@ -3,6 +3,7 @@
     <v-row justify="space-between" align="end">
       <v-col cols="2">
         <VueJsonToCsv
+          v-if="domains.length > 0"
           :json-data="domainCsv"
           :labels="labels"
           :csv-title="title"
