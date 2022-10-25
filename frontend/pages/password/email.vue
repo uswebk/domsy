@@ -53,7 +53,7 @@ export default {
         this.greeting = 'Sent a password reset link to  your email address.'
         this.greetingType = 'success'
       } catch (error) {
-        this.errorMessage = 'Failed to send email'
+        this.greeting = 'Failed to send email'
         this.greetingType = 'errors'
       }
     },

@@ -41,6 +41,19 @@
           <v-btn class="mr-4" color="primary" @click="login"> Login </v-btn>
           <nuxt-link to="password/email">Forgot Your Password?</nuxt-link>
         </v-form>
+        <v-divider></v-divider>
+        <v-container>
+          <v-row class="d-flex" align-content="center" justify="center">
+            <v-col md="4" align="center">
+              <v-img
+                src="/images/google.png"
+                width="180px"
+                style="cursor: pointer"
+                @click="pushGoogleLogin"
+              ></v-img>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-card>
     </v-container>
   </v-app>
@@ -69,7 +82,10 @@ export default {
     ...mapMutations('authentication', {
       pageLoadingCommit: 'pageLoading',
     }),
-    ...mapActions('authentication', { loginAction: 'login' }),
+    ...mapActions('authentication', {
+      loginAction: 'login',
+      providerLogin: 'providerLogin',
+    }),
     async login() {
       try {
         const result = await this.loginAction(this.authModel)
@@ -86,6 +102,10 @@ export default {
         this.errors = errors
       }
       this.pageLoadingCommit(false)
+    },
+    async pushGoogleLogin() {
+      const response = await this.providerLogin('google')
+      location.href = response.data
     },
   },
 }

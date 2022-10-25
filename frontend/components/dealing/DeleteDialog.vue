@@ -1,12 +1,17 @@
 <template>
   <v-dialog v-model="open" max-width="350">
     <v-card>
-      <v-card-title class="text-h5"> Deletion Confirmation </v-card-title>
+      <v-toolbar color="primary" dark dense flat>
+        <v-card-title class="text-h6">Confirmation</v-card-title>
+      </v-toolbar>
       <v-card-text>
-        <p class="font-weight-bold text-h6">
-          {{ dealingModel.client.name }} | {{ dealingModel.domain.name }}
-        </p>
-        Do you want to delete the ?
+        <v-container>
+          <p class="font-weight-bold text-h6">
+            {{ dealingModel.client.name }}<br />
+            {{ dealingModel.domain.name }}
+          </p>
+          Do you want to delete the ?
+        </v-container>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>

@@ -1,6 +1,19 @@
 <template>
   <div>
-    <v-row justify="end">
+    <v-row justify="space-between" align="end">
+      <v-col cols="2">
+        <VueJsonToCsv
+          v-if="domains.length > 0"
+          :json-data="domainCsv"
+          :labels="labels"
+          :csv-title="title"
+        >
+          <v-btn small color="light-green darken-1" dark @click="downloadCsv">
+            <v-icon dark left> mdi-download </v-icon>
+            CSV Download
+          </v-btn>
+        </VueJsonToCsv>
+      </v-col>
       <v-col cols="4">
         <v-text-field
           v-model="search"
@@ -55,9 +68,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import VueJsonToCsv from 'vue-json-to-csv'
 
 export default {
   name: 'DomainListTable',
+  components: {
+    VueJsonToCsv,
+  },
   props: {
     domains: {
       default() {
@@ -72,6 +89,7 @@ export default {
       isOpenEditDialog: false,
       isOpenDeleteDialog: false,
       domain: {},
+      domainCsv: [],
       headers: [
         {
           text: 'Name',
@@ -109,6 +127,16 @@ export default {
           sortable: false,
         },
       ],
+      labels: {
+        registrar_name: { title: 'Registrar Name' },
+        name: { title: 'Domain Name' },
+        price: { title: 'Price' },
+        is_active: { title: 'Active' },
+        purchased_at: { title: 'Purchased Date' },
+        expired_at: { title: 'Expired Date' },
+        canceled_at: { title: 'Canceled Date' },
+      },
+      title: '',
     }
   },
   computed: {
@@ -137,6 +165,21 @@ export default {
     deletion(domain) {
       this.domain = Object.assign({}, domain)
       this.openDeleteDialog()
+    },
+    downloadCsv() {
+      this.title = 'domain_list_' + Date.now()
+      this.domainCsv = []
+      this.domains.forEach((domain) => {
+        this.domainCsv.push({
+          name: domain.name,
+          price: domain.price,
+          registrar_name: domain.registrar.name,
+          is_active: domain.is_active,
+          purchased_at: this.$dateHyphen(domain.purchased_at),
+          expired_at: this.$dateHyphen(domain.expired_at),
+          canceled_at: this.$dateHyphen(domain.canceled_at),
+        })
+      })
     },
   },
 }

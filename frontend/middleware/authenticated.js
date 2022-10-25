@@ -33,7 +33,10 @@ function isAuthPath(routePath) {
   const pattern = /^\/password\/reset\/[\w]+/
   const result1 = pattern.test(routePath)
 
-  if (result1) return false
+  const pattern2 = /^\/login\/[\w]+\/callback/
+  const result2 = pattern2.test(routePath)
+
+  if (result1 || result2) return false
 
   const targetRoute = ['/login', '/register', '/password/email']
   return !targetRoute.includes(routePath)

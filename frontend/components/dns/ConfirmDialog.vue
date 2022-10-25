@@ -1,10 +1,14 @@
 <template>
   <v-dialog v-model="open" max-width="350">
     <v-card>
-      <v-card-title class="text-h5"> DNS ALL Update </v-card-title>
+      <v-toolbar color="primary" dark dense flat>
+        <v-card-title class="text-h6">DNS All Update</v-card-title>
+      </v-toolbar>
       <v-card-text>
-        Apply DNS record information? <br />
-        It may take some time depending on the number of cases.<br />
+        <v-container>
+          Apply DNS record information? <br />
+          It may take some time depending on the number of cases.<br />
+        </v-container>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
