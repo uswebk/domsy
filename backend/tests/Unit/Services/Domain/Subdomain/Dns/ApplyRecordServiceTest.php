@@ -9,7 +9,6 @@ use App\Infrastructures\Models\Domain;
 use App\Infrastructures\Models\Subdomain;
 use App\Infrastructures\Repositories\Subdomain\SubdomainRepository;
 use App\Services\Domain\Subdomain\Dns\ApplyRecordService;
-use App\Services\Domain\Subdomain\Dns\MakeRecordService;
 use App\Services\Domain\Subdomain\Dns\RecordService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
@@ -27,15 +26,7 @@ final class ApplyRecordServiceTest extends TestCase
         $this->seed('DnsRecordTypeSeeder');
         $this->dnsRecordTypes = DnsRecordType::all()->pluck('name', 'id')->toArray();
 
-        $dnsRecordsDummy = new Collection();
-        $dnsRecordsDummy->push(new RecordService([
-            'host' => 'test.com',
-            'type' => 'A',
-            'ttl' => 100,
-            'ip' => '127.0.0.1',
-        ]));
         $this->mock = Mockery::mock('\App\Services\Domain\Subdomain\Dns\MakeRecordService');
-        $this->mock->shouldReceive('make')->andReturn($dnsRecordsDummy);
         // $this->app->instance(MakeRecordService::class, $this->mock);
     }
 
@@ -44,6 +35,16 @@ final class ApplyRecordServiceTest extends TestCase
      */
     public function it_execute(): void
     {
+        $dnsRecordsDummy = new Collection();
+        $dnsRecordsDummy->push(new RecordService([
+            'host' => 'test.com',
+            'type' => 'A',
+            'ttl' => 100,
+            'ip' => '127.0.0.1',
+        ]));
+
+        $this->mock->shouldReceive('make')->andReturn($dnsRecordsDummy);
+
         $domain = Domain::factory(['name' => 'test.com'])->create();
         $subdomains = Subdomain::factory([
             'domain_id' => $domain->id,
@@ -58,5 +59,36 @@ final class ApplyRecordServiceTest extends TestCase
             'ttl' => 100,
             'value' => '127.0.0.1',
         ]);
+
+        $this->assertCount(1, $apply_record_service->getSuccessDomains());
+        $this->assertEmpty($apply_record_service->getErrorDomains());
+    }
+
+    /**
+     * @test
+     */
+    public function it_do_not_execute(): void
+    {
+        $dnsRecordsDummy = new Collection();
+
+        $this->mock->shouldReceive('make')->andReturn($dnsRecordsDummy);
+
+        $domain = Domain::factory(['name' => 'dummy.test.com'])->create();
+        $subdomains = Subdomain::factory([
+            'domain_id' => $domain->id,
+            'prefix' => '',
+        ])->count(10)->create();
+
+        $apply_record_service = new ApplyRecordService(new SubdomainRepository(), $this->mock);
+        $apply_record_service->execute($subdomains, $this->dnsRecordTypes);
+
+        $this->assertDatabaseMissing('subdomains', [
+            'domain_id' => $domain->id,
+            'ttl' => 100,
+            'value' => '127.0.0.1',
+        ]);
+
+        $this->assertEmpty($apply_record_service->getSuccessDomains());
+        $this->assertCount(1, $apply_record_service->getErrorDomains());
     }
 }

@@ -10,6 +10,8 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use function now;
 
@@ -70,7 +72,7 @@ final class SocialService
                 'code' => $code,
                 'email' => $userSocial->email,
                 'emoji' => '',
-                'password' => '',
+                'password' => Hash::make(Str::random(32)),
                 'email_verify_token' => '',
                 'last_login_at' => now(),
                 'email_verified_at' => now()->toDateTimeString(),
