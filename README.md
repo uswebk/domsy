@@ -46,7 +46,7 @@ docker-compose up
 * Account
 
 ## Screen
-<img width="1000" alt="image" src="https://user-images.githubusercontent.com/50518919/181744197-c6f58d33-52b9-4804-81d1-7999b3c7ef16.png">
+<img width="1000" alt="image" src="https://user-images.githubusercontent.com/50518919/197834530-be9a5c87-81b4-46b5-a3ad-d467d5f01229.png">
 <img width="1000" alt="image" src="https://user-images.githubusercontent.com/50518919/190405435-67d0f9e5-49a5-43b3-9ba9-d4d10d11523f.png">
 
 ## Batches
@@ -56,3 +56,7 @@ docker-compose up
 
 ## Others
 * Role Management
+* Google Login
+* Domain Csv Export
+* DNS Csv Export
+* Dealing Csv Export
