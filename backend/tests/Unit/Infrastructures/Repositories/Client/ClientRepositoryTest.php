@@ -33,6 +33,11 @@ final class ClientRepositoryTest extends TestCase
             'created_at' => now(),
         ];
 
+        $this->assertDatabaseMissing('clients', [
+            'user_id' => $user->id,
+            'name' => 'test',
+        ]);
+
         $clientRepository = new ClientRepository();
         $client = $clientRepository->store($data);
 
@@ -40,6 +45,40 @@ final class ClientRepositoryTest extends TestCase
         $this->assertDatabaseHas('clients', [
             'user_id' => $user->id,
             'name' => 'test',
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_save()
+    {
+        $client = Client::factory()->create();
+        $client->name = 'test';
+
+        $clientRepository = new ClientRepository();
+        $clientResult = $clientRepository->save($client);
+
+        $this->assertSame($clientResult->name, 'test');
+    }
+
+    /**
+     * @test
+     */
+    public function it_delete()
+    {
+        $id = 1;
+        $client = Client::factory(['id' => $id])->create();
+
+        $this->assertDatabaseHas('clients', [
+            'id' => $id,
+        ]);
+
+        $clientRepository = new ClientRepository();
+        $clientRepository->delete($client);
+
+        $this->assertDatabaseMissing('clients', [
+            'id' => $id,
         ]);
     }
 }
