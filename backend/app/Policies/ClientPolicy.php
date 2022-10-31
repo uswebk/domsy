@@ -23,6 +23,6 @@ final class ClientPolicy
             return in_array($client->user_id, $user->getMemberIds());
         }
 
-        return $user->id == $client->user_id;
+        return $user->id === $client->user_id;
     }
 }
