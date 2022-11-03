@@ -17,6 +17,13 @@ final class FetchServiceTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->seed('CompanySeeder');
+    }
+
     /** @test */
     public function it_get_response_then_individual(): void
     {
