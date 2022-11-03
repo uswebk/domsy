@@ -4,11 +4,9 @@ namespace Tests\Unit\Policies;
 
 use App\Constants\CompanyConstant;
 use App\Infrastructures\Models\Client;
-use App\Infrastructures\Models\DnsRecordType;
 use App\Infrastructures\Models\User;
 use App\Policies\ClientPolicy;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Mockery;
 use Tests\TestCase;
 
 class ClientPolicyTest extends TestCase
