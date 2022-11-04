@@ -5,8 +5,15 @@
       indeterminate
       color="yellow darken-2"
     ></v-progress-linear>
-    <v-container>
-      <v-card flat max-width="640" class="mx-auto" elevation="2" outlined>
+    <v-container style="width: 550px" class="pa-4">
+      <v-row>
+        <v-col>
+          <p class="text-body-2">
+            <nuxt-link to="/"> ← Top </nuxt-link>
+          </p>
+        </v-col>
+      </v-row>
+      <v-card flat max-width="550" class="mx-auto" elevation="2" outlined>
         <v-card-title class="text-center pa-8">
           <h4 class="fill-width"><v-icon> mdi-login-variant </v-icon> Login</h4>
         </v-card-title>
@@ -44,7 +51,7 @@
         <v-divider></v-divider>
         <v-container>
           <v-row class="d-flex" align-content="center" justify="center">
-            <v-col md="4" align="center">
+            <v-col md="5" align="center">
               <v-img
                 src="/images/google.png"
                 width="180px"
@@ -54,6 +61,25 @@
             </v-col>
           </v-row>
         </v-container>
+        <v-tooltip bottom>
+          <template #activator="{ on, attrs }">
+            <v-btn
+              absolute
+              fab
+              bottom
+              right
+              color="primary"
+              style="bottom: -20px"
+              to="/register"
+              v-bind="attrs"
+              nuxt
+              v-on="on"
+            >
+              <v-icon>mdi-account-plus</v-icon>
+            </v-btn>
+          </template>
+          <span>Register</span>
+        </v-tooltip>
       </v-card>
     </v-container>
   </v-app>

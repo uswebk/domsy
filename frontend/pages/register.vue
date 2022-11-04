@@ -9,8 +9,15 @@
       :type="greetingType"
       :message="greeting"
     ></common-greeting-message>
-    <v-container>
-      <v-card flat max-width="640" class="mx-auto pa-10" elevation="2" outlined>
+    <v-container style="width: 550px" class="pa-4">
+      <v-row>
+        <v-col>
+          <p class="text-body-2">
+            <nuxt-link to="/"> ← Top </nuxt-link>
+          </p>
+        </v-col>
+      </v-row>
+      <v-card flat max-width="550" class="mx-auto pa-10" elevation="2" outlined>
         <v-card-title class="text-center pa-6">
           <h3 class="fill-width text-center">Register</h3>
         </v-card-title>
@@ -33,10 +40,10 @@
         <v-divider></v-divider>
         <v-container>
           <v-row class="d-flex" align-content="center" justify="center">
-            <v-col md="4" align="center">
+            <v-col md="8" align="center">
               <v-img
                 src="/images/google.png"
-                width="220px"
+                width="180px"
                 style="cursor: pointer"
                 @click="pushGoogleLogin"
               ></v-img>
