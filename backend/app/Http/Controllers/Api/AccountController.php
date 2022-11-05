@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\Api\Account\StoreRequest;
 use App\Http\Requests\Api\Account\UpdateRequest;
+use App\Http\Resources\UserResource;
 use App\Infrastructures\Models\User;
 use App\Infrastructures\Repositories\User\UserRepositoryInterface;
 use App\Services\Application\Api\Account\ResendVerifyService;
@@ -17,18 +18,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class AccountController extends Controller
 {
-    private $userRepository;
-
     /**
      * @param UserRepositoryInterface $userRepository
      */
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(private UserRepositoryInterface $userRepository)
     {
         parent::__construct();
 
         $this->middleware('can:owner,user')->except(['store', 'withdraw']);
-
-        $this->userRepository = $userRepository;
     }
 
     /**
@@ -64,16 +61,21 @@ final class AccountController extends Controller
         UpdateRequest $request,
         User $user
     ): JsonResponse {
-        $data = $request->makeInput();
+        try {
+            $user->fill($request->makeInput());
 
-        $user->fill($data);
+            $resultUser = $this->userRepository->save($user);
 
-        $this->userRepository->save($user);
-
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                new UserResource($resultUser),
+                Response::HTTP_OK
+            );
+        } catch (Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
