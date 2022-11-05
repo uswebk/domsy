@@ -111,7 +111,8 @@ Route::middleware(['verified', 'auth:sanctum'])->group(function () {
 
         Route::prefix('account')->name('account.')->group(function () {
             Route::post('', 'AccountController@store')->name('store');
-            Route::post('withdraw/{user}', 'AccountController@withdraw')->where('user', '[0-9]+')->name('withdraw');
+            Route::post('{user}/withdraw', 'AccountController@withdraw')->where('user', '[0-9]+')->name('withdraw');
+            Route::post('{user}/resend-verify', 'AccountController@resendVerify')->where('user', '[0-9]+')->name('resend-verify');
             Route::put('{user}', 'AccountController@update')->where('user', '[0-9]+')->name('update');
             Route::delete('{user}', 'AccountController@delete')->where('user', '[0-9]+')->name('delete');
         });
