@@ -7,7 +7,7 @@
         indeterminate
       ></v-progress-linear>
       <v-toolbar color="primary" dark dense flat>
-        <v-card-title class="text-h6">Account Edit</v-card-title>
+        <v-card-title class="text-subtitle-2">Account Edit</v-card-title>
       </v-toolbar>
       <v-card-text>
         <v-container>
@@ -39,6 +39,10 @@
             </v-row>
             <div class="my-5"></div>
             <v-btn color="primary" @click="update">Update</v-btn>
+            <v-divider class="my-5"></v-divider>
+            <a @click="resend">
+              <v-icon small>mdi-email-arrow-left</v-icon> Resend Verify Email
+            </a>
           </v-form>
         </v-container>
       </v-card-text>
@@ -88,7 +92,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions('account', ['updateAccount', 'sendMessage']),
+    ...mapActions('account', [
+      'updateAccount',
+      'sendMessage',
+      'sendVerifyEmail',
+    ]),
     close() {
       this.errors = {}
       this.$emit('close')
@@ -124,6 +132,24 @@ export default {
         }
         this.sendMessage({
           greeting: message,
+          greetingType: 'error',
+        })
+      }
+      this.close()
+      this.loading = false
+    },
+    async resend() {
+      this.loading = true
+      try {
+        await this.sendVerifyEmail(this.accountModel)
+
+        this.sendMessage({
+          greeting: 'Resend Mail Success',
+          greetingType: 'success',
+        })
+      } catch (error) {
+        this.sendMessage({
+          greeting: 'Resend Mail Fail',
           greetingType: 'error',
         })
       }
