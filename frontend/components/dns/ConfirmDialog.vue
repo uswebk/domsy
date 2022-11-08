@@ -2,7 +2,7 @@
   <v-dialog v-model="open" max-width="350">
     <v-card>
       <v-toolbar color="primary" dark dense flat>
-        <v-card-title class="text-h6">DNS All Update</v-card-title>
+        <v-card-title class="text-subtitle-2">DNS All Update</v-card-title>
       </v-toolbar>
       <v-card-text>
         <v-container>

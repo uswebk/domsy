@@ -7,7 +7,7 @@
         indeterminate
       ></v-progress-linear>
       <v-toolbar color="primary" dark dense flat>
-        <v-card-title class="text-h6">Domain Create</v-card-title>
+        <v-card-title class="text-subtitle-2">Domain Create</v-card-title>
       </v-toolbar>
       <v-card-text>
         <v-container>

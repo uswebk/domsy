@@ -2,12 +2,15 @@
   <v-dialog v-model="open" max-width="350">
     <v-card>
       <v-toolbar color="primary" dark dense flat>
-        <v-card-title class="text-h6">Confirmation</v-card-title>
+        <v-card-title class="text-subtitle-2">Confirmation</v-card-title>
       </v-toolbar>
-      <v-card-text class="body-1">
+      <v-card-text>
         <v-container>
-          Client: {{ dealingModel.client.name }} <br />
-          Domain: {{ dealingModel.domain.name }}
+          <p class="font-weight-bold text-h6">
+            {{ dealingModel.client.name }} / {{ dealingModel.domain.name }}
+          </p>
+          <v-divider class="mb-3"></v-divider>
+          Do you want to resume ?
         </v-container>
       </v-card-text>
       <v-card-actions>

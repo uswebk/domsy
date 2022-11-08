@@ -40,7 +40,7 @@
             <div class="my-5"></div>
             <v-btn color="primary" @click="update">Update</v-btn>
             <v-divider class="my-5"></v-divider>
-            <a @click="resend">
+            <a v-if="accountModel.email_verified_at === null" @click="resend">
               <v-icon small>mdi-email-arrow-left</v-icon> Resend Verify Email
             </a>
           </v-form>
