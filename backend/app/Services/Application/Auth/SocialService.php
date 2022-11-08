@@ -57,6 +57,7 @@ final class SocialService
         try {
             $socialAccount = $this->socialAccountQueryService->firstByProviderIdProvider($provider_id, $provider);
 
+            // FIXME: Throws an exception if the user has been deleted
             $user = $socialAccount->user;
             $user->last_login_at = now();
             $this->userRepository->save($user);
