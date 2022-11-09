@@ -1,29 +1,29 @@
 <template>
   <v-row dense justify="start">
-    <v-col v-for="menu in menuItems" :key="menu.id" cols="4">
-      <v-card outlined>
-        <v-list-item three-line>
-          <v-list-item-content>
-            <v-list-item-title class="text-h6 mb-1">
-              {{ menu.menu_name }}
-            </v-list-item-title>
-            <v-list-item-subtitle>{{ menu.description }} </v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-avatar
-            tile
-            size="60"
-            color="#e8c46a"
-            class="rounded-circle"
-            ><v-icon color="white">{{ menu.icon }}</v-icon></v-list-item-avatar
-          >
-        </v-list-item>
-        <v-card-actions>
-          <v-btn outlined rounded text :to="menu.endpoint" nuxt>
-            Link <v-icon small>mdi-link-variant</v-icon>
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
+    <div>
+      <v-layout justify-center align-center wrap bottom>
+        <v-card
+          v-for="menu in menuItems"
+          :key="menu.id"
+          :href="menu.endpoint"
+          class="px-2 ma-2"
+          style="min-width: 200px"
+        >
+          <v-card-text>
+            <v-layout justify-center column align-center>
+              <v-flex class="mt-5">
+                <v-avatar size="60" :color="getColor(menu.id) + ' lighten-1'">
+                  <v-icon dark>{{ menu.icon }}</v-icon>
+                </v-avatar>
+              </v-flex>
+              <p class="subheading mt-2 text-xs-center">{{ menu.menu_name }}</p>
+              <v-divider></v-divider>
+              <p>- {{ menu.description }} -</p>
+            </v-layout>
+          </v-card-text>
+        </v-card>
+      </v-layout>
+    </div>
   </v-row>
 </template>
 
@@ -38,6 +38,24 @@ export default {
       return this.menus.filter(function (menu) {
         return menu.has_role
       })
+    },
+  },
+  methods: {
+    getColor(id) {
+      const colors = [
+        'indigo',
+        'blue',
+        'purple',
+        'light-blue',
+        'cyan',
+        'teal',
+        'green',
+        'light-green',
+        'lime',
+        'amber',
+        'blue-grey',
+      ]
+      return colors[id % colors.length]
     },
   },
 }
