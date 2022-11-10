@@ -33,8 +33,9 @@ export default {
   },
   computed: {
     ...mapGetters('menu', ['menus']),
+    ...mapGetters('authentication', ['me']),
     menuItems() {
-      if (this.menus.length === 0) return []
+      if (this.menus.length === 0 && this.me.email_verified_at) return []
       const menus = this.menus.filter(function (menu) {
         return menu.has_role
       })

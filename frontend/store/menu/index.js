@@ -11,8 +11,12 @@ export const mutations = {
 export const actions = {
   async fetchMenus({ commit }) {
     commit('pageLoading', true)
-    const result = await this.$axios.get('api/menus')
-    commit('menus', result.data)
+    try {
+      const result = await this.$axios.get('api/menus')
+      commit('menus', result.data)
+    } catch (error) {
+      commit('menus', [])
+    }
     commit('pageLoading', false)
   },
 }
