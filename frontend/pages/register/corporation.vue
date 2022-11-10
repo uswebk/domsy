@@ -5,21 +5,23 @@
       indeterminate
       color="yellow darken-2"
     ></v-progress-linear>
-    <common-greeting-message
-      :type="greetingType"
-      :message="greeting"
-    ></common-greeting-message>
+    <v-snackbar v-model="snackbarModel" :color="greetingType">
+      {{ greeting }}
+      <template #action="{ attrs }">
+        <v-btn color="white" text v-bind="attrs" @click="close"> Close </v-btn>
+      </template>
+    </v-snackbar>
     <v-container style="width: 550px" class="pa-4">
       <v-row>
         <v-col>
           <p class="text-body-2">
-            <nuxt-link to="/"> ← </nuxt-link>
+            <nuxt-link to="/register"> ← </nuxt-link>
           </p>
         </v-col>
       </v-row>
       <v-card flat max-width="550" class="mx-auto pa-10" elevation="2" outlined>
         <v-card-title class="text-center pa-6">
-          <v-icon>mdi-domain</v-icon>Corporation Register
+          <v-icon>mdi-domain</v-icon>&nbsp;Corporation Register
         </v-card-title>
         <register-corporation-form></register-corporation-form>
         <v-divider></v-divider>
@@ -47,7 +49,7 @@ export default {
   name: 'CorporationPage',
   data() {
     return {
-      tab: '',
+      snackbar: true,
     }
   },
   computed: {
@@ -56,12 +58,18 @@ export default {
       'greeting',
       'greetingType',
     ]),
+    snackbarModel() {
+      return this.greeting.length > 0 && this.snackbar
+    },
   },
   methods: {
     ...mapActions('authentication', ['providerLogin']),
     async pushGoogleLogin() {
       const response = await this.providerLogin('google')
       location.href = response.data
+    },
+    close() {
+      this.snackbar = false
     },
   },
 }
