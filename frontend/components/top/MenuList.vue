@@ -6,6 +6,7 @@
         :key="menu.id"
         :href="menu.endpoint"
         class="px-5 ma-2"
+        style="min-width: 140px"
       >
         <v-card-text>
           <v-layout justify-center column align-center>
@@ -33,13 +34,14 @@ export default {
   computed: {
     ...mapGetters('menu', ['menus']),
     menuItems() {
+      if (this.menus.length === 0) return []
       const menus = this.menus.filter(function (menu) {
         return menu.has_role
       })
       menus.unshift({
         id: 0,
         icon: 'mdi-account-box',
-        menu_name: 'MyPage',
+        menu_name: 'Mypage',
         endpoint: 'mypage',
       })
 
