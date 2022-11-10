@@ -37,7 +37,12 @@ function isAuthPath(routePath) {
   const result2 = pattern2.test(routePath)
 
   if (result1 || result2) return false
-
-  const targetRoute = ['/login', '/register', '/password/email']
+  const targetRoute = [
+    '/login',
+    '/register',
+    '/register/corporation',
+    '/register/individual',
+    '/password/email',
+  ]
   return !targetRoute.includes(routePath)
 }

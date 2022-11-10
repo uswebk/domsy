@@ -9,7 +9,7 @@
       <v-row>
         <v-col>
           <p class="text-body-2">
-            <nuxt-link to="/"> ← Top </nuxt-link>
+            <nuxt-link to="/"> ← </nuxt-link>
           </p>
         </v-col>
       </v-row>

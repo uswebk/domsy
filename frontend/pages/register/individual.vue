@@ -13,30 +13,15 @@
       <v-row>
         <v-col>
           <p class="text-body-2">
-            <nuxt-link to="/"> ← Top </nuxt-link>
+            <nuxt-link to="/register"> ← </nuxt-link>
           </p>
         </v-col>
       </v-row>
       <v-card flat max-width="550" class="mx-auto pa-10" elevation="2" outlined>
         <v-card-title class="text-center pa-6">
-          <h3 class="fill-width text-center">Register</h3>
+          <v-icon>mdi-account-box</v-icon>Individual Register
         </v-card-title>
-        <v-tabs v-model="tab">
-          <v-tab href="#individual">
-            <v-icon dark left>mdi-account-box </v-icon>Individual
-          </v-tab>
-          <v-tab href="#corporation">
-            <v-icon dark left>mdi-domain </v-icon>Corporation
-          </v-tab>
-        </v-tabs>
-        <v-tabs-items v-model="tab">
-          <v-tab-item value="individual">
-            <register-individual-form></register-individual-form>
-          </v-tab-item>
-          <v-tab-item value="corporation">
-            <register-corporation-form></register-corporation-form>
-          </v-tab-item>
-        </v-tabs-items>
+        <register-individual-form></register-individual-form>
         <v-divider></v-divider>
         <v-container>
           <v-row class="d-flex" align-content="center" justify="center">
@@ -59,11 +44,9 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'RegisterPage',
+  name: 'IndividualPage',
   data() {
-    return {
-      tab: '',
-    }
+    return {}
   },
   computed: {
     ...mapGetters('authentication', [
@@ -73,7 +56,7 @@ export default {
     ]),
   },
   methods: {
-    ...mapActions('authentication', ['pushGoogleLogin']),
+    ...mapActions('authentication', ['providerLogin']),
     async pushGoogleLogin() {
       const response = await this.providerLogin('google')
       location.href = response.data
