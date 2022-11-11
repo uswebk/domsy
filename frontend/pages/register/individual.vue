@@ -5,38 +5,25 @@
       indeterminate
       color="yellow darken-2"
     ></v-progress-linear>
-    <common-greeting-message
-      :type="greetingType"
-      :message="greeting"
-    ></common-greeting-message>
+    <v-snackbar v-model="snackbarModel" :color="greetingType">
+      {{ greeting }}
+      <template #action="{ attrs }">
+        <v-btn color="white" text v-bind="attrs" @click="close"> Close </v-btn>
+      </template>
+    </v-snackbar>
     <v-container style="width: 550px" class="pa-4">
       <v-row>
         <v-col>
           <p class="text-body-2">
-            <nuxt-link to="/"> ← Top </nuxt-link>
+            <nuxt-link to="/register"> ← </nuxt-link>
           </p>
         </v-col>
       </v-row>
       <v-card flat max-width="550" class="mx-auto pa-10" elevation="2" outlined>
         <v-card-title class="text-center pa-6">
-          <h3 class="fill-width text-center">Register</h3>
+          <v-icon>mdi-account-box</v-icon>&nbsp;Individual Register
         </v-card-title>
-        <v-tabs v-model="tab">
-          <v-tab href="#individual">
-            <v-icon dark left>mdi-account-box </v-icon>Individual
-          </v-tab>
-          <v-tab href="#corporation">
-            <v-icon dark left>mdi-domain </v-icon>Corporation
-          </v-tab>
-        </v-tabs>
-        <v-tabs-items v-model="tab">
-          <v-tab-item value="individual">
-            <register-individual-form></register-individual-form>
-          </v-tab-item>
-          <v-tab-item value="corporation">
-            <register-corporation-form></register-corporation-form>
-          </v-tab-item>
-        </v-tabs-items>
+        <register-individual-form></register-individual-form>
         <v-divider></v-divider>
         <v-container>
           <v-row class="d-flex" align-content="center" justify="center">
@@ -59,10 +46,10 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'RegisterPage',
+  name: 'IndividualPage',
   data() {
     return {
-      tab: '',
+      snackbar: true,
     }
   },
   computed: {
@@ -71,12 +58,18 @@ export default {
       'greeting',
       'greetingType',
     ]),
+    snackbarModel() {
+      return this.greeting.length > 0 && this.snackbar
+    },
   },
   methods: {
-    ...mapActions('authentication', ['pushGoogleLogin']),
+    ...mapActions('authentication', ['providerLogin']),
     async pushGoogleLogin() {
       const response = await this.providerLogin('google')
       location.href = response.data
+    },
+    close() {
+      this.snackbar = false
     },
   },
 }

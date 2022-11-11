@@ -99,6 +99,22 @@ export default {
   methods: {
     ...mapMutations('authentication', ['pageLoading']),
     ...mapActions('authentication', ['registerCorporation', 'sendMessage']),
+    resetForm() {
+      this.authModel = {
+        corporation: {
+          name: '',
+          email: '',
+          zip: '',
+          address: '',
+          phone_number: '',
+        },
+        name: '',
+        emoji: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
+      }
+    },
     async register() {
       try {
         this.authModel.emoji = this.$getEmoji()
@@ -108,6 +124,8 @@ export default {
           greeting: 'We have sent you an approval email.',
           greetingType: 'success',
         })
+
+        this.resetForm()
       } catch (error) {
         const errors = error.response.data.errors
         const _errors = {}

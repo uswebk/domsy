@@ -35,6 +35,35 @@
                   placeholder="Role Name"
                   :error-messages="errors.role_id"
                 ></v-autocomplete>
+                <v-switch
+                  v-model="isPasswordChange"
+                  color="light-green"
+                  label="change password"
+                >
+                </v-switch>
+                <v-text-field
+                  v-show="isPasswordChange"
+                  v-model="accountModel.password"
+                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="showPassword ? 'text' : 'password'"
+                  name="password"
+                  label="Password"
+                  hint="At least 8 characters"
+                  counter
+                  required
+                  :error-messages="errors.password"
+                  @click:append="showPassword = !showPassword"
+                ></v-text-field>
+                <v-text-field
+                  v-show="isPasswordChange"
+                  v-model="accountModel.password_confirmation"
+                  type="password"
+                  name="password_confirmation"
+                  label="Confirm Password"
+                  counter
+                  required
+                  :error-messages="errors.password_confirmation"
+                ></v-text-field>
               </v-col>
             </v-row>
             <div class="my-5"></div>
@@ -74,6 +103,8 @@ export default {
   data() {
     return {
       loading: false,
+      showPassword: false,
+      isPasswordChange: false,
       errors: {},
     }
   },
@@ -99,11 +130,33 @@ export default {
     ]),
     close() {
       this.errors = {}
+      this.isPasswordChange = false
       this.$emit('close')
+    },
+    resetPassword() {
+      delete this.accountModel.password
+      delete this.accountModel.password_confirmation
+    },
+    initPasswordIfNoInput() {
+      if (!('password' in this.accountModel)) {
+        this.accountModel.password = ''
+      }
+      if (!('password_confirmation' in this.accountModel)) {
+        this.accountModel.password_confirmation = ''
+      }
+    },
+    applyPassword() {
+      if (!this.isPasswordChange) {
+        this.resetPassword()
+      } else {
+        this.initPasswordIfNoInput()
+      }
     },
     async update() {
       this.loading = true
       try {
+        this.applyPassword()
+
         await this.updateAccount(this.accountModel)
 
         this.sendMessage({
