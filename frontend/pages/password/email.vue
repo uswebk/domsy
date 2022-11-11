@@ -9,8 +9,15 @@
       :type="greetingType"
       :message="greeting"
     ></common-greeting-message>
-    <v-container>
-      <v-card flat max-width="640" class="mx-auto" elevation="2" outlined>
+    <v-container style="width: 550px" class="pa-4">
+      <v-row>
+        <v-col>
+          <p class="text-body-2">
+            <nuxt-link to="login"> ← Login </nuxt-link>
+          </p>
+        </v-col>
+      </v-row>
+      <v-card flat class="mx-auto" elevation="2" outlined>
         <v-card-title class="text-center pa-8">
           <h4 class="fill-width">
             <v-icon middle>mdi-email-sync</v-icon> Reset Password

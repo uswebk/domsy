@@ -6,6 +6,8 @@
           <v-card align="center" class="pb-10">
             <v-img src="/images/domsy.jpg"> </v-img>
             <br />
+            <div class="text-body-1">Email verification succeeded 🎊</div>
+            <br />
             <v-btn color="primary" to="/mypage" nuxt> Start Domsy </v-btn>
           </v-card>
         </v-col>

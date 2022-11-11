@@ -34,6 +34,7 @@
     ></v-text-field>
     <div class="my-5"></div>
     <v-btn class="mr-4" color="primary" @click="register"> Register </v-btn>
+    <nuxt-link to="login"> Already have an account? </nuxt-link>
   </v-form>
 </template>
 
@@ -61,6 +62,15 @@ export default {
       registerAction: 'register',
       sendMessage: 'sendMessage',
     }),
+    resetForm() {
+      this.authModel = {
+        name: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
+        emoji: '',
+      }
+    },
     async register() {
       try {
         this.authModel.emoji = this.$getEmoji()
@@ -70,6 +80,8 @@ export default {
           greeting: 'We have sent you an approval email.',
           greetingType: 'success',
         })
+
+        this.resetForm()
       } catch (error) {
         const errors = error.response.data.errors
         const errorTmp = {}

@@ -4,35 +4,39 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Api\Account\StoreRequest;
+use App\Http\Requests\Api\Account\UpdateRequest;
+use App\Http\Resources\UserResource;
+use App\Infrastructures\Models\User;
+use App\Infrastructures\Repositories\User\UserRepositoryInterface;
+use App\Services\Application\Api\Account\ResendVerifyService;
+use App\Services\Application\Api\Account\StoreService;
+use App\Services\Application\Api\Account\WithdrawService;
 use Exception;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class AccountController extends Controller
 {
-    private $userRepository;
-
     /**
-     * @param \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
+     * @param UserRepositoryInterface $userRepository
      */
-    public function __construct(
-        \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
-    ) {
+    public function __construct(private UserRepositoryInterface $userRepository)
+    {
         parent::__construct();
 
-        $this->middleware('can:owner,user')->except(['store','withdraw']);
-
-        $this->userRepository = $userRepository;
+        $this->middleware('can:owner,user')->except(['store', 'withdraw']);
     }
 
     /**
-     * @param \App\Http\Requests\Api\Account\StoreRequest $request
-     * @param \App\Services\Application\Api\Account\StoreService $storeService
-     * @return \Illuminate\Http\JsonResponse
+     * @param StoreRequest $request
+     * @param StoreService $storeService
+     * @return JsonResponse
      */
     public function store(
-        \App\Http\Requests\Api\Account\StoreRequest $request,
-        \App\Services\Application\Api\Account\StoreService $storeService
-    ) {
+        StoreRequest $request,
+        StoreService $storeService
+    ): JsonResponse {
         try {
             $storeService->handle($request->makeInput());
 
@@ -40,7 +44,7 @@ final class AccountController extends Controller
                 $storeService->getResponse(),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -49,33 +53,37 @@ final class AccountController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Account\UpdateRequest $request
-     * @param \App\Infrastructures\Models\User $user
-     * @return \Illuminate\Http\JsonResponse
+     * @param UpdateRequest $request
+     * @param User $user
+     * @return JsonResponse
      */
     public function update(
-        \App\Http\Requests\Api\Account\UpdateRequest $request,
-        \App\Infrastructures\Models\User $user
-    ) {
-        $data = $request->makeInput();
+        UpdateRequest $request,
+        User $user
+    ): JsonResponse {
+        try {
+            $user->fill($request->makeInput());
 
-        $user->fill($data);
+            $resultUser = $this->userRepository->save($user);
 
-        $this->userRepository->save($user);
-
-        return response()->json(
-            [],
-            Response::HTTP_OK
-        );
+            return response()->json(
+                new UserResource($resultUser),
+                Response::HTTP_OK
+            );
+        } catch (Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     /**
-     * @param \App\Infrastructures\Models\User $user
-     * @return \Illuminate\Http\JsonResponse
+     * @param User $user
+     * @return JsonResponse
      */
-    public function delete(
-        \App\Infrastructures\Models\User $user
-    ) {
+    public function delete(User $user): JsonResponse
+    {
         $this->userRepository->delete($user);
 
         return response()->json(
@@ -85,12 +93,11 @@ final class AccountController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Api\Account\WithdrawService $withdrawService
-     * @return \Illuminate\Http\JsonResponse
+     * @param WithdrawService $withdrawService
+     * @return JsonResponse
      */
-    public function withdraw(
-        \App\Services\Application\Api\Account\WithdrawService $withdrawService
-    ) {
+    public function withdraw(WithdrawService $withdrawService): JsonResponse
+    {
         try {
             $withdrawService->handle();
 
@@ -98,7 +105,31 @@ final class AccountController extends Controller
                 $withdrawService->getResponse(),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
+            return response()->json(
+                $e->getMessage(),
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    /**
+     * @param User $user
+     * @param ResendVerifyService $resendVerifyService
+     * @return JsonResponse
+     */
+    public function resendVerify(
+        User $user,
+        ResendVerifyService $resendVerifyService
+    ): JsonResponse {
+        try {
+            $resendVerifyService->send($user);
+
+            return response()->json(
+                [],
+                Response::HTTP_OK
+            );
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR

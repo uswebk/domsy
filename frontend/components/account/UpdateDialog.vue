@@ -7,7 +7,7 @@
         indeterminate
       ></v-progress-linear>
       <v-toolbar color="primary" dark dense flat>
-        <v-card-title class="text-h6">Account Edit</v-card-title>
+        <v-card-title class="text-subtitle-2">Account Edit</v-card-title>
       </v-toolbar>
       <v-card-text>
         <v-container>
@@ -35,10 +35,43 @@
                   placeholder="Role Name"
                   :error-messages="errors.role_id"
                 ></v-autocomplete>
+                <v-switch
+                  v-model="isPasswordChange"
+                  color="light-green"
+                  label="change password"
+                >
+                </v-switch>
+                <v-text-field
+                  v-show="isPasswordChange"
+                  v-model="accountModel.password"
+                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="showPassword ? 'text' : 'password'"
+                  name="password"
+                  label="Password"
+                  hint="At least 8 characters"
+                  counter
+                  required
+                  :error-messages="errors.password"
+                  @click:append="showPassword = !showPassword"
+                ></v-text-field>
+                <v-text-field
+                  v-show="isPasswordChange"
+                  v-model="accountModel.password_confirmation"
+                  type="password"
+                  name="password_confirmation"
+                  label="Confirm Password"
+                  counter
+                  required
+                  :error-messages="errors.password_confirmation"
+                ></v-text-field>
               </v-col>
             </v-row>
             <div class="my-5"></div>
             <v-btn color="primary" @click="update">Update</v-btn>
+            <v-divider class="my-5"></v-divider>
+            <a v-if="accountModel.email_verified_at === null" @click="resend">
+              <v-icon small>mdi-email-arrow-left</v-icon> Resend Verify Email
+            </a>
           </v-form>
         </v-container>
       </v-card-text>
@@ -70,6 +103,8 @@ export default {
   data() {
     return {
       loading: false,
+      showPassword: false,
+      isPasswordChange: false,
       errors: {},
     }
   },
@@ -88,14 +123,40 @@ export default {
     },
   },
   methods: {
-    ...mapActions('account', ['updateAccount', 'sendMessage']),
+    ...mapActions('account', [
+      'updateAccount',
+      'sendMessage',
+      'sendVerifyEmail',
+    ]),
     close() {
       this.errors = {}
+      this.isPasswordChange = false
       this.$emit('close')
+    },
+    resetPassword() {
+      delete this.accountModel.password
+      delete this.accountModel.password_confirmation
+    },
+    initPasswordIfNoInput() {
+      if (!('password' in this.accountModel)) {
+        this.accountModel.password = ''
+      }
+      if (!('password_confirmation' in this.accountModel)) {
+        this.accountModel.password_confirmation = ''
+      }
+    },
+    applyPassword() {
+      if (!this.isPasswordChange) {
+        this.resetPassword()
+      } else {
+        this.initPasswordIfNoInput()
+      }
     },
     async update() {
       this.loading = true
       try {
+        this.applyPassword()
+
         await this.updateAccount(this.accountModel)
 
         this.sendMessage({
@@ -124,6 +185,24 @@ export default {
         }
         this.sendMessage({
           greeting: message,
+          greetingType: 'error',
+        })
+      }
+      this.close()
+      this.loading = false
+    },
+    async resend() {
+      this.loading = true
+      try {
+        await this.sendVerifyEmail(this.accountModel)
+
+        this.sendMessage({
+          greeting: 'Resend Mail Success',
+          greetingType: 'success',
+        })
+      } catch (error) {
+        this.sendMessage({
+          greeting: 'Resend Mail Fail',
           greetingType: 'error',
         })
       }

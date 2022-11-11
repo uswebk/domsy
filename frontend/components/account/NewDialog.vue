@@ -7,7 +7,7 @@
         indeterminate
       ></v-progress-linear>
       <v-toolbar color="primary" dark dense flat>
-        <v-card-title class="text-h6">Account Create</v-card-title>
+        <v-card-title class="text-subtitle-2">Account Create</v-card-title>
       </v-toolbar>
       <v-card-text>
         <v-container>
@@ -37,13 +37,15 @@
                 ></v-autocomplete>
                 <v-text-field
                   v-model="accountModel.password"
-                  type="password"
+                  :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                  :type="showPassword ? 'text' : 'password'"
                   name="password"
                   label="Password"
                   hint="At least 8 characters"
                   counter
                   required
                   :error-messages="errors.password"
+                  @click:append="showPassword = !showPassword"
                 ></v-text-field>
                 <v-text-field
                   v-model="accountModel.password_confirmation"
@@ -84,6 +86,7 @@ export default {
   data() {
     return {
       loading: false,
+      showPassword: false,
       accountModel: {
         name: '',
         email: '',

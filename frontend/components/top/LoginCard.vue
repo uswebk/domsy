@@ -1,38 +1,7 @@
 <template>
   <div>
-    <div v-if="isLogin" class="ml-10" style="max-width: 500px">
-      <v-tooltip bottom>
-        <template #activator="{ on, attrs }">
-          <v-btn
-            color="primary"
-            to="/mypage"
-            v-bind="attrs"
-            fab
-            class="ma-2"
-            nuxt
-            v-on="on"
-          >
-            <v-icon>mdi-account-box</v-icon>
-          </v-btn>
-        </template>
-        <span>MyPage</span>
-      </v-tooltip>
-      <v-tooltip v-for="menu in menuItems" :key="menu.id" bottom>
-        <template #activator="{ on, attrs }">
-          <v-btn
-            color="primary"
-            :to="menu.endpoint"
-            v-bind="attrs"
-            fab
-            class="ma-2"
-            nuxt
-            v-on="on"
-          >
-            <v-icon>{{ menu.icon }}</v-icon>
-          </v-btn>
-        </template>
-        <span>{{ menu.menu_name }}</span>
-      </v-tooltip>
+    <div v-if="isLogin" class="ml-10" style="max-width: 640px">
+      <top-menu-list></top-menu-list>
     </div>
     <v-card
       v-if="!isLogin"

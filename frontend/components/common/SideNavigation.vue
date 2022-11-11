@@ -22,7 +22,9 @@
           </v-list-item>
           <v-list-item>
             <v-list-item-content>
-              <v-list-item-subtitle>{{ me.email }} </v-list-item-subtitle>
+              <v-list-item-subtitle
+                ><v-icon small>mdi-email</v-icon> {{ me.email }}
+              </v-list-item-subtitle>
               <v-list-item-title
                 class="text-h6"
                 style="text-overflow: inherit; white-space: unset"

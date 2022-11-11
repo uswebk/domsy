@@ -6,7 +6,9 @@
         color="info"
         indeterminate
       ></v-progress-linear>
-      <v-toolbar color="primary" dark dense flat>Billing Create</v-toolbar>
+      <v-toolbar color="primary" class="text-subtitle-2" dark dense flat
+        >Billing Create</v-toolbar
+      >
       <v-card-text>
         <v-container>
           <v-form ref="form" lazy-validation>

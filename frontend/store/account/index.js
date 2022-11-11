@@ -81,7 +81,16 @@ export const actions = {
   },
 
   async withdrawAccount({ dispatch }, payload) {
-    const result = await this.$axios.post('/api/account/withdraw/' + payload.id)
+    const result = await this.$axios.post(
+      '/api/account/' + payload.id + '/withdraw'
+    )
+    return result
+  },
+
+  async sendVerifyEmail({ dispatch }, payload) {
+    const result = await this.$axios.post(
+      '/api/account/' + payload.id + '/resend-verify'
+    )
     return result
   },
 

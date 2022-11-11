@@ -127,6 +127,27 @@ final class DomainDealingTest extends TestCase
     }
 
     /** @test */
+    public function it_get_next_billing_then_has_not()
+    {
+        $domainDealing = DomainDealing::factory()->create();
+
+        DomainBilling::factory([
+            'dealing_id' => $domainDealing->id,
+            'is_fixed' => true,
+        ])->create();
+
+        DomainBilling::factory([
+            'dealing_id' => $domainDealing->id,
+            'billing_date' => now()->addDay()->toDateString(),
+            'is_fixed' => true,
+        ])->create();
+
+        $assertBilling = $domainDealing->getNextBilling();
+
+        $this->assertNull($assertBilling->id);
+    }
+
+    /** @test */
     public function it_get_total_price()
     {
         $domainDealing = DomainDealing::factory()->create();
@@ -134,7 +155,7 @@ final class DomainDealingTest extends TestCase
         DomainBilling::factory([
             'dealing_id' => $domainDealing->id,
             'is_fixed' => true,
-            'total' => 100
+            'total' => 100,
         ])->create();
 
         DomainBilling::factory([

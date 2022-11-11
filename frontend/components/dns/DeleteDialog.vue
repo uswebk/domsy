@@ -2,14 +2,15 @@
   <v-dialog v-model="open" max-width="290">
     <v-card>
       <v-toolbar color="primary" dark dense flat>
-        <v-card-title class="text-h6">Confirmation</v-card-title>
+        <v-card-title class="text-subtitle-2">Confirmation</v-card-title>
       </v-toolbar>
       <v-card-text>
         <v-container>
           <p class="font-weight-bold text-h6">
             {{ subdomainModel.full_domain }}
           </p>
-          Do you want to delete the ?
+          <v-divider class="mb-3"></v-divider>
+          Do you want to delete ?
         </v-container>
       </v-card-text>
       <v-card-actions>
