@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Subdomain\Dns;
 
+use App\Exceptions\DnsRecordNotFoundException;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -67,8 +68,7 @@ final class ApplyRecordService
 
             $dnsRecords = $this->makeRecordService->make($subdomain);
             if ($dnsRecords->isEmpty()) {
-                $this->errorDomains[] = $domainName;
-                return;
+                throw new DnsRecordNotFoundException();
             }
 
             foreach ($dnsRecords as $dnsRecord) {
@@ -80,7 +80,7 @@ final class ApplyRecordService
             DB::commit();
 
             $this->successDomains[] = $domainName;
-        } catch (Exception $e) {
+        } catch (DnsRecordNotFoundException|Exception $e) {
             DB::rollBack();
 
             $this->errorDomains[] = $domainName;
