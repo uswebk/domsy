@@ -47,5 +47,5 @@ cache:
 	docker-compose exec web php artisan view:clear
 	docker-compose exec web composer dump-autoload
 
-test:
+unit:
 	docker-compose exec web ./vendor/bin/phpunit  --testsuite Unit
