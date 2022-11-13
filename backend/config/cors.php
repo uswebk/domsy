@@ -19,9 +19,9 @@ return [
 
     'allowed_methods' => ['*'],
 
-//    'allowed_origins' => ['*'],
+    //    'allowed_origins' => ['*'],
 
-    'allowed_origins' => explode(',', env('FRONTEND_APP_URL', '')),
+    'allowed_origins' => explode(',', env('FRONTEND_APP_URL', '') . ', 127.0.0.1,127.0.0.1:8000,::1,localhost:8080'),
 
     'allowed_origins_patterns' => [],
 
