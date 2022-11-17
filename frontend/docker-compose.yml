@@ -8,3 +8,4 @@ services:
       - ./:/workspace
     working_dir: /workspace
     command: yarn run dev
+    tty: true
