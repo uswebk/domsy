@@ -27,7 +27,6 @@ final class ApplyRecordServiceTest extends TestCase
         $this->dnsRecordTypes = DnsRecordType::all()->pluck('name', 'id')->toArray();
 
         $this->mock = Mockery::mock('\App\Services\Domain\Subdomain\Dns\MakeRecordService');
-        // $this->app->instance(MakeRecordService::class, $this->mock);
     }
 
     /**
