@@ -1,7 +1,10 @@
 build:
 	docker-compose build
 	docker-compose up -d
+	docker-compose exec web cp -p .env.example .env
+	docker-compose exec web cp -p .env.testing.example .env.testing
 	docker-compose exec web composer install
+	docker-compose exec web php artisan key:generate
 	docker-compose exec web php artisan migrate:fresh --seed
 	docker-compose exec web npm i
 	docker-compose exec web npm run dev
