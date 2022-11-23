@@ -8,7 +8,6 @@ use App\Infrastructures\Models\Client;
 use App\Infrastructures\Models\User;
 use App\Infrastructures\Repositories\Client\ClientRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use Tests\TestCase;
 
 final class ClientRepositoryTest extends TestCase
@@ -29,8 +28,6 @@ final class ClientRepositoryTest extends TestCase
             'zip' => '1111111',
             'address' => 'test',
             'phone_number' => '1111111111',
-            'updated_at' => now(),
-            'created_at' => now(),
         ];
 
         $this->assertDatabaseMissing('clients', [
@@ -42,10 +39,7 @@ final class ClientRepositoryTest extends TestCase
         $client = $clientRepository->store($data);
 
         $this->assertInstanceOf(Client::class, $client);
-        $this->assertDatabaseHas('clients', [
-            'user_id' => $user->id,
-            'name' => 'test',
-        ]);
+        $this->assertDatabaseHas('clients', $data);
     }
 
     /**
