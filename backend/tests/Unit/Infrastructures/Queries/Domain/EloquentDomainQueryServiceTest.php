@@ -116,7 +116,7 @@ final class EloquentDomainQueryServiceTest extends TestCase
                         'is_active' => true,
                         'is_transferred' => false,
                         'canceled_at' => null,
-                        'expired_at' => now()->addDay()->toDateString(),
+                        'expired_at' => now()->addMonth()->toDateString(),
                     ],
                     [
                         'id' => 2,
@@ -124,7 +124,7 @@ final class EloquentDomainQueryServiceTest extends TestCase
                         'is_active' => true,
                         'is_transferred' => false,
                         'canceled_at' => null,
-                        'expired_at' => now()->addDay()->toDateString(),
+                        'expired_at' => now()->addMonth()->toDateString(),
                     ],
                 ],
                 [1, 2,],
