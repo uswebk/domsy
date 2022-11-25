@@ -31,8 +31,7 @@ final class FetchSortBillingDateService
             $userIds = [$user->id];
         }
 
-        $this->billings = $eloquentBillingQueryService
-        ->getSortBillingDateBillingsByUserIdsBillingDateGreaterThanTargetDatetimeTake(
+        $this->billings = $eloquentBillingQueryService->getSortBillingDateByUserIdsTargetDatetime(
             $userIds,
             now()->startOfDay(),
             (int) $take
