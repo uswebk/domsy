@@ -40,14 +40,13 @@ interface EloquentDomainQueryServiceInterface
      * @param array $userIds
      * @return \App\Infrastructures\Models\Domain
      */
-    public function getAggregatedActiveCountByUserIds(array $userIds): \App\Infrastructures\Models\Domain;
+    public function getActiveCountByUserIds(array $userIds): \App\Infrastructures\Models\Domain;
 
     /**
      * @param array $userIds
-     * @param boolean $isFixed
      * @return int
      */
-    public function getAggregatedBillingTotalPriceByUserIdsIsFixed(array $userIds, bool $isFixed): int;
+    public function getSumOfFixedBillingPriceByUserIds(array $userIds): int;
 
     /**
      * @param array $userIds
@@ -55,7 +54,7 @@ interface EloquentDomainQueryServiceInterface
      * @param \Carbon\Carbon $endDate
      * @return array
      */
-    public function getCountOfActiveBetweenPurchasedAtByUserIdsStartDateEndDate(
+    public function getCountOfActiveByUserIdsBetweenPurchasedAt(
         array $userIds,
         \Carbon\Carbon $startDate,
         \Carbon\Carbon $endDate

@@ -24,7 +24,7 @@ final class FetchActiveSummaryService
             $userIds = [$user->id];
         }
 
-        $this->domainSummary = $eloquentDomainQueryService->getAggregatedActiveCountByUserIds($userIds);
+        $this->domainSummary = $eloquentDomainQueryService->getActiveCountByUserIds($userIds);
     }
 
     /**

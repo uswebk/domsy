@@ -66,7 +66,7 @@ final class EloquentDomainQueryService implements EloquentDomainQueryServiceInte
      * @param array $userIds
      * @return Domain
      */
-    public function getAggregatedActiveCountByUserIds(array $userIds): Domain
+    public function getActiveCountByUserIds(array $userIds): Domain
     {
         return Domain::select([
             DB::raw('COUNT(*) AS total'),
@@ -79,14 +79,13 @@ final class EloquentDomainQueryService implements EloquentDomainQueryServiceInte
 
     /**
      * @param array $userIds
-     * @param boolean $isFixed
      * @return int
      */
-    public function getAggregatedBillingTotalPriceByUserIdsIsFixed(array $userIds, bool $isFixed): int
+    public function getSumOfFixedBillingPriceByUserIds(array $userIds): int
     {
-        return (int)Domain::join('domain_dealings', 'domains.id', '=', 'domain_dealings.domain_id')
+        return (int) Domain::join('domain_dealings', 'domains.id', '=', 'domain_dealings.domain_id')
             ->join('domain_billings', 'domain_dealings.id', '=', 'domain_billings.dealing_id')
-            ->where('domain_billings.is_fixed', $isFixed)
+            ->where('domain_billings.is_fixed', true)
             ->whereIn('domains.user_id', $userIds)
             ->whereNull('domain_billings.canceled_at')
             ->sum('domain_billings.total');
@@ -98,7 +97,7 @@ final class EloquentDomainQueryService implements EloquentDomainQueryServiceInte
      * @param \Carbon\Carbon $endDate
      * @return array
      */
-    public function getCountOfActiveBetweenPurchasedAtByUserIdsStartDateEndDate(
+    public function getCountOfActiveByUserIdsBetweenPurchasedAt(
         array $userIds,
         \Carbon\Carbon $startDate,
         \Carbon\Carbon $endDate
