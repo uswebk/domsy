@@ -18,22 +18,10 @@ interface EloquentDomainQueryServiceInterface
      * @param integer $count
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getActiveSortExpiredByUserIdsTargetDatetime(
+    public function getActiveByUserIdsGraterThanExpiredAtOrderByExpiredAt(
         array $userIds,
         \Carbon\Carbon $targetDatetime,
         int $count
-    ): \Illuminate\Database\Eloquent\Collection;
-
-    /**
-     * @param array $userIds
-     * @param \Carbon\Carbon $targetDatetime
-     * @param integer $take
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getSortBillingDateByUserIdsTargetDatetime(
-        array $userIds,
-        \Carbon\Carbon $targetDatetime,
-        int $take
     ): \Illuminate\Database\Eloquent\Collection;
 
     /**

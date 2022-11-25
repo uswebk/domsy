@@ -25,7 +25,7 @@ final class EloquentDomainQueryService implements EloquentDomainQueryServiceInte
      * @param integer $count
      * @return Collection
      */
-    public function getActiveSortExpiredByUserIdsTargetDatetime(
+    public function getActiveByUserIdsGraterThanExpiredAtOrderByExpiredAt(
         array $userIds,
         \Carbon\Carbon $targetDatetime,
         int $count
@@ -37,28 +37,6 @@ final class EloquentDomainQueryService implements EloquentDomainQueryServiceInte
             ->where('expired_at', '>=', $targetDatetime)
             ->orderBy('expired_at')
             ->take($count)
-            ->get();
-    }
-
-    /**
-     * @param array $userIds
-     * @param \Carbon\Carbon $targetDatetime
-     * @param integer $take
-     * @return Collection
-     */
-    public function getSortBillingDateByUserIdsTargetDatetime(
-        array $userIds,
-        \Carbon\Carbon $targetDatetime,
-        int $take
-    ): Collection {
-        return Domain::join('domain_dealings', 'domains.id', '=', 'domain_dealings.domain_id')
-            ->join('domain_billings', 'domain_dealings.id', '=', 'domain_billings.dealing_id')
-            ->select('domain_billings.*')
-            ->whereIn('domains.user_id', $userIds)
-            ->where('domain_billings.is_fixed', false)
-            ->where('domain_billings.billing_date', '>=', $targetDatetime)
-            ->orderBy('domain_billings.billing_date')
-            ->take($take)
             ->get();
     }
 

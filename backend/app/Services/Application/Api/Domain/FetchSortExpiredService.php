@@ -35,7 +35,7 @@ final class FetchSortExpiredService
             $userIds = [$user->id];
         }
 
-        $this->domains = $eloquentDomainQueryService->getActiveSortExpiredByUserIdsTargetDatetime(
+        $this->domains = $eloquentDomainQueryService->getActiveByUserIdsGraterThanExpiredAtOrderByExpiredAt(
             $userIds,
             now()->startOfDay(),
             (int) $take
