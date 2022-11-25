@@ -24,7 +24,7 @@ interface EloquentBillingQueryServiceInterface
      * @param integer $take
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getSortBillingDateBillingsByUserIdsBillingDateGreaterThanTargetDatetimeTake(
+    public function getBillingsByUserIdsGreaterThanBillingDateOrderByBillingDate(
         array $userIds,
         \Carbon\Carbon $targetDatetime,
         int $take

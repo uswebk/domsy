@@ -20,11 +20,11 @@ final class EloquentBillingQueryService implements EloquentBillingQueryServiceIn
         \Carbon\Carbon $endDatetime
     ): \Illuminate\Database\Eloquent\Collection {
         return DomainBilling::join('domain_dealings', 'domain_dealings.id', '=', 'domain_billings.dealing_id')
-        ->join('domains', 'domains.id', '=', 'domain_dealings.domain_id')
-        ->select('domain_billings.*')
-        ->whereIn('domains.user_id', $userIds)
-        ->whereBetween('domain_billings.billing_date', [$startDatetime, $endDatetime])
-        ->get();
+            ->join('domains', 'domains.id', '=', 'domain_dealings.domain_id')
+            ->select('domain_billings.*')
+            ->whereIn('domains.user_id', $userIds)
+            ->whereBetween('domain_billings.billing_date', [$startDatetime, $endDatetime])
+            ->get();
     }
 
     /**
@@ -33,21 +33,21 @@ final class EloquentBillingQueryService implements EloquentBillingQueryServiceIn
      * @param integer $take
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getSortBillingDateBillingsByUserIdsBillingDateGreaterThanTargetDatetimeTake(
+    public function getBillingsByUserIdsGreaterThanBillingDateOrderByBillingDate(
         array $userIds,
         \Carbon\Carbon $targetDatetime,
         int $take
     ): \Illuminate\Database\Eloquent\Collection {
         return DomainBilling::join('domain_dealings', 'domain_dealings.id', '=', 'domain_billings.dealing_id')
-        ->join('domains', 'domains.id', '=', 'domain_dealings.domain_id')
-        ->select('domain_billings.*')
-        ->whereIn('domains.user_id', $userIds)
-        ->where('domain_billings.is_fixed', false)
-        ->whereNull('domain_billings.canceled_at')
-        ->where('domain_billings.billing_date', '>=', $targetDatetime)
-        ->orderBy('domain_billings.billing_date')
-        ->take($take)
-        ->get();
+            ->join('domains', 'domains.id', '=', 'domain_dealings.domain_id')
+            ->select('domain_billings.*')
+            ->whereIn('domains.user_id', $userIds)
+            ->where('domain_billings.is_fixed', false)
+            ->whereNull('domain_billings.canceled_at')
+            ->where('domain_billings.billing_date', '>=', $targetDatetime)
+            ->orderBy('domain_billings.billing_date')
+            ->take($take)
+            ->get();
     }
 
     /**
@@ -65,15 +65,15 @@ final class EloquentBillingQueryService implements EloquentBillingQueryServiceIn
             \Illuminate\Support\Facades\DB::raw('DATE_FORMAT(domain_billings.billing_date,\'%Y/%m\') AS month'),
             \Illuminate\Support\Facades\DB::raw('SUM(domain_billings.total) AS amount'),
         ])
-        ->join('domain_dealings', 'domain_dealings.id', '=', 'domain_billings.dealing_id')
-        ->join('domains', 'domains.id', '=', 'domain_dealings.domain_id')
-        ->whereIn('domains.user_id', $userIds)
-        ->where('domain_billings.is_fixed', true)
-        ->groupBy('month')
-        ->whereBetween('domain_billings.billing_date', [$startDate->toDateString(), $endDate->toDateString()])
-        ->whereNull('domain_billings.canceled_at')
-        ->get()
-        ->keyBy('month')
-        ->toArray();
+            ->join('domain_dealings', 'domain_dealings.id', '=', 'domain_billings.dealing_id')
+            ->join('domains', 'domains.id', '=', 'domain_dealings.domain_id')
+            ->whereIn('domains.user_id', $userIds)
+            ->where('domain_billings.is_fixed', true)
+            ->groupBy('month')
+            ->whereBetween('domain_billings.billing_date', [$startDate->toDateString(), $endDate->toDateString()])
+            ->whereNull('domain_billings.canceled_at')
+            ->get()
+            ->keyBy('month')
+            ->toArray();
     }
 }
