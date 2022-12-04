@@ -9,14 +9,11 @@ use App\Infrastructures\Models\User;
 use App\Infrastructures\Queries\Client\EloquentClientQueryService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use Tests\TestCase;
 
 final class EloquentClientQueryServiceTest extends TestCase
 {
     use RefreshDatabase;
-
-    private $userQueryService;
 
     private const CLIENT_ID1 = 1;
 
@@ -48,11 +45,6 @@ final class EloquentClientQueryServiceTest extends TestCase
     /**
      * @test
      * @dataProvider dataProviderOfFindById
-     *
-     * @param array $parameterOfClients
-     * @param integer $id
-     * @param boolean $isException
-     * @return void
      */
     public function it_find_by_id(
         array $parameterOfClients,
@@ -106,13 +98,6 @@ final class EloquentClientQueryServiceTest extends TestCase
     /**
      * @test
      * @dataProvider dataProviderOfFirstByIdUserId
-     *
-     * @param array $parameterOfUsers
-     * @param array $parameterOfClients
-     * @param integer $id
-     * @param integer $userId
-     * @param boolean $isException
-     * @return void
      */
     public function it_first_by_id_and_user_id(
         array $parameterOfUsers,
@@ -159,7 +144,7 @@ final class EloquentClientQueryServiceTest extends TestCase
                     ],
                 ],
                 [1, 2,],
-                2
+                2,
             ],
             'not match clients' => [
                 [
@@ -181,7 +166,7 @@ final class EloquentClientQueryServiceTest extends TestCase
                     ],
                 ],
                 [3, 4,],
-                0
+                0,
             ],
         ];
     }
@@ -189,12 +174,6 @@ final class EloquentClientQueryServiceTest extends TestCase
     /**
      * @test
      * @dataProvider dataProviderOfGetByUserIds
-     *
-     * @param array $parameterOfUsers
-     * @param array $parameterOfClients
-     * @param array $userIds
-     * @param integer $count
-     * @return void
      */
     public function it_get_by_user_ids(
         array $parameterOfUsers,
