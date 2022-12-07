@@ -8,9 +8,9 @@
     <v-container style="width: 550px" class="pa-4">
       <v-row>
         <v-col>
-          <p class="text-body-2">
-            <nuxt-link to="/"> ← </nuxt-link>
-          </p>
+          <v-btn color="gray" to="/" nuxt x-small class="py-4 mb-2">
+            <v-icon>mdi-chevron-left</v-icon>
+          </v-btn>
         </v-col>
       </v-row>
       <v-card flat max-width="550" class="mx-auto" elevation="2" outlined>

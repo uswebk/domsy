@@ -14,9 +14,9 @@
     <v-container style="width: 550px" class="pa-4">
       <v-row>
         <v-col>
-          <p class="text-body-2">
-            <nuxt-link to="/register"> ← </nuxt-link>
-          </p>
+          <v-btn color="gray" x-small class="py-4 mb-2" @click="back">
+            <v-icon>mdi-chevron-left</v-icon>
+          </v-btn>
         </v-col>
       </v-row>
       <v-card flat max-width="550" class="mx-auto pa-10" elevation="2" outlined>
@@ -67,6 +67,9 @@ export default {
     async pushGoogleLogin() {
       const response = await this.providerLogin('google')
       location.href = response.data
+    },
+    back() {
+      this.$router.push({ path: '/register' })
     },
     close() {
       this.snackbar = false
