@@ -36,6 +36,13 @@ final class ExpirationDomainServiceTest extends TestCase
             'is_transferred' => false,
             'expired_at' => $this->now->copy()->addDays(self::NOTICE_NUMBER_DAYS)->toDateTimeString(),
         ])->create();
+
+        $this->domainOfNotOwner = Domain::factory([
+            'user_id' => $this->user->id,
+            'is_active' => false,
+            'is_transferred' => true,
+            'expired_at' => $this->now->copy()->addDays(self::NOTICE_NUMBER_DAYS)->toDateTimeString(),
+        ])->create();
     }
 
     /**
@@ -46,6 +53,7 @@ final class ExpirationDomainServiceTest extends TestCase
         $domains = (new ExpirationDomainService($this->userMailSetting, $this->user, $this->now))->getDomains();
 
         $this->assertTrue($domains->contains($this->domain));
+        $this->assertFalse($domains->contains($this->domainOfNotOwner));
     }
 
     /**

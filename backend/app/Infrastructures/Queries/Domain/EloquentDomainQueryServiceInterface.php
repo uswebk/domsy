@@ -7,20 +7,6 @@ namespace App\Infrastructures\Queries\Domain;
 interface EloquentDomainQueryServiceInterface
 {
     /**
-     * @param integer $id
-     * @param integer $userId
-     * @return \App\Infrastructures\Models\Domain
-     */
-    public function getFirstByIdUserId(int $id, int $userId): \App\Infrastructures\Models\Domain;
-
-    /**
-     * @param integer $userId
-     * @param string $name
-     * @return \App\Infrastructures\Models\Domain
-     */
-    public function getFirstByUserIdName(int $userId, string $name): \App\Infrastructures\Models\Domain;
-
-    /**
      * @param array $userIds
      * @return \Illuminate\Database\Eloquent\Collection
      */
@@ -28,69 +14,27 @@ interface EloquentDomainQueryServiceInterface
 
     /**
      * @param array $userIds
-     * @param integer $page
-     * @return void
-     */
-    public function getPageNationByUserIdsPage(array $userIds, int $page);
-
-    /**
-     * @param array $userIds
      * @param \Carbon\Carbon $targetDatetime
+     * @param integer $count
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getActiveByUserIdsPurchasedAtLessThanTargetDatetime(
-        array $userIds,
-        \Carbon\Carbon $targetDatetime
-    ): \Illuminate\Database\Eloquent\Collection;
-
-    /**
-     * @param array $userIds
-     * @param \Carbon\Carbon $startDatetime
-     * @param \Carbon\Carbon $endDatetime
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getBillingByUserIdsBillingDateBetweenStartDatetimeEndDatetime(
-        array $userIds,
-        \Carbon\Carbon $startDatetime,
-        \Carbon\Carbon $endDatetime
-    ): \Illuminate\Database\Eloquent\Collection;
-
-    /**
-     * @param array $userIds
-     * @param \Carbon\Carbon $targetDatetime
-     * @param integer $take
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getSortExpiredByUserIdsExpiredGreaterThanTargetDatetimeTake(
+    public function getActiveByUserIdsGraterThanExpiredAtOrderByExpiredAt(
         array $userIds,
         \Carbon\Carbon $targetDatetime,
-        int $take
-    ): \Illuminate\Database\Eloquent\Collection;
-
-    /**
-     * @param array $userIds
-     * @param \Carbon\Carbon $targetDatetime
-     * @param integer $take
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getSortBillingDateBillingsByUserIdsBillingDateGreaterThanTargetDatetimeTake(
-        array $userIds,
-        \Carbon\Carbon $targetDatetime,
-        int $take
+        int $count
     ): \Illuminate\Database\Eloquent\Collection;
 
     /**
      * @param array $userIds
      * @return \App\Infrastructures\Models\Domain
      */
-    public function getAggregatedActiveCountByUserIds(array $userIds): \App\Infrastructures\Models\Domain;
+    public function getActiveCountByUserIds(array $userIds): \App\Infrastructures\Models\Domain;
 
     /**
      * @param array $userIds
-     * @param boolean $isFixed
-     * @return \App\Infrastructures\Models\Domain
+     * @return int
      */
-    public function getAggregatedBillingTotalPriceByUserIdsIsFixed(array $userIds, bool $isFixed): int;
+    public function getSumOfFixedBillingPriceByUserIds(array $userIds): int;
 
     /**
      * @param array $userIds
@@ -98,7 +42,7 @@ interface EloquentDomainQueryServiceInterface
      * @param \Carbon\Carbon $endDate
      * @return array
      */
-    public function getCountOfActiveDomainBetweenPurchasedAtByUserIdsStartDateEndDate(
+    public function getCountOfActiveByUserIdsBetweenPurchasedAt(
         array $userIds,
         \Carbon\Carbon $startDate,
         \Carbon\Carbon $endDate

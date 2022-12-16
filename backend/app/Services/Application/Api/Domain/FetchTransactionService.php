@@ -27,7 +27,7 @@ final class FetchTransactionService
 
         $user = User::find(Auth::id());
 
-        $countOfDomains = $eloquentDomainQueryService->getCountOfActiveDomainBetweenPurchasedAtByUserIdsStartDateEndDate(
+        $countOfDomains = $eloquentDomainQueryService->getCountOfActiveByUserIdsBetweenPurchasedAt(
             $user->getMemberIds(),
             $startMonth,
             $endMonth,

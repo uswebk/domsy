@@ -8,7 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Infrastructures\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-final class FetchService
+class FetchService
 {
     private $users;
 
@@ -20,14 +20,14 @@ final class FetchService
     ) {
         $user = User::find(Auth::id());
 
-        if (! $user->isCompany()) {
+        if (!$user->isCompany()) {
             abort(403);
         }
 
         $this->users = ($eloquentUserQueryService->getActiveUsersByCompanyId($user->company_id))
-        ->filter(function ($value, $key) use ($user) {
-            return $value->id !== $user->id;
-        });
+            ->filter(function ($value, $key) use ($user) {
+                return $value->id !== $user->id;
+            });
     }
 
     /**

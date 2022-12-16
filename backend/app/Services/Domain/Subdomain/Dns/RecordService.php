@@ -60,7 +60,7 @@ final class RecordService
      */
     public function getTtl(): int
     {
-        return (int) $this->records['ttl'];
+        return (int)$this->records['ttl'];
     }
 
     /**
@@ -77,7 +77,7 @@ final class RecordService
     public function getTypeId(): int
     {
         $dnsRecordType = DnsRecordType::where('name', '=', $this->getType())
-        ->firstOrFail();
+            ->firstOrFail();
 
         return $dnsRecordType->id;
     }
@@ -87,7 +87,7 @@ final class RecordService
      */
     public function getPriority(): int
     {
-        return (int) $this->records['pri'];
+        return (int)$this->records['pri'];
     }
 
     /**
@@ -112,7 +112,5 @@ final class RecordService
         if (isset($value)) {
             return $value;
         }
-
-        return '';
     }
 }

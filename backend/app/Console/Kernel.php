@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Helpers\DateHelper;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -11,15 +11,15 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
         $now = Carbon::now();
 
-        $schedule->command('notification:domain_expiration ' . DateHelper::getDateStringHyphen($now))
-        ->dailyAt('00:00');
+        $schedule->command('notification:domain_expiration ' . $now->toDateString())
+            ->dailyAt('00:00');
     }
 
     /**

@@ -8,14 +8,11 @@ use App\Infrastructures\Models\User;
 use App\Infrastructures\Queries\User\EloquentUserQueryService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use Tests\TestCase;
 
 final class EloquentUserQueryServiceTest extends TestCase
 {
     use RefreshDatabase;
-
-    private $userQueryService;
 
     private const USER_ID1 = 1;
 
@@ -47,11 +44,6 @@ final class EloquentUserQueryServiceTest extends TestCase
     /**
      * @test
      * @dataProvider dataProviderOfFindById
-     *
-     * @param array $parameterOfUsers
-     * @param integer $userId
-     * @param boolean $isException
-     * @return void
      */
     public function it_find_by_id(
         array $parameterOfUsers,
@@ -95,15 +87,11 @@ final class EloquentUserQueryServiceTest extends TestCase
     /**
      * @test
      * @dataProvider dataProviderOfGetActiveUsers
-     *
-     * @param array $parameterOfUsers
-     * @param integer $assertionCount
-     * @return void
      */
     public function it_get_active_users(
         array $parameterOfUsers,
         int $assertionCount
-    ) {
+    ): void {
         User::factory($parameterOfUsers)->create();
 
         $users = (new EloquentUserQueryService())->getActiveUsers();
@@ -159,19 +147,13 @@ final class EloquentUserQueryServiceTest extends TestCase
     /**
      * @test
      * @dataProvider dataProviderOfFirstByIdEmailVerifyToken
-     *
-     * @param array $parameterOfUsers
-     * @param integer $id
-     * @param string $emailVerifyToken
-     * @param integer $isException
-     * @return void
      */
     public function it_get_user_by_id_and_email_verify_token(
         array $parameterOfUsers,
         int $id,
         string $emailVerifyToken,
         bool $isException
-    ) {
+    ): void {
         User::factory($parameterOfUsers)->create();
 
         try {
