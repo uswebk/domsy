@@ -36,7 +36,13 @@
       <v-col cols="2">
         <v-tooltip bottom>
           <template #activator="{ on, attrs }">
-            <v-btn color="primary" small fab v-bind="attrs" v-on="on"
+            <v-btn
+              color="primary"
+              small
+              fab
+              v-bind="attrs"
+              @click="pushGoogleLogin"
+              v-on="on"
               ><v-icon> mdi-google-plus</v-icon></v-btn
             >
           </template>
@@ -70,7 +76,7 @@ export default {
   },
   methods: {
     ...mapActions('account', ['updateProfile', 'sendMessage']),
-    ...mapActions('authentication', ['fetchMe']),
+    ...mapActions('authentication', ['fetchMe', 'providerLogin']),
     selectEmoji(emoji) {
       this.shownEmoji = false
       this.userModel.emoji = emoji.data
@@ -102,6 +108,10 @@ export default {
           this.loading = false
         }
       }
+    },
+    async pushGoogleLogin() {
+      const response = await this.providerLogin('google')
+      location.href = response.data
     },
   },
 }
