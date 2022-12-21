@@ -2,19 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Infrastructures\Mails\Services;
+namespace Tests\Unit\Mails\Services;
 
-use App\Infrastructures\Mails\Client\DomainExpiration;
-
-use App\Infrastructures\Mails\Services\DomainExpirationService;
+use App\Mails\Client\DomainExpiration;
+use App\Mails\Services\DomainExpirationService;
 use App\Models\Domain;
 use App\Models\User;
 use App\Models\UserMailSetting;
-
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
-
 use Tests\TestCase;
 
 final class DomainExpirationServiceTest extends TestCase

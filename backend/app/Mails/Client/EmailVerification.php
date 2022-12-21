@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructures\Mails\Client;
+namespace App\Mails\Client;
 
 use Carbon\Carbon;
-
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;

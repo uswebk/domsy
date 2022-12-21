@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructures\Mails\Client;
+namespace App\Mails\Client;
 
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;

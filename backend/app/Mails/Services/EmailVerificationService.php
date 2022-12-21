@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructures\Mails\Services;
+namespace App\Mails\Services;
 
-use App\Infrastructures\Mails\Client\EmailVerification;
+use App\Mails\Client\EmailVerification;
 
 final class EmailVerificationService
 {

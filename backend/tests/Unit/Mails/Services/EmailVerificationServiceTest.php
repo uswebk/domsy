@@ -2,15 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Infrastructures\Mails\Services;
+namespace Tests\Unit\Mails\Services;
 
-use App\Infrastructures\Mails\Client\EmailVerification;
-use App\Infrastructures\Mails\Services\EmailVerificationService;
+use App\Mails\Client\EmailVerification;
+use App\Mails\Services\EmailVerificationService;
 use App\Models\User;
-
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
-
 use Tests\TestCase;
 
 final class EmailVerificationServiceTest extends TestCase

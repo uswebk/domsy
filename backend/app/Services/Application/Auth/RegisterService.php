@@ -6,9 +6,7 @@ namespace App\Services\Application\Auth;
 
 use App\Constants\CompanyConstant;
 use App\Constants\RoleConstant;
-
 use Exception;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -23,12 +21,12 @@ final class RegisterService
     /**
      * @param \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
      * @param \App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository
-     * @param \App\Infrastructures\Mails\Services\EmailVerificationService $emailVerificationService
+     * @param \App\Mails\Services\EmailVerificationService $emailVerificationService
      */
     public function __construct(
         \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository,
         \App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository,
-        \App\Infrastructures\Mails\Services\EmailVerificationService $emailVerificationService
+        \App\Mails\Services\EmailVerificationService $emailVerificationService
     ) {
         $this->userRepository = $userRepository;
         $this->userLatestCodeRepository = $userLatestCodeRepository;
