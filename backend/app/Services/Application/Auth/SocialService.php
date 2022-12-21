@@ -26,16 +26,16 @@ final class SocialService
     private $socialAccountQueryService;
 
     /**
-     * @param \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
-     * @param \App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository
-     * @param \App\Infrastructures\Repositories\SocialAccount\SocialAccountRepositoryInterface $socialAccountRepository
-     * @param \App\Infrastructures\Queries\SocialAccount\EloquentSocialAccountQueryServiceInterface $socialAccountQueryService
+     * @param \App\Repositories\User\UserRepositoryInterface $userRepository
+     * @param \App\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository
+     * @param \App\Repositories\SocialAccount\SocialAccountRepositoryInterface $socialAccountRepository
+     * @param \App\Queries\SocialAccount\EloquentSocialAccountQueryServiceInterface $socialAccountQueryService
      */
     public function __construct(
-        \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository,
-        \App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository,
-        \App\Infrastructures\Repositories\SocialAccount\SocialAccountRepositoryInterface $socialAccountRepository,
-        \App\Infrastructures\Queries\SocialAccount\EloquentSocialAccountQueryServiceInterface $socialAccountQueryService
+        \App\Repositories\User\UserRepositoryInterface $userRepository,
+        \App\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository,
+        \App\Repositories\SocialAccount\SocialAccountRepositoryInterface $socialAccountRepository,
+        \App\Queries\SocialAccount\EloquentSocialAccountQueryServiceInterface $socialAccountQueryService
     ) {
         $this->userRepository = $userRepository;
         $this->userLatestCodeRepository = $userLatestCodeRepository;

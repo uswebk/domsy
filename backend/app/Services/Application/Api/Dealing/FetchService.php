@@ -6,7 +6,7 @@ namespace App\Services\Application\Api\Dealing;
 
 use App\Http\Resources\DomainDealingResource;
 
-use App\Infrastructures\Models\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,10 +15,10 @@ final class FetchService
     private $domainDealings;
 
     /**
-     * @param \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+     * @param \App\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
      */
     public function __construct(
-        \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+        \App\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
     ) {
         $user = User::find(Auth::id());
 

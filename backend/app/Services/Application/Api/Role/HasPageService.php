@@ -13,13 +13,13 @@ final class HasPageService
 
     /**
      * @param \App\Http\Requests\Api\Role\HasPageRequest $request
-     * @param \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
-     * @param \App\Infrastructures\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
+     * @param \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
+     * @param \App\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
      */
     public function __construct(
         \App\Http\Requests\Api\Role\HasPageRequest $request,
-        \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService,
-        \App\Infrastructures\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
+        \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService,
+        \App\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
     ) {
         try {
             $menuItem = $eloquentMenuItemQueryService->getByEndpoint($request->endpoint);
@@ -30,7 +30,7 @@ final class HasPageService
             } else {
                 $this->responseCode = Response::HTTP_FORBIDDEN;
             }
-        } catch(ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             $this->responseCode = Response::HTTP_FORBIDDEN;
         }
     }

@@ -6,7 +6,7 @@ namespace Database\Seeders;
 
 use App\Constants\CompanyConstant;
 use App\Constants\RoleConstant;
-use App\Infrastructures\Models\Role;
+use App\Models\Role;
 
 use Illuminate\Database\Seeder;
 

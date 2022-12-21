@@ -14,10 +14,10 @@ final class ResumeService
     private $dealing;
 
     /**
-     * @param \App\Infrastructures\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
+     * @param \App\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
+        \App\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
     ) {
         $this->dealingRepository = $dealingRepository;
     }
@@ -28,7 +28,7 @@ final class ResumeService
      * @return void
      */
     public function handle(
-        \App\Infrastructures\Models\DomainDealing $domainDealing
+        \App\Models\DomainDealing $domainDealing
     ): void {
         try {
             $domainDealing->is_halt = false;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Commands\Billing;
 
-use App\Infrastructures\Models\DomainBilling;
+use App\Models\DomainBilling;
 use App\Services\Domain\Domain\Dealing\NextBillingDateService;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -16,20 +16,20 @@ final class CreateService
     private const CHUNK_SIZE = 1000;
 
     /**
-     * @param \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+     * @param \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+        \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
     ) {
         $this->billingRepository = $billingRepository;
     }
 
     /**
-     * @param \App\Infrastructures\Models\DomainBilling $domainBilling
+     * @param \App\Models\DomainBilling $domainBilling
      * @return void
      */
     private function executeOfDomainBilling(
-        \App\Infrastructures\Models\DomainBilling $domainBilling
+        \App\Models\DomainBilling $domainBilling
     ): void {
         $domainDealing = $domainBilling->domainDealing;
 
@@ -51,26 +51,26 @@ final class CreateService
     public function handle(\Carbon\Carbon $executeDate): void
     {
         DomainBilling::join('domain_dealings', 'domain_billings.dealing_id', '=', 'domain_dealings.id')
-        ->where('domain_dealings.is_auto_update', '=', true)
-        ->where('domain_dealings.is_halt', '=', false)
-        ->where('domain_billings.is_fixed', '=', false)
-        ->where('domain_billings.billing_date', '=', $executeDate->toDateTimeString())
-        ->select('domain_billings.*')
-        ->chunk(self::CHUNK_SIZE, function (
-            \Illuminate\Database\Eloquent\Collection $domainBillings
-        ) {
-            foreach ($domainBillings as $domainBilling) {
-                DB::beginTransaction();
-                try {
-                    $this->executeOfDomainBilling($domainBilling);
+            ->where('domain_dealings.is_auto_update', '=', true)
+            ->where('domain_dealings.is_halt', '=', false)
+            ->where('domain_billings.is_fixed', '=', false)
+            ->where('domain_billings.billing_date', '=', $executeDate->toDateTimeString())
+            ->select('domain_billings.*')
+            ->chunk(self::CHUNK_SIZE, function (
+                \Illuminate\Database\Eloquent\Collection $domainBillings
+            ) {
+                foreach ($domainBillings as $domainBilling) {
+                    DB::beginTransaction();
+                    try {
+                        $this->executeOfDomainBilling($domainBilling);
 
-                    DB::commit();
-                } catch (Exception $e) {
-                    DB::rollBack();
+                        DB::commit();
+                    } catch (Exception $e) {
+                        DB::rollBack();
 
-                    throw $e;
+                        throw $e;
+                    }
                 }
-            }
-        });
+            });
     }
 }

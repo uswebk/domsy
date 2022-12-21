@@ -6,7 +6,6 @@ namespace App\Services\Application\Api\Domain;
 
 use App\Http\Resources\DomainResource;
 
-
 use Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -27,13 +26,13 @@ final class UpdateService
 
     /**
      * @param \App\Services\Application\InputData\DomainUpdateRequest $domainUpdateRequest
-     * @param \App\Infrastructures\Models\Domain $domain
+     * @param \App\Models\Domain $domain
      *
      * @return void
      */
     public function handle(
         \App\Services\Application\InputData\DomainUpdateRequest $domainUpdateRequest,
-        \App\Infrastructures\Models\Domain $domain
+        \App\Models\Domain $domain
     ): void {
         $domainRequest = $domainUpdateRequest->getInput();
 

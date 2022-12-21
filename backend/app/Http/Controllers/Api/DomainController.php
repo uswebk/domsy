@@ -89,13 +89,13 @@ final class DomainController extends Controller
 
     /**
      * @param \App\Http\Requests\Api\Domain\UpdateRequest $request
-     * @param \App\Infrastructures\Models\Domain $domain
+     * @param \App\Models\Domain $domain
      * @param \App\Services\Application\Api\Domain\UpdateService $updateService
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(
         \App\Http\Requests\Api\Domain\UpdateRequest $request,
-        \App\Infrastructures\Models\Domain $domain,
+        \App\Models\Domain $domain,
         \App\Services\Application\Api\Domain\UpdateService $updateService
     ) {
         try {
@@ -105,7 +105,7 @@ final class DomainController extends Controller
                 $updateService->getResponse(),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -129,7 +129,7 @@ final class DomainController extends Controller
                 $storeService->getResponse(),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -138,13 +138,13 @@ final class DomainController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Domain $domain
-     * @param \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
+     * @param \App\Models\Domain $domain
+     * @param \App\Repositories\Domain\DomainRepositoryInterface $domainRepository
      * @return \Illuminate\Http\JsonResponse
      */
     public function delete(
-        \App\Infrastructures\Models\Domain $domain,
-        \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
+        \App\Models\Domain $domain,
+        \App\Repositories\Domain\DomainRepositoryInterface $domainRepository
     ) {
         try {
             $domainRepository->delete($domain);
@@ -153,7 +153,7 @@ final class DomainController extends Controller
                 [],
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR

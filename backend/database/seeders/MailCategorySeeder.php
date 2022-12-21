@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Infrastructures\Models\MailCategory;
+use App\Models\MailCategory;
 
 use Illuminate\Database\Seeder;
 

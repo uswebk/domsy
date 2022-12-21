@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Service\Domain\Domain\Dealing;
 
-use App\Infrastructures\Models\DomainBilling;
-use App\Infrastructures\Models\DomainDealing;
+use App\Models\DomainBilling;
+use App\Models\DomainDealing;
 use App\Services\Domain\Domain\Dealing\NextBillingDateService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

@@ -21,11 +21,11 @@ final class ApplyRecordService
     private $errorDomains = [];
 
     /**
-     * @param \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     * @param \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
      * @param MakeRecordService $makeRecordService
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
+        \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
         \App\Services\Domain\Subdomain\Dns\MakeRecordService $makeRecordService
     ) {
         $this->makeRecordService = $makeRecordService;
@@ -34,12 +34,12 @@ final class ApplyRecordService
 
     /**
      * @param RecordService $dnsRecord
-     * @param \App\Infrastructures\Models\Subdomain $subdomain
+     * @param \App\Models\Subdomain $subdomain
      * @return void
      */
     private function updateOfDnsRecordBySubdomain(
         \App\Services\Domain\Subdomain\Dns\RecordService $dnsRecord,
-        \App\Infrastructures\Models\Subdomain $subdomain
+        \App\Models\Subdomain $subdomain
     ): void {
         if (in_array($dnsRecord->getType(), $this->dnsRecordTypes)) {
             $this->subdomainRepository->updateOfTtlPriority(
@@ -54,11 +54,11 @@ final class ApplyRecordService
     }
 
     /**
-     * @param \App\Infrastructures\Models\Subdomain $subdomain
+     * @param \App\Models\Subdomain $subdomain
      * @return void
      */
     private function executeOfSubdomain(
-        \App\Infrastructures\Models\Subdomain $subdomain
+        \App\Models\Subdomain $subdomain
     ): void {
         $domainName = $subdomain->getDomainName();
 

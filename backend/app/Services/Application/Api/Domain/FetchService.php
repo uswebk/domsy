@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Domain;
 
 use App\Http\Resources\DomainResource;
-use App\Infrastructures\Models\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchService
@@ -13,10 +13,10 @@ final class FetchService
     private $domains;
 
     /**
-     * @param \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+     * @param \App\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
      */
     public function __construct(
-        \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+        \App\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
     ) {
         $user = User::find(Auth::id());
 

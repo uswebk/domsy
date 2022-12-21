@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Registrar;
 
 use App\Http\Resources\RegistrarResource;
-use App\Infrastructures\Models\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchService
@@ -13,10 +13,10 @@ final class FetchService
     private $registrars;
 
     /**
-     * @param \App\Infrastructures\Queries\Registrar\EloquentRegistrarQueryServiceInterface $eloquentRegistrarQueryServiceInterface
+     * @param \App\Queries\Registrar\EloquentRegistrarQueryServiceInterface $eloquentRegistrarQueryServiceInterface
      */
     public function __construct(
-        \App\Infrastructures\Queries\Registrar\EloquentRegistrarQueryServiceInterface $eloquentRegistrarQueryServiceInterface
+        \App\Queries\Registrar\EloquentRegistrarQueryServiceInterface $eloquentRegistrarQueryServiceInterface
     ) {
         $user = User::find(Auth::id());
 

@@ -11,13 +11,13 @@ final class DomainPolicy
     use HandlesAuthorization;
 
     /**
-     * @param \App\Infrastructures\Models\User $user
-     * @param \App\Infrastructures\Models\Domain $domain
+     * @param \App\Models\User $user
+     * @param \App\Models\Domain $domain
      * @return boolean
      */
     public function owner(
-        \App\Infrastructures\Models\User $user,
-        \App\Infrastructures\Models\Domain $domain
+        \App\Models\User $user,
+        \App\Models\Domain $domain
     ): bool {
         if ($user->isCompany()) {
             return in_array($domain->user_id, $user->getMemberIds());

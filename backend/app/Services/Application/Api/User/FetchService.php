@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\User;
 
 use App\Http\Resources\UserResource;
-use App\Infrastructures\Models\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class FetchService
@@ -13,10 +13,10 @@ class FetchService
     private $users;
 
     /**
-     * @param \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
+     * @param \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
      */
     public function __construct(
-        \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
+        \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
     ) {
         $user = User::find(Auth::id());
 

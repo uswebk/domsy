@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\MenuItemResource;
-use App\Infrastructures\Models\MenuItem;
+use App\Models\MenuItem;
 use Illuminate\Http\Response;
 
 final class MenuController

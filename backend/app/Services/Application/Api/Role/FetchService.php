@@ -14,10 +14,10 @@ final class FetchService
     private $roles;
 
     /**
-     * @param \App\Infrastructures\Queries\Role\EloquentRoleQueryServiceInterface $eloquentRoleQueryService
+     * @param \App\Queries\Role\EloquentRoleQueryServiceInterface $eloquentRoleQueryService
      */
     public function __construct(
-        \App\Infrastructures\Queries\Role\EloquentRoleQueryServiceInterface $eloquentRoleQueryService
+        \App\Queries\Role\EloquentRoleQueryServiceInterface $eloquentRoleQueryService
     ) {
         $user = Auth::user();
 

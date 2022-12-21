@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Infrastructures\Queries\Client\EloquentClientQueryService;
-use App\Infrastructures\Queries\Client\EloquentClientQueryServiceInterface;
-use App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryService;
-use App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface;
-use App\Infrastructures\Queries\Domain\Billing\EloquentBillingQueryService;
-use App\Infrastructures\Queries\Domain\Billing\EloquentBillingQueryServiceInterface;
-use App\Infrastructures\Queries\Domain\EloquentDomainQueryService;
-use App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface;
-use App\Infrastructures\Queries\Menu\EloquentMenuItemQueryService;
-use App\Infrastructures\Queries\Menu\EloquentMenuItemQueryServiceInterface;
-use App\Infrastructures\Queries\Menu\EloquentMenuQueryService;
-use App\Infrastructures\Queries\Menu\EloquentMenuQueryServiceInterface;
-use App\Infrastructures\Queries\Registrar\EloquentRegistrarQueryService;
-use App\Infrastructures\Queries\Registrar\EloquentRegistrarQueryServiceInterface;
-use App\Infrastructures\Queries\Role\EloquentRoleQueryService;
-use App\Infrastructures\Queries\Role\EloquentRoleQueryServiceInterface;
-use App\Infrastructures\Queries\SocialAccount\EloquentSocialAccountQueryService;
-use App\Infrastructures\Queries\SocialAccount\EloquentSocialAccountQueryServiceInterface;
-use App\Infrastructures\Queries\User\EloquentUserQueryService;
-use App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface;
+use App\Queries\Client\EloquentClientQueryService;
+use App\Queries\Client\EloquentClientQueryServiceInterface;
+use App\Queries\Dns\EloquentDnsRecordTypeQueryService;
+use App\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface;
+use App\Queries\Domain\Billing\EloquentBillingQueryService;
+use App\Queries\Domain\Billing\EloquentBillingQueryServiceInterface;
+use App\Queries\Domain\EloquentDomainQueryService;
+use App\Queries\Domain\EloquentDomainQueryServiceInterface;
+use App\Queries\Menu\EloquentMenuItemQueryService;
+use App\Queries\Menu\EloquentMenuItemQueryServiceInterface;
+use App\Queries\Menu\EloquentMenuQueryService;
+use App\Queries\Menu\EloquentMenuQueryServiceInterface;
+use App\Queries\Registrar\EloquentRegistrarQueryService;
+use App\Queries\Registrar\EloquentRegistrarQueryServiceInterface;
+use App\Queries\Role\EloquentRoleQueryService;
+use App\Queries\Role\EloquentRoleQueryServiceInterface;
+use App\Queries\SocialAccount\EloquentSocialAccountQueryService;
+use App\Queries\SocialAccount\EloquentSocialAccountQueryServiceInterface;
+use App\Queries\User\EloquentUserQueryService;
+use App\Queries\User\EloquentUserQueryServiceInterface;
 
 use Illuminate\Support\ServiceProvider;
 

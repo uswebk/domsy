@@ -9,10 +9,10 @@ final class MailSaveService
     private $userMailSettingRepository;
 
     /**
-     * @param \App\Infrastructures\Repositories\User\UserMailSettingRepositoryInterface $userMailSettingRepository
+     * @param \App\Repositories\User\UserMailSettingRepositoryInterface $userMailSettingRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\User\UserMailSettingRepositoryInterface $userMailSettingRepository
+        \App\Repositories\User\UserMailSettingRepositoryInterface $userMailSettingRepository
     ) {
         $this->userMailSettingRepository = $userMailSettingRepository;
     }

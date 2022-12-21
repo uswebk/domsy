@@ -15,19 +15,19 @@ final class CancelService
     private $billing;
 
     /**
-     * @param \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+     * @param \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+        \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
     ) {
         $this->billingRepository = $billingRepository;
     }
 
     /**
-     * @param \App\Infrastructures\Models\DomainBilling $domainBilling
+     * @param \App\Models\DomainBilling $domainBilling
      * @return void
      */
-    public function handle(\App\Infrastructures\Models\DomainBilling $domainBilling): void
+    public function handle(\App\Models\DomainBilling $domainBilling): void
     {
         DB::beginTransaction();
         try {

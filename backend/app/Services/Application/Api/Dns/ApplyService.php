@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Api\Dns;
 
-use App\Infrastructures\Models\Subdomain;
-use App\Infrastructures\Models\User;
+use App\Models\Subdomain;
+use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,11 +14,11 @@ final class ApplyService
     private const CHUNK_SIZE = 1000;
 
     /**
-     * @param \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService
+     * @param \App\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService
      * @param \App\Services\Domain\Subdomain\Dns\ApplyRecordService $applyRecordService
      */
     public function __construct(
-        \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService,
+        \App\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService,
         \App\Services\Domain\Subdomain\Dns\ApplyRecordService $applyRecordService
     ) {
         $this->dnsRecodeTypeQueryService = $dnsRecodeTypeQueryService;
@@ -43,19 +43,19 @@ final class ApplyService
         $user = User::find(Auth::id());
 
         Subdomain::select('subdomains.*')
-        ->with(['domain'])
-        ->join('domains', 'subdomains.domain_id', '=', 'domains.id')
-        ->where('domains.is_fetching_dns', true)
-        ->whereIn('domains.user_id', $user->getMemberIds())
-        ->chunk(self::CHUNK_SIZE, function (
-            \Illuminate\Database\Eloquent\Collection $subdomains
-        ) {
-            try {
-                $this->applyRecordService->execute($subdomains, $this->getDnsRecodeTypeNames());
-            } catch (Exception $e) {
-                throw $e;
-            }
-        });
+            ->with(['domain'])
+            ->join('domains', 'subdomains.domain_id', '=', 'domains.id')
+            ->where('domains.is_fetching_dns', true)
+            ->whereIn('domains.user_id', $user->getMemberIds())
+            ->chunk(self::CHUNK_SIZE, function (
+                \Illuminate\Database\Eloquent\Collection $subdomains
+            ) {
+                try {
+                    $this->applyRecordService->execute($subdomains, $this->getDnsRecodeTypeNames());
+                } catch (Exception $e) {
+                    throw $e;
+                }
+            });
     }
 
     /**

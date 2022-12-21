@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData\Auth;
 
-use App\Infrastructures\Models\Company;
-use App\Infrastructures\Models\User;
+use App\Models\Company;
+use App\Models\User;
 
 use Illuminate\Support\Facades\Hash;
 
@@ -35,17 +35,17 @@ final class CorporationRegisterRequest
     }
 
     /**
-     * @return \App\Infrastructures\Models\Company
+     * @return \App\Models\Company
      */
-    public function getInputCompany(): \App\Infrastructures\Models\Company
+    public function getInputCompany(): \App\Models\Company
     {
         return $this->company;
     }
 
     /**
-     * @return \App\Infrastructures\Models\User
+     * @return \App\Models\User
      */
-    public function getInputUser(): \App\Infrastructures\Models\User
+    public function getInputUser(): \App\Models\User
     {
         return $this->user;
     }

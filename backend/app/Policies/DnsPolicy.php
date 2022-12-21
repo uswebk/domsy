@@ -11,13 +11,13 @@ final class DnsPolicy
     use HandlesAuthorization;
 
     /**
-     * @param \App\Infrastructures\Models\User $user
-     * @param \App\Infrastructures\Models\Subdomain $subdomain
+     * @param \App\Models\User $user
+     * @param \App\Models\Subdomain $subdomain
      * @return boolean
      */
     public function owner(
-        \App\Infrastructures\Models\User $user,
-        \App\Infrastructures\Models\Subdomain $subdomain
+        \App\Models\User $user,
+        \App\Models\Subdomain $subdomain
     ): bool {
         if ($user->isCompany()) {
             return in_array($subdomain->domain->user_id, $user->getMemberIds());

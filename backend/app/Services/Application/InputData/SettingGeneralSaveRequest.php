@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
-use App\Infrastructures\Models\GeneralSettingCategory;
-use App\Infrastructures\Models\UserGeneralSetting;
+use App\Models\GeneralSettingCategory;
+use App\Models\UserGeneralSetting;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;

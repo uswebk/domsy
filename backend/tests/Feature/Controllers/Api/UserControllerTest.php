@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Feature\Controllers\Api;
 
 use App\Http\Resources\UserResource;
-use App\Infrastructures\Models\Company;
-use App\Infrastructures\Models\User;
+use App\Models\Company;
+use App\Models\User;
 use App\Services\Application\Api\User\FetchService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;

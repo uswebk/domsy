@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Client;
 
 use App\Http\Resources\ClientResource;
-use App\Infrastructures\Models\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchService
@@ -13,10 +13,10 @@ final class FetchService
     private $clients;
 
     /**
-     * @param \App\Infrastructures\Queries\Client\EloquentClientQueryServiceInterface $eloquentClientQueryService
+     * @param \App\Queries\Client\EloquentClientQueryServiceInterface $eloquentClientQueryService
      */
     public function __construct(
-        \App\Infrastructures\Queries\Client\EloquentClientQueryServiceInterface $eloquentClientQueryService
+        \App\Queries\Client\EloquentClientQueryServiceInterface $eloquentClientQueryService
     ) {
         $user = User::find(Auth::id());
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
-use App\Infrastructures\Models\Subdomain;
+use App\Models\Subdomain;
 
 final class DnsStoreRequest
 {
@@ -18,7 +18,7 @@ final class DnsStoreRequest
     ) {
         $validated = $storeRequest->validated();
 
-        if (! isset($storeRequest->prefix)) {
+        if (!isset($storeRequest->prefix)) {
             $validated = array_merge($validated, [
                 'prefix' => '',
             ]);
@@ -28,9 +28,9 @@ final class DnsStoreRequest
     }
 
     /**
-     * @return \App\Infrastructures\Models\Subdomain
+     * @return \App\Models\Subdomain
      */
-    public function getInput(): \App\Infrastructures\Models\Subdomain
+    public function getInput(): \App\Models\Subdomain
     {
         return $this->subdomain;
     }

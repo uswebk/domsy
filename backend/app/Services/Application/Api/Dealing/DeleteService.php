@@ -12,22 +12,22 @@ final class DeleteService
     private $dealingRepository;
 
     /**
-     * @param \App\Infrastructures\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
+     * @param \App\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
+        \App\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
     ) {
         $this->dealingRepository = $dealingRepository;
     }
 
     /**
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Models\DomainDealing $domainDealing
      * @return void
      *
      * @throws ExistsFixedBillingException
      */
     public function handle(
-        \App\Infrastructures\Models\DomainDealing $domainDealing
+        \App\Models\DomainDealing $domainDealing
     ): void {
         try {
             if ($domainDealing->hasFixedBilling()) {

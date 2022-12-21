@@ -17,12 +17,12 @@ final class UpdateService
     private $role;
 
     /**
-     * @param \App\Infrastructures\Repositories\Role\RoleRepositoryInterface $roleRepository
-     * @param \App\Infrastructures\Repositories\Role\RoleItemRepositoryInterface $roleItemRepository
+     * @param \App\Repositories\Role\RoleRepositoryInterface $roleRepository
+     * @param \App\Repositories\Role\RoleItemRepositoryInterface $roleItemRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Role\RoleRepositoryInterface $roleRepository,
-        \App\Infrastructures\Repositories\Role\RoleItemRepositoryInterface $roleItemRepository
+        \App\Repositories\Role\RoleRepositoryInterface $roleRepository,
+        \App\Repositories\Role\RoleItemRepositoryInterface $roleItemRepository
     ) {
         $this->roleRepository = $roleRepository;
         $this->roleItemRepository = $roleItemRepository;
@@ -30,12 +30,12 @@ final class UpdateService
 
     /**
      * @param array $attribute
-     * @param \App\Infrastructures\Models\Role $role
+     * @param \App\Models\Role $role
      * @return void
      */
     public function handle(
         array $attribute,
-        \App\Infrastructures\Models\Role $role
+        \App\Models\Role $role
     ): void {
         $user = Auth::user();
 

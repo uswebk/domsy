@@ -12,14 +12,14 @@ final class RegistrarController extends Controller
     private $registrarRepository;
 
     /**
-     * @param \App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
+     * @param \App\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
+        \App\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
     ) {
         parent::__construct();
 
-        $this->middleware('can:owner,registrar')->except(['fetch','store']);
+        $this->middleware('can:owner,registrar')->except(['fetch', 'store']);
 
         $this->registrarRepository = $registrarRepository;
     }
@@ -50,7 +50,7 @@ final class RegistrarController extends Controller
                 new RegistrarResource($registrar),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -63,7 +63,7 @@ final class RegistrarController extends Controller
      */
     public function update(
         \App\Http\Requests\Api\Registrar\UpdateRequest $request,
-        \App\Infrastructures\Models\Registrar $registrar
+        \App\Models\Registrar $registrar
     ) {
         try {
             $registrar->fill($request->makeInput());
@@ -73,7 +73,7 @@ final class RegistrarController extends Controller
                 new RegistrarResource($registrar),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -82,11 +82,11 @@ final class RegistrarController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Registrar $registrar
+     * @param \App\Models\Registrar $registrar
      * @return \Illuminate\Http\JsonResponse
      */
     public function delete(
-        \App\Infrastructures\Models\Registrar $registrar
+        \App\Models\Registrar $registrar
     ) {
         try {
             $this->registrarRepository->delete($registrar);
@@ -95,7 +95,7 @@ final class RegistrarController extends Controller
                 [],
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR

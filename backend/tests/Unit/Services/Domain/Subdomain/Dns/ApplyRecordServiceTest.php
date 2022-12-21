@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\Domain\Subdomain\Dns;
 
-use App\Infrastructures\Models\DnsRecordType;
-use App\Infrastructures\Models\Domain;
-use App\Infrastructures\Models\Subdomain;
-use App\Infrastructures\Repositories\Subdomain\SubdomainRepository;
+use App\Models\DnsRecordType;
+use App\Models\Domain;
+use App\Models\Subdomain;
+use App\Repositories\Subdomain\SubdomainRepository;
 use App\Services\Domain\Subdomain\Dns\ApplyRecordService;
 use App\Services\Domain\Subdomain\Dns\RecordService;
 use Illuminate\Foundation\Testing\RefreshDatabase;

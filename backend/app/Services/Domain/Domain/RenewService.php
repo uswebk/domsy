@@ -11,22 +11,22 @@ final class RenewService
     private $subdomainRepository;
 
     /**
-     * @param \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
-     * @param \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     * @param \App\Repositories\Domain\DomainRepositoryInterface $domainRepository
+     * @param \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository,
-        \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
+        \App\Repositories\Domain\DomainRepositoryInterface $domainRepository,
+        \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
     ) {
         $this->domainRepository = $domainRepository;
         $this->subdomainRepository = $subdomainRepository;
     }
 
     /**
-     * @param \App\Infrastructures\Models\Domain $domain
-     * @return \App\Infrastructures\Models\Domain
+     * @param \App\Models\Domain $domain
+     * @return \App\Models\Domain
      */
-    public function execute(\App\Infrastructures\Models\Domain $domain): \App\Infrastructures\Models\Domain
+    public function execute(\App\Models\Domain $domain): \App\Models\Domain
     {
         $dirty = $domain->getDirty();
         if (isset($dirty['name'])) {

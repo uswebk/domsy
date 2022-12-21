@@ -17,7 +17,7 @@ final class BillingController extends Controller
         $this->middleware('can:owner,domainBilling')->only(['update', 'cancel']);
     }
 
-        /**
+    /**
      * @param \App\Services\Application\Api\Billing\FetchTransactionService $fetchTransactionService
      * @return \Illuminate\Http\JsonResponse
      */
@@ -45,14 +45,14 @@ final class BillingController extends Controller
 
     /**
      * @param \App\Http\Requests\Api\Billing\UpdateRequest $request
-     * @param \App\Infrastructures\Models\DomainBilling $domainBilling
-     * @param \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+     * @param \App\Models\DomainBilling $domainBilling
+     * @param \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(
         \App\Http\Requests\Api\Billing\UpdateRequest $request,
-        \App\Infrastructures\Models\DomainBilling $domainBilling,
-        \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+        \App\Models\DomainBilling $domainBilling,
+        \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
     ) {
         $domainBilling->fill($request->makeInput());
 
@@ -63,7 +63,7 @@ final class BillingController extends Controller
                 new BillingResource($domainBilling),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -87,7 +87,7 @@ final class BillingController extends Controller
                 $storeService->getResponse(),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -96,12 +96,12 @@ final class BillingController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\DomainBilling $domainBilling
+     * @param \App\Models\DomainBilling $domainBilling
      * @param \App\Services\Application\Api\Billing\CancelService $cancelService
      * @return \Illuminate\Http\JsonResponse
      */
     public function cancel(
-        \App\Infrastructures\Models\DomainBilling $domainBilling,
+        \App\Models\DomainBilling $domainBilling,
         \App\Services\Application\Api\Billing\CancelService $cancelService
     ) {
         try {
@@ -111,7 +111,7 @@ final class BillingController extends Controller
                 $cancelService->getResponse(),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR

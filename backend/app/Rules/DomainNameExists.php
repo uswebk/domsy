@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Rules;
 
-use App\Infrastructures\Models\Domain;
+use App\Models\Domain;
 
-use App\Infrastructures\Models\User;
+use App\Models\User;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
 final class DomainNameExists implements Rule
 {
     /**
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
      */
     public function passes($attribute, $value): bool
@@ -23,10 +23,10 @@ final class DomainNameExists implements Rule
 
         if ($user->isCompany()) {
             $domain = Domain::where('name', $value)->whereIn('user_id', $user->getMemberIds())
-            ->first();
+                ->first();
         } else {
             $domain = Domain::where('name', $value)->where('user_id', $user->id)
-            ->first();
+                ->first();
         }
 
         if (isset($domain)) {

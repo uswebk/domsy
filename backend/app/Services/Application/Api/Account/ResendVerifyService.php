@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Api\Account;
 
-use App\Infrastructures\Mails\Services\EmailVerificationService;
-use App\Infrastructures\Models\User;
+use App\Mails\Services\EmailVerificationService;
+use App\Models\User;
 
 final class ResendVerifyService
 {

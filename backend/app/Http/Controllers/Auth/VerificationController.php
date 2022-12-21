@@ -14,8 +14,8 @@ final class VerificationController extends Controller
 {
     use VerifiesEmails;
 
-    public function __construct(
-    ) {
+    public function __construct()
+    {
         $this->middleware('signed')->only(['url']);
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
@@ -37,7 +37,7 @@ final class VerificationController extends Controller
             return redirect(config('app.frontend_url') . '/verify/complete');
         } catch (AlreadyVerifiedException $e) {
             return redirect(config('app.frontend_url') . '/mypage');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return redirect(config('app.frontend_url') . '/login');
         }
     }
@@ -45,34 +45,34 @@ final class VerificationController extends Controller
     /**
      * Show the email verification notice.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function show(\Illuminate\Http\Request $request)
     {
         return $request->user()->hasVerifiedEmail()
-                        ? redirect('mypage')
-                        : view('auth.verify');
+            ? redirect('mypage')
+            : view('auth.verify');
     }
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Infrastructures\Mails\Services\EmailVerificationService $emailVerificationService
+     * @param \App\Mails\Services\EmailVerificationService $emailVerificationService
      */
     public function resend(
         \Illuminate\Http\Request $request,
-        \App\Infrastructures\Mails\Services\EmailVerificationService $emailVerificationService
+        \App\Mails\Services\EmailVerificationService $emailVerificationService
     ) {
         if ($request->user()->hasVerifiedEmail()) {
             return $request->wantsJson()
-                        ? new JsonResponse([], 204)
-                        : redirect('/mypage');
+                ? new JsonResponse([], 204)
+                : redirect('/mypage');
         }
 
         $emailVerificationService->execute($request->user());
 
         return $request->wantsJson()
-                    ? new JsonResponse([], 202)
-                    : back()->with('resent', true);
+            ? new JsonResponse([], 202)
+            : back()->with('resent', true);
     }
 }

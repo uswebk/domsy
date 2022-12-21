@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Service\Domain\UserMailSetting;
 
-use App\Infrastructures\Models\Domain;
-use App\Infrastructures\Models\User;
-use App\Infrastructures\Models\UserMailSetting;
+use App\Models\Domain;
+use App\Models\User;
+use App\Models\UserMailSetting;
 use App\Services\Domain\UserMailSetting\ExpirationDomainService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
