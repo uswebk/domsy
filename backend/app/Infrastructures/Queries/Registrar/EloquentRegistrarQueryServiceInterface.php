@@ -8,9 +8,9 @@ interface EloquentRegistrarQueryServiceInterface
 {
     /**
      * @param integer $id
-     * @return \App\Infrastructures\Models\Registrar
+     * @return \App\Models\Registrar
      */
-    public function firstByIdUserId(int $id, int $userId): \App\Infrastructures\Models\Registrar;
+    public function firstByIdUserId(int $id, int $userId): \App\Models\Registrar;
 
     /**
      * @param array $userIds

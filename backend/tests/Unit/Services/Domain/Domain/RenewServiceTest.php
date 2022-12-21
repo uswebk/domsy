@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Service\Domain\Domain;
 
-use App\Infrastructures\Models\Domain;
-use App\Infrastructures\Models\Subdomain;
+use App\Models\Domain;
+use App\Models\Subdomain;
 use App\Infrastructures\Repositories\Domain\DomainRepository;
 use App\Infrastructures\Repositories\Subdomain\SubdomainRepository;
 use App\Services\Domain\Domain\RenewService;

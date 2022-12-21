@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\User;
 
 use App\Http\Resources\UserResource;
-use App\Infrastructures\Models\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class FetchService

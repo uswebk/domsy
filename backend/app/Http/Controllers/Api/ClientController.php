@@ -19,7 +19,7 @@ final class ClientController extends Controller
     ) {
         parent::__construct();
 
-        $this->middleware('can:owner,client')->except(['fetch','store']);
+        $this->middleware('can:owner,client')->except(['fetch', 'store']);
 
         $this->clientRepository = $clientRepository;
     }
@@ -51,7 +51,7 @@ final class ClientController extends Controller
                 new ClientResource($client),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -61,12 +61,12 @@ final class ClientController extends Controller
 
     /**
      * @param \App\Http\Requests\Api\Client\UpdateRequest $request
-     * @param \App\Infrastructures\Models\Client $client
+     * @param \App\Models\Client $client
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(
         \App\Http\Requests\Api\Client\UpdateRequest $request,
-        \App\Infrastructures\Models\Client $client
+        \App\Models\Client $client
     ) {
         try {
             $client->fill($request->makeInput());
@@ -76,7 +76,7 @@ final class ClientController extends Controller
                 new ClientResource($client),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -85,11 +85,11 @@ final class ClientController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Client $client
+     * @param \App\Models\Client $client
      * @return \Illuminate\Http\JsonResponse
      */
     public function delete(
-        \App\Infrastructures\Models\Client $client
+        \App\Models\Client $client
     ) {
         try {
             $this->clientRepository->delete($client);
@@ -98,7 +98,7 @@ final class ClientController extends Controller
                 [],
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR

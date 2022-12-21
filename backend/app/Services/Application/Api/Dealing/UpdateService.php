@@ -24,13 +24,13 @@ final class UpdateService
 
     /**
      * @param \App\Services\Application\InputData\DealingUpdateRequest $dealingUpdateRequest
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Models\DomainDealing $domainDealing
      *
      * @return void
      */
     public function handle(
         \App\Services\Application\InputData\DealingUpdateRequest $dealingUpdateRequest,
-        \App\Infrastructures\Models\DomainDealing $domainDealing
+        \App\Models\DomainDealing $domainDealing
     ): void {
         $domainDealingRequest = $dealingUpdateRequest->getInput();
 

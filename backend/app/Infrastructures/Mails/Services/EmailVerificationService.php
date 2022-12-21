@@ -9,11 +9,11 @@ use App\Infrastructures\Mails\Client\EmailVerification;
 final class EmailVerificationService
 {
     /**
-     * @param \App\Infrastructures\Models\User $user
+     * @param \App\Models\User $user
      * @return void
      */
     public function execute(
-        \App\Infrastructures\Models\User $user
+        \App\Models\User $user
     ): void {
         $user->notify(new EmailVerification());
     }

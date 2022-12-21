@@ -21,13 +21,13 @@ final class DeleteService
     }
 
     /**
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Models\DomainDealing $domainDealing
      * @return void
      *
      * @throws ExistsFixedBillingException
      */
     public function handle(
-        \App\Infrastructures\Models\DomainDealing $domainDealing
+        \App\Models\DomainDealing $domainDealing
     ): void {
         try {
             if ($domainDealing->hasFixedBilling()) {

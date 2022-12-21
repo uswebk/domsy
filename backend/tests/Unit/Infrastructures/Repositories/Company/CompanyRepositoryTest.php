@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Infrastructures\Repository\Company;
 
-use App\Infrastructures\Models\Company;
+use App\Models\Company;
 use App\Infrastructures\Repositories\Company\CompanyRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

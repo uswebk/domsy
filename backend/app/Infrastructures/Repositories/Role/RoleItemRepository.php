@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Repositories\Role;
 
-use App\Infrastructures\Models\RoleItem;
+use App\Models\RoleItem;
 
 final class RoleItemRepository implements RoleItemRepositoryInterface
 {
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\RoleItem
+     * @return \App\Models\RoleItem
      */
-    public function store(array $attributes): \App\Infrastructures\Models\RoleItem
+    public function store(array $attributes): \App\Models\RoleItem
     {
         $roleItem = RoleItem::create($attributes);
 

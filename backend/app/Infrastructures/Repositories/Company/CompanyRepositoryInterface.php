@@ -8,7 +8,7 @@ interface CompanyRepositoryInterface
 {
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\Company
+     * @return \App\Models\Company
      */
-    public function store(array $attributes): \App\Infrastructures\Models\Company;
+    public function store(array $attributes): \App\Models\Company;
 }

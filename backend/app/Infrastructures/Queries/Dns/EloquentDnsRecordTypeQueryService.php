@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Queries\Dns;
 
-use App\Infrastructures\Models\DnsRecordType;
+use App\Models\DnsRecordType;
 
 final class EloquentDnsRecordTypeQueryService implements EloquentDnsRecordTypeQueryServiceInterface
 {

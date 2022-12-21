@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Queries\Domain\Billing;
 
-use App\Infrastructures\Models\DomainBilling;
+use App\Models\DomainBilling;
 
 final class EloquentBillingQueryService implements EloquentBillingQueryServiceInterface
 {

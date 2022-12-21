@@ -16,7 +16,7 @@ final class RoleController extends Controller
             'fetch',
             'store',
             'has',
-            'hasPage'
+            'hasPage',
         ]);
     }
 
@@ -75,7 +75,7 @@ final class RoleController extends Controller
                 $storeService->getResponse(),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -86,13 +86,13 @@ final class RoleController extends Controller
     /**
      * @param \App\Http\Requests\Api\Role\UpdateRequest $request
      * @param \App\Services\Application\Api\Role\UpdateService $roleUpdateService
-     * @param \App\Infrastructures\Models\Role $role
+     * @param \App\Models\Role $role
      * @return void
      */
     public function update(
         \App\Http\Requests\Api\Role\UpdateRequest $request,
         \App\Services\Application\Api\Role\UpdateService $updateService,
-        \App\Infrastructures\Models\Role $role
+        \App\Models\Role $role
     ) {
         try {
             $updateService->handle($request->makeInput(), $role);
@@ -101,7 +101,7 @@ final class RoleController extends Controller
                 $updateService->getResponse(),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -110,12 +110,12 @@ final class RoleController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Role $role
+     * @param \App\Models\Role $role
      * @param \App\Infrastructures\Repositories\Role\RoleRepositoryInterface $roleRepository
      * @return\Illuminate\Http\JsonResponse
      */
     public function delete(
-        \App\Infrastructures\Models\Role $role,
+        \App\Models\Role $role,
         \App\Infrastructures\Repositories\Role\RoleRepositoryInterface $roleRepository
     ) {
         try {
@@ -125,7 +125,7 @@ final class RoleController extends Controller
                 [],
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR

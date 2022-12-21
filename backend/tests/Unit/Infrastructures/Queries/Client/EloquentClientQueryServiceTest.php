@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Infrastructures\Queries\Client;
 
-use App\Infrastructures\Models\Client;
-use App\Infrastructures\Models\User;
+use App\Models\Client;
+use App\Models\User;
 use App\Infrastructures\Queries\Client\EloquentClientQueryService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;

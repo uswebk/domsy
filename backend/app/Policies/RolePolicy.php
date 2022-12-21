@@ -11,13 +11,13 @@ final class RolePolicy
     use HandlesAuthorization;
 
     /**
-     * @param \App\Infrastructures\Models\User $user
-     * @param \App\Infrastructures\Models\role $role
+     * @param \App\Models\User $user
+     * @param \App\Models\role $role
      * @return boolean
      */
     public function owner(
-        \App\Infrastructures\Models\User $user,
-        \App\Infrastructures\Models\role $role
+        \App\Models\User $user,
+        \App\Models\role $role
     ): bool {
         return $user->company_id == $role->company_id;
     }

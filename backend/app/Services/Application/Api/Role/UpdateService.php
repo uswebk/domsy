@@ -30,12 +30,12 @@ final class UpdateService
 
     /**
      * @param array $attribute
-     * @param \App\Infrastructures\Models\Role $role
+     * @param \App\Models\Role $role
      * @return void
      */
     public function handle(
         array $attribute,
-        \App\Infrastructures\Models\Role $role
+        \App\Models\Role $role
     ): void {
         $user = Auth::user();
 

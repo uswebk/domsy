@@ -11,22 +11,22 @@ final class ExpirationDomainService
     private $notificationDomains;
 
     /**
-     * @param \App\Infrastructures\Models\User $user
+     * @param \App\Models\User $user
      * @param \Carbon\Carbon $notificationDate
      * @return void
      */
     private function initNotificationDomains(
-        \App\Infrastructures\Models\User $user,
+        \App\Models\User $user,
         \Carbon\Carbon $notificationDate,
     ): void {
         $domains = $user->domains;
 
         foreach ($domains as $domain) {
-            if (! $domain->isExpirationDateByTargetDate($notificationDate)) {
+            if (!$domain->isExpirationDateByTargetDate($notificationDate)) {
                 continue;
             }
 
-            if (! $domain->isOwned()) {
+            if (!$domain->isOwned()) {
                 continue;
             }
 
@@ -35,13 +35,13 @@ final class ExpirationDomainService
     }
 
     /**
-     * @param \App\Infrastructures\Models\UserMailSetting $domainExpirationMailSetting
-     * @param \App\Infrastructures\Models\User $user
+     * @param \App\Models\UserMailSetting $domainExpirationMailSetting
+     * @param \App\Models\User $user
      * @param \Carbon\Carbon $targetDate
      */
     public function __construct(
-        \App\Infrastructures\Models\UserMailSetting $domainExpirationMailSetting,
-        \App\Infrastructures\Models\User $user,
+        \App\Models\UserMailSetting $domainExpirationMailSetting,
+        \App\Models\User $user,
         \Carbon\Carbon $targetDate,
     ) {
         $this->notificationDomains = new Collection();

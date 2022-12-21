@@ -7,20 +7,20 @@ namespace App\Infrastructures\Repositories\Client;
 interface ClientRepositoryInterface
 {
     /**
-     * @param \App\Infrastructures\Models\Client $client
-     * @return \App\Infrastructures\Models\Client
+     * @param \App\Models\Client $client
+     * @return \App\Models\Client
      */
-    public function save(\App\Infrastructures\Models\Client $client): \App\Infrastructures\Models\Client;
+    public function save(\App\Models\Client $client): \App\Models\Client;
 
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\Client
+     * @return \App\Models\Client
      */
-    public function store(array $attributes): \App\Infrastructures\Models\Client;
+    public function store(array $attributes): \App\Models\Client;
 
     /**
-     * @param \App\Infrastructures\Models\Client $client
+     * @param \App\Models\Client $client
      * @return void
      */
-    public function delete(\App\Infrastructures\Models\Client $client): void;
+    public function delete(\App\Models\Client $client): void;
 }

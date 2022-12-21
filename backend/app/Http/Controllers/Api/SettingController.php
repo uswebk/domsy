@@ -7,8 +7,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\GeneralSettingResource;
 
 use App\Http\Resources\UserMailSettingResource;
-use App\Infrastructures\Models\GeneralSettingCategory;
-use App\Infrastructures\Models\MailCategory;
+use App\Models\GeneralSettingCategory;
+use App\Models\MailCategory;
 
 use Illuminate\Http\Response;
 
@@ -41,10 +41,10 @@ final class SettingController extends Controller
     }
 
     /**
-      * @param \App\Http\Requests\Api\Setting\SaveMailRequest $request
-      * @param \App\Services\Application\Api\Setting\MailSaveService $mailSaveService
-      * @return \Illuminate\Http\JsonResponse
-      */
+     * @param \App\Http\Requests\Api\Setting\SaveMailRequest $request
+     * @param \App\Services\Application\Api\Setting\MailSaveService $mailSaveService
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function saveMails(
         \App\Http\Requests\Api\Setting\SaveMailRequest $request,
         \App\Services\Application\Api\Setting\MailSaveService $mailSaveService
@@ -56,7 +56,7 @@ final class SettingController extends Controller
                 [],
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -80,7 +80,7 @@ final class SettingController extends Controller
                 [],
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR

@@ -11,13 +11,13 @@ final class DomainBillingPolicy
     use HandlesAuthorization;
 
     /**
-     * @param \App\Infrastructures\Models\User $user
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Models\User $user
+     * @param \App\Models\DomainDealing $domainDealing
      * @return boolean
      */
     public function owner(
-        \App\Infrastructures\Models\User $user,
-        \App\Infrastructures\Models\DomainBilling $domainBilling
+        \App\Models\User $user,
+        \App\Models\DomainBilling $domainBilling
     ): bool {
         if ($user->isCompany()) {
             return in_array($domainBilling->getUserId(), $user->getMemberIds());

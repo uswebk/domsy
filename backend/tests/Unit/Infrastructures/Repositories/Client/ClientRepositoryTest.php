@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Infrastructures\Repository\Client;
 
-use App\Infrastructures\Models\Client;
-use App\Infrastructures\Models\User;
+use App\Models\Client;
+use App\Models\User;
 use App\Infrastructures\Repositories\Client\ClientRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

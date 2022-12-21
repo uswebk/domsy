@@ -11,10 +11,10 @@ final class NextBillingDateService
     private $billingDate;
 
     /**
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Models\DomainDealing $domainDealing
      */
     public function __construct(
-        \App\Infrastructures\Models\DomainDealing $domainDealing
+        \App\Models\DomainDealing $domainDealing
     ) {
         $nextBilling = $domainDealing->getNextBilling();
         $this->billingDate = $nextBilling->billing_date;
@@ -23,15 +23,15 @@ final class NextBillingDateService
     }
 
     /**
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Models\DomainDealing $domainDealing
      * @return void
      */
-    private function set(\App\Infrastructures\Models\DomainDealing $domainDealing): void
+    private function set(\App\Models\DomainDealing $domainDealing): void
     {
         $interval = $domainDealing->interval;
         $category = $domainDealing->interval_category;
 
-        switch($category) {
+        switch ($category) {
             case Interval::DAY->name:
                 $this->billingDate->addDays($interval);
                 break;

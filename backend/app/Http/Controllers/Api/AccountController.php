@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\Api\Account\StoreRequest;
 use App\Http\Requests\Api\Account\UpdateRequest;
 use App\Http\Resources\UserResource;
-use App\Infrastructures\Models\User;
+use App\Models\User;
 use App\Infrastructures\Repositories\User\UserRepositoryInterface;
 use App\Services\Application\Api\Account\ResendVerifyService;
 use App\Services\Application\Api\Account\StoreService;

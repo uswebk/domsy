@@ -11,13 +11,13 @@ final class DomainDealingPolicy
     use HandlesAuthorization;
 
     /**
-     * @param \App\Infrastructures\Models\User $user
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Models\User $user
+     * @param \App\Models\DomainDealing $domainDealing
      * @return boolean
      */
     public function owner(
-        \App\Infrastructures\Models\User $user,
-        \App\Infrastructures\Models\DomainDealing $domainDealing
+        \App\Models\User $user,
+        \App\Models\DomainDealing $domainDealing
     ): bool {
         if ($user->isCompany()) {
             return in_array($domainDealing->getUserId(), $user->getMemberIds());

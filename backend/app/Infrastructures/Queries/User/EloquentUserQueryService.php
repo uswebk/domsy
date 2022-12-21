@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Queries\User;
 
-use App\Infrastructures\Models\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
 final class EloquentUserQueryService implements EloquentUserQueryServiceInterface

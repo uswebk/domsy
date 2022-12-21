@@ -11,13 +11,13 @@ final class ClientPolicy
     use HandlesAuthorization;
 
     /**
-     * @param \App\Infrastructures\Models\User $user
-     * @param \App\Infrastructures\Models\Client $client
+     * @param \App\Models\User $user
+     * @param \App\Models\Client $client
      * @return boolean
      */
     public function owner(
-        \App\Infrastructures\Models\User $user,
-        \App\Infrastructures\Models\Client $client
+        \App\Models\User $user,
+        \App\Models\Client $client
     ): bool {
         if ($user->isCompany()) {
             return in_array($client->user_id, $user->getMemberIds());

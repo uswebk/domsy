@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Repositories\Registrar;
 
-use App\Infrastructures\Models\Registrar;
+use App\Models\Registrar;
 
 final class RegistrarRepository implements RegistrarRepositoryInterface
 {
     /**
-     * @param \App\Infrastructures\Models\Registrar $registrar
-     * @return \App\Infrastructures\Models\Registrar
+     * @param \App\Models\Registrar $registrar
+     * @return \App\Models\Registrar
      */
     public function save(
-        \App\Infrastructures\Models\Registrar $registrar
-    ): \App\Infrastructures\Models\Registrar {
+        \App\Models\Registrar $registrar
+    ): \App\Models\Registrar {
         $registrar->save();
 
         return $registrar;
@@ -22,9 +22,9 @@ final class RegistrarRepository implements RegistrarRepositoryInterface
 
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\Registrar
+     * @return \App\Models\Registrar
      */
-    public function store(array $attributes): \App\Infrastructures\Models\Registrar
+    public function store(array $attributes): \App\Models\Registrar
     {
         $registrar = Registrar::create($attributes);
 
@@ -32,10 +32,10 @@ final class RegistrarRepository implements RegistrarRepositoryInterface
     }
 
     /**
-     * @param \App\Infrastructures\Models\Registrar $registrar
+     * @param \App\Models\Registrar $registrar
      * @return void
      */
-    public function delete(\App\Infrastructures\Models\Registrar $registrar): void
+    public function delete(\App\Models\Registrar $registrar): void
     {
         $registrar->delete();
     }

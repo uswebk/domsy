@@ -8,19 +8,19 @@ interface RoleRepositoryInterface
 {
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\Role
+     * @return \App\Models\Role
      */
-    public function store(array $attributes): \App\Infrastructures\Models\Role;
+    public function store(array $attributes): \App\Models\Role;
 
     /**
-     * @param \App\Infrastructures\Models\Role $role
-     * @return \App\Infrastructures\Models\Role
+     * @param \App\Models\Role $role
+     * @return \App\Models\Role
      */
-    public function save(\App\Infrastructures\Models\Role $role): \App\Infrastructures\Models\Role;
+    public function save(\App\Models\Role $role): \App\Models\Role;
 
     /**
-     * @param \App\Infrastructures\Models\Role $role
+     * @param \App\Models\Role $role
      * @return void
      */
-    public function delete(\App\Infrastructures\Models\Role $role): void;
+    public function delete(\App\Models\Role $role): void;
 }

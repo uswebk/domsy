@@ -8,9 +8,9 @@ interface RoleItemRepositoryInterface
 {
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\RoleItem
+     * @return \App\Models\RoleItem
      */
-    public function store(array $attributes): \App\Infrastructures\Models\RoleItem;
+    public function store(array $attributes): \App\Models\RoleItem;
 
     /**
      * @param integer $roleId

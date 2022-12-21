@@ -11,12 +11,12 @@ final class UserPolicy
     use HandlesAuthorization;
 
     /**
-     * @param \App\Infrastructures\Models\User $user
-     * @param \App\Infrastructures\Models\User $_user
+     * @param \App\Models\User $user
+     * @param \App\Models\User $_user
      */
     public function owner(
-        \App\Infrastructures\Models\User $user,
-        \App\Infrastructures\Models\User $_user
+        \App\Models\User $user,
+        \App\Models\User $_user
     ): bool {
         return $user->company_id == $_user->company_id;
     }

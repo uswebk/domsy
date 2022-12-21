@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Infrastructures\Models\UserLatestCode;
+use App\Models\UserLatestCode;
 
 use Illuminate\Database\Seeder;
 

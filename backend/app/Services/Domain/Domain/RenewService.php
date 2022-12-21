@@ -23,10 +23,10 @@ final class RenewService
     }
 
     /**
-     * @param \App\Infrastructures\Models\Domain $domain
-     * @return \App\Infrastructures\Models\Domain
+     * @param \App\Models\Domain $domain
+     * @return \App\Models\Domain
      */
-    public function execute(\App\Infrastructures\Models\Domain $domain): \App\Infrastructures\Models\Domain
+    public function execute(\App\Models\Domain $domain): \App\Models\Domain
     {
         $dirty = $domain->getDirty();
         if (isset($dirty['name'])) {

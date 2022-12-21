@@ -12,14 +12,14 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        'App\Infrastructures\Models\Domain' => 'App\Policies\DomainPolicy',
-        'App\Infrastructures\Models\DomainBilling' => 'App\Policies\DomainBillingPolicy',
-        'App\Infrastructures\Models\DomainDealing' => 'App\Policies\DomainDealingPolicy',
-        'App\Infrastructures\Models\Subdomain' => 'App\Policies\DnsPolicy',
-        'App\Infrastructures\Models\Registrar' => 'App\Policies\RegistrarPolicy',
-        'App\Infrastructures\Models\Client' => 'App\Policies\ClientPolicy',
-        'App\Infrastructures\Models\User' => 'App\Policies\UserPolicy',
-        'App\Infrastructures\Models\Role' => 'App\Policies\RolePolicy',
+        'App\Models\Domain' => 'App\Policies\DomainPolicy',
+        'App\Models\DomainBilling' => 'App\Policies\DomainBillingPolicy',
+        'App\Models\DomainDealing' => 'App\Policies\DomainDealingPolicy',
+        'App\Models\Subdomain' => 'App\Policies\DnsPolicy',
+        'App\Models\Registrar' => 'App\Policies\RegistrarPolicy',
+        'App\Models\Client' => 'App\Policies\ClientPolicy',
+        'App\Models\User' => 'App\Policies\UserPolicy',
+        'App\Models\Role' => 'App\Policies\RolePolicy',
     ];
 
     /**
@@ -30,7 +30,6 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
         //
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Subdomain\Dns;
 
-use App\Infrastructures\Models\DnsRecordType;
+use App\Models\DnsRecordType;
 
 final class RecordService
 {
@@ -60,7 +60,7 @@ final class RecordService
      */
     public function getTtl(): int
     {
-        return (int)$this->records['ttl'];
+        return (int) $this->records['ttl'];
     }
 
     /**
@@ -87,7 +87,7 @@ final class RecordService
      */
     public function getPriority(): int
     {
-        return (int)$this->records['pri'];
+        return (int) $this->records['pri'];
     }
 
     /**

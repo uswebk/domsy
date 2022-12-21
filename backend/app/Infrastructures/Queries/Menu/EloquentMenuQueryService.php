@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Queries\Menu;
 
-use App\Infrastructures\Models\Menu;
+use App\Models\Menu;
 
 final class EloquentMenuQueryService implements EloquentMenuQueryServiceInterface
 {
     /**
      * @param integer $id
-     * @return \App\Infrastructures\Models\Menu
+     * @return \App\Models\Menu
      */
-    public function findById(int $id): \App\Infrastructures\Models\Menu
+    public function findById(int $id): \App\Models\Menu
     {
         return Menu::findOrFail($id);
     }

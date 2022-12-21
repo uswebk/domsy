@@ -8,16 +8,16 @@ interface EloquentClientQueryServiceInterface
 {
     /**
      * @param integer $id
-     * @return \App\Infrastructures\Models\Client
+     * @return \App\Models\Client
      */
-    public function findById(int $id): \App\Infrastructures\Models\Client;
+    public function findById(int $id): \App\Models\Client;
 
     /**
      * @param integer $id
      * @param integer $userId
-     * @return \App\Infrastructures\Models\Client
+     * @return \App\Models\Client
      */
-    public function firstByIdUserId(int $id, int $userId): \App\Infrastructures\Models\Client;
+    public function firstByIdUserId(int $id, int $userId): \App\Models\Client;
 
     /**
      * @param array $userIds

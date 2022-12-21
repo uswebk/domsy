@@ -24,10 +24,10 @@ final class CancelService
     }
 
     /**
-     * @param \App\Infrastructures\Models\DomainBilling $domainBilling
+     * @param \App\Models\DomainBilling $domainBilling
      * @return void
      */
-    public function handle(\App\Infrastructures\Models\DomainBilling $domainBilling): void
+    public function handle(\App\Models\DomainBilling $domainBilling): void
     {
         DB::beginTransaction();
         try {

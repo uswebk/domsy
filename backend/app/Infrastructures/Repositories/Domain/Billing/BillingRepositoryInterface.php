@@ -8,29 +8,29 @@ interface BillingRepositoryInterface
 {
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\DomainBilling
+     * @return \App\Models\DomainBilling
      */
-    public function store(array $attributes): \App\Infrastructures\Models\DomainBilling;
+    public function store(array $attributes): \App\Models\DomainBilling;
 
     /**
-     * @param \App\Infrastructures\Models\DomainBilling $domainBilling
-     * @return \App\Infrastructures\Models\DomainBilling
+     * @param \App\Models\DomainBilling $domainBilling
+     * @return \App\Models\DomainBilling
      */
-    public function save(\App\Infrastructures\Models\DomainBilling $domainBilling): \App\Infrastructures\Models\DomainBilling;
+    public function save(\App\Models\DomainBilling $domainBilling): \App\Models\DomainBilling;
 
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\DomainBilling
+     * @return \App\Models\DomainBilling
      */
-    public function firstOrCreate(array $attributes): \App\Infrastructures\Models\DomainBilling;
+    public function firstOrCreate(array $attributes): \App\Models\DomainBilling;
 
     /**
-     * @param \App\Infrastructures\Models\DomainBilling $domainBilling
+     * @param \App\Models\DomainBilling $domainBilling
      * @param boolean $isFixed
      * @return void
      */
     public function updateIsFixed(
-        \App\Infrastructures\Models\DomainBilling $domainBilling,
+        \App\Models\DomainBilling $domainBilling,
         bool $isFixed
     );
 }

@@ -39,12 +39,12 @@ final class DnsController extends Controller
 
     /**
      * @param \App\Http\Requests\Api\Dns\UpdateRequest $request
-     * @param \App\Infrastructures\Models\Subdomain $subdomain
+     * @param \App\Models\Subdomain $subdomain
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(
         \App\Http\Requests\Api\Dns\UpdateRequest $request,
-        \App\Infrastructures\Models\Subdomain $subdomain,
+        \App\Models\Subdomain $subdomain,
     ) {
         try {
             $subdomain->fill($request->makeInput());
@@ -54,7 +54,7 @@ final class DnsController extends Controller
                 new SubdomainResource($subdomain),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -78,7 +78,7 @@ final class DnsController extends Controller
                 $storeService->getResponse(),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -87,11 +87,11 @@ final class DnsController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\Subdomain $subdomain
+     * @param \App\Models\Subdomain $subdomain
      * @return \Illuminate\Http\JsonResponse
      */
     public function delete(
-        \App\Infrastructures\Models\Subdomain $subdomain
+        \App\Models\Subdomain $subdomain
     ) {
         try {
             $this->subdomainRepository->delete($subdomain);
@@ -100,7 +100,7 @@ final class DnsController extends Controller
                 [],
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -122,7 +122,7 @@ final class DnsController extends Controller
                 $applyService->getResponse(),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR

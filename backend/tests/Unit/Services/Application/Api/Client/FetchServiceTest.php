@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Unit\Service\Application\Api\Client;
 
 use App\Constants\CompanyConstant;
-use App\Infrastructures\Models\Client;
-use App\Infrastructures\Models\Company;
-use App\Infrastructures\Models\User;
+use App\Models\Client;
+use App\Models\Company;
+use App\Models\User;
 use App\Infrastructures\Queries\Client\EloquentClientQueryService;
 use App\Services\Application\Api\Client\FetchService;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Infrastructures\Queries\Dns;
 
-use App\Infrastructures\Models\DnsRecordType;
+use App\Models\DnsRecordType;
 use App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

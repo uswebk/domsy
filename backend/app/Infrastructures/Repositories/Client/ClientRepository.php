@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Repositories\Client;
 
-use App\Infrastructures\Models\Client;
+use App\Models\Client;
 
 final class ClientRepository implements ClientRepositoryInterface
 {
     /**
-     * @param \App\Infrastructures\Models\Client $client
-     * @return \App\Infrastructures\Models\Client
+     * @param \App\Models\Client $client
+     * @return \App\Models\Client
      */
     public function save(
-        \App\Infrastructures\Models\Client $client
-    ): \App\Infrastructures\Models\Client {
+        \App\Models\Client $client
+    ): \App\Models\Client {
         $client->save();
 
         return $client;
@@ -22,9 +22,9 @@ final class ClientRepository implements ClientRepositoryInterface
 
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\Client
+     * @return \App\Models\Client
      */
-    public function store(array $attributes): \App\Infrastructures\Models\Client
+    public function store(array $attributes): \App\Models\Client
     {
         $client = Client::create($attributes);
 
@@ -32,10 +32,10 @@ final class ClientRepository implements ClientRepositoryInterface
     }
 
     /**
-     * @param \App\Infrastructures\Models\Client $client
+     * @param \App\Models\Client $client
      * @return void
      */
-    public function delete(\App\Infrastructures\Models\Client $client): void
+    public function delete(\App\Models\Client $client): void
     {
         $client->delete();
     }

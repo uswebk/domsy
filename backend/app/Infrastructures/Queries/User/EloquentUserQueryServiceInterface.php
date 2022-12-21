@@ -8,9 +8,9 @@ interface EloquentUserQueryServiceInterface
 {
     /**
      * @param integer $id
-     * @return \App\Infrastructures\Models\User
+     * @return \App\Models\User
      */
-    public function findById(int $id): \App\Infrastructures\Models\User;
+    public function findById(int $id): \App\Models\User;
 
     /**
      * @return \Illuminate\Database\Eloquent\Collection
@@ -26,10 +26,10 @@ interface EloquentUserQueryServiceInterface
     /**
      * @param integer $id
      * @param string $emailVerifyToken
-     * @return \App\Infrastructures\Models\User
+     * @return \App\Models\User
      */
     public function firstByIdEmailVerifyToken(
         int $id,
         string $emailVerifyToken
-    ): \App\Infrastructures\Models\User;
+    ): \App\Models\User;
 }

@@ -26,9 +26,9 @@ interface EloquentDomainQueryServiceInterface
 
     /**
      * @param array $userIds
-     * @return \App\Infrastructures\Models\Domain
+     * @return \App\Models\Domain
      */
-    public function getActiveCountByUserIds(array $userIds): \App\Infrastructures\Models\Domain;
+    public function getActiveCountByUserIds(array $userIds): \App\Models\Domain;
 
     /**
      * @param array $userIds

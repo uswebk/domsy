@@ -9,13 +9,13 @@ use App\Infrastructures\Mails\Client\DomainExpiration;
 final class DomainExpirationService
 {
     /**
-     * @param \App\Infrastructures\Models\User $user
+     * @param \App\Models\User $user
      * @param \Illuminate\Database\Eloquent\Collection $domains
      * @param integer $domainNoticeNumberDays
      * @return void
      */
     public function execute(
-        \App\Infrastructures\Models\User $user,
+        \App\Models\User $user,
         \Illuminate\Database\Eloquent\Collection $domains,
         int $domainNoticeNumberDays
     ): void {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Registrar;
 
 use App\Http\Resources\RegistrarResource;
-use App\Infrastructures\Models\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchService

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
-use App\Infrastructures\Models\MailCategory;
-use App\Infrastructures\Models\UserMailSetting;
+use App\Models\MailCategory;
+use App\Models\UserMailSetting;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +32,7 @@ final class SettingMailSaveRequest
                 'mail_category_id' => $mailCategory->id,
             ]);
 
-            if (! $mailCategory->hasDays()) {
+            if (!$mailCategory->hasDays()) {
                 $parameter = array_merge($parameter, [
                     'notice_number_days' => 0,
                 ]);

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Api\Domain;
 
-use App\Infrastructures\Models\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchActiveSummaryService
@@ -28,9 +28,9 @@ final class FetchActiveSummaryService
     }
 
     /**
-     * @return \App\Infrastructures\Models\Domain
+     * @return \App\Models\Domain
      */
-    public function getResponse(): \App\Infrastructures\Models\Domain
+    public function getResponse(): \App\Models\Domain
     {
         return $this->domainSummary;
     }

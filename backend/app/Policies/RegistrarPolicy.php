@@ -11,13 +11,13 @@ final class RegistrarPolicy
     use HandlesAuthorization;
 
     /**
-     * @param \App\Infrastructures\Models\User $user
-     * @param \App\Infrastructures\Models\Registrar $registrar
+     * @param \App\Models\User $user
+     * @param \App\Models\Registrar $registrar
      * @return boolean
      */
     public function owner(
-        \App\Infrastructures\Models\User $user,
-        \App\Infrastructures\Models\Registrar $registrar
+        \App\Models\User $user,
+        \App\Models\Registrar $registrar
     ): bool {
         if ($user->isCompany()) {
             return in_array($registrar->user_id, $user->getMemberIds());

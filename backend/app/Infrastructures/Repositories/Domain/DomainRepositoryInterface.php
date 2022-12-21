@@ -7,20 +7,20 @@ namespace App\Infrastructures\Repositories\Domain;
 interface DomainRepositoryInterface
 {
     /**
-     * @param \App\Infrastructures\Models\Domain $domain
-     * @return \App\Infrastructures\Models\Domain
+     * @param \App\Models\Domain $domain
+     * @return \App\Models\Domain
      */
-    public function save(\App\Infrastructures\Models\Domain $domain): \App\Infrastructures\Models\Domain;
+    public function save(\App\Models\Domain $domain): \App\Models\Domain;
 
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\Domain
+     * @return \App\Models\Domain
      */
-    public function store(array $attributes): \App\Infrastructures\Models\Domain;
+    public function store(array $attributes): \App\Models\Domain;
 
     /**
-     * @param \App\Infrastructures\Models\Domain $domain
+     * @param \App\Models\Domain $domain
      * @return void
      */
-    public function delete(\App\Infrastructures\Models\Domain $domain): void;
+    public function delete(\App\Models\Domain $domain): void;
 }

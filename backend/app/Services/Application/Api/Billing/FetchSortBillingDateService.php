@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Billing;
 
 use App\Http\Resources\BillingResource;
-use App\Infrastructures\Models\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchSortBillingDateService

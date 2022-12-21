@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Queries\Client;
 
-use App\Infrastructures\Models\Client;
+use App\Models\Client;
 use Illuminate\Database\Eloquent\Collection;
 
 final class EloquentClientQueryService implements EloquentClientQueryServiceInterface

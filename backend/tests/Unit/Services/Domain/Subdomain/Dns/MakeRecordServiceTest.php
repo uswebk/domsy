@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Services\Domain\Subdomain\Dns;
 
-use App\Infrastructures\Models\Domain;
-use App\Infrastructures\Models\Subdomain;
+use App\Models\Domain;
+use App\Models\Subdomain;
 use App\Services\Domain\Subdomain\Dns\MakeRecordService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

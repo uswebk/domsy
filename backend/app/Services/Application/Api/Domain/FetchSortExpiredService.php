@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Domain;
 
 use App\Http\Resources\DomainResource;
-use App\Infrastructures\Models\User;
+use App\Models\User;
 use App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;

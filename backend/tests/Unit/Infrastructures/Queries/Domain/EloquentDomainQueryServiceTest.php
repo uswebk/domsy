@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Infrastructures\Queries\Domain;
 
-use App\Infrastructures\Models\Domain;
-use App\Infrastructures\Models\DomainBilling;
-use App\Infrastructures\Models\DomainDealing;
-use App\Infrastructures\Models\User;
+use App\Models\Domain;
+use App\Models\DomainBilling;
+use App\Models\DomainDealing;
+use App\Models\User;
 use App\Infrastructures\Queries\Domain\EloquentDomainQueryService;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;

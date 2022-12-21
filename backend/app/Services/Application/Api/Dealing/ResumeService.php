@@ -28,7 +28,7 @@ final class ResumeService
      * @return void
      */
     public function handle(
-        \App\Infrastructures\Models\DomainDealing $domainDealing
+        \App\Models\DomainDealing $domainDealing
     ): void {
         try {
             $domainDealing->is_halt = false;

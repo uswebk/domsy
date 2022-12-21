@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Repositories\Domain\Dealing;
 
-use App\Infrastructures\Models\DomainDealing;
+use App\Models\DomainDealing;
 
 final class DealingRepository implements DealingRepositoryInterface
 {
     /**
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
-     * @return \App\Infrastructures\Models\DomainDealing
+     * @param \App\Models\DomainDealing $domainDealing
+     * @return \App\Models\DomainDealing
      */
     public function save(
-        \App\Infrastructures\Models\DomainDealing $domainDealing
-    ): \App\Infrastructures\Models\DomainDealing {
+        \App\Models\DomainDealing $domainDealing
+    ): \App\Models\DomainDealing {
         $domainDealing->save();
 
         return $domainDealing;
@@ -22,9 +22,9 @@ final class DealingRepository implements DealingRepositoryInterface
 
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\DomainDealing
+     * @return \App\Models\DomainDealing
      */
-    public function store(array $attributes): \App\Infrastructures\Models\DomainDealing
+    public function store(array $attributes): \App\Models\DomainDealing
     {
         $domainDealing = DomainDealing::create($attributes);
 
@@ -32,10 +32,10 @@ final class DealingRepository implements DealingRepositoryInterface
     }
 
     /**
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Models\DomainDealing $domainDealing
      * @return void
      */
-    public function delete(\App\Infrastructures\Models\DomainDealing $domainDealing): void
+    public function delete(\App\Models\DomainDealing $domainDealing): void
     {
         $domainDealing->delete();
     }

@@ -6,7 +6,7 @@ namespace App\Services\Application\Api\Dealing;
 
 use App\Http\Resources\DomainDealingResource;
 
-use App\Infrastructures\Models\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 

@@ -8,9 +8,9 @@ interface EloquentRoleQueryServiceInterface
 {
     /**
      * @param integer $id
-     * @return \App\Infrastructures\Models\Role
+     * @return \App\Models\Role
      */
-    public function findById(int $id): \App\Infrastructures\Models\Role;
+    public function findById(int $id): \App\Models\Role;
 
     /**
      * @param integer $companyId

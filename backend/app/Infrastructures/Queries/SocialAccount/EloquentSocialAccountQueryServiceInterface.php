@@ -9,10 +9,10 @@ interface EloquentSocialAccountQueryServiceInterface
     /**
      * @param string $provider_id
      * @param string $provider
-     * @return \App\Infrastructures\Models\SocialAccount
+     * @return \App\Models\SocialAccount
      */
     public function firstByProviderIdProvider(
         string $provider_id,
         string $provider
-    ): \App\Infrastructures\Models\SocialAccount;
+    ): \App\Models\SocialAccount;
 }

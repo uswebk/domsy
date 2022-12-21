@@ -32,11 +32,11 @@ final class DealingController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Models\DomainDealing $domainDealing
      * @return \Illuminate\Http\JsonResponse
      */
     public function fetchId(
-        \App\Infrastructures\Models\DomainDealing $domainDealing
+        \App\Models\DomainDealing $domainDealing
     ) {
         return response()->json(
             new DomainDealingResource($domainDealing),
@@ -46,13 +46,13 @@ final class DealingController extends Controller
 
     /**
      * @param \App\Http\Requests\Api\Dealing\UpdateRequest $request
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Models\DomainDealing $domainDealing
      * @param \App\Services\Application\Api\Dealing\UpdateService $updateService
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(
         \App\Http\Requests\Api\Dealing\UpdateRequest $request,
-        \App\Infrastructures\Models\DomainDealing $domainDealing,
+        \App\Models\DomainDealing $domainDealing,
         \App\Services\Application\Api\Dealing\UpdateService $updateService
     ) {
         try {
@@ -62,7 +62,7 @@ final class DealingController extends Controller
                 $updateService->getResponse(),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -86,7 +86,7 @@ final class DealingController extends Controller
                 $storeService->getResponse(),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -108,12 +108,12 @@ final class DealingController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Models\DomainDealing $domainDealing
      * @param \App\Services\Application\Api\Dealing\DeleteService $deleteService
      * @return \Illuminate\Http\JsonResponse
      */
     public function delete(
-        \App\Infrastructures\Models\DomainDealing $domainDealing,
+        \App\Models\DomainDealing $domainDealing,
         \App\Services\Application\Api\Dealing\DeleteService $deleteService
     ) {
         try {
@@ -123,12 +123,12 @@ final class DealingController extends Controller
                 [],
                 Response::HTTP_OK
             );
-        } catch(ExistsFixedBillingException $e) {
+        } catch (ExistsFixedBillingException $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_FORBIDDEN
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -137,12 +137,12 @@ final class DealingController extends Controller
     }
 
     /**
-     * @param \App\Infrastructures\Models\DomainDealing $domainDealing
+     * @param \App\Models\DomainDealing $domainDealing
      * @param \App\Services\Application\Api\Dealing\ResumeService $resumeService
      * @return \Illuminate\Http\JsonResponse
      */
     public function resume(
-        \App\Infrastructures\Models\DomainDealing $domainDealing,
+        \App\Models\DomainDealing $domainDealing,
         \App\Services\Application\Api\Dealing\ResumeService $resumeService
     ) {
         try {
@@ -152,7 +152,7 @@ final class DealingController extends Controller
                 $resumeService->getResponse(),
                 Response::HTTP_OK
             );
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json(
                 $e->getMessage(),
                 Response::HTTP_INTERNAL_SERVER_ERROR

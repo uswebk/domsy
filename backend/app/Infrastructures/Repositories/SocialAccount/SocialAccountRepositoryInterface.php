@@ -8,7 +8,7 @@ interface SocialAccountRepositoryInterface
 {
     /**
      * @param array $attributes
-     * @return \App\Infrastructures\Models\SocialAccount
+     * @return \App\Models\SocialAccount
      */
-    public function store(array $attributes): \App\Infrastructures\Models\SocialAccount;
+    public function store(array $attributes): \App\Models\SocialAccount;
 }

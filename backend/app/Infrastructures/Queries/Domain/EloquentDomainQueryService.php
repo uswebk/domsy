@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructures\Queries\Domain;
 
-use App\Infrastructures\Models\Domain;
+use App\Models\Domain;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 

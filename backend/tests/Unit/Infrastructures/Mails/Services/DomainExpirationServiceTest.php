@@ -7,9 +7,9 @@ namespace Tests\Unit\Infrastructures\Mails\Services;
 use App\Infrastructures\Mails\Client\DomainExpiration;
 
 use App\Infrastructures\Mails\Services\DomainExpirationService;
-use App\Infrastructures\Models\Domain;
-use App\Infrastructures\Models\User;
-use App\Infrastructures\Models\UserMailSetting;
+use App\Models\Domain;
+use App\Models\User;
+use App\Models\UserMailSetting;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;

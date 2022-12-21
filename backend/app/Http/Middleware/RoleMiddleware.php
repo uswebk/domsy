@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Infrastructures\Models\MenuItem;
+use App\Models\MenuItem;
 use Closure;
 
 final class RoleMiddleware
@@ -11,7 +11,7 @@ final class RoleMiddleware
     {
         $routeItem = MenuItem::where('route', '=', $route)->first();
 
-        if (! isset($routeItem)) {
+        if (!isset($routeItem)) {
             return $next($request);
         }
 

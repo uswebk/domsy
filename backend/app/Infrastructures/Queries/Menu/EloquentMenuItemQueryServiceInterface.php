@@ -8,9 +8,9 @@ interface EloquentMenuItemQueryServiceInterface
 {
     /**
      * @param string $endpoint
-     * @return \App\Infrastructures\Models\MenuItem
+     * @return \App\Models\MenuItem
      */
-    public function getByEndpoint(string $endpoint): \App\Infrastructures\Models\MenuItem;
+    public function getByEndpoint(string $endpoint): \App\Models\MenuItem;
 
     /**
      * @return \Illuminate\Database\Eloquent\Collection
