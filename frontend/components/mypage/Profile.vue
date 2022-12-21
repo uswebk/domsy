@@ -32,6 +32,7 @@
         <v-btn small @click="update">Save</v-btn>
       </v-col>
     </v-row>
+    <!-- すでにリンク済みのユーザーには表示しない -->
     <v-row justify="center" class="d-flex align-center mt-0">
       <v-col cols="2">
         <v-tooltip bottom>
