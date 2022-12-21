@@ -23,9 +23,9 @@ final class EmailVerification extends Notification
 
     /**
      * @param  $notifiable
-     * @return void
+     * @return MailMessage
      */
-    public function toMail($notifiable): \Illuminate\Notifications\Messages\MailMessage
+    public function toMail($notifiable): MailMessage
     {
         $verificationUrl = $this->verificationUrl($notifiable);
 
@@ -38,7 +38,7 @@ final class EmailVerification extends Notification
 
     /**
      * @param  $notifiable
-     * @return void
+     * @return string
      */
     protected function verificationUrl($notifiable): string
     {
