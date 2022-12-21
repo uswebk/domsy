@@ -43,12 +43,12 @@ final class MeController
 
     /**
      * @param \App\Http\Requests\Api\Me\UpdateRequest $request
-     * @param \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
+     * @param \App\Repositories\User\UserRepositoryInterface $userRepository
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(
         \App\Http\Requests\Api\Me\UpdateRequest $request,
-        \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
+        \App\Repositories\User\UserRepositoryInterface $userRepository
     ) {
         $userId = Auth::id();
 

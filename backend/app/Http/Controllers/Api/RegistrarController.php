@@ -12,10 +12,10 @@ final class RegistrarController extends Controller
     private $registrarRepository;
 
     /**
-     * @param \App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
+     * @param \App\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
+        \App\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
     ) {
         parent::__construct();
 

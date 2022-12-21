@@ -21,12 +21,12 @@ final class EmailVerifyService
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
+     * @param \App\Repositories\User\UserRepositoryInterface $userRepository
      * @param \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
      */
     public function __construct(
         \Illuminate\Http\Request $request,
-        \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository,
+        \App\Repositories\User\UserRepositoryInterface $userRepository,
         \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService,
     ) {
         $this->request = $request;

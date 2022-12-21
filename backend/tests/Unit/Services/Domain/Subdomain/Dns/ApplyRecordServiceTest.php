@@ -7,7 +7,7 @@ namespace Tests\Unit\Services\Domain\Subdomain\Dns;
 use App\Models\DnsRecordType;
 use App\Models\Domain;
 use App\Models\Subdomain;
-use App\Infrastructures\Repositories\Subdomain\SubdomainRepository;
+use App\Repositories\Subdomain\SubdomainRepository;
 use App\Services\Domain\Subdomain\Dns\ApplyRecordService;
 use App\Services\Domain\Subdomain\Dns\RecordService;
 use Illuminate\Foundation\Testing\RefreshDatabase;

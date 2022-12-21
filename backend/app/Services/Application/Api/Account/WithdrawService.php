@@ -15,10 +15,10 @@ final class WithdrawService
     private $user;
 
     /**
-     * @param \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
+     * @param \App\Repositories\User\UserRepositoryInterface $userRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository,
+        \App\Repositories\User\UserRepositoryInterface $userRepository,
     ) {
         $this->userRepository = $userRepository;
         $this->user = Auth::user();

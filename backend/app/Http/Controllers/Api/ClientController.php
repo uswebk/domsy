@@ -12,10 +12,10 @@ final class ClientController extends Controller
     protected $clientRepository;
 
     /**
-     * @param \App\Infrastructures\Repositories\Client\ClientRepositoryInterface $clientRepository
+     * @param \App\Repositories\Client\ClientRepositoryInterface $clientRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Client\ClientRepositoryInterface $clientRepository
+        \App\Repositories\Client\ClientRepositoryInterface $clientRepository
     ) {
         parent::__construct();
 

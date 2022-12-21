@@ -9,10 +9,10 @@ final class SettingGeneralSaveService
     private $userGeneralSettingRepository;
 
     /**
-     * @param \App\Infrastructures\Repositories\User\UserGeneralSettingRepositoryInterface $userGeneralSettingRepository
+     * @param \App\Repositories\User\UserGeneralSettingRepositoryInterface $userGeneralSettingRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\User\UserGeneralSettingRepositoryInterface $userGeneralSettingRepository
+        \App\Repositories\User\UserGeneralSettingRepositoryInterface $userGeneralSettingRepository
     ) {
         $this->userGeneralSettingRepository = $userGeneralSettingRepository;
     }

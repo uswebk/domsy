@@ -6,8 +6,8 @@ namespace Tests\Unit\Service\Domain\Domain;
 
 use App\Models\Domain;
 use App\Models\Subdomain;
-use App\Infrastructures\Repositories\Domain\DomainRepository;
-use App\Infrastructures\Repositories\Subdomain\SubdomainRepository;
+use App\Repositories\Domain\DomainRepository;
+use App\Repositories\Subdomain\SubdomainRepository;
 use App\Services\Domain\Domain\RenewService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

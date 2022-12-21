@@ -12,10 +12,10 @@ final class DeleteService
     private $dealingRepository;
 
     /**
-     * @param \App\Infrastructures\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
+     * @param \App\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
+        \App\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
     ) {
         $this->dealingRepository = $dealingRepository;
     }

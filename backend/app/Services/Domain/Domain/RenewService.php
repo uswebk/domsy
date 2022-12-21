@@ -11,12 +11,12 @@ final class RenewService
     private $subdomainRepository;
 
     /**
-     * @param \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
-     * @param \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     * @param \App\Repositories\Domain\DomainRepositoryInterface $domainRepository
+     * @param \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository,
-        \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
+        \App\Repositories\Domain\DomainRepositoryInterface $domainRepository,
+        \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
     ) {
         $this->domainRepository = $domainRepository;
         $this->subdomainRepository = $subdomainRepository;

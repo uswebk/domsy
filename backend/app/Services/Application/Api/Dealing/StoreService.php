@@ -20,12 +20,12 @@ final class StoreService
     private $dealing;
 
     /**
-     * @param \App\Infrastructures\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
-     * @param \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+     * @param \App\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
+     * @param \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository,
-        \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+        \App\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository,
+        \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
     ) {
         $this->dealingRepository = $dealingRepository;
         $this->billingRepository = $billingRepository;
@@ -37,7 +37,7 @@ final class StoreService
      * @param \App\Services\Application\InputData\DealingStoreRequest $domainDealingRequest
      *
      * @return void
-    */
+     */
     public function handle(
         \App\Services\Application\InputData\DealingStoreRequest $domainDealingRequest
     ): void {

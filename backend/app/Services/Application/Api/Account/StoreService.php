@@ -20,13 +20,13 @@ final class StoreService
     private $user;
 
     /**
-     * @param \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
-     * @param \App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository
+     * @param \App\Repositories\User\UserRepositoryInterface $userRepository
+     * @param \App\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository
      * @param \App\Mails\Services\EmailVerificationService $emailVerificationService
      */
     public function __construct(
-        \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository,
-        \App\Infrastructures\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository,
+        \App\Repositories\User\UserRepositoryInterface $userRepository,
+        \App\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository,
         \App\Mails\Services\EmailVerificationService $emailVerificationService
     ) {
         $this->userRepository = $userRepository;

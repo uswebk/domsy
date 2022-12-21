@@ -14,10 +14,10 @@ final class StoreService
     private $subdomain;
 
     /**
-     * @param \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     * @param \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+        \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
     ) {
         $this->subdomainRepository = $subdomainRepository;
     }

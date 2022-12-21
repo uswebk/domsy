@@ -46,13 +46,13 @@ final class BillingController extends Controller
     /**
      * @param \App\Http\Requests\Api\Billing\UpdateRequest $request
      * @param \App\Models\DomainBilling $domainBilling
-     * @param \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+     * @param \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(
         \App\Http\Requests\Api\Billing\UpdateRequest $request,
         \App\Models\DomainBilling $domainBilling,
-        \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+        \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
     ) {
         $domainBilling->fill($request->makeInput());
 

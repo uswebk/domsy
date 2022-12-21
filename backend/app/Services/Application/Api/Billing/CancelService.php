@@ -15,10 +15,10 @@ final class CancelService
     private $billing;
 
     /**
-     * @param \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+     * @param \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+        \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
     ) {
         $this->billingRepository = $billingRepository;
     }

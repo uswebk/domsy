@@ -18,12 +18,12 @@ final class StoreService
     private $role;
 
     /**
-     * @param \App\Infrastructures\Repositories\Role\RoleRepositoryInterface $roleRepository
-     * @param \App\Infrastructures\Repositories\Role\RoleItemRepositoryInterface $roleItemRepository
+     * @param \App\Repositories\Role\RoleRepositoryInterface $roleRepository
+     * @param \App\Repositories\Role\RoleItemRepositoryInterface $roleItemRepository
      */
     public function __construct(
-        \App\Infrastructures\Repositories\Role\RoleRepositoryInterface $roleRepository,
-        \App\Infrastructures\Repositories\Role\RoleItemRepositoryInterface $roleItemRepository
+        \App\Repositories\Role\RoleRepositoryInterface $roleRepository,
+        \App\Repositories\Role\RoleItemRepositoryInterface $roleItemRepository
     ) {
         $this->roleRepository = $roleRepository;
         $this->roleItemRepository = $roleItemRepository;

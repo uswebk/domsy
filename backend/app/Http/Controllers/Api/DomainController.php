@@ -139,12 +139,12 @@ final class DomainController extends Controller
 
     /**
      * @param \App\Models\Domain $domain
-     * @param \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
+     * @param \App\Repositories\Domain\DomainRepositoryInterface $domainRepository
      * @return \Illuminate\Http\JsonResponse
      */
     public function delete(
         \App\Models\Domain $domain,
-        \App\Infrastructures\Repositories\Domain\DomainRepositoryInterface $domainRepository
+        \App\Repositories\Domain\DomainRepositoryInterface $domainRepository
     ) {
         try {
             $domainRepository->delete($domain);
