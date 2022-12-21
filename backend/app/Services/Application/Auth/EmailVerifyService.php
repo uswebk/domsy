@@ -22,12 +22,12 @@ final class EmailVerifyService
     /**
      * @param \Illuminate\Http\Request $request
      * @param \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository
-     * @param \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
+     * @param \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
      */
     public function __construct(
         \Illuminate\Http\Request $request,
         \App\Infrastructures\Repositories\User\UserRepositoryInterface $userRepository,
-        \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService,
+        \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService,
     ) {
         $this->request = $request;
         $this->userRepository = $userRepository;
@@ -47,15 +47,15 @@ final class EmailVerifyService
 
     /**
      *
+     * @return void
      * @throws AlreadyVerifiedException
      *
-     * @return void
      */
     public function handle(): void
     {
         DB::beginTransaction();
         try {
-            if (! $this->isEqualUserIdHash()) {
+            if (!$this->isEqualUserIdHash()) {
                 throw new Exception();
             }
 

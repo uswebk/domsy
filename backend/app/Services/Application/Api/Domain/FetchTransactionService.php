@@ -15,11 +15,11 @@ final class FetchTransactionService
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+     * @param \App\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
      */
     public function __construct(
         \Illuminate\Http\Request $request,
-        \App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+        \App\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
     ) {
         $backMonths = $request->months ?? self::DEFAULT_MONTHS;
         $startMonth = now()->subMonths($backMonths)->startOfMonth();

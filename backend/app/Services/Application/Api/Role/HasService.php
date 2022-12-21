@@ -14,13 +14,13 @@ final class HasService
     /**
      *
      * @param \App\Http\Requests\Api\Role\HasRequest $request
-     * @param \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
-     * @param \App\Infrastructures\Queries\Menu\EloquentMenuQueryServiceInterface $eloquentMenuQueryService
+     * @param \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
+     * @param \App\Queries\Menu\EloquentMenuQueryServiceInterface $eloquentMenuQueryService
      */
     public function __construct(
         \App\Http\Requests\Api\Role\HasRequest $request,
-        \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService,
-        \App\Infrastructures\Queries\Menu\EloquentMenuQueryServiceInterface $eloquentMenuQueryService
+        \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService,
+        \App\Queries\Menu\EloquentMenuQueryServiceInterface $eloquentMenuQueryService
     ) {
         $user = $eloquentUserQueryService->findById(Auth::id());
         $menus = $eloquentMenuQueryService->findById((int) $request->menu_id);

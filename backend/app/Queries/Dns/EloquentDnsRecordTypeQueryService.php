@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Queries\Dns;
+
+use App\Models\DnsRecordType;
+
+final class EloquentDnsRecordTypeQueryService implements EloquentDnsRecordTypeQueryServiceInterface
+{
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getSortAll(): \Illuminate\Database\Eloquent\Collection
+    {
+        return DnsRecordType::orderBy('sort')->get();
+    }
+}

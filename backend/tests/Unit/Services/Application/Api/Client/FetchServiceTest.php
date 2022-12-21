@@ -8,7 +8,7 @@ use App\Constants\CompanyConstant;
 use App\Models\Client;
 use App\Models\Company;
 use App\Models\User;
-use App\Infrastructures\Queries\Client\EloquentClientQueryService;
+use App\Queries\Client\EloquentClientQueryService;
 use App\Services\Application\Api\Client\FetchService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

@@ -16,11 +16,11 @@ final class FetchSortBillingDateService
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Infrastructures\Queries\Domain\Billing\EloquentBillingQueryServiceInterface $eloquentBillingQueryService
+     * @param \App\Queries\Domain\Billing\EloquentBillingQueryServiceInterface $eloquentBillingQueryService
      */
     public function __construct(
         \Illuminate\Http\Request $request,
-        \App\Infrastructures\Queries\Domain\Billing\EloquentBillingQueryServiceInterface $eloquentBillingQueryService
+        \App\Queries\Domain\Billing\EloquentBillingQueryServiceInterface $eloquentBillingQueryService
     ) {
         $take = $request->take ?? self::DEFAULT_TAKE;
 

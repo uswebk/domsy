@@ -16,10 +16,10 @@ final class FetchService
     private $menuItems;
 
     /**
-     * @param \App\Infrastructures\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
+     * @param \App\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
      */
     public function __construct(
-        \App\Infrastructures\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
+        \App\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
     ) {
         $user = User::find(Auth::id());
 

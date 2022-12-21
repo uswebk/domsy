@@ -13,10 +13,10 @@ class FetchService
     private $users;
 
     /**
-     * @param \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
+     * @param \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
      */
     public function __construct(
-        \App\Infrastructures\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
+        \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
     ) {
         $user = User::find(Auth::id());
 

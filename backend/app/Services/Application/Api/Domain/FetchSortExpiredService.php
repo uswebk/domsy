@@ -6,7 +6,7 @@ namespace App\Services\Application\Api\Domain;
 
 use App\Http\Resources\DomainResource;
 use App\Models\User;
-use App\Infrastructures\Queries\Domain\EloquentDomainQueryServiceInterface;
+use App\Queries\Domain\EloquentDomainQueryServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

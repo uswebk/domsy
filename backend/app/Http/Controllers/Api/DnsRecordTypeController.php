@@ -10,11 +10,11 @@ use Illuminate\Http\Response;
 final class DnsRecordTypeController
 {
     /**
-     * @param \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $eloquentDnsRecordTypeQueryService
+     * @param \App\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $eloquentDnsRecordTypeQueryService
      * @return \Illuminate\Http\JsonResponse
      */
     public function fetch(
-        \App\Infrastructures\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $eloquentDnsRecordTypeQueryService
+        \App\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $eloquentDnsRecordTypeQueryService
     ) {
         $dnsRecordType = $eloquentDnsRecordTypeQueryService->getSortAll();
 
