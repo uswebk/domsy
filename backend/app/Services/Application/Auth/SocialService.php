@@ -63,21 +63,30 @@ final class SocialService
             $this->userRepository->save($user);
 
             DB::commit();
-        } catch (ModelNotFoundException $e) {
-            $code = $this->userLatestCodeRepository->next();
 
-            $user = $this->userRepository->store([
-                'name' => $userSocial->name,
-                'company_id' => CompanyConstant::INDEPENDENT_COMPANY_ID,
-                'role_id' => RoleConstant::DEFAULT_ROLE_ID,
-                'code' => $code,
-                'email' => $userSocial->email,
-                'emoji' => '',
-                'password' => Hash::make(Str::random(32)),
-                'email_verify_token' => '',
-                'last_login_at' => now(),
-                'email_verified_at' => now()->toDateTimeString(),
-            ]);
+            Auth::login($user);
+        } catch (ModelNotFoundException $e) {
+
+            $user = Auth::user();
+
+            if (!isset($user)) {
+                $code = $this->userLatestCodeRepository->next();
+
+                $user = $this->userRepository->store([
+                    'name' => $userSocial->name,
+                    'company_id' => CompanyConstant::INDEPENDENT_COMPANY_ID,
+                    'role_id' => RoleConstant::DEFAULT_ROLE_ID,
+                    'code' => $code,
+                    'email' => $userSocial->email,
+                    'emoji' => '',
+                    'password' => Hash::make(Str::random(32)),
+                    'email_verify_token' => '',
+                    'last_login_at' => now(),
+                    'email_verified_at' => now()->toDateTimeString(),
+                ]);
+
+                Auth::login($user);
+            }
 
             $this->socialAccountRepository->store([
                 'user_id' => $user->id,
@@ -92,7 +101,5 @@ final class SocialService
 
             throw new Exception('Failed registration');
         }
-
-        Auth::login($user);
     }
 }

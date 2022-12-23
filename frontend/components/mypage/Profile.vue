@@ -1,36 +1,60 @@
 <template>
-  <v-row justify="center" class="d-flex align-center">
-    <v-col cols="1">
-      <v-avatar v-if="userModel.is_social" size="52px">
-        <img alt="Avatar" :src="userModel.social_avatar" />
-      </v-avatar>
-      <v-avatar
-        v-else
-        size="52"
-        color="#efefef"
-        style="cursor: pointer"
-        @click="openEmojiPicker"
-      >
-        <span class="white--text text-h5">
-          {{ userModel.emoji }}
-        </span>
-      </v-avatar>
-      <v-dialog v-model="shownEmoji" max-width="325px">
-        <v-emoji-picker @select="selectEmoji"></v-emoji-picker>
-      </v-dialog>
-    </v-col>
-    <v-col cols="3">
-      <v-text-field
-        v-model="userModel.name"
-        label="Name"
-        type="text"
-        :error-messages="errors.name"
-      ></v-text-field>
-    </v-col>
-    <v-col cols="2">
-      <v-btn small @click="update">Save</v-btn>
-    </v-col>
-  </v-row>
+  <div>
+    <v-row justify="center" class="d-flex align-center">
+      <v-col cols="1">
+        <v-avatar v-if="userModel.is_social" size="52px">
+          <img alt="Avatar" :src="userModel.social_avatar" />
+        </v-avatar>
+        <v-avatar
+          v-else
+          size="52"
+          color="#efefef"
+          style="cursor: pointer"
+          @click="openEmojiPicker"
+        >
+          <span class="white--text text-h5">
+            {{ userModel.emoji }}
+          </span>
+        </v-avatar>
+        <v-dialog v-model="shownEmoji" max-width="325px">
+          <v-emoji-picker @select="selectEmoji"></v-emoji-picker>
+        </v-dialog>
+      </v-col>
+      <v-col cols="3">
+        <v-text-field
+          v-model="userModel.name"
+          label="Name"
+          type="text"
+          :error-messages="errors.name"
+        ></v-text-field>
+      </v-col>
+      <v-col cols="2">
+        <v-btn small @click="update">Save</v-btn>
+      </v-col>
+    </v-row>
+    <v-row
+      v-if="!userModel.is_social"
+      justify="center"
+      class="d-flex align-center mt-0"
+    >
+      <v-col cols="2">
+        <v-tooltip bottom>
+          <template #activator="{ on, attrs }">
+            <v-btn
+              color="primary"
+              small
+              fab
+              v-bind="attrs"
+              @click="pushGoogleLogin"
+              v-on="on"
+              ><v-icon> mdi-google-plus</v-icon></v-btn
+            >
+          </template>
+          <span>Linked Account</span>
+        </v-tooltip>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -56,7 +80,7 @@ export default {
   },
   methods: {
     ...mapActions('account', ['updateProfile', 'sendMessage']),
-    ...mapActions('authentication', ['fetchMe']),
+    ...mapActions('authentication', ['fetchMe', 'providerLogin']),
     selectEmoji(emoji) {
       this.shownEmoji = false
       this.userModel.emoji = emoji.data
@@ -88,6 +112,10 @@ export default {
           this.loading = false
         }
       }
+    },
+    async pushGoogleLogin() {
+      const response = await this.providerLogin('google')
+      location.href = response.data
     },
   },
 }
