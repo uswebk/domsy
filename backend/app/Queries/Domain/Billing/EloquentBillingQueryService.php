@@ -5,39 +5,19 @@ declare(strict_types=1);
 namespace App\Queries\Domain\Billing;
 
 use App\Models\DomainBilling;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 final class EloquentBillingQueryService implements EloquentBillingQueryServiceInterface
 {
     /**
      * @param array $userIds
-     * @param \Carbon\Carbon $startDatetime
-     * @param \Carbon\Carbon $endDatetime
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param Carbon $targetDatetime
+     * @return Collection
      */
-    public function getBillingByUserIdsBillingDateBetweenStartDatetimeEndDatetime(
-        array $userIds,
-        \Carbon\Carbon $startDatetime,
-        \Carbon\Carbon $endDatetime
-    ): \Illuminate\Database\Eloquent\Collection {
-        return DomainBilling::join('domain_dealings', 'domain_dealings.id', '=', 'domain_billings.dealing_id')
-            ->join('domains', 'domains.id', '=', 'domain_dealings.domain_id')
-            ->select('domain_billings.*')
-            ->whereIn('domains.user_id', $userIds)
-            ->whereBetween('domain_billings.billing_date', [$startDatetime, $endDatetime])
-            ->get();
-    }
-
-    /**
-     * @param array $userIds
-     * @param \Carbon\Carbon $targetDatetime
-     * @param integer $take
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getBillingsByUserIdsGreaterThanBillingDateOrderByBillingDate(
-        array $userIds,
-        \Carbon\Carbon $targetDatetime,
-        int $take
-    ): \Illuminate\Database\Eloquent\Collection {
+    public function getValidUnclaimed(array $userIds, Carbon $targetDatetime): Collection
+    {
         return DomainBilling::join('domain_dealings', 'domain_dealings.id', '=', 'domain_billings.dealing_id')
             ->join('domains', 'domains.id', '=', 'domain_dealings.domain_id')
             ->select('domain_billings.*')
@@ -45,25 +25,23 @@ final class EloquentBillingQueryService implements EloquentBillingQueryServiceIn
             ->where('domain_billings.is_fixed', false)
             ->whereNull('domain_billings.canceled_at')
             ->where('domain_billings.billing_date', '>=', $targetDatetime)
-            ->orderBy('domain_billings.billing_date')
-            ->take($take)
             ->get();
     }
 
     /**
      * @param array $userIds
-     * @param \Carbon\Carbon $startDate
-     * @param \Carbon\Carbon $endDate
-     * @return array
+     * @param Carbon $startDate
+     * @param Carbon $endDate
+     * @return \Illuminate\Support\Collection
      */
-    public function getOfFixedTotalAmountBetweenBillingDateByUserIdsStartDateEndDate(
+    public function getFixedTotalAmountOfDuringPeriod(
         array $userIds,
-        \Carbon\Carbon $startDate,
-        \Carbon\Carbon $endDate
-    ): array {
+        Carbon $startDate,
+        Carbon $endDate
+    ): \Illuminate\Support\Collection {
         return DomainBilling::select([
-            \Illuminate\Support\Facades\DB::raw('DATE_FORMAT(domain_billings.billing_date,\'%Y/%m\') AS month'),
-            \Illuminate\Support\Facades\DB::raw('SUM(domain_billings.total) AS amount'),
+            DB::raw('DATE_FORMAT(domain_billings.billing_date,\'%Y/%m\') AS month'),
+            DB::raw('SUM(domain_billings.total) AS amount'),
         ])
             ->join('domain_dealings', 'domain_dealings.id', '=', 'domain_billings.dealing_id')
             ->join('domains', 'domains.id', '=', 'domain_dealings.domain_id')
@@ -72,8 +50,6 @@ final class EloquentBillingQueryService implements EloquentBillingQueryServiceIn
             ->groupBy('month')
             ->whereBetween('domain_billings.billing_date', [$startDate->toDateString(), $endDate->toDateString()])
             ->whereNull('domain_billings.canceled_at')
-            ->get()
-            ->keyBy('month')
-            ->toArray();
+            ->get();
     }
 }

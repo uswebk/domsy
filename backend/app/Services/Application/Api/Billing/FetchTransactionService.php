@@ -5,34 +5,38 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Billing;
 
 use App\Models\User;
-
+use App\Queries\Domain\Billing\EloquentBillingQueryServiceInterface;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchTransactionService
 {
-    private $billingAmounts;
+    private array $billingAmounts;
 
     const DEFAULT_MONTHS = 12;
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Queries\Domain\Billing\EloquentBillingQueryServiceInterface $eloquentBillingQueryService
+     * @param Request $request
+     * @param EloquentBillingQueryServiceInterface $eloquentBillingQueryService
      */
     public function __construct(
-        \Illuminate\Http\Request $request,
-        \App\Queries\Domain\Billing\EloquentBillingQueryServiceInterface $eloquentBillingQueryService
+        Request $request,
+        EloquentBillingQueryServiceInterface $eloquentBillingQueryService
     ) {
         $backMonths = $request->months ?? self::DEFAULT_MONTHS;
+
         $startMonth = now()->subMonths($backMonths)->startOfMonth();
         $endMonth = now()->copy()->endOfMonth();
 
         $user = User::find(Auth::id());
 
-        $billingAmounts = $eloquentBillingQueryService->getOfFixedTotalAmountBetweenBillingDateByUserIdsStartDateEndDate(
+        $billings = $eloquentBillingQueryService->getFixedTotalAmountOfDuringPeriod(
             $user->getMemberIds(),
             $startMonth,
             $endMonth,
         );
+
+        $billingAmounts = $billings->keyBy('month')->toArray();
 
         while ($startMonth->lt($endMonth)) {
             $month = $startMonth->format('Y/m');

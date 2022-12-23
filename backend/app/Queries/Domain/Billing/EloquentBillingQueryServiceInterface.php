@@ -8,37 +8,23 @@ interface EloquentBillingQueryServiceInterface
 {
     /**
      * @param array $userIds
-     * @param \Carbon\Carbon $startDatetime
-     * @param \Carbon\Carbon $endDatetime
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getBillingByUserIdsBillingDateBetweenStartDatetimeEndDatetime(
-        array $userIds,
-        \Carbon\Carbon $startDatetime,
-        \Carbon\Carbon $endDatetime
-    ): \Illuminate\Database\Eloquent\Collection;
-
-    /**
-     * @param array $userIds
      * @param \Carbon\Carbon $targetDatetime
-     * @param integer $take
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getBillingsByUserIdsGreaterThanBillingDateOrderByBillingDate(
+    public function getValidUnclaimed(
         array $userIds,
         \Carbon\Carbon $targetDatetime,
-        int $take
     ): \Illuminate\Database\Eloquent\Collection;
 
     /**
      * @param array $userIds
      * @param \Carbon\Carbon $startDate
      * @param \Carbon\Carbon $endDate
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
-    public function getOfFixedTotalAmountBetweenBillingDateByUserIdsStartDateEndDate(
+    public function getFixedTotalAmountOfDuringPeriod(
         array $userIds,
         \Carbon\Carbon $startDate,
         \Carbon\Carbon $endDate
-    ): array;
+    ): \Illuminate\Support\Collection;
 }
