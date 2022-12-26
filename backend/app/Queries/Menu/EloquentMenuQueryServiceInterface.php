@@ -11,9 +11,4 @@ interface EloquentMenuQueryServiceInterface
      * @return \App\Models\Menu
      */
     public function findById(int $id): \App\Models\Menu;
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getWithMenuItemsDisplayOnDashboard(): \Illuminate\Database\Eloquent\Collection;
 }

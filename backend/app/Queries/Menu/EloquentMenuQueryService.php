@@ -10,20 +10,10 @@ final class EloquentMenuQueryService implements EloquentMenuQueryServiceInterfac
 {
     /**
      * @param integer $id
-     * @return \App\Models\Menu
+     * @return Menu
      */
-    public function findById(int $id): \App\Models\Menu
+    public function findById(int $id): Menu
     {
         return Menu::findOrFail($id);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function getWithMenuItemsDisplayOnDashboard(): \Illuminate\Database\Eloquent\Collection
-    {
-        return Menu::with(['menuItems' => function ($query) {
-            $query->where('is_screen', '=', true);
-        }])->where('is_nav', '=', true)->get();
     }
 }
