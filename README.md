@@ -16,9 +16,12 @@
 </div>
 
 ## Description
+
+**Laravel ✖️ Nuxt.js**
+
 This is a portfolio.
 
-Management system of domain, dealing etc...
+Management system of domain, dealing, accounts, role etc...
 
 ## Development
 ```
