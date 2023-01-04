@@ -22,7 +22,6 @@ class ClientFactory extends Factory
         return [
             'user_id' => User::factory(),
             'name' => $this->faker->company,
-            'name_kana' => $this->faker->company,
             'email' => $this->faker->safeEmail,
             'zip' => $this->faker->randomNumber(7),
             'address' => $this->faker->address,

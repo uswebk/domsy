@@ -9,7 +9,6 @@ final class Client extends BaseModel
     protected $fillable = [
         'user_id',
         'name',
-        'name_kana',
         'email',
         'zip',
         'address',

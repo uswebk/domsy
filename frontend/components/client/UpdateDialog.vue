@@ -21,12 +21,6 @@
                   :error-messages="errors.name"
                 ></v-text-field>
                 <v-text-field
-                  v-model="clientModel.name_kana"
-                  label="NameKana"
-                  required
-                  :error-messages="errors.name_kana"
-                ></v-text-field>
-                <v-text-field
                   v-model="clientModel.email"
                   label="email"
                   required

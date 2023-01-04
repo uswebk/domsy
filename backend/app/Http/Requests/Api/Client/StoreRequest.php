@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Requests\Api\Client;
 
 use App\Http\Requests\Request;
-
 use Illuminate\Support\Facades\Auth;
 
 final class StoreRequest extends Request
@@ -25,7 +24,6 @@ final class StoreRequest extends Request
     {
         return [
             'name' => 'required|string',
-            'name_kana' => 'nullable|string',
             'email' => 'required|string|email|max:255',
             'zip' => 'required|string|digits:7',
             'address' => 'required|string',
@@ -41,7 +39,6 @@ final class StoreRequest extends Request
         return [
             'user_id' => Auth::id(),
             'name' => $this->name,
-            'name_kana' => $this->name_kana,
             'email' => $this->email,
             'zip' => $this->zip,
             'address' => $this->address,

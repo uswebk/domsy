@@ -23,7 +23,6 @@ final class ClientRepositoryTest extends TestCase
         $data = [
             'user_id' => $user->id,
             'name' => 'test',
-            'name_kana' => 'test',
             'email' => 'test',
             'zip' => '1111111',
             'address' => 'test',

@@ -21,12 +21,6 @@
                   :error-messages="errors.name"
                 ></v-text-field>
                 <v-text-field
-                  v-model="clientModel.name_kana"
-                  label="NameKana"
-                  required
-                  :error-messages="errors.name_kana"
-                ></v-text-field>
-                <v-text-field
                   v-model="clientModel.email"
                   label="email"
                   required
@@ -82,7 +76,6 @@ export default {
       loading: false,
       clientModel: {
         name: '',
-        name_kana: '',
         email: '',
         zip: '',
         address: '',
@@ -112,7 +105,6 @@ export default {
     resetForm() {
       this.clientModel = {
         name: '',
-        name_kana: '',
         email: '',
         zip: '',
         address: '',
