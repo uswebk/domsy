@@ -10,9 +10,9 @@ final class EloquentMenuItemQueryService implements EloquentMenuItemQueryService
 {
     /**
      * @param string $endpoint
-     * @return \App\Models\MenuItem
+     * @return MenuItem
      */
-    public function getByEndpoint(string $endpoint): \App\Models\MenuItem
+    public function getByEndpoint(string $endpoint): MenuItem
     {
         return MenuItem::where('endpoint', $endpoint)->firstOrFail();
     }
@@ -22,8 +22,13 @@ final class EloquentMenuItemQueryService implements EloquentMenuItemQueryService
      */
     public function getNavigationItems(): \Illuminate\Database\Eloquent\Collection
     {
-        return MenuItem::with(['menu' => function ($query) {
-            $query->where('is_nav', '=', true);
-        }])->where('is_screen', '=', true)->get();
+        return MenuItem::join('menus', function ($join) {
+            $join->on("menus.id", "=", "menu_items.parent_id")
+                ->where("menus.is_nav", 1);
+        })
+            ->with(['menu'])
+            ->where('is_screen', '=', true)
+            ->select('menu_items.*')
+            ->get();
     }
 }
