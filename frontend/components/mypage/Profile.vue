@@ -32,26 +32,17 @@
         <v-btn small @click="update">Save</v-btn>
       </v-col>
     </v-row>
-    <v-row
-      v-if="!userModel.is_social"
-      justify="center"
-      class="d-flex align-center mt-0"
-    >
+    <v-row justify="center" class="d-flex align-center mt-0">
       <v-col cols="2">
-        <v-tooltip bottom>
-          <template #activator="{ on, attrs }">
-            <v-btn
-              color="primary"
-              small
-              fab
-              v-bind="attrs"
-              @click="pushGoogleLogin"
-              v-on="on"
-              ><v-icon> mdi-google-plus</v-icon></v-btn
-            >
-          </template>
-          <span>Linked Account</span>
-        </v-tooltip>
+        <v-btn
+          color="primary"
+          flat
+          small
+          :disabled="userModel.is_social"
+          @click="pushGoogleLogin"
+          v-on="on"
+          ><v-icon> mdi-google-plus</v-icon> Connect</v-btn
+        >
       </v-col>
     </v-row>
   </div>
