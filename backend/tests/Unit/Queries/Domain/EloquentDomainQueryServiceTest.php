@@ -25,46 +25,14 @@ final class EloquentDomainQueryServiceTest extends TestCase
     {
         return [
             'user_ids_match_domains' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                    ],
-                ],
-                [
-                    [
-                        'id' => 1,
-                        'user_id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                        'user_id' => 2,
-                    ],
-                ],
+                [['id' => 1,], ['id' => 2,],],
+                [['id' => 1, 'user_id' => 1,], ['id' => 2, 'user_id' => 2,],],
                 [1, 2,],
                 2,
             ],
             'user_ids_not_match_domains' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                    ],
-                ],
-                [
-                    [
-                        'id' => 1,
-                        'user_id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                        'user_id' => 2,
-                    ],
-                ],
+                [['id' => 1,], ['id' => 2,],],
+                [['id' => 1, 'user_id' => 1,], ['id' => 2, 'user_id' => 2,],],
                 [3, 4,],
                 0,
             ],
@@ -101,14 +69,7 @@ final class EloquentDomainQueryServiceTest extends TestCase
     {
         return [
             'case_of_all_match_domains' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                    ],
-                ],
+                [['id' => 1,], ['id' => 2,],],
                 [
                     [
                         'id' => 1,
@@ -131,14 +92,7 @@ final class EloquentDomainQueryServiceTest extends TestCase
                 2,
             ],
             'case_of_user_id_not_match_domains' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                    ],
-                ],
+                [['id' => 1,], ['id' => 2,],],
                 [
                     [
                         'id' => 1,
@@ -161,11 +115,7 @@ final class EloquentDomainQueryServiceTest extends TestCase
                 0,
             ],
             'case_of_is_active_not_match_domains' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                ],
+                [['id' => 1,],],
                 [
                     [
                         'id' => 1,
@@ -180,11 +130,7 @@ final class EloquentDomainQueryServiceTest extends TestCase
                 0,
             ],
             'case_of_is_transferred_not_match_domains' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                ],
+                [['id' => 1,],],
                 [
                     [
                         'id' => 1,
@@ -199,11 +145,7 @@ final class EloquentDomainQueryServiceTest extends TestCase
                 0,
             ],
             'case_of_canceled_at_not_match_domains' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                ],
+                [['id' => 1,],],
                 [
                     [
                         'id' => 1,
@@ -218,11 +160,7 @@ final class EloquentDomainQueryServiceTest extends TestCase
                 0,
             ],
             'case_of_expired_at_not_match_domains' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                ],
+                [['id' => 1,],],
                 [
                     [
                         'id' => 1,
@@ -273,104 +211,32 @@ final class EloquentDomainQueryServiceTest extends TestCase
     {
         return [
             'match_domains' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                    ],
-                ],
-                [
-                    [
-                        'id' => 1,
-                        'user_id' => 1,
-                        'is_active' => true,
-                    ],
-                    [
-                        'id' => 2,
-                        'user_id' => 2,
-                        'is_active' => false,
-                    ],
-                ],
+                [['id' => 1,], ['id' => 2,],],
+                [['id' => 1, 'user_id' => 1, 'is_active' => true,], ['id' => 2, 'user_id' => 2, 'is_active' => false,],],
                 [1, 2,],
                 2,
                 1,
                 1,
             ],
             'user_id_not_match_domains' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                    ],
-                ],
-                [
-                    [
-                        'id' => 1,
-                        'user_id' => 1,
-                        'is_active' => true,
-                    ],
-                    [
-                        'id' => 2,
-                        'user_id' => 2,
-                        'is_active' => false,
-                    ],
-                ],
+                [['id' => 1,], ['id' => 2,],],
+                [['id' => 1, 'user_id' => 1, 'is_active' => true,], ['id' => 2, 'user_id' => 2, 'is_active' => false,],],
                 [3, 4,],
                 0,
                 0,
                 0,
             ],
             'inactive_not_exits' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                    ],
-                ],
-                [
-                    [
-                        'id' => 1,
-                        'user_id' => 1,
-                        'is_active' => true,
-                    ],
-                    [
-                        'id' => 2,
-                        'user_id' => 2,
-                        'is_active' => true,
-                    ],
-                ],
+                [['id' => 1,], ['id' => 2,],],
+                [['id' => 1, 'user_id' => 1, 'is_active' => true,], ['id' => 2, 'user_id' => 2, 'is_active' => true,],],
                 [1, 2,],
                 2,
                 2,
                 0,
             ],
             'active_not_exits' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                    ],
-                ],
-                [
-                    [
-                        'id' => 1,
-                        'user_id' => 1,
-                        'is_active' => false,
-                    ],
-                    [
-                        'id' => 2,
-                        'user_id' => 2,
-                        'is_active' => false,
-                    ],
-                ],
+                [['id' => 1,], ['id' => 2,],],
+                [['id' => 1, 'user_id' => 1, 'is_active' => false,], ['id' => 2, 'user_id' => 2, 'is_active' => false,],],
                 [1, 2,],
                 2,
                 0,
@@ -413,105 +279,25 @@ final class EloquentDomainQueryServiceTest extends TestCase
     {
         return [
             'match_billings' => [
+                [['id' => 1,], ['id' => 2,],],
+                [['id' => 1, 'user_id' => 1,], ['id' => 2, 'user_id' => 2,],],
+                [['id' => 1, 'domain_id' => 1,], ['id' => 2, 'domain_id' => 2,],],
                 [
-                    [
-                        'id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                    ],
-                ],
-                [
-                    [
-                        'id' => 1,
-                        'user_id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                        'user_id' => 2,
-                    ],
-                ],
-                [
-                    [
-                        'id' => 1,
-                        'domain_id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                        'domain_id' => 2,
-                    ],
-                ],
-                [
-                    [
-                        'dealing_id' => 1,
-                        'total' => 100,
-                        'is_fixed' => true,
-                        'canceled_at' => null,
-                    ],
-                    [
-                        'dealing_id' => 2,
-                        'total' => 100,
-                        'is_fixed' => true,
-                        'canceled_at' => null,
-                    ],
-                    [
-                        'dealing_id' => 2,
-                        'total' => 100,
-                        'is_fixed' => false,
-                        'canceled_at' => null,
-                    ],
-                    [
-                        'dealing_id' => 2,
-                        'total' => 100,
-                        'is_fixed' => true,
-                        'canceled_at' => now()->toDateString(),
-                    ],
+                    ['dealing_id' => 1, 'total' => 100, 'is_fixed' => true, 'canceled_at' => null,],
+                    ['dealing_id' => 2, 'total' => 100, 'is_fixed' => true, 'canceled_at' => null,],
+                    ['dealing_id' => 2, 'total' => 100, 'is_fixed' => false, 'canceled_at' => null,],
+                    ['dealing_id' => 2, 'total' => 100, 'is_fixed' => true, 'canceled_at' => now()->toDateString(),],
                 ],
                 [1, 2,],
                 200,
             ],
             'not_match_billings' => [
+                [['id' => 1,], ['id' => 2,],],
+                [['id' => 1, 'user_id' => 1,], ['id' => 2, 'user_id' => 2,],],
+                [['id' => 1, 'domain_id' => 1,], ['id' => 2, 'domain_id' => 2,],],
                 [
-                    [
-                        'id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                    ],
-                ],
-                [
-                    [
-                        'id' => 1,
-                        'user_id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                        'user_id' => 2,
-                    ],
-                ],
-                [
-                    [
-                        'id' => 1,
-                        'domain_id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                        'domain_id' => 2,
-                    ],
-                ],
-                [
-                    [
-                        'dealing_id' => 1,
-                        'total' => 100,
-                        'is_fixed' => true,
-                        'canceled_at' => null,
-                    ],
-                    [
-                        'dealing_id' => 2,
-                        'total' => 100,
-                        'is_fixed' => true,
-                        'canceled_at' => null,
-                    ],
+                    ['dealing_id' => 1, 'total' => 100, 'is_fixed' => true, 'canceled_at' => null,],
+                    ['dealing_id' => 2, 'total' => 100, 'is_fixed' => true, 'canceled_at' => null,],
                 ],
                 [3, 4,],
                 0,
@@ -559,14 +345,7 @@ final class EloquentDomainQueryServiceTest extends TestCase
     {
         return [
             'match_domains' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                    ],
-                ],
+                [['id' => 1,], ['id' => 2,],],
                 [
                     [
                         'user_id' => 1,

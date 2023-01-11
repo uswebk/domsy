@@ -20,25 +20,11 @@ final class EloquentDnsQueryServiceTest extends TestCase
     {
         return [
             'sort asc' => [
-                [
-                    [
-                        'sort' => 10,
-                    ],
-                    [
-                        'sort' => 20,
-                    ],
-                ],
+                [['sort' => 10,], ['sort' => 20,],],
                 10,
             ],
             'sort desc' => [
-                [
-                    [
-                        'sort' => 30,
-                    ],
-                    [
-                        'sort' => 20,
-                    ],
-                ],
+                [['sort' => 30,], ['sort' => 20,],],
                 20,
             ],
         ];
@@ -48,10 +34,8 @@ final class EloquentDnsQueryServiceTest extends TestCase
      * @test
      * @dataProvider dataProviderOfGetSortAll
      */
-    public function it_get_sort_all(
-        array $parameterOfDns,
-        int $assertSort
-    ): void {
+    public function it_get_sort_all(array $parameterOfDns, int $assertSort): void
+    {
         foreach ($parameterOfDns as $_parameterOfDns) {
             DnsRecordType::factory($_parameterOfDns)->create();
         }

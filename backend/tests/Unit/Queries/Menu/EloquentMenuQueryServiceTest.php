@@ -20,16 +20,8 @@ final class EloquentMenuQueryServiceTest extends TestCase
     public function dataProviderOfFindById(): array
     {
         return [
-            'exists id' => [
-                1,
-                1,
-                false,
-            ],
-            'not exists id' => [
-                1,
-                2,
-                true,
-            ],
+            'exists id' => [1, 1, false,],
+            'not exists id' => [1, 2, true,],
         ];
     }
 

@@ -25,16 +25,12 @@ final class EloquentUserQueryServiceTest extends TestCase
     {
         return [
             'exists user' => [
-                [
-                    'id' => self::USER_ID1,
-                ],
+                ['id' => self::USER_ID1,],
                 self::USER_ID1,
                 false,
             ],
             'not exists user' => [
-                [
-                    'id' => self::USER_ID1,
-                ],
+                ['id' => self::USER_ID1,],
                 self::NO_EXISTS_USER_ID1,
                 true,
             ],
@@ -68,17 +64,11 @@ final class EloquentUserQueryServiceTest extends TestCase
     {
         return [
             'exists active user' => [
-                [
-                    'id' => self::USER_ID1,
-                    'deleted_at' => null,
-                ],
+                ['id' => self::USER_ID1, 'deleted_at' => null,],
                 1,
             ],
             'not exists active user' => [
-                [
-                    'id' => self::USER_ID1,
-                    'deleted_at' => now(),
-                ],
+                ['id' => self::USER_ID1, 'deleted_at' => now(),],
                 0,
             ],
         ];
@@ -106,37 +96,25 @@ final class EloquentUserQueryServiceTest extends TestCase
     {
         return [
             'exists match user' => [
-                [
-                    'id' => self::USER_ID1,
-                    'email_verify_token' => 'token',
-                ],
+                ['id' => self::USER_ID1, 'email_verify_token' => 'token',],
                 self::USER_ID1,
                 'token',
                 false,
             ],
             'not match email_verify_token' => [
-                [
-                    'id' => self::USER_ID1,
-                    'email_verify_token' => '_token',
-                ],
+                ['id' => self::USER_ID1, 'email_verify_token' => '_token',],
                 self::USER_ID1,
                 'token',
                 true,
             ],
             'not match id' => [
-                [
-                    'id' => self::USER_ID1,
-                    'email_verify_token' => 'token',
-                ],
+                ['id' => self::USER_ID1, 'email_verify_token' => 'token',],
                 self::NO_EXISTS_USER_ID1,
                 'token',
                 true,
             ],
             'not match id and email_verify_token' => [
-                [
-                    'id' => self::USER_ID1,
-                    'email_verify_token' => '_token',
-                ],
+                ['id' => self::USER_ID1, 'email_verify_token' => '_token',],
                 self::NO_EXISTS_USER_ID1,
                 'token',
                 true,

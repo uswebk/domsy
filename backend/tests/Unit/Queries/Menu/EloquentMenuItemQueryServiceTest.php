@@ -48,48 +48,18 @@ final class EloquentMenuItemQueryServiceTest extends TestCase
     {
         return [
             'exists navigation' => [
-                [
-                    [
-                        'id' => 1,
-                        'is_nav' => true,
-                    ],
-                ],
-                [
-                    [
-                        'parent_id' => 1,
-                        'is_screen' => true,
-                    ],
-                ],
+                [['id' => 1, 'is_nav' => true,],],
+                [['parent_id' => 1, 'is_screen' => true,],],
                 1,
             ],
             'exists navigation, has is not nav' => [
-                [
-                    [
-                        'id' => 1,
-                        'is_nav' => false,
-                    ],
-                ],
-                [
-                    [
-                        'parent_id' => 1,
-                        'is_screen' => true,
-                    ],
-                ],
+                [['id' => 1, 'is_nav' => false,],],
+                [['parent_id' => 1, 'is_screen' => true,],],
                 0,
             ],
             'exists navigation, has is not screen' => [
-                [
-                    [
-                        'id' => 1,
-                        'is_nav' => true,
-                    ],
-                ],
-                [
-                    [
-                        'parent_id' => 1,
-                        'is_screen' => false,
-                    ],
-                ],
+                [['id' => 1, 'is_nav' => true,],],
+                [['parent_id' => 1, 'is_screen' => false,],],
                 0,
             ],
         ];

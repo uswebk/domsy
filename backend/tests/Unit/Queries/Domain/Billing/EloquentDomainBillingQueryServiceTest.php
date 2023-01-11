@@ -9,8 +9,8 @@ use App\Models\DomainBilling;
 use App\Models\DomainDealing;
 use App\Queries\Domain\Billing\EloquentBillingQueryService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use function now;
+use Tests\TestCase;
 
 final class EloquentDomainBillingQueryServiceTest extends TestCase
 {
@@ -101,11 +101,8 @@ final class EloquentDomainBillingQueryServiceTest extends TestCase
      * @test
      * @dataProvider dataProviderOfGetValidUnclaimed
      */
-    public function it_get_valid_unclaimed(
-        int $dealingId,
-        array $parameterOfBillings,
-        int $assertCount
-    ): void {
+    public function it_get_valid_unclaimed(int $dealingId, array $parameterOfBillings, int $assertCount): void
+    {
         $domain = Domain::factory()->create();
         DomainDealing::factory(['id' => $dealingId, 'domain_id' => $domain->id])->create();
 

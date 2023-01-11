@@ -26,16 +26,12 @@ final class EloquentClientQueryServiceTest extends TestCase
     {
         return [
             'exists client' => [
-                [
-                    'id' => self::CLIENT_ID1,
-                ],
+                ['id' => self::CLIENT_ID1,],
                 self::CLIENT_ID1,
                 false,
             ],
             'not exists client' => [
-                [
-                    'id' => self::CLIENT_ID1,
-                ],
+                ['id' => self::CLIENT_ID1,],
                 self::CLIENT_ID2,
                 true,
             ],
@@ -69,25 +65,15 @@ final class EloquentClientQueryServiceTest extends TestCase
     {
         return [
             'match client' => [
-                [
-                    'id' => 1,
-                ],
-                [
-                    'id' => self::CLIENT_ID1,
-                    'user_id' => 1,
-                ],
+                ['id' => 1,],
+                ['id' => self::CLIENT_ID1, 'user_id' => 1,],
                 self::CLIENT_ID1,
                 1,
                 false,
             ],
             'not match client' => [
-                [
-                    'id' => 1,
-                ],
-                [
-                    'id' => self::CLIENT_ID1,
-                    'user_id' => 1,
-                ],
+                ['id' => 1,],
+                ['id' => self::CLIENT_ID1, 'user_id' => 1,],
                 self::CLIENT_ID1,
                 2,
                 true,
@@ -125,46 +111,14 @@ final class EloquentClientQueryServiceTest extends TestCase
     {
         return [
             'match clients' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                    ],
-                ],
-                [
-                    [
-                        'id' => self::CLIENT_ID1,
-                        'user_id' => 1,
-                    ],
-                    [
-                        'id' => self::CLIENT_ID2,
-                        'user_id' => 2,
-                    ],
-                ],
+                [['id' => 1,], ['id' => 2,],],
+                [['id' => self::CLIENT_ID1, 'user_id' => 1,], ['id' => self::CLIENT_ID2, 'user_id' => 2,],],
                 [1, 2,],
                 2,
             ],
             'not match clients' => [
-                [
-                    [
-                        'id' => 1,
-                    ],
-                    [
-                        'id' => 2,
-                    ],
-                ],
-                [
-                    [
-                        'id' => self::CLIENT_ID1,
-                        'user_id' => 1,
-                    ],
-                    [
-                        'id' => self::CLIENT_ID2,
-                        'user_id' => 2,
-                    ],
-                ],
+                [['id' => 1,], ['id' => 2,],],
+                [['id' => self::CLIENT_ID1, 'user_id' => 1,], ['id' => self::CLIENT_ID2, 'user_id' => 2,],],
                 [3, 4,],
                 0,
             ],

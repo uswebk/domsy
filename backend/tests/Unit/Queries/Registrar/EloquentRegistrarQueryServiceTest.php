@@ -95,7 +95,6 @@ final class EloquentRegistrarQueryServiceTest extends TestCase
         array $userIds,
         int $count
     ): void {
-
         foreach ($parameterOfUsers as $parameterOfUser) {
             User::factory($parameterOfUser)->create();
         }
