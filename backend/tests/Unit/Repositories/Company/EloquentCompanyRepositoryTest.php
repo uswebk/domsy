@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Tests\Unit\Repository\Company;
 
 use App\Models\Company;
-use App\Repositories\Company\CompanyRepository;
+use App\Repositories\Company\EloquentCompanyRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-final class CompanyRepositoryTest extends TestCase
+final class EloquentCompanyRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -31,7 +31,7 @@ final class CompanyRepositoryTest extends TestCase
             'id' => $companyId,
         ]);
 
-        $companyRepository = new CompanyRepository();
+        $companyRepository = new EloquentCompanyRepository();
         $company = $companyRepository->store($data);
 
         $this->assertInstanceOf(Company::class, $company);

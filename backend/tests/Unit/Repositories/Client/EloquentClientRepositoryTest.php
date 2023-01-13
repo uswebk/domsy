@@ -10,7 +10,7 @@ use App\Repositories\Client\EloquentClientRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-final class ClientRepositoryTest extends TestCase
+final class EloquentClientRepositoryTest extends TestCase
 {
     use RefreshDatabase;
 

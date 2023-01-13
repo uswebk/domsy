@@ -6,8 +6,8 @@ namespace App\Providers;
 
 use App\Repositories\Client\ClientRepositoryInterface;
 use App\Repositories\Client\EloquentClientRepository;
-use App\Repositories\Company\CompanyRepository;
 use App\Repositories\Company\CompanyRepositoryInterface;
+use App\Repositories\Company\EloquentCompanyRepository;
 use App\Repositories\Domain\Billing\BillingRepository;
 use App\Repositories\Domain\Billing\BillingRepositoryInterface;
 use App\Repositories\Domain\Dealing\DealingRepository;
@@ -48,7 +48,7 @@ final class RepositoryProvider extends ServiceProvider
         });
 
         $this->app->bind(CompanyRepositoryInterface::class, function () {
-            return new CompanyRepository();
+            return new EloquentCompanyRepository();
         });
 
         $this->app->bind(DealingRepositoryInterface::class, function () {
