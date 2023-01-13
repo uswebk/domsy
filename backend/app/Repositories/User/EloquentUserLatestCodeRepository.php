@@ -6,7 +6,7 @@ namespace App\Repositories\User;
 
 use App\Models\UserLatestCode;
 
-final class UserLatestCodeRepository implements UserLatestCodeRepositoryInterface
+final class EloquentUserLatestCodeRepository implements UserLatestCodeRepositoryInterface
 {
     /**
      * @return integer
