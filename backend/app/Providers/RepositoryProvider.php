@@ -12,8 +12,8 @@ use App\Repositories\Domain\Billing\BillingRepository;
 use App\Repositories\Domain\Billing\BillingRepositoryInterface;
 use App\Repositories\Domain\Dealing\DealingRepository;
 use App\Repositories\Domain\Dealing\DealingRepositoryInterface;
-use App\Repositories\Domain\DomainRepository;
 use App\Repositories\Domain\DomainRepositoryInterface;
+use App\Repositories\Domain\EloquentDomainRepository;
 use App\Repositories\Registrar\RegistrarRepository;
 use App\Repositories\Registrar\RegistrarRepositoryInterface;
 use App\Repositories\Role\RoleItemRepository;
@@ -60,7 +60,7 @@ final class RepositoryProvider extends ServiceProvider
         });
 
         $this->app->bind(DomainRepositoryInterface::class, function () {
-            return new DomainRepository();
+            return new EloquentDomainRepository();
         });
 
         $this->app->bind(RegistrarRepositoryInterface::class, function () {
