@@ -6,7 +6,7 @@ namespace App\Services\Application\Api\Role;
 
 use App\Http\Requests\Api\Role\HasRequest;
 use App\Queries\Menu\MenuQueryServiceInterface;
-use App\Queries\User\EloquentUserQueryServiceInterface;
+use App\Queries\User\UserQueryServiceInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,12 +17,12 @@ final class HasService
     /**
      *
      * @param HasRequest $request
-     * @param EloquentUserQueryServiceInterface $userQueryService
+     * @param UserQueryServiceInterface $userQueryService
      * @param MenuQueryServiceInterface $menuQueryService
      */
     public function __construct(
         HasRequest $request,
-        EloquentUserQueryServiceInterface $userQueryService,
+        UserQueryServiceInterface $userQueryService,
         MenuQueryServiceInterface $menuQueryService
     ) {
         $user = $userQueryService->findById(Auth::id());

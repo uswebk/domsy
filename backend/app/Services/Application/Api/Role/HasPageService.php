@@ -6,7 +6,7 @@ namespace App\Services\Application\Api\Role;
 
 use App\Http\Requests\Api\Role\HasPageRequest;
 use App\Queries\Menu\MenuItemQueryServiceInterface;
-use App\Queries\User\EloquentUserQueryServiceInterface;
+use App\Queries\User\UserQueryServiceInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,12 +17,12 @@ final class HasPageService
 
     /**
      * @param HasPageRequest $request
-     * @param EloquentUserQueryServiceInterface $userQueryService
+     * @param UserQueryServiceInterface $userQueryService
      * @param MenuItemQueryServiceInterface $menuItemQueryService
      */
     public function __construct(
         HasPageRequest $request,
-        EloquentUserQueryServiceInterface $userQueryService,
+        UserQueryServiceInterface $userQueryService,
         MenuItemQueryServiceInterface $menuItemQueryService
     ) {
         try {

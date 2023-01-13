@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Queries\User;
 
-interface EloquentUserQueryServiceInterface
+interface UserQueryServiceInterface
 {
     /**
      * @param integer $id

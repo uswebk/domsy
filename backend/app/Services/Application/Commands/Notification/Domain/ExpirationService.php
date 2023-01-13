@@ -4,23 +4,25 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Commands\Notification\Domain;
 
+use App\Mails\Services\DomainExpirationService;
+use App\Queries\User\UserQueryServiceInterface;
 use App\Services\Domain\UserMailSetting\ExpirationDomainService;
 
 final class ExpirationService
 {
-    private $eloquentUserQueryService;
+    private UserQueryServiceInterface $userQueryService;
 
-    private $domainExpirationService;
+    private DomainExpirationService $domainExpirationService;
 
     /**
-     * @param \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
-     * @param \App\Mails\Services\DomainExpirationService $domainExpirationService
+     * @param UserQueryServiceInterface $userQueryService
+     * @param DomainExpirationService $domainExpirationService
      */
     public function __construct(
-        \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService,
-        \App\Mails\Services\DomainExpirationService $domainExpirationService
+        UserQueryServiceInterface $userQueryService,
+        DomainExpirationService $domainExpirationService
     ) {
-        $this->eloquentUserQueryService = $eloquentUserQueryService;
+        $this->userQueryService = $userQueryService;
         $this->domainExpirationService = $domainExpirationService;
     }
 
@@ -30,7 +32,7 @@ final class ExpirationService
      */
     public function handle(\Carbon\Carbon $executeDate): void
     {
-        $users = $this->eloquentUserQueryService->getActiveUsers();
+        $users = $this->userQueryService->getActiveUsers();
 
         foreach ($users as $user) {
             $domainExpirationMailSetting = $user->getReceiveDomainExpirationMailSetting();
@@ -50,7 +52,11 @@ final class ExpirationService
             ))->getDomains();
 
             if ($notificationDomains->isNotEmpty()) {
-                $this->domainExpirationService->execute($user, $notificationDomains, $domainExpirationMailSetting->notice_number_days);
+                $this->domainExpirationService->execute(
+                    $user,
+                    $notificationDomains,
+                    $domainExpirationMailSetting->notice_number_days
+                );
             }
         }
     }

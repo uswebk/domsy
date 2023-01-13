@@ -5,33 +5,34 @@ declare(strict_types=1);
 namespace App\Services\Application\Auth;
 
 use App\Exceptions\Auth\AlreadyVerifiedException;
-
+use App\Queries\User\UserQueryServiceInterface;
+use App\Repositories\User\UserRepositoryInterface;
 use Exception;
-
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 final class EmailVerifyService
 {
-    private $request;
+    private Request $request;
 
-    private $userRepository;
+    private UserRepositoryInterface $userRepository;
 
-    private $eloquentUserQueryService;
+    private UserQueryServiceInterface $userQueryService;
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Repositories\User\UserRepositoryInterface $userRepository
-     * @param \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
+     * @param Request $request
+     * @param UserRepositoryInterface $userRepository
+     * @param UserQueryServiceInterface $userQueryService
      */
     public function __construct(
-        \Illuminate\Http\Request $request,
-        \App\Repositories\User\UserRepositoryInterface $userRepository,
-        \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService,
+        Request $request,
+        UserRepositoryInterface $userRepository,
+        UserQueryServiceInterface $userQueryService,
     ) {
         $this->request = $request;
         $this->userRepository = $userRepository;
-        $this->eloquentUserQueryService = $eloquentUserQueryService;
+        $this->userQueryService = $userQueryService;
     }
 
     /**
@@ -46,10 +47,8 @@ final class EmailVerifyService
     }
 
     /**
-     *
      * @return void
-     * @throws AlreadyVerifiedException
-     *
+     * @throws AlreadyVerifiedException|Exception
      */
     public function handle(): void
     {
@@ -59,7 +58,7 @@ final class EmailVerifyService
                 throw new Exception();
             }
 
-            $user = $this->eloquentUserQueryService->firstByIdEmailVerifyToken(Auth::Id(), $this->request->hash);
+            $user = $this->userQueryService->firstByIdEmailVerifyToken(Auth::Id(), $this->request->hash);
 
             if (isset($user->email_verified_at)) {
                 throw new AlreadyVerifiedException();

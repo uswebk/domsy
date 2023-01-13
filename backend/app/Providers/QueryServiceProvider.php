@@ -23,7 +23,7 @@ use App\Queries\Role\RoleQueryServiceInterface;
 use App\Queries\SocialAccount\EloquentSocialAccountQueryService;
 use App\Queries\SocialAccount\SocialAccountQueryServiceInterface;
 use App\Queries\User\EloquentUserQueryService;
-use App\Queries\User\EloquentUserQueryServiceInterface;
+use App\Queries\User\UserQueryServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 final class QueryServiceProvider extends ServiceProvider
@@ -55,7 +55,7 @@ final class QueryServiceProvider extends ServiceProvider
             return new EloquentRegistrarQueryService();
         });
 
-        $this->app->bind(EloquentUserQueryServiceInterface::class, function () {
+        $this->app->bind(UserQueryServiceInterface::class, function () {
             return new EloquentUserQueryService();
         });
 

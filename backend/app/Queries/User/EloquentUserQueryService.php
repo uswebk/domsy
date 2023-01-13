@@ -7,7 +7,7 @@ namespace App\Queries\User;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
-final class EloquentUserQueryService implements EloquentUserQueryServiceInterface
+final class EloquentUserQueryService implements UserQueryServiceInterface
 {
     /**
      * @param integer $id
@@ -40,10 +40,8 @@ final class EloquentUserQueryService implements EloquentUserQueryServiceInterfac
      * @param string $emailVerifyToken
      * @return User
      */
-    public function firstByIdEmailVerifyToken(
-        int $id,
-        string $emailVerifyToken
-    ): User {
+    public function firstByIdEmailVerifyToken(int $id, string $emailVerifyToken): User
+    {
         return User::where('id', '=', $id)->where('email_verify_token', '=', $emailVerifyToken)->firstOrFail();
     }
 }
