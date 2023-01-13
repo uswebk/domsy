@@ -6,7 +6,7 @@ namespace App\Console\Commands\Dns;
 
 use App\Models\Subdomain;
 use App\Models\User;
-use App\Services\Application\Api\Dns\FetchService;
+use App\Services\Application\Commands\Dns\FetchService;
 use Illuminate\Console\Command;
 
 final class Fetch extends Command
