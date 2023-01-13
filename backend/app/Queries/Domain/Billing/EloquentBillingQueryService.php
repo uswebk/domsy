@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
-final class EloquentBillingQueryService implements EloquentBillingQueryServiceInterface
+final class EloquentBillingQueryService implements BillingQueryServiceInterface
 {
     /**
      * @param array $userIds

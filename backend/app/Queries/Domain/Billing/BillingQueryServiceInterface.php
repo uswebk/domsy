@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Queries\Domain\Billing;
 
-interface EloquentBillingQueryServiceInterface
+interface BillingQueryServiceInterface
 {
     /**
      * @param array $userIds

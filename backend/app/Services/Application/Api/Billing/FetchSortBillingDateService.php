@@ -6,7 +6,7 @@ namespace App\Services\Application\Api\Billing;
 
 use App\Http\Resources\BillingResource;
 use App\Models\User;
-use App\Queries\Domain\Billing\EloquentBillingQueryServiceInterface;
+use App\Queries\Domain\Billing\BillingQueryServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -20,23 +20,17 @@ final class FetchSortBillingDateService
 
     /**
      * @param Request $request
-     * @param EloquentBillingQueryServiceInterface $eloquentBillingQueryService
+     * @param BillingQueryServiceInterface $billingQueryService
      */
-    public function __construct(
-        Request $request,
-        EloquentBillingQueryServiceInterface $eloquentBillingQueryService
-    ) {
+    public function __construct(Request $request, BillingQueryServiceInterface $billingQueryService)
+    {
         $take = $request->take ?? self::DEFAULT_TAKE;
 
         $user = User::find(Auth::id());
 
-        if ($user->isCompany()) {
-            $userIds = $user->getMemberIds();
-        } else {
-            $userIds = [$user->id];
-        }
+        $userIds = ($user->isCompany()) ? $user->getMemberIds() : [$user->id];
 
-        $billings = $eloquentBillingQueryService->getValidUnclaimed($userIds, now()->startOfDay());
+        $billings = $billingQueryService->getValidUnclaimed($userIds, now()->startOfDay());
 
         $this->billings = $billings->sortBy('billing_date')->take($take);
     }

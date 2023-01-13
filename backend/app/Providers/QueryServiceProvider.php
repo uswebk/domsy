@@ -8,8 +8,8 @@ use App\Queries\Client\ClientQueryServiceInterface;
 use App\Queries\Client\EloquentClientQueryService;
 use App\Queries\Dns\DnsRecordTypeQueryServiceInterface;
 use App\Queries\Dns\EloquentDnsRecordTypeQueryService;
+use App\Queries\Domain\Billing\BillingQueryServiceInterface;
 use App\Queries\Domain\Billing\EloquentBillingQueryService;
-use App\Queries\Domain\Billing\EloquentBillingQueryServiceInterface;
 use App\Queries\Domain\DomainQueryServiceInterface;
 use App\Queries\Domain\EloquentDomainQueryService;
 use App\Queries\Menu\EloquentMenuItemQueryService;
@@ -35,7 +35,7 @@ final class QueryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(EloquentBillingQueryServiceInterface::class, function () {
+        $this->app->bind(BillingQueryServiceInterface::class, function () {
             return new EloquentBillingQueryService();
         });
 

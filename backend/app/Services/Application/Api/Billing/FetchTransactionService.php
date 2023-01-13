@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Billing;
 
 use App\Models\User;
-use App\Queries\Domain\Billing\EloquentBillingQueryServiceInterface;
+use App\Queries\Domain\Billing\BillingQueryServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,20 +17,17 @@ final class FetchTransactionService
 
     /**
      * @param Request $request
-     * @param EloquentBillingQueryServiceInterface $eloquentBillingQueryService
+     * @param BillingQueryServiceInterface $billingQueryService
      */
-    public function __construct(
-        Request $request,
-        EloquentBillingQueryServiceInterface $eloquentBillingQueryService
-    ) {
+    public function __construct(Request $request, BillingQueryServiceInterface $billingQueryService)
+    {
         $backMonths = $request->months ?? self::DEFAULT_MONTHS;
-
         $startMonth = now()->subMonths($backMonths)->startOfMonth();
         $endMonth = now()->copy()->endOfMonth();
 
         $user = User::find(Auth::id());
 
-        $billings = $eloquentBillingQueryService->getFixedTotalAmountOfDuringPeriod(
+        $billings = $billingQueryService->getFixedTotalAmountOfDuringPeriod(
             $user->getMemberIds(),
             $startMonth,
             $endMonth,
