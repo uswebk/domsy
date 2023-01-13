@@ -4,22 +4,21 @@ declare(strict_types=1);
 
 namespace App\Console\Commands\Billing;
 
+use App\Services\Application\Commands\Billing\CreateService;
 use Carbon\Carbon;
-
 use Illuminate\Console\Command;
 
 final class Create extends Command
 {
     protected $signature = 'billing:create {executeDate}';
 
-    private $createService;
+    private CreateService $createService;
 
     /**
-     * @param \App\Services\Application\Commands\Billing\CreateService $createService
+     * @param CreateService $createService
      */
-    public function __construct(
-        \App\Services\Application\Commands\Billing\CreateService $createService
-    ) {
+    public function __construct(CreateService $createService)
+    {
         parent::__construct();
 
         $this->createService = $createService;

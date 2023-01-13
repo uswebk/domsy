@@ -6,22 +6,22 @@ namespace App\Console\Commands\Dns;
 
 use App\Models\Subdomain;
 use App\Models\User;
+use App\Services\Application\Api\Dns\FetchService;
 use Illuminate\Console\Command;
 
 final class Fetch extends Command
 {
     protected $signature = 'dns:fetch';
 
-    private $fetchService;
+    private FetchService $fetchService;
 
     private const CHUNK_SIZE = 1000;
 
     /**
-     * @param \App\Services\Application\Commands\Dns\FetchService $fetchService
+     * @param FetchService $fetchService
      */
-    public function __construct(
-        \App\Services\Application\Commands\Dns\FetchService $fetchService,
-    ) {
+    public function __construct(FetchService $fetchService)
+    {
         parent::__construct();
 
         $this->fetchService = $fetchService;
