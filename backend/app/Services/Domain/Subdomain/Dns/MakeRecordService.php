@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Subdomain\Dns;
 
+use App\Models\Subdomain;
 use Illuminate\Support\Collection;
 
 class MakeRecordService
 {
     /**
-     * @param \App\Models\Subdomain $subdomain
+     * @param Subdomain $subdomain
      * @return Collection
      */
-    public function make(
-        \App\Models\Subdomain $subdomain
-    ): Collection {
+    public function make(Subdomain $subdomain): Collection
+    {
         $name = $subdomain->getFullDomainName();
         $dnsValues = $this->getDnsValues($name);
 

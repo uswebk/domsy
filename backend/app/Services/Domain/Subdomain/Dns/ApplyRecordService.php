@@ -5,28 +5,31 @@ declare(strict_types=1);
 namespace App\Services\Domain\Subdomain\Dns;
 
 use App\Exceptions\DnsRecordNotFoundException;
+use App\Models\Subdomain;
+use App\Repositories\Subdomain\SubdomainRepositoryInterface;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 final class ApplyRecordService
 {
-    private $makeRecordService;
+    private MakeRecordService $makeRecordService;
 
-    private $dnsRecordTypes;
+    private SubdomainRepositoryInterface $subdomainRepository;
 
-    private $subdomainRepository;
+    private array $dnsRecordTypes;
 
-    private $successDomains = [];
+    private array $successDomains = [];
 
-    private $errorDomains = [];
+    private array $errorDomains = [];
 
     /**
-     * @param \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     * @param SubdomainRepositoryInterface $subdomainRepository
      * @param MakeRecordService $makeRecordService
      */
     public function __construct(
-        \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
-        \App\Services\Domain\Subdomain\Dns\MakeRecordService $makeRecordService
+        SubdomainRepositoryInterface $subdomainRepository,
+        MakeRecordService $makeRecordService
     ) {
         $this->makeRecordService = $makeRecordService;
         $this->subdomainRepository = $subdomainRepository;
@@ -34,13 +37,11 @@ final class ApplyRecordService
 
     /**
      * @param RecordService $dnsRecord
-     * @param \App\Models\Subdomain $subdomain
+     * @param Subdomain $subdomain
      * @return void
      */
-    private function updateOfDnsRecordBySubdomain(
-        \App\Services\Domain\Subdomain\Dns\RecordService $dnsRecord,
-        \App\Models\Subdomain $subdomain
-    ): void {
+    private function updateOfDnsRecordBySubdomain(RecordService $dnsRecord, Subdomain $subdomain): void
+    {
         if (in_array($dnsRecord->getType(), $this->dnsRecordTypes)) {
             $this->subdomainRepository->updateOfTtlPriority(
                 $subdomain->domain_id,
@@ -54,12 +55,11 @@ final class ApplyRecordService
     }
 
     /**
-     * @param \App\Models\Subdomain $subdomain
+     * @param Subdomain $subdomain
      * @return void
      */
-    private function executeOfSubdomain(
-        \App\Models\Subdomain $subdomain
-    ): void {
+    private function executeOfSubdomain(Subdomain $subdomain): void
+    {
         $domainName = $subdomain->getDomainName();
 
         DB::beginTransaction();
@@ -88,14 +88,12 @@ final class ApplyRecordService
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Collection $subdomains
+     * @param Collection $subdomains
      * @param array $dnsRecordTypes
      * @return void
      */
-    public function execute(
-        \Illuminate\Database\Eloquent\Collection $subdomains,
-        array $dnsRecordTypes
-    ): void {
+    public function execute(Collection $subdomains, array $dnsRecordTypes): void
+    {
         $this->dnsRecordTypes = $dnsRecordTypes;
 
         foreach ($subdomains as $subdomain) {

@@ -8,7 +8,7 @@ use App\Models\DnsRecordType;
 
 final class RecordService
 {
-    private $records = [];
+    private array $records = [];
 
     private const DNS_TYPE_VALUE_INDEXES = [
         'A' => 'ip',
@@ -112,5 +112,7 @@ final class RecordService
         if (isset($value)) {
             return $value;
         }
+
+        return '';
     }
 }

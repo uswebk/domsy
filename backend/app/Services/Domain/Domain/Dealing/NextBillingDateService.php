@@ -5,17 +5,18 @@ declare(strict_types=1);
 namespace App\Services\Domain\Domain\Dealing;
 
 use App\Enums\Interval;
+use App\Models\DomainDealing;
+use Carbon\Carbon;
 
 final class NextBillingDateService
 {
-    private $billingDate;
+    private mixed $billingDate;
 
     /**
-     * @param \App\Models\DomainDealing $domainDealing
+     * @param DomainDealing $domainDealing
      */
-    public function __construct(
-        \App\Models\DomainDealing $domainDealing
-    ) {
+    public function __construct(DomainDealing $domainDealing)
+    {
         $nextBilling = $domainDealing->getNextBilling();
         $this->billingDate = $nextBilling->billing_date;
 
@@ -23,10 +24,10 @@ final class NextBillingDateService
     }
 
     /**
-     * @param \App\Models\DomainDealing $domainDealing
+     * @param DomainDealing $domainDealing
      * @return void
      */
-    private function set(\App\Models\DomainDealing $domainDealing): void
+    private function set(DomainDealing $domainDealing): void
     {
         $interval = $domainDealing->interval;
         $category = $domainDealing->interval_category;
@@ -48,9 +49,9 @@ final class NextBillingDateService
     }
 
     /**
-     * @return \Carbon\Carbon
+     * @return Carbon
      */
-    public function getNext(): \Carbon\Carbon
+    public function getNext(): Carbon
     {
         return $this->billingDate;
     }

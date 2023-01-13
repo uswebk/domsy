@@ -4,29 +4,33 @@ declare(strict_types=1);
 
 namespace App\Services\Domain\Domain;
 
+use App\Models\Domain;
+use App\Repositories\Domain\DomainRepositoryInterface;
+use App\Repositories\Subdomain\SubdomainRepositoryInterface;
+
 final class RenewService
 {
-    private $domainRepository;
+    private DomainRepositoryInterface $domainRepository;
 
-    private $subdomainRepository;
+    private SubdomainRepositoryInterface $subdomainRepository;
 
     /**
-     * @param \App\Repositories\Domain\DomainRepositoryInterface $domainRepository
-     * @param \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     * @param DomainRepositoryInterface $domainRepository
+     * @param SubdomainRepositoryInterface $subdomainRepository
      */
     public function __construct(
-        \App\Repositories\Domain\DomainRepositoryInterface $domainRepository,
-        \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
+        DomainRepositoryInterface $domainRepository,
+        SubdomainRepositoryInterface $subdomainRepository,
     ) {
         $this->domainRepository = $domainRepository;
         $this->subdomainRepository = $subdomainRepository;
     }
 
     /**
-     * @param \App\Models\Domain $domain
-     * @return \App\Models\Domain
+     * @param Domain $domain
+     * @return Domain
      */
-    public function execute(\App\Models\Domain $domain): \App\Models\Domain
+    public function execute(Domain $domain): Domain
     {
         $dirty = $domain->getDirty();
         if (isset($dirty['name'])) {
