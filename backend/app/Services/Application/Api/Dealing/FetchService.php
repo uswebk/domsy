@@ -5,35 +5,32 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Dealing;
 
 use App\Http\Resources\DomainDealingResource;
-
 use App\Models\User;
+use App\Queries\Domain\DomainQueryServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchService
 {
-    private $domainDealings;
+    private Collection $domainDealings;
 
     /**
-     * @param \App\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+     * @param DomainQueryServiceInterface $domainQueryService
      */
-    public function __construct(
-        \App\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
-    ) {
+    public function __construct(DomainQueryServiceInterface $domainQueryService)
+    {
         $user = User::find(Auth::id());
 
         $this->domainDealings = new Collection();
 
         if ($user->isCompany()) {
-            $domains = $eloquentDomainQueryService->getByUserIds($user->getMemberIds());
+            $domains = $domainQueryService->getByUserIds($user->getMemberIds());
         } else {
             $domains = $user->domains;
         }
 
-        $domains->load([
-            'domainDealings',
-            'domainDealings.client',
-        ]);
+        $domains->load(['domainDealings', 'domainDealings.client',]);
 
         foreach ($domains as $domain) {
             if ($domain->domainDealings->isEmpty()) {
@@ -47,9 +44,9 @@ final class FetchService
     }
 
     /**
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function getResponse(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getResponse(): AnonymousResourceCollection
     {
         return DomainDealingResource::collection($this->domainDealings);
     }

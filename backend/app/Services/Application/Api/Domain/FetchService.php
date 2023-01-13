@@ -6,31 +6,33 @@ namespace App\Services\Application\Api\Domain;
 
 use App\Http\Resources\DomainResource;
 use App\Models\User;
+use App\Queries\Domain\DomainQueryServiceInterface;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchService
 {
-    private $domains;
+    private Collection $domains;
 
     /**
-     * @param \App\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+     * @param DomainQueryServiceInterface $domainQueryService
      */
-    public function __construct(
-        \App\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
-    ) {
+    public function __construct(DomainQueryServiceInterface $domainQueryService)
+    {
         $user = User::find(Auth::id());
 
         if ($user->isCompany()) {
-            $this->domains = $eloquentDomainQueryService->getByUserIds($user->getMemberIds());
+            $this->domains = $domainQueryService->getByUserIds($user->getMemberIds());
         } else {
             $this->domains = $user->domains;
         }
     }
 
     /**
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function getResponse(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getResponse(): AnonymousResourceCollection
     {
         return DomainResource::collection($this->domains);
     }

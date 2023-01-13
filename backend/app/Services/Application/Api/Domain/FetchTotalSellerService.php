@@ -5,23 +5,21 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Domain;
 
 use App\Models\User;
+use App\Queries\Domain\DomainQueryServiceInterface;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchTotalSellerService
 {
-    private $totalPrice;
+    private int $totalPrice;
 
     /**
-     * @param \App\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+     * @param DomainQueryServiceInterface $domainQueryService
      */
-    public function __construct(
-        \App\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
-    ) {
+    public function __construct(DomainQueryServiceInterface $domainQueryService)
+    {
         $user = User::find(Auth::id());
 
-        $this->totalPrice = $eloquentDomainQueryService->getSumOfFixedBillingPriceByUserIds(
-            $user->getMemberIds(),
-        );
+        $this->totalPrice = $domainQueryService->getSumOfFixedBillingPriceByUserIds($user->getMemberIds());
     }
 
     /**
@@ -29,8 +27,6 @@ final class FetchTotalSellerService
      */
     public function getResponse(): array
     {
-        return [
-            'totalPrice' => $this->totalPrice,
-        ];
+        return ['totalPrice' => $this->totalPrice,];
     }
 }

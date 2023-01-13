@@ -6,9 +6,10 @@ namespace App\Services\Application\Api\Domain;
 
 use App\Http\Resources\DomainResource;
 use App\Models\User;
-use App\Queries\Domain\EloquentDomainQueryServiceInterface;
+use App\Queries\Domain\DomainQueryServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchSortExpiredService
@@ -19,12 +20,10 @@ final class FetchSortExpiredService
 
     /**
      * @param Request $request
-     * @param EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+     * @param DomainQueryServiceInterface $domainQueryService
      */
-    public function __construct(
-        Request $request,
-        EloquentDomainQueryServiceInterface $eloquentDomainQueryService
-    ) {
+    public function __construct(Request $request, DomainQueryServiceInterface $domainQueryService)
+    {
         $take = $request->take ?? self::DEFAULT_TAKE;
 
         $user = User::find(Auth::id());
@@ -35,7 +34,7 @@ final class FetchSortExpiredService
             $userIds = [$user->id];
         }
 
-        $this->domains = $eloquentDomainQueryService->getActiveByUserIdsGraterThanExpiredAtOrderByExpiredAt(
+        $this->domains = $domainQueryService->getActiveByUserIdsGraterThanExpiredAtOrderByExpiredAt(
             $userIds,
             now()->startOfDay(),
             (int) $take
@@ -43,9 +42,9 @@ final class FetchSortExpiredService
     }
 
     /**
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function getResponse(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getResponse(): AnonymousResourceCollection
     {
         return DomainResource::collection($this->domains);
     }

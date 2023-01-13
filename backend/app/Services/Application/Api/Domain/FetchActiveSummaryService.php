@@ -4,33 +4,35 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Api\Domain;
 
+use App\Models\Domain;
 use App\Models\User;
+use App\Queries\Domain\DomainQueryServiceInterface;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchActiveSummaryService
 {
-    private $domainSummary;
+    private Domain $domainSummary;
 
     /**
-     * @param \App\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
+     * @param DomainQueryServiceInterface $domainQueryService
      */
-    public function __construct(
-        \App\Queries\Domain\EloquentDomainQueryServiceInterface $eloquentDomainQueryService
-    ) {
+    public function __construct(DomainQueryServiceInterface $domainQueryService)
+    {
         $user = User::find(Auth::id());
+
         if ($user->isCompany()) {
             $userIds = $user->getMemberIds();
         } else {
             $userIds = [$user->id];
         }
 
-        $this->domainSummary = $eloquentDomainQueryService->getActiveCountByUserIds($userIds);
+        $this->domainSummary = $domainQueryService->getActiveCountByUserIds($userIds);
     }
 
     /**
-     * @return \App\Models\Domain
+     * @return Domain
      */
-    public function getResponse(): \App\Models\Domain
+    public function getResponse(): Domain
     {
         return $this->domainSummary;
     }

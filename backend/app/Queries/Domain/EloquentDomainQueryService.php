@@ -8,7 +8,7 @@ use App\Models\Domain;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
-final class EloquentDomainQueryService implements EloquentDomainQueryServiceInterface
+final class EloquentDomainQueryService implements DomainQueryServiceInterface
 {
     /**
      * @param array $userIds
