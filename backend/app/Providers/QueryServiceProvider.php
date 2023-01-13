@@ -15,7 +15,7 @@ use App\Queries\Domain\EloquentDomainQueryService;
 use App\Queries\Menu\EloquentMenuItemQueryService;
 use App\Queries\Menu\EloquentMenuItemQueryServiceInterface;
 use App\Queries\Menu\EloquentMenuQueryService;
-use App\Queries\Menu\EloquentMenuQueryServiceInterface;
+use App\Queries\Menu\MenuQueryServiceInterface;
 use App\Queries\Registrar\EloquentRegistrarQueryService;
 use App\Queries\Registrar\EloquentRegistrarQueryServiceInterface;
 use App\Queries\Role\EloquentRoleQueryService;
@@ -59,7 +59,7 @@ final class QueryServiceProvider extends ServiceProvider
             return new EloquentUserQueryService();
         });
 
-        $this->app->bind(EloquentMenuQueryServiceInterface::class, function () {
+        $this->app->bind(MenuQueryServiceInterface::class, function () {
             return new EloquentMenuQueryService();
         });
 

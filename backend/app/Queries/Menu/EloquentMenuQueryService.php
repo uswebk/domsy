@@ -6,7 +6,7 @@ namespace App\Queries\Menu;
 
 use App\Models\Menu;
 
-final class EloquentMenuQueryService implements EloquentMenuQueryServiceInterface
+final class EloquentMenuQueryService implements MenuQueryServiceInterface
 {
     /**
      * @param integer $id

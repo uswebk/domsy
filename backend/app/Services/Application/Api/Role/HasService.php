@@ -4,26 +4,29 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Api\Role;
 
+use App\Http\Requests\Api\Role\HasRequest;
+use App\Queries\Menu\MenuQueryServiceInterface;
+use App\Queries\User\EloquentUserQueryServiceInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 final class HasService
 {
-    private $response;
+    private Collection $response;
 
     /**
      *
-     * @param \App\Http\Requests\Api\Role\HasRequest $request
-     * @param \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
-     * @param \App\Queries\Menu\EloquentMenuQueryServiceInterface $eloquentMenuQueryService
+     * @param HasRequest $request
+     * @param EloquentUserQueryServiceInterface $userQueryService
+     * @param MenuQueryServiceInterface $menuQueryService
      */
     public function __construct(
-        \App\Http\Requests\Api\Role\HasRequest $request,
-        \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService,
-        \App\Queries\Menu\EloquentMenuQueryServiceInterface $eloquentMenuQueryService
+        HasRequest $request,
+        EloquentUserQueryServiceInterface $userQueryService,
+        MenuQueryServiceInterface $menuQueryService
     ) {
-        $user = $eloquentUserQueryService->findById(Auth::id());
-        $menus = $eloquentMenuQueryService->findById((int) $request->menu_id);
+        $user = $userQueryService->findById(Auth::id());
+        $menus = $menuQueryService->findById((int) $request->menu_id);
         $menus->load('menuItems');
 
         $this->response = new Collection();
@@ -33,9 +36,9 @@ final class HasService
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function getResponse(): \Illuminate\Support\Collection
+    public function getResponse(): Collection
     {
         return $this->response;
     }
