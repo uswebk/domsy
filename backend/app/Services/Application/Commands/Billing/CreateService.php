@@ -5,32 +5,32 @@ declare(strict_types=1);
 namespace App\Services\Application\Commands\Billing;
 
 use App\Models\DomainBilling;
+use App\Repositories\Domain\Billing\BillingRepositoryInterface;
 use App\Services\Domain\Domain\Dealing\NextBillingDateService;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 final class CreateService
 {
-    private $billingRepository;
+    private BillingRepositoryInterface $billingRepository;
 
     private const CHUNK_SIZE = 1000;
 
     /**
-     * @param \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+     * @param BillingRepositoryInterface $billingRepository
      */
-    public function __construct(
-        \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
-    ) {
+    public function __construct(BillingRepositoryInterface $billingRepository)
+    {
         $this->billingRepository = $billingRepository;
     }
 
     /**
-     * @param \App\Models\DomainBilling $domainBilling
+     * @param DomainBilling $domainBilling
      * @return void
      */
-    private function executeOfDomainBilling(
-        \App\Models\DomainBilling $domainBilling
-    ): void {
+    private function executeOfDomainBilling(DomainBilling $domainBilling): void
+    {
         $domainDealing = $domainBilling->domainDealing;
 
         $this->billingRepository->firstOrCreate([
@@ -45,10 +45,10 @@ final class CreateService
     }
 
     /**
-     * @param \Carbon\Carbon $executeDate
+     * @param Carbon $executeDate
      * @return void
      */
-    public function handle(\Carbon\Carbon $executeDate): void
+    public function handle(Carbon $executeDate): void
     {
         DomainBilling::join('domain_dealings', 'domain_billings.dealing_id', '=', 'domain_dealings.id')
             ->where('domain_dealings.is_auto_update', '=', true)
