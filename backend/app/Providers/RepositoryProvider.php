@@ -24,13 +24,13 @@ use App\Repositories\SocialAccount\EloquentSocialAccountRepository;
 use App\Repositories\SocialAccount\SocialAccountRepositoryInterface;
 use App\Repositories\Subdomain\EloquentSubdomainRepository;
 use App\Repositories\Subdomain\SubdomainRepositoryInterface;
+use App\Repositories\User\EloquentUserRepository;
 use App\Repositories\User\UserGeneralSettingRepository;
 use App\Repositories\User\UserGeneralSettingRepositoryInterface;
 use App\Repositories\User\UserLatestCodeRepository;
 use App\Repositories\User\UserLatestCodeRepositoryInterface;
 use App\Repositories\User\UserMailSettingRepository;
 use App\Repositories\User\UserMailSettingRepositoryInterface;
-use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
@@ -88,7 +88,7 @@ final class RepositoryProvider extends ServiceProvider
         });
 
         $this->app->bind(UserRepositoryInterface::class, function () {
-            return new UserRepository();
+            return new EloquentUserRepository();
         });
 
         $this->app->bind(SocialAccountRepositoryInterface::class, function () {
