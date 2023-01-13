@@ -9,17 +9,17 @@ use Illuminate\Support\Facades\Auth;
 
 final class FetchTransactionService
 {
-    private $countOfDomains;
+    private array $countOfDomains = [];
 
     const DEFAULT_MONTHS = 6;
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Queries\Domain\DomainQueryServiceInterface $eloquentDomainQueryService
+     * @param \App\Queries\Domain\DomainQueryServiceInterface $domainQueryService
      */
     public function __construct(
         \Illuminate\Http\Request $request,
-        \App\Queries\Domain\DomainQueryServiceInterface $eloquentDomainQueryService
+        \App\Queries\Domain\DomainQueryServiceInterface $domainQueryService
     ) {
         $backMonths = $request->months ?? self::DEFAULT_MONTHS;
         $startMonth = now()->subMonths($backMonths)->startOfMonth();
@@ -27,7 +27,7 @@ final class FetchTransactionService
 
         $user = User::find(Auth::id());
 
-        $countOfDomains = $eloquentDomainQueryService->getCountOfActiveByUserIdsBetweenPurchasedAt(
+        $countOfDomains = $domainQueryService->getCountOfActiveByUserIdsBetweenPurchasedAt(
             $user->getMemberIds(),
             $startMonth,
             $endMonth,

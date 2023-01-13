@@ -40,8 +40,7 @@ final class EloquentDnsQueryServiceTest extends TestCase
             DnsRecordType::factory($_parameterOfDns)->create();
         }
 
-        $eloquentDnsRecordTypeQueryService = new EloquentDnsRecordTypeQueryService();
-        $dnsRecords = $eloquentDnsRecordTypeQueryService->getSortAll();
+        $dnsRecords = (new EloquentDnsRecordTypeQueryService())->getSortAll();
 
         $firstDnsRecord = $dnsRecords->first();
 
