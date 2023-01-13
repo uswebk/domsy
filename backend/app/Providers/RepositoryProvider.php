@@ -16,8 +16,8 @@ use App\Repositories\Domain\DomainRepositoryInterface;
 use App\Repositories\Domain\EloquentDomainRepository;
 use App\Repositories\Registrar\EloquentRegistrarRepository;
 use App\Repositories\Registrar\RegistrarRepositoryInterface;
+use App\Repositories\Role\EloquentRoleItemRepository;
 use App\Repositories\Role\EloquentRoleRepository;
-use App\Repositories\Role\RoleItemRepository;
 use App\Repositories\Role\RoleItemRepositoryInterface;
 use App\Repositories\Role\RoleRepositoryInterface;
 use App\Repositories\SocialAccount\SocialAccountRepository;
@@ -72,7 +72,7 @@ final class RepositoryProvider extends ServiceProvider
         });
 
         $this->app->bind(RoleItemRepositoryInterface::class, function () {
-            return new RoleItemRepository();
+            return new EloquentRoleItemRepository();
         });
 
         $this->app->bind(SubdomainRepositoryInterface::class, function () {
