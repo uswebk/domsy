@@ -17,7 +17,7 @@ use App\Queries\Menu\EloquentMenuQueryService;
 use App\Queries\Menu\MenuItemQueryServiceInterface;
 use App\Queries\Menu\MenuQueryServiceInterface;
 use App\Queries\Registrar\EloquentRegistrarQueryService;
-use App\Queries\Registrar\EloquentRegistrarQueryServiceInterface;
+use App\Queries\Registrar\RegistrarQueryServiceInterface;
 use App\Queries\Role\EloquentRoleQueryService;
 use App\Queries\Role\EloquentRoleQueryServiceInterface;
 use App\Queries\SocialAccount\EloquentSocialAccountQueryService;
@@ -51,7 +51,7 @@ final class QueryServiceProvider extends ServiceProvider
             return new EloquentDnsRecordTypeQueryService();
         });
 
-        $this->app->bind(EloquentRegistrarQueryServiceInterface::class, function () {
+        $this->app->bind(RegistrarQueryServiceInterface::class, function () {
             return new EloquentRegistrarQueryService();
         });
 

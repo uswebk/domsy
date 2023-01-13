@@ -6,7 +6,7 @@ namespace App\Queries\Registrar;
 
 use App\Models\Registrar;
 
-final class EloquentRegistrarQueryService implements EloquentRegistrarQueryServiceInterface
+final class EloquentRegistrarQueryService implements RegistrarQueryServiceInterface
 {
     /**
      * @param integer $id
