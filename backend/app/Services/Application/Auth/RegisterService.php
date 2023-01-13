@@ -6,6 +6,10 @@ namespace App\Services\Application\Auth;
 
 use App\Constants\CompanyConstant;
 use App\Constants\RoleConstant;
+use App\Mails\Services\EmailVerificationService;
+use App\Repositories\User\UserLatestCodeRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
+use App\Services\Application\InputData\Auth\RegisterRequest;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,14 +23,14 @@ final class RegisterService
     private $emailVerificationService;
 
     /**
-     * @param \App\Repositories\User\UserRepositoryInterface $userRepository
-     * @param \App\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository
-     * @param \App\Mails\Services\EmailVerificationService $emailVerificationService
+     * @param UserRepositoryInterface $userRepository
+     * @param UserLatestCodeRepositoryInterface $userLatestCodeRepository
+     * @param EmailVerificationService $emailVerificationService
      */
     public function __construct(
-        \App\Repositories\User\UserRepositoryInterface $userRepository,
-        \App\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository,
-        \App\Mails\Services\EmailVerificationService $emailVerificationService
+        UserRepositoryInterface $userRepository,
+        UserLatestCodeRepositoryInterface $userLatestCodeRepository,
+        EmailVerificationService $emailVerificationService
     ) {
         $this->userRepository = $userRepository;
         $this->userLatestCodeRepository = $userLatestCodeRepository;
@@ -34,12 +38,12 @@ final class RegisterService
     }
 
     /**
-     * @param \App\Services\Application\InputData\Auth\RegisterRequest $registerRequest
+     * @param RegisterRequest $registerRequest
      * @return void
+     * @throws Exception
      */
-    public function handle(
-        \App\Services\Application\InputData\Auth\RegisterRequest $registerRequest
-    ): void {
+    public function handle(RegisterRequest $registerRequest): void
+    {
         $userRequest = $registerRequest->getInput();
 
         DB::beginTransaction();

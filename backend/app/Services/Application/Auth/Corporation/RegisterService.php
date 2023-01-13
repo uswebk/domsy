@@ -5,29 +5,34 @@ declare(strict_types=1);
 namespace App\Services\Application\Auth\Corporation;
 
 use App\Constants\RoleConstant;
+use App\Mails\Services\EmailVerificationService;
+use App\Repositories\Company\CompanyRepositoryInterface;
+use App\Repositories\User\UserLatestCodeRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
+use App\Services\Application\InputData\Auth\CorporationRegisterRequest;
 use Illuminate\Support\Facades\Auth;
 
 final class RegisterService
 {
-    private $userRepository;
+    private UserRepositoryInterface $userRepository;
 
-    private $userLatestCodeRepository;
+    private UserLatestCodeRepositoryInterface $userLatestCodeRepository;
 
-    private $companyRepository;
+    private CompanyRepositoryInterface $companyRepository;
 
-    private $emailVerificationService;
+    private EmailVerificationService $emailVerificationService;
 
     /**
-     * @param \App\Repositories\User\UserRepositoryInterface $userRepository
-     * @param \App\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository
-     * @param \App\Repositories\Company\CompanyRepositoryInterface $companyRepository
-     * @param \App\Mails\Services\EmailVerificationService $emailVerificationService
+     * @param UserRepositoryInterface $userRepository
+     * @param UserLatestCodeRepositoryInterface $userLatestCodeRepository
+     * @param CompanyRepositoryInterface $companyRepository
+     * @param EmailVerificationService $emailVerificationService
      */
     public function __construct(
-        \App\Repositories\User\UserRepositoryInterface $userRepository,
-        \App\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository,
-        \App\Repositories\Company\CompanyRepositoryInterface $companyRepository,
-        \App\Mails\Services\EmailVerificationService $emailVerificationService
+        UserRepositoryInterface $userRepository,
+        UserLatestCodeRepositoryInterface $userLatestCodeRepository,
+        CompanyRepositoryInterface $companyRepository,
+        EmailVerificationService $emailVerificationService
     ) {
         $this->userRepository = $userRepository;
         $this->companyRepository = $companyRepository;
@@ -36,12 +41,11 @@ final class RegisterService
     }
 
     /**
-     * @param \App\Services\Application\InputData\Auth\CorporationRegisterRequest $registerRequest
+     * @param CorporationRegisterRequest $registerRequest
      * @return void
      */
-    public function handle(
-        \App\Services\Application\InputData\Auth\CorporationRegisterRequest $registerRequest
-    ): void {
+    public function handle(CorporationRegisterRequest $registerRequest): void
+    {
         $companyRequest = $registerRequest->getInputCompany();
 
         $company = $this->companyRepository->store([
