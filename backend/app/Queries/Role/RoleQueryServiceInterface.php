@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Queries\Role;
 
-interface EloquentRoleQueryServiceInterface
+interface RoleQueryServiceInterface
 {
     /**
      * @param integer $id

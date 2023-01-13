@@ -6,32 +6,34 @@ namespace App\Services\Application\Api\Role;
 
 use App\Constants\RoleConstant;
 use App\Http\Resources\RoleResource;
-
+use App\Queries\Role\RoleQueryServiceInterface;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchService
 {
-    private $roles;
+    private Collection $roles;
 
     /**
-     * @param \App\Queries\Role\EloquentRoleQueryServiceInterface $eloquentRoleQueryService
+     * @param RoleQueryServiceInterface $roleQueryService
      */
     public function __construct(
-        \App\Queries\Role\EloquentRoleQueryServiceInterface $eloquentRoleQueryService
+        RoleQueryServiceInterface $roleQueryService
     ) {
         $user = Auth::user();
 
-        $adminRole = $eloquentRoleQueryService->findById(RoleConstant::DEFAULT_ROLE_ID);
+        $adminRole = $roleQueryService->findById(RoleConstant::DEFAULT_ROLE_ID);
 
-        $this->roles = $eloquentRoleQueryService->getByCompanyId($user->company_id);
+        $this->roles = $roleQueryService->getByCompanyId($user->company_id);
 
         $this->roles->prepend($adminRole);
     }
 
     /**
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function getResponse(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getResponse(): AnonymousResourceCollection
     {
         return RoleResource::collection($this->roles);
     }

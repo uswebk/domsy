@@ -6,13 +6,13 @@ namespace App\Queries\Role;
 
 use App\Models\Role;
 
-final class EloquentRoleQueryService implements EloquentRoleQueryServiceInterface
+final class EloquentRoleQueryService implements RoleQueryServiceInterface
 {
     /**
      * @param integer $id
-     * @return \App\Models\Role
+     * @return Role
      */
-    public function findById(int $id): \App\Models\Role
+    public function findById(int $id): Role
     {
         return Role::find($id);
     }

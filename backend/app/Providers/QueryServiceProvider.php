@@ -19,7 +19,7 @@ use App\Queries\Menu\MenuQueryServiceInterface;
 use App\Queries\Registrar\EloquentRegistrarQueryService;
 use App\Queries\Registrar\RegistrarQueryServiceInterface;
 use App\Queries\Role\EloquentRoleQueryService;
-use App\Queries\Role\EloquentRoleQueryServiceInterface;
+use App\Queries\Role\RoleQueryServiceInterface;
 use App\Queries\SocialAccount\EloquentSocialAccountQueryService;
 use App\Queries\SocialAccount\EloquentSocialAccountQueryServiceInterface;
 use App\Queries\User\EloquentUserQueryService;
@@ -67,7 +67,7 @@ final class QueryServiceProvider extends ServiceProvider
             return new EloquentMenuItemQueryService();
         });
 
-        $this->app->bind(EloquentRoleQueryServiceInterface::class, function () {
+        $this->app->bind(RoleQueryServiceInterface::class, function () {
             return new EloquentRoleQueryService();
         });
 
