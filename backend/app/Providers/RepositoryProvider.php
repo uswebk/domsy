@@ -8,8 +8,8 @@ use App\Repositories\Client\ClientRepositoryInterface;
 use App\Repositories\Client\EloquentClientRepository;
 use App\Repositories\Company\CompanyRepositoryInterface;
 use App\Repositories\Company\EloquentCompanyRepository;
-use App\Repositories\Domain\Billing\BillingRepository;
 use App\Repositories\Domain\Billing\BillingRepositoryInterface;
+use App\Repositories\Domain\Billing\EloquentBillingRepository;
 use App\Repositories\Domain\Dealing\DealingRepository;
 use App\Repositories\Domain\Dealing\DealingRepositoryInterface;
 use App\Repositories\Domain\DomainRepositoryInterface;
@@ -56,7 +56,7 @@ final class RepositoryProvider extends ServiceProvider
         });
 
         $this->app->bind(BillingRepositoryInterface::class, function () {
-            return new BillingRepository();
+            return new EloquentBillingRepository();
         });
 
         $this->app->bind(DomainRepositoryInterface::class, function () {
