@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Queries\Client;
 
-interface EloquentClientQueryServiceInterface
+interface ClientQueryServiceInterface
 {
     /**
      * @param integer $id

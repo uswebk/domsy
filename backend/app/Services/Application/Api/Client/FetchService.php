@@ -6,31 +6,33 @@ namespace App\Services\Application\Api\Client;
 
 use App\Http\Resources\ClientResource;
 use App\Models\User;
+use App\Queries\Client\ClientQueryServiceInterface;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchService
 {
-    private $clients;
+    private Collection $clients;
 
     /**
-     * @param \App\Queries\Client\EloquentClientQueryServiceInterface $eloquentClientQueryService
+     * @param ClientQueryServiceInterface $clientQueryService
      */
-    public function __construct(
-        \App\Queries\Client\EloquentClientQueryServiceInterface $eloquentClientQueryService
-    ) {
+    public function __construct(ClientQueryServiceInterface $clientQueryService)
+    {
         $user = User::find(Auth::id());
 
         if ($user->isCompany()) {
-            $this->clients = $eloquentClientQueryService->getByUserIds($user->getMemberIds());
+            $this->clients = $clientQueryService->getByUserIds($user->getMemberIds());
         } else {
             $this->clients = $user->clients;
         }
     }
 
     /**
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function getResponse(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function getResponse(): AnonymousResourceCollection
     {
         return ClientResource::collection($this->clients);
     }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Queries\Client\ClientQueryServiceInterface;
 use App\Queries\Client\EloquentClientQueryService;
-use App\Queries\Client\EloquentClientQueryServiceInterface;
 use App\Queries\Dns\EloquentDnsRecordTypeQueryService;
 use App\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface;
 use App\Queries\Domain\Billing\EloquentBillingQueryService;
@@ -24,7 +24,6 @@ use App\Queries\SocialAccount\EloquentSocialAccountQueryService;
 use App\Queries\SocialAccount\EloquentSocialAccountQueryServiceInterface;
 use App\Queries\User\EloquentUserQueryService;
 use App\Queries\User\EloquentUserQueryServiceInterface;
-
 use Illuminate\Support\ServiceProvider;
 
 final class QueryServiceProvider extends ServiceProvider
@@ -40,7 +39,7 @@ final class QueryServiceProvider extends ServiceProvider
             return new EloquentBillingQueryService();
         });
 
-        $this->app->bind(EloquentClientQueryServiceInterface::class, function () {
+        $this->app->bind(ClientQueryServiceInterface::class, function () {
             return new EloquentClientQueryService();
         });
 

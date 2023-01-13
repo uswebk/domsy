@@ -7,7 +7,7 @@ namespace App\Queries\Client;
 use App\Models\Client;
 use Illuminate\Database\Eloquent\Collection;
 
-final class EloquentClientQueryService implements EloquentClientQueryServiceInterface
+final class EloquentClientQueryService implements ClientQueryServiceInterface
 {
     /**
      * @param integer $id
