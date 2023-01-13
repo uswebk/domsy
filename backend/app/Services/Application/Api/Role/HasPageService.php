@@ -4,26 +4,30 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Api\Role;
 
-use Illuminate\Http\Response;
+use App\Http\Requests\Api\Role\HasPageRequest;
+use App\Queries\Menu\MenuItemQueryServiceInterface;
+use App\Queries\User\EloquentUserQueryServiceInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 final class HasPageService
 {
-    private $responseCode;
+    private int $responseCode;
 
     /**
-     * @param \App\Http\Requests\Api\Role\HasPageRequest $request
-     * @param \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService
-     * @param \App\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
+     * @param HasPageRequest $request
+     * @param EloquentUserQueryServiceInterface $userQueryService
+     * @param MenuItemQueryServiceInterface $menuItemQueryService
      */
     public function __construct(
-        \App\Http\Requests\Api\Role\HasPageRequest $request,
-        \App\Queries\User\EloquentUserQueryServiceInterface $eloquentUserQueryService,
-        \App\Queries\Menu\EloquentMenuItemQueryServiceInterface $eloquentMenuItemQueryService
+        HasPageRequest $request,
+        EloquentUserQueryServiceInterface $userQueryService,
+        MenuItemQueryServiceInterface $menuItemQueryService
     ) {
         try {
-            $menuItem = $eloquentMenuItemQueryService->getByEndpoint($request->endpoint);
-            $hasRole = ($eloquentUserQueryService->findById(Auth::id()))->hasRoleItem($menuItem->route);
+            $menuItem = $menuItemQueryService->getByEndpoint($request->endpoint);
+            $hasRole = ($userQueryService->findById(Auth::id()))->hasRoleItem($menuItem->route);
 
             if ($hasRole) {
                 $this->responseCode = Response::HTTP_OK;

@@ -13,8 +13,8 @@ use App\Queries\Domain\Billing\EloquentBillingQueryService;
 use App\Queries\Domain\DomainQueryServiceInterface;
 use App\Queries\Domain\EloquentDomainQueryService;
 use App\Queries\Menu\EloquentMenuItemQueryService;
-use App\Queries\Menu\EloquentMenuItemQueryServiceInterface;
 use App\Queries\Menu\EloquentMenuQueryService;
+use App\Queries\Menu\MenuItemQueryServiceInterface;
 use App\Queries\Menu\MenuQueryServiceInterface;
 use App\Queries\Registrar\EloquentRegistrarQueryService;
 use App\Queries\Registrar\EloquentRegistrarQueryServiceInterface;
@@ -63,7 +63,7 @@ final class QueryServiceProvider extends ServiceProvider
             return new EloquentMenuQueryService();
         });
 
-        $this->app->bind(EloquentMenuItemQueryServiceInterface::class, function () {
+        $this->app->bind(MenuItemQueryServiceInterface::class, function () {
             return new EloquentMenuItemQueryService();
         });
 

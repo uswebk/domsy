@@ -6,7 +6,7 @@ namespace App\Queries\Menu;
 
 use App\Models\MenuItem;
 
-final class EloquentMenuItemQueryService implements EloquentMenuItemQueryServiceInterface
+final class EloquentMenuItemQueryService implements MenuItemQueryServiceInterface
 {
     /**
      * @param string $endpoint

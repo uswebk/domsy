@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Queries\Menu;
 
-interface EloquentMenuItemQueryServiceInterface
+interface MenuItemQueryServiceInterface
 {
     /**
      * @param string $endpoint
