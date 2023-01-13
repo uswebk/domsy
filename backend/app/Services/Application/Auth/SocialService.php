@@ -6,6 +6,10 @@ namespace App\Services\Application\Auth;
 
 use App\Constants\CompanyConstant;
 use App\Constants\RoleConstant;
+use App\Queries\SocialAccount\SocialAccountQueryServiceInterface;
+use App\Repositories\SocialAccount\SocialAccountRepositoryInterface;
+use App\Repositories\User\UserLatestCodeRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
@@ -17,25 +21,25 @@ use function now;
 
 final class SocialService
 {
-    private $userRepository;
+    private UserRepositoryInterface $userRepository;
 
-    private $userLatestCodeRepository;
+    private UserLatestCodeRepositoryInterface $userLatestCodeRepository;
 
-    private $socialAccountRepository;
+    private SocialAccountRepositoryInterface $socialAccountRepository;
 
-    private $socialAccountQueryService;
+    private SocialAccountQueryServiceInterface $socialAccountQueryService;
 
     /**
-     * @param \App\Repositories\User\UserRepositoryInterface $userRepository
-     * @param \App\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository
-     * @param \App\Repositories\SocialAccount\SocialAccountRepositoryInterface $socialAccountRepository
-     * @param \App\Queries\SocialAccount\EloquentSocialAccountQueryServiceInterface $socialAccountQueryService
+     * @param UserRepositoryInterface $userRepository
+     * @param UserLatestCodeRepositoryInterface $userLatestCodeRepository
+     * @param SocialAccountRepositoryInterface $socialAccountRepository
+     * @param SocialAccountQueryServiceInterface $socialAccountQueryService
      */
     public function __construct(
-        \App\Repositories\User\UserRepositoryInterface $userRepository,
-        \App\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository,
-        \App\Repositories\SocialAccount\SocialAccountRepositoryInterface $socialAccountRepository,
-        \App\Queries\SocialAccount\EloquentSocialAccountQueryServiceInterface $socialAccountQueryService
+        UserRepositoryInterface $userRepository,
+        UserLatestCodeRepositoryInterface $userLatestCodeRepository,
+        SocialAccountRepositoryInterface $socialAccountRepository,
+        SocialAccountQueryServiceInterface $socialAccountQueryService
     ) {
         $this->userRepository = $userRepository;
         $this->userLatestCodeRepository = $userLatestCodeRepository;
@@ -66,7 +70,6 @@ final class SocialService
 
             Auth::login($user);
         } catch (ModelNotFoundException $e) {
-
             $user = Auth::user();
 
             if (!isset($user)) {

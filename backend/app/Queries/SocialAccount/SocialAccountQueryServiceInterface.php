@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Queries\SocialAccount;
 
-interface EloquentSocialAccountQueryServiceInterface
+interface SocialAccountQueryServiceInterface
 {
     /**
      * @param string $provider_id
