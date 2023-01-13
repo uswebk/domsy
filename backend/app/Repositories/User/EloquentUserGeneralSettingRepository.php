@@ -6,19 +6,16 @@ namespace App\Repositories\User;
 
 use App\Models\UserGeneralSetting;
 
-final class UserGeneralSettingRepository implements UserGeneralSettingRepositoryInterface
+final class EloquentUserGeneralSettingRepository implements UserGeneralSettingRepositoryInterface
 {
     /**
      * @param integer $userId
      * @param integer $generalId
      * @param boolean $enabled
-     * @return \App\Models\UserGeneralSetting
+     * @return UserGeneralSetting
      */
-    public function updateOfUserIdAndGeneralIdEqual(
-        int $userId,
-        int $generalId,
-        bool $enabled,
-    ): \App\Models\UserGeneralSetting {
+    public function updateOfUserIdAndGeneralIdEqual(int $userId, int $generalId, bool $enabled): UserGeneralSetting
+    {
         $userGeneralSetting = UserGeneralSetting::firstOrNew([
             'user_id' => $userId,
             'general_id' => $generalId,

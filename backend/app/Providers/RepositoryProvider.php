@@ -24,10 +24,10 @@ use App\Repositories\SocialAccount\EloquentSocialAccountRepository;
 use App\Repositories\SocialAccount\SocialAccountRepositoryInterface;
 use App\Repositories\Subdomain\EloquentSubdomainRepository;
 use App\Repositories\Subdomain\SubdomainRepositoryInterface;
+use App\Repositories\User\EloquentUserGeneralSettingRepository;
 use App\Repositories\User\EloquentUserLatestCodeRepository;
 use App\Repositories\User\EloquentUserMailSettingRepository;
 use App\Repositories\User\EloquentUserRepository;
-use App\Repositories\User\UserGeneralSettingRepository;
 use App\Repositories\User\UserGeneralSettingRepositoryInterface;
 use App\Repositories\User\UserLatestCodeRepositoryInterface;
 use App\Repositories\User\UserMailSettingRepositoryInterface;
@@ -96,7 +96,7 @@ final class RepositoryProvider extends ServiceProvider
         });
 
         $this->app->bind(UserGeneralSettingRepositoryInterface::class, function () {
-            return new UserGeneralSettingRepository();
+            return new EloquentUserGeneralSettingRepository();
         });
     }
 
