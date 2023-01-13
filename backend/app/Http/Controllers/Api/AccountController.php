@@ -33,10 +33,8 @@ final class AccountController extends Controller
      * @param StoreService $storeService
      * @return JsonResponse
      */
-    public function store(
-        StoreRequest $request,
-        StoreService $storeService
-    ): JsonResponse {
+    public function store(StoreRequest $request, StoreService $storeService): JsonResponse
+    {
         try {
             $storeService->handle($request->makeInput());
 
@@ -57,10 +55,8 @@ final class AccountController extends Controller
      * @param User $user
      * @return JsonResponse
      */
-    public function update(
-        UpdateRequest $request,
-        User $user
-    ): JsonResponse {
+    public function update(UpdateRequest $request, User $user): JsonResponse
+    {
         try {
             $user->fill($request->makeInput());
 
@@ -118,10 +114,8 @@ final class AccountController extends Controller
      * @param ResendVerifyService $resendVerifyService
      * @return JsonResponse
      */
-    public function resendVerify(
-        User $user,
-        ResendVerifyService $resendVerifyService
-    ): JsonResponse {
+    public function resendVerify(User $user, ResendVerifyService $resendVerifyService): JsonResponse
+    {
         try {
             $resendVerifyService->send($user);
 

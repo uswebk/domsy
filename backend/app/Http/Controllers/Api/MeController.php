@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Api\Me\UpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 final class MeController
 {
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function fetch()
+    public function fetch(): JsonResponse
     {
         $userId = Auth::id();
 
@@ -42,14 +45,12 @@ final class MeController
     }
 
     /**
-     * @param \App\Http\Requests\Api\Me\UpdateRequest $request
-     * @param \App\Repositories\User\UserRepositoryInterface $userRepository
-     * @return \Illuminate\Http\JsonResponse
+     * @param UpdateRequest $request
+     * @param UserRepositoryInterface $userRepository
+     * @return JsonResponse
      */
-    public function update(
-        \App\Http\Requests\Api\Me\UpdateRequest $request,
-        \App\Repositories\User\UserRepositoryInterface $userRepository
-    ) {
+    public function update(UpdateRequest $request, UserRepositoryInterface $userRepository): JsonResponse
+    {
         $userId = Auth::id();
 
         if (!isset($userId)) {

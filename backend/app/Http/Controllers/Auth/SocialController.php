@@ -4,20 +4,28 @@ namespace App\Http\Controllers\Auth;
 
 use App\Services\Application\Auth\SocialService;
 use Exception;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Laravel\Socialite\Facades\Socialite;
+use Symfony\Component\HttpFoundation\Response;
 
 final class SocialController extends Controller
 {
+    /**
+     * @param $provider
+     * @return string
+     */
     public function redirect($provider): string
     {
         return Socialite::driver($provider)->redirect()->getTargetUrl();
     }
 
-    public function callback(
-        $provider,
-        SocialService $socialService
-    ): \Illuminate\Http\JsonResponse {
+    /**
+     * @param $provider
+     * @param SocialService $socialService
+     * @return JsonResponse
+     */
+    public function callback($provider, SocialService $socialService): JsonResponse
+    {
         try {
             $socialService->handle($provider);
 

@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Exceptions\Auth\AlreadyVerifiedException;
+use App\Mails\Services\EmailVerificationService;
+use App\Services\Application\Auth\EmailVerifyService;
 use Exception;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 final class VerificationController extends Controller
@@ -21,12 +24,11 @@ final class VerificationController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Auth\EmailVerifyService $emailVerifyService
+     * @param EmailVerifyService $emailVerifyService
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function url(
-        \App\Services\Application\Auth\EmailVerifyService $emailVerifyService
-    ) {
+    public function url(EmailVerifyService $emailVerifyService)
+    {
         $id = Auth::id();
         if (!isset($id)) {
             return redirect(config('app.frontend_url') . '/login');
@@ -45,10 +47,10 @@ final class VerificationController extends Controller
     /**
      * Show the email verification notice.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function show(\Illuminate\Http\Request $request)
+    public function show(Request $request)
     {
         return $request->user()->hasVerifiedEmail()
             ? redirect('mypage')
@@ -56,13 +58,11 @@ final class VerificationController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Mails\Services\EmailVerificationService $emailVerificationService
+     * @param Request $request
+     * @param EmailVerificationService $emailVerificationService
      */
-    public function resend(
-        \Illuminate\Http\Request $request,
-        \App\Mails\Services\EmailVerificationService $emailVerificationService
-    ) {
+    public function resend(Request $request, EmailVerificationService $emailVerificationService)
+    {
         if ($request->user()->hasVerifiedEmail()) {
             return $request->wantsJson()
                 ? new JsonResponse([], 204)

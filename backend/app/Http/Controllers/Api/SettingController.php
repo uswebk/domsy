@@ -4,20 +4,23 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Api\Setting\SaveGeneralRequest;
+use App\Http\Requests\Api\Setting\SaveMailRequest;
 use App\Http\Resources\GeneralSettingResource;
-
 use App\Http\Resources\UserMailSettingResource;
 use App\Models\GeneralSettingCategory;
 use App\Models\MailCategory;
-
-use Illuminate\Http\Response;
+use App\Services\Application\Api\Setting\GeneralSaveService;
+use App\Services\Application\Api\Setting\MailSaveService;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class SettingController extends Controller
 {
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function getMails()
+    public function getMails(): JsonResponse
     {
         $mailCategories = MailCategory::get();
 
@@ -28,9 +31,9 @@ final class SettingController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function getGenerals()
+    public function getGenerals(): JsonResponse
     {
         $generalSettingCategories = GeneralSettingCategory::get();
 
@@ -41,14 +44,12 @@ final class SettingController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Setting\SaveMailRequest $request
-     * @param \App\Services\Application\Api\Setting\MailSaveService $mailSaveService
-     * @return \Illuminate\Http\JsonResponse
+     * @param SaveMailRequest $request
+     * @param MailSaveService $mailSaveService
+     * @return JsonResponse
      */
-    public function saveMails(
-        \App\Http\Requests\Api\Setting\SaveMailRequest $request,
-        \App\Services\Application\Api\Setting\MailSaveService $mailSaveService
-    ) {
+    public function saveMails(SaveMailRequest $request, MailSaveService $mailSaveService): JsonResponse
+    {
         try {
             $mailSaveService->handle($request->makeInput());
 
@@ -65,14 +66,12 @@ final class SettingController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Setting\SaveGeneralRequest $request
-     * @param \App\Services\Application\Api\Setting\GeneralSaveService $settingSaveService
-     * @return \Illuminate\Http\JsonResponse
+     * @param SaveGeneralRequest $request
+     * @param GeneralSaveService $generalSaveService
+     * @return JsonResponse
      */
-    public function saveGenerals(
-        \App\Http\Requests\Api\Setting\SaveGeneralRequest $request,
-        \App\Services\Application\Api\Setting\GeneralSaveService $generalSaveService
-    ) {
+    public function saveGenerals(SaveGeneralRequest $request, GeneralSaveService $generalSaveService): JsonResponse
+    {
         try {
             $generalSaveService->handle($request->makeInput());
 

@@ -4,19 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Api\Registrar\StoreRequest;
+use App\Http\Requests\Api\Registrar\UpdateRequest;
 use App\Http\Resources\RegistrarResource;
-use Illuminate\Http\Response;
+use App\Models\Registrar;
+use App\Repositories\Registrar\RegistrarRepositoryInterface;
+use App\Services\Application\Api\Registrar\FetchService;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class RegistrarController extends Controller
 {
-    private $registrarRepository;
+    private RegistrarRepositoryInterface $registrarRepository;
 
     /**
-     * @param \App\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
+     * @param RegistrarRepositoryInterface $registrarRepository
      */
-    public function __construct(
-        \App\Repositories\Registrar\RegistrarRepositoryInterface $registrarRepository
-    ) {
+    public function __construct(RegistrarRepositoryInterface $registrarRepository)
+    {
         parent::__construct();
 
         $this->middleware('can:owner,registrar')->except(['fetch', 'store']);
@@ -25,12 +30,11 @@ final class RegistrarController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Api\Registrar\FetchService $fetchService
-     * @return \Illuminate\Http\JsonResponse
+     * @param FetchService $fetchService
+     * @return JsonResponse
      */
-    public function fetch(
-        \App\Services\Application\Api\Registrar\FetchService $fetchService
-    ) {
+    public function fetch(FetchService $fetchService): JsonResponse
+    {
         return response()->json(
             $fetchService->getResponse(),
             Response::HTTP_OK
@@ -38,11 +42,11 @@ final class RegistrarController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @param StoreRequest $request
+     * @return JsonResponse
      */
-    public function store(
-        \App\Http\Requests\Api\Registrar\StoreRequest $request,
-    ) {
+    public function store(StoreRequest $request): JsonResponse
+    {
         try {
             $registrar = $this->registrarRepository->store($request->makeInput());
 
@@ -59,12 +63,12 @@ final class RegistrarController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @param UpdateRequest $request
+     * @param Registrar $registrar
+     * @return JsonResponse
      */
-    public function update(
-        \App\Http\Requests\Api\Registrar\UpdateRequest $request,
-        \App\Models\Registrar $registrar
-    ) {
+    public function update(UpdateRequest $request, Registrar $registrar): JsonResponse
+    {
         try {
             $registrar->fill($request->makeInput());
             $registrar = $this->registrarRepository->save($registrar);
@@ -82,12 +86,11 @@ final class RegistrarController extends Controller
     }
 
     /**
-     * @param \App\Models\Registrar $registrar
-     * @return \Illuminate\Http\JsonResponse
+     * @param Registrar $registrar
+     * @return JsonResponse
      */
-    public function delete(
-        \App\Models\Registrar $registrar
-    ) {
+    public function delete(Registrar $registrar): JsonResponse
+    {
         try {
             $this->registrarRepository->delete($registrar);
 

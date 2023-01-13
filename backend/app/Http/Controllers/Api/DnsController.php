@@ -4,19 +4,26 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Api\Dns\StoreRequest;
+use App\Http\Requests\Api\Dns\UpdateRequest;
 use App\Http\Resources\SubdomainResource;
-use Illuminate\Http\Response;
+use App\Models\Subdomain;
+use App\Repositories\Subdomain\SubdomainRepositoryInterface;
+use App\Services\Application\Api\Dns\ApplyService;
+use App\Services\Application\Api\Dns\FetchService;
+use App\Services\Application\Api\Dns\StoreService;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class DnsController extends Controller
 {
-    protected $subdomainRepository;
+    protected SubdomainRepositoryInterface $subdomainRepository;
 
     /**
-     * @param \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     * @param SubdomainRepositoryInterface $subdomainRepository
      */
-    public function __construct(
-        \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
-    ) {
+    public function __construct(SubdomainRepositoryInterface $subdomainRepository)
+    {
         parent::__construct();
 
         $this->middleware('can:owner,subdomain')->except(['fetch', 'store', 'apply']);
@@ -25,12 +32,11 @@ final class DnsController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Api\Dns\FetchService $fetchService
-     * @return \Illuminate\Http\JsonResponse
+     * @param FetchService $fetchService
+     * @return JsonResponse
      */
-    public function fetch(
-        \App\Services\Application\Api\Dns\FetchService $fetchService
-    ) {
+    public function fetch(FetchService $fetchService): JsonResponse
+    {
         return response()->json(
             $fetchService->getResponse(),
             Response::HTTP_OK
@@ -38,14 +44,12 @@ final class DnsController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Dns\UpdateRequest $request
-     * @param \App\Models\Subdomain $subdomain
-     * @return \Illuminate\Http\JsonResponse
+     * @param UpdateRequest $request
+     * @param Subdomain $subdomain
+     * @return JsonResponse
      */
-    public function update(
-        \App\Http\Requests\Api\Dns\UpdateRequest $request,
-        \App\Models\Subdomain $subdomain,
-    ) {
+    public function update(UpdateRequest $request, Subdomain $subdomain): JsonResponse
+    {
         try {
             $subdomain->fill($request->makeInput());
             $subdomain = $this->subdomainRepository->save($subdomain);
@@ -63,14 +67,12 @@ final class DnsController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Dns\StoreRequest $request
-     * @param \App\Services\Application\DnsStoreService $dnsStoreService
-     * @return \Illuminate\Http\JsonResponse
+     * @param StoreRequest $request
+     * @param StoreService $storeService
+     * @return JsonResponse
      */
-    public function store(
-        \App\Http\Requests\Api\Dns\StoreRequest $request,
-        \App\Services\Application\Api\Dns\StoreService $storeService
-    ) {
+    public function store(StoreRequest $request, StoreService $storeService): JsonResponse
+    {
         try {
             $storeService->handle($request->makeInput());
 
@@ -87,12 +89,11 @@ final class DnsController extends Controller
     }
 
     /**
-     * @param \App\Models\Subdomain $subdomain
-     * @return \Illuminate\Http\JsonResponse
+     * @param Subdomain $subdomain
+     * @return JsonResponse
      */
-    public function delete(
-        \App\Models\Subdomain $subdomain
-    ) {
+    public function delete(Subdomain $subdomain): JsonResponse
+    {
         try {
             $this->subdomainRepository->delete($subdomain);
 
@@ -109,12 +110,11 @@ final class DnsController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Api\Dns\ApplyService $applyService
-     * @return \Illuminate\Http\JsonResponse
+     * @param ApplyService $applyService
+     * @return JsonResponse
      */
-    public function apply(
-        \App\Services\Application\Api\Dns\ApplyService $applyService
-    ) {
+    public function apply(ApplyService $applyService): JsonResponse
+    {
         try {
             $applyService->handle();
 

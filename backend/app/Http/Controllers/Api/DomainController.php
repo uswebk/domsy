@@ -4,7 +4,20 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Response;
+use App\Http\Requests\Api\Domain\StoreRequest;
+use App\Http\Requests\Api\Domain\UpdateRequest;
+use App\Models\Domain;
+use App\Repositories\Domain\DomainRepositoryInterface;
+use App\Services\Application\Api\Domain\FetchActiveSummaryService;
+use App\Services\Application\Api\Domain\FetchService;
+use App\Services\Application\Api\Domain\FetchSortExpiredService;
+use App\Services\Application\Api\Domain\FetchTotalSellerService;
+use App\Services\Application\Api\Domain\FetchTransactionService;
+use App\Services\Application\Api\Domain\StoreService;
+use App\Services\Application\Api\Domain\UpdateService;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class DomainController extends Controller
 {
@@ -23,12 +36,11 @@ final class DomainController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Api\Domain\FetchService $fetchService
-     * @return \Illuminate\Http\JsonResponse
+     * @param FetchService $fetchService
+     * @return JsonResponse
      */
-    public function fetch(
-        \App\Services\Application\Api\Domain\FetchService $fetchService
-    ) {
+    public function fetch(FetchService $fetchService): JsonResponse
+    {
         return response()->json(
             $fetchService->getResponse(),
             Response::HTTP_OK
@@ -36,12 +48,11 @@ final class DomainController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Api\Domain\FetchTotalSellerService $fetchTotalSellerService
-     * @return \Illuminate\Http\JsonResponse
+     * @param FetchTotalSellerService $fetchTotalSellerService
+     * @return JsonResponse
      */
-    public function fetchTotalSeller(
-        \App\Services\Application\Api\Domain\FetchTotalSellerService $fetchTotalSellerService
-    ) {
+    public function fetchTotalSeller(FetchTotalSellerService $fetchTotalSellerService): JsonResponse
+    {
         return response()->json(
             $fetchTotalSellerService->getResponse(),
             Response::HTTP_OK
@@ -49,12 +60,11 @@ final class DomainController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Api\Domain\FetchTransactionService $fetchTransactionService
-     * @return \Illuminate\Http\JsonResponse
+     * @param FetchTransactionService $fetchTransactionService
+     * @return JsonResponse
      */
-    public function fetchTransition(
-        \App\Services\Application\Api\Domain\FetchTransactionService $fetchTransactionService
-    ) {
+    public function fetchTransition(FetchTransactionService $fetchTransactionService): JsonResponse
+    {
         return response()->json(
             $fetchTransactionService->getResponse(),
             Response::HTTP_OK
@@ -62,12 +72,11 @@ final class DomainController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Api\Domain\FetchSortExpiredService $fetchSortExpiredService
-     * @return \Illuminate\Http\JsonResponse
+     * @param FetchSortExpiredService $fetchSortExpiredService
+     * @return JsonResponse
      */
-    public function fetchSortExpired(
-        \App\Services\Application\Api\Domain\FetchSortExpiredService $fetchSortExpiredService
-    ) {
+    public function fetchSortExpired(FetchSortExpiredService $fetchSortExpiredService): JsonResponse
+    {
         return response()->json(
             $fetchSortExpiredService->getResponse(),
             Response::HTTP_OK
@@ -75,12 +84,11 @@ final class DomainController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Api\Domain\FetchActiveSummaryService $fetchActiveSummaryService
-     * @return \Illuminate\Http\JsonResponse
+     * @param FetchActiveSummaryService $fetchActiveSummaryService
+     * @return JsonResponse
      */
-    public function fetchActiveSummary(
-        \App\Services\Application\Api\Domain\FetchActiveSummaryService $fetchActiveSummaryService
-    ) {
+    public function fetchActiveSummary(FetchActiveSummaryService $fetchActiveSummaryService): JsonResponse
+    {
         return response()->json(
             $fetchActiveSummaryService->getResponse(),
             Response::HTTP_OK
@@ -88,16 +96,13 @@ final class DomainController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Domain\UpdateRequest $request
-     * @param \App\Models\Domain $domain
-     * @param \App\Services\Application\Api\Domain\UpdateService $updateService
-     * @return \Illuminate\Http\JsonResponse
+     * @param UpdateRequest $request
+     * @param Domain $domain
+     * @param UpdateService $updateService
+     * @return JsonResponse
      */
-    public function update(
-        \App\Http\Requests\Api\Domain\UpdateRequest $request,
-        \App\Models\Domain $domain,
-        \App\Services\Application\Api\Domain\UpdateService $updateService
-    ) {
+    public function update(UpdateRequest $request, Domain $domain, UpdateService $updateService): JsonResponse
+    {
         try {
             $updateService->handle($request->makeInput(), $domain);
 
@@ -114,14 +119,13 @@ final class DomainController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Domain\StoreRequest $request
-     * @param \App\Services\Application\Api\Domain\StoreService $storeService
-     * @return \Illuminate\Http\JsonResponse
+     * @param StoreRequest $request
+     * @param StoreService $storeService
+     * @return JsonResponse
+     * @throws Exception
      */
-    public function store(
-        \App\Http\Requests\Api\Domain\StoreRequest $request,
-        \App\Services\Application\Api\Domain\StoreService $storeService
-    ) {
+    public function store(StoreRequest $request, StoreService $storeService): JsonResponse
+    {
         try {
             $storeService->handle($request->makeInput());
 
@@ -138,14 +142,12 @@ final class DomainController extends Controller
     }
 
     /**
-     * @param \App\Models\Domain $domain
-     * @param \App\Repositories\Domain\DomainRepositoryInterface $domainRepository
-     * @return \Illuminate\Http\JsonResponse
+     * @param Domain $domain
+     * @param DomainRepositoryInterface $domainRepository
+     * @return JsonResponse
      */
-    public function delete(
-        \App\Models\Domain $domain,
-        \App\Repositories\Domain\DomainRepositoryInterface $domainRepository
-    ) {
+    public function delete(Domain $domain, DomainRepositoryInterface $domainRepository): JsonResponse
+    {
         try {
             $domainRepository->delete($domain);
 

@@ -10,7 +10,7 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    protected $redirectTo = RouteServiceProvider::DASHBOARD;
+    protected string $redirectTo = RouteServiceProvider::DASHBOARD;
 
     public function __construct()
     {
@@ -18,10 +18,10 @@ class LoginController extends Controller
     }
 
     /**
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
-    public function credentials(\Illuminate\Http\Request $request): array
+    public function credentials(Request $request): array
     {
         return array_merge($request->only($this->username(), 'password'), ['deleted_at' => null]);
     }
@@ -31,7 +31,7 @@ class LoginController extends Controller
      * @param $user
      * @return void
      */
-    protected function authenticated(\Illuminate\Http\Request $request, $user)
+    protected function authenticated(Request $request, $user): void
     {
         $user->last_login_at = now();
         $user->save();

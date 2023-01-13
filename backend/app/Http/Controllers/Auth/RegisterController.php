@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\Auth\Corporation\RegisterRequest as CorporationRegisterRequest;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Services\Application\Auth\Corporation\RegisterService as CorporationRegisterService;
+use App\Services\Application\Auth\RegisterService;
 use Exception;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class RegisterController extends Controller
 {
@@ -23,14 +28,12 @@ final class RegisterController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Auth\RegisterRequest $request
-     * @param \App\Services\Application\Auth\RegisterService $registerService
-     * @return \Illuminate\Http\JsonResponse
+     * @param RegisterRequest $request
+     * @param RegisterService $registerService
+     * @return JsonResponse
      */
-    public function register(
-        \App\Http\Requests\Auth\RegisterRequest $request,
-        \App\Services\Application\Auth\RegisterService $registerService
-    ) {
+    public function register(RegisterRequest $request, RegisterService $registerService): JsonResponse
+    {
         try {
             $registerService->handle($request->makeInput());
 
@@ -47,14 +50,12 @@ final class RegisterController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Auth\Corporation\RegisterRequest $request
-     * @param \App\Services\Application\Auth\Corporation\RegisterService $registerService
-     * @return\Illuminate\Http\JsonResponse
+     * @param CorporationRegisterRequest $request
+     * @param CorporationRegisterService $registerService
+     * @return JsonResponse
      */
-    public function corporationRegister(
-        \App\Http\Requests\Auth\Corporation\RegisterRequest $request,
-        \App\Services\Application\Auth\Corporation\RegisterService $registerService
-    ) {
+    public function corporationRegister(CorporationRegisterRequest $request, CorporationRegisterService $registerService): JsonResponse
+    {
         try {
             $registerService->handle($request->makeInput());
 

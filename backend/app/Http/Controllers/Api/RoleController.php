@@ -4,7 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Response;
+use App\Http\Requests\Api\Role\StoreRequest;
+use App\Http\Requests\Api\Role\UpdateRequest;
+use App\Models\Role;
+use App\Repositories\Role\RoleRepositoryInterface;
+use App\Services\Application\Api\Role\FetchService;
+use App\Services\Application\Api\Role\HasPageService;
+use App\Services\Application\Api\Role\HasService;
+use App\Services\Application\Api\Role\StoreService;
+use App\Services\Application\Api\Role\UpdateService;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use function response;
 
 final class RoleController extends Controller
 {
@@ -21,12 +33,11 @@ final class RoleController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Api\Role\FetchService $fetchService
-     * @return \Illuminate\Http\JsonResponse
+     * @param FetchService $fetchService
+     * @return JsonResponse
      */
-    public function fetch(
-        \App\Services\Application\Api\Role\FetchService $fetchService
-    ) {
+    public function fetch(FetchService $fetchService): JsonResponse
+    {
         return response()->json(
             $fetchService->getResponse(),
             Response::HTTP_OK
@@ -34,12 +45,11 @@ final class RoleController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Api\Role\HasService $hasService
-     * @return \Illuminate\Http\JsonResponse
+     * @param HasService $hasService
+     * @return JsonResponse
      */
-    public function has(
-        \App\Services\Application\Api\Role\HasService $hasService
-    ) {
+    public function has(HasService $hasService): JsonResponse
+    {
         return response()->json(
             $hasService->getResponse(),
             Response::HTTP_OK
@@ -47,12 +57,11 @@ final class RoleController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Api\Role\HasPageService $hasPageService
-     * @return \Illuminate\Http\JsonResponse
+     * @param HasPageService $hasPageService
+     * @return JsonResponse
      */
-    public function hasPage(
-        \App\Services\Application\Api\Role\HasPageService $hasPageService
-    ) {
+    public function hasPage(HasPageService $hasPageService): JsonResponse
+    {
         return response()->json(
             [],
             $hasPageService->getResponseCode()
@@ -60,14 +69,13 @@ final class RoleController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Role\StoreRequest $request
-     * @param \App\Services\Application\RoleStoreService $roleStoreService
-     * @return \Illuminate\Http\JsonResponse
+     * @param StoreRequest $request
+     * @param StoreService $storeService
+     * @return JsonResponse
+     * @throws Exception
      */
-    public function store(
-        \App\Http\Requests\Api\Role\StoreRequest $request,
-        \App\Services\Application\Api\Role\StoreService $storeService
-    ) {
+    public function store(StoreRequest $request, StoreService $storeService): JsonResponse
+    {
         try {
             $storeService->handle($request->makeInput());
 
@@ -84,16 +92,13 @@ final class RoleController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Role\UpdateRequest $request
-     * @param \App\Services\Application\Api\Role\UpdateService $roleUpdateService
-     * @param \App\Models\Role $role
-     * @return void
+     * @param UpdateRequest $request
+     * @param UpdateService $updateService
+     * @param Role $role
+     * @return JsonResponse
      */
-    public function update(
-        \App\Http\Requests\Api\Role\UpdateRequest $request,
-        \App\Services\Application\Api\Role\UpdateService $updateService,
-        \App\Models\Role $role
-    ) {
+    public function update(UpdateRequest $request, UpdateService $updateService, Role $role): JsonResponse
+    {
         try {
             $updateService->handle($request->makeInput(), $role);
 
@@ -110,14 +115,12 @@ final class RoleController extends Controller
     }
 
     /**
-     * @param \App\Models\Role $role
-     * @param \App\Repositories\Role\RoleRepositoryInterface $roleRepository
-     * @return\Illuminate\Http\JsonResponse
+     * @param Role $role
+     * @param RoleRepositoryInterface $roleRepository
+     * @return JsonResponse
      */
-    public function delete(
-        \App\Models\Role $role,
-        \App\Repositories\Role\RoleRepositoryInterface $roleRepository
-    ) {
+    public function delete(Role $role, RoleRepositoryInterface $roleRepository): JsonResponse
+    {
         try {
             $roleRepository->delete($role);
 

@@ -4,9 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Api\Billing\StoreRequest;
+use App\Http\Requests\Api\Billing\UpdateRequest;
 use App\Http\Resources\BillingResource;
+use App\Models\DomainBilling;
+use App\Repositories\Domain\Billing\BillingRepositoryInterface;
+use App\Services\Application\Api\Billing\CancelService;
+use App\Services\Application\Api\Billing\FetchSortBillingDateService;
+use App\Services\Application\Api\Billing\FetchTransactionService;
+use App\Services\Application\Api\Billing\StoreService;
 use Exception;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class BillingController extends Controller
 {
@@ -18,25 +27,23 @@ final class BillingController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Api\Billing\FetchTransactionService $fetchTransactionService
-     * @return \Illuminate\Http\JsonResponse
+     * @param FetchTransactionService $fetchTransactionService
+     * @return JsonResponse
      */
-    public function fetchTransaction(
-        \App\Services\Application\Api\Billing\FetchTransactionService $fetchTransactionService
-    ) {
+    public function fetchTransaction(FetchTransactionService $fetchTransactionService): JsonResponse
+    {
         return response()->json(
             $fetchTransactionService->getResponse(),
-            Response::HTTP_OK
+            ResponseAlias::HTTP_OK
         );
     }
 
     /**
-     * @param \App\Services\Application\Api\Billing\FetchSortBillingDateService $fetchSortBillingDateService
-     * @return \Illuminate\Http\JsonResponse
+     * @param FetchSortBillingDateService $fetchSortBillingDateService
+     * @return JsonResponse
      */
-    public function fetchSortBillingDate(
-        \App\Services\Application\Api\Billing\FetchSortBillingDateService $fetchSortBillingDateService
-    ) {
+    public function fetchSortBillingDate(FetchSortBillingDateService $fetchSortBillingDateService): JsonResponse
+    {
         return response()->json(
             $fetchSortBillingDateService->getResponse(),
             Response::HTTP_OK
@@ -44,16 +51,16 @@ final class BillingController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Billing\UpdateRequest $request
-     * @param \App\Models\DomainBilling $domainBilling
-     * @param \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
-     * @return \Illuminate\Http\JsonResponse
+     * @param UpdateRequest $request
+     * @param DomainBilling $domainBilling
+     * @param BillingRepositoryInterface $billingRepository
+     * @return JsonResponse
      */
     public function update(
-        \App\Http\Requests\Api\Billing\UpdateRequest $request,
-        \App\Models\DomainBilling $domainBilling,
-        \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
-    ) {
+        UpdateRequest $request,
+        DomainBilling $domainBilling,
+        BillingRepositoryInterface $billingRepository
+    ): JsonResponse {
         $domainBilling->fill($request->makeInput());
 
         try {
@@ -72,14 +79,12 @@ final class BillingController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Billing\StoreRequest $request
-     * @param \App\Services\Application\Api\Billing\StoreService $storeService
-     * @return \Illuminate\Http\JsonResponse
+     * @param StoreRequest $request
+     * @param StoreService $storeService
+     * @return JsonResponse
      */
-    public function store(
-        \App\Http\Requests\Api\Billing\StoreRequest $request,
-        \App\Services\Application\Api\Billing\StoreService $storeService
-    ) {
+    public function store(StoreRequest $request, StoreService $storeService): JsonResponse
+    {
         try {
             $storeService->handle($request->makeInput());
 
@@ -96,14 +101,12 @@ final class BillingController extends Controller
     }
 
     /**
-     * @param \App\Models\DomainBilling $domainBilling
-     * @param \App\Services\Application\Api\Billing\CancelService $cancelService
-     * @return \Illuminate\Http\JsonResponse
+     * @param DomainBilling $domainBilling
+     * @param CancelService $cancelService
+     * @return JsonResponse
      */
-    public function cancel(
-        \App\Models\DomainBilling $domainBilling,
-        \App\Services\Application\Api\Billing\CancelService $cancelService
-    ) {
+    public function cancel(DomainBilling $domainBilling, CancelService $cancelService): JsonResponse
+    {
         try {
             $cancelService->handle($domainBilling);
 

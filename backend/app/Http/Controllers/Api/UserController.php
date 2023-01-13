@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Services\Application\Api\User\FetchService;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response as Response;
+use Symfony\Component\HttpFoundation\Response;
 
 final class UserController
 {

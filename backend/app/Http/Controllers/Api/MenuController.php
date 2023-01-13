@@ -6,17 +6,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\MenuItemResource;
 use App\Models\MenuItem;
-use Illuminate\Http\Response;
+use App\Services\Application\Api\Menu\FetchService;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class MenuController
 {
     /**
-     * @param \App\Services\Application\Api\Menu\FetchService $fetchService
-     * @return \Illuminate\Http\JsonResponse
+     * @param FetchService $fetchService
+     * @return JsonResponse
      */
-    public function fetch(
-        \App\Services\Application\Api\Menu\FetchService $fetchService
-    ) {
+    public function fetch(FetchService $fetchService): JsonResponse
+    {
         return response()->json(
             $fetchService->getResponse(),
             Response::HTTP_OK
@@ -24,9 +25,9 @@ final class MenuController
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function fetchItems()
+    public function fetchItems(): JsonResponse
     {
         $menuItems = MenuItem::with(['menu'])->get();
 

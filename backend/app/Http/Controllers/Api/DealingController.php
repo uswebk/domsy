@@ -5,9 +5,18 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Api;
 
 use App\Exceptions\Api\ExistsFixedBillingException;
+use App\Http\Requests\Api\Dealing\StoreRequest;
+use App\Http\Requests\Api\Dealing\UpdateRequest;
 use App\Http\Resources\DomainDealingResource;
+use App\Models\DomainDealing;
+use App\Services\Application\Api\Dealing\DeleteService;
+use App\Services\Application\Api\Dealing\FetchService;
+use App\Services\Application\Api\Dealing\ResumeService;
+use App\Services\Application\Api\Dealing\StoreService;
+use App\Services\Application\Api\Dealing\UpdateService;
 use Exception;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class DealingController extends Controller
 {
@@ -19,12 +28,11 @@ final class DealingController extends Controller
     }
 
     /**
-     * @param \App\Services\Application\Api\Dealing\FetchService $fetchService
-     * @return \Illuminate\Http\JsonResponse
+     * @param FetchService $fetchService
+     * @return JsonResponse
      */
-    public function fetch(
-        \App\Services\Application\Api\Dealing\FetchService $fetchService
-    ) {
+    public function fetch(FetchService $fetchService): JsonResponse
+    {
         return response()->json(
             $fetchService->getResponse(),
             Response::HTTP_OK
@@ -32,12 +40,11 @@ final class DealingController extends Controller
     }
 
     /**
-     * @param \App\Models\DomainDealing $domainDealing
-     * @return \Illuminate\Http\JsonResponse
+     * @param DomainDealing $domainDealing
+     * @return JsonResponse
      */
-    public function fetchId(
-        \App\Models\DomainDealing $domainDealing
-    ) {
+    public function fetchId(DomainDealing $domainDealing): JsonResponse
+    {
         return response()->json(
             new DomainDealingResource($domainDealing),
             Response::HTTP_OK
@@ -45,16 +52,16 @@ final class DealingController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Dealing\UpdateRequest $request
-     * @param \App\Models\DomainDealing $domainDealing
-     * @param \App\Services\Application\Api\Dealing\UpdateService $updateService
-     * @return \Illuminate\Http\JsonResponse
+     * @param UpdateRequest $request
+     * @param DomainDealing $domainDealing
+     * @param UpdateService $updateService
+     * @return JsonResponse
      */
     public function update(
-        \App\Http\Requests\Api\Dealing\UpdateRequest $request,
-        \App\Models\DomainDealing $domainDealing,
-        \App\Services\Application\Api\Dealing\UpdateService $updateService
-    ) {
+        UpdateRequest $request,
+        DomainDealing $domainDealing,
+        UpdateService $updateService
+    ): JsonResponse {
         try {
             $updateService->handle($request->makeInput(), $domainDealing);
 
@@ -71,14 +78,12 @@ final class DealingController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Dealing\StoreRequest $request
-     * @param \App\Services\Application\Api\Dealing\StoreService $storeService
-     * @return \Illuminate\Http\JsonResponse
+     * @param StoreRequest $request
+     * @param StoreService $storeService
+     * @return JsonResponse
      */
-    public function store(
-        \App\Http\Requests\Api\Dealing\StoreRequest $request,
-        \App\Services\Application\Api\Dealing\StoreService $storeService
-    ) {
+    public function store(StoreRequest $request, StoreService $storeService): JsonResponse
+    {
         try {
             $storeService->handle($request->makeInput());
 
@@ -97,9 +102,9 @@ final class DealingController extends Controller
     /**
      * NOTE: Role Dummy
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function detail()
+    public function detail(): JsonResponse
     {
         return response()->json(
             [],
@@ -108,14 +113,12 @@ final class DealingController extends Controller
     }
 
     /**
-     * @param \App\Models\DomainDealing $domainDealing
-     * @param \App\Services\Application\Api\Dealing\DeleteService $deleteService
-     * @return \Illuminate\Http\JsonResponse
+     * @param DomainDealing $domainDealing
+     * @param DeleteService $deleteService
+     * @return JsonResponse
      */
-    public function delete(
-        \App\Models\DomainDealing $domainDealing,
-        \App\Services\Application\Api\Dealing\DeleteService $deleteService
-    ) {
+    public function delete(DomainDealing $domainDealing, DeleteService $deleteService): JsonResponse
+    {
         try {
             $deleteService->handle($domainDealing);
 
@@ -137,14 +140,12 @@ final class DealingController extends Controller
     }
 
     /**
-     * @param \App\Models\DomainDealing $domainDealing
-     * @param \App\Services\Application\Api\Dealing\ResumeService $resumeService
-     * @return \Illuminate\Http\JsonResponse
+     * @param DomainDealing $domainDealing
+     * @param ResumeService $resumeService
+     * @return JsonResponse
      */
-    public function resume(
-        \App\Models\DomainDealing $domainDealing,
-        \App\Services\Application\Api\Dealing\ResumeService $resumeService
-    ) {
+    public function resume(DomainDealing $domainDealing, ResumeService $resumeService): JsonResponse
+    {
         try {
             $resumeService->handle($domainDealing);
 
