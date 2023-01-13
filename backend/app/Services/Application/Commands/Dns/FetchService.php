@@ -4,47 +4,37 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Commands\Dns;
 
-use Exception;
+use App\Queries\Dns\DnsRecordTypeQueryServiceInterface;
+use App\Services\Domain\Subdomain\Dns\ApplyRecordService;
+use Illuminate\Database\Eloquent\Collection;
 
 final class FetchService
 {
-    private $dnsRecodeTypeQueryService;
+    private DnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService;
 
-    private $applyRecordService;
+    private ApplyRecordService $applyRecordService;
 
     /**
-     * @param \App\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService
-     * @param \App\Services\Domain\Subdomain\Dns\ApplyRecordService $applyRecordService
+     * @param DnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService
+     * @param ApplyRecordService $applyRecordService
      */
     public function __construct(
-        \App\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService,
-        \App\Services\Domain\Subdomain\Dns\ApplyRecordService $applyRecordService
+        DnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService,
+        ApplyRecordService $applyRecordService
     ) {
         $this->dnsRecodeTypeQueryService = $dnsRecodeTypeQueryService;
         $this->applyRecordService = $applyRecordService;
     }
 
     /**
-     * @return array
-     */
-    private function getDnsRecodeTypeNames(): array
-    {
-        $dnsRecordTypes = $this->dnsRecodeTypeQueryService->getSortAll();
-
-        return $dnsRecordTypes->pluck('name', 'id')->toArray();
-    }
-
-    /**
-     * @param \Illuminate\Database\Eloquent\Collection $subdomains
+     * @param Collection $subdomains
      * @return void
      */
-    public function handle(
-        \Illuminate\Database\Eloquent\Collection $subdomains
-    ): void {
-        try {
-            $this->applyRecordService->execute($subdomains, $this->getDnsRecodeTypeNames());
-        } catch (Exception $e) {
-            throw $e;
-        }
+    public function handle(Collection $subdomains): void
+    {
+        $dnsRecordTypes = $this->dnsRecodeTypeQueryService->getSortAll();
+        $dnsRecordTypeNames = $dnsRecordTypes->pluck('name', 'id')->toArray();
+
+        $this->applyRecordService->execute($subdomains, $dnsRecordTypeNames);
     }
 }

@@ -6,7 +6,7 @@ namespace App\Queries\Dns;
 
 use App\Models\DnsRecordType;
 
-final class EloquentDnsRecordTypeQueryService implements EloquentDnsRecordTypeQueryServiceInterface
+final class EloquentDnsRecordTypeQueryService implements DnsRecordTypeQueryServiceInterface
 {
     /**
      * @return \Illuminate\Database\Eloquent\Collection

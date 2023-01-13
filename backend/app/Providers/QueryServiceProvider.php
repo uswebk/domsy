@@ -6,8 +6,8 @@ namespace App\Providers;
 
 use App\Queries\Client\ClientQueryServiceInterface;
 use App\Queries\Client\EloquentClientQueryService;
+use App\Queries\Dns\DnsRecordTypeQueryServiceInterface;
 use App\Queries\Dns\EloquentDnsRecordTypeQueryService;
-use App\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface;
 use App\Queries\Domain\Billing\EloquentBillingQueryService;
 use App\Queries\Domain\Billing\EloquentBillingQueryServiceInterface;
 use App\Queries\Domain\EloquentDomainQueryService;
@@ -47,7 +47,7 @@ final class QueryServiceProvider extends ServiceProvider
             return new EloquentDomainQueryService();
         });
 
-        $this->app->bind(EloquentDnsRecordTypeQueryServiceInterface::class, function () {
+        $this->app->bind(DnsRecordTypeQueryServiceInterface::class, function () {
             return new EloquentDnsRecordTypeQueryService();
         });
 

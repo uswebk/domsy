@@ -6,20 +6,26 @@ namespace App\Services\Application\Api\Dns;
 
 use App\Models\Subdomain;
 use App\Models\User;
-use Exception;
+use App\Queries\Dns\DnsRecordTypeQueryServiceInterface;
+use App\Services\Domain\Subdomain\Dns\ApplyRecordService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 final class ApplyService
 {
     private const CHUNK_SIZE = 1000;
 
+    private DnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService;
+
+    private ApplyRecordService $applyRecordService;
+
     /**
-     * @param \App\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService
-     * @param \App\Services\Domain\Subdomain\Dns\ApplyRecordService $applyRecordService
+     * @param DnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService
+     * @param ApplyRecordService $applyRecordService
      */
     public function __construct(
-        \App\Queries\Dns\EloquentDnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService,
-        \App\Services\Domain\Subdomain\Dns\ApplyRecordService $applyRecordService
+        DnsRecordTypeQueryServiceInterface $dnsRecodeTypeQueryService,
+        ApplyRecordService $applyRecordService
     ) {
         $this->dnsRecodeTypeQueryService = $dnsRecodeTypeQueryService;
         $this->applyRecordService = $applyRecordService;
@@ -48,13 +54,9 @@ final class ApplyService
             ->where('domains.is_fetching_dns', true)
             ->whereIn('domains.user_id', $user->getMemberIds())
             ->chunk(self::CHUNK_SIZE, function (
-                \Illuminate\Database\Eloquent\Collection $subdomains
+                Collection $subdomains
             ) {
-                try {
-                    $this->applyRecordService->execute($subdomains, $this->getDnsRecodeTypeNames());
-                } catch (Exception $e) {
-                    throw $e;
-                }
+                $this->applyRecordService->execute($subdomains, $this->getDnsRecodeTypeNames());
             });
     }
 
