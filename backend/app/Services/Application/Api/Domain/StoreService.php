@@ -5,37 +5,40 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Domain;
 
 use App\Http\Resources\DomainResource;
+use App\Models\Domain;
+use App\Repositories\Domain\DomainRepositoryInterface;
+use App\Repositories\Subdomain\SubdomainRepositoryInterface;
+use App\Services\Application\InputData\DomainStoreRequest;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 final class StoreService
 {
-    private $domainRepository;
+    private DomainRepositoryInterface $domainRepository;
 
-    private $subdomainRepository;
+    private SubdomainRepositoryInterface $subdomainRepository;
 
-    private $domain;
+    private Domain $domain;
 
     /**
-     * @param \App\Repositories\Domain\DomainRepositoryInterface $domainRepository
-     * @param \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     * @param DomainRepositoryInterface $domainRepository
+     * @param SubdomainRepositoryInterface $subdomainRepository
      */
     public function __construct(
-        \App\Repositories\Domain\DomainRepositoryInterface $domainRepository,
-        \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository,
+        DomainRepositoryInterface $domainRepository,
+        SubdomainRepositoryInterface $subdomainRepository,
     ) {
         $this->domainRepository = $domainRepository;
         $this->subdomainRepository = $subdomainRepository;
     }
 
     /**
-     * @param \App\Services\Application\InputData\DomainStoreRequest $domainStoreRequest
-     *
+     * @param DomainStoreRequest $domainStoreRequest
      * @return void
+     * @throws Exception
      */
-    public function handle(
-        \App\Services\Application\InputData\DomainStoreRequest $domainStoreRequest
-    ): void {
+    public function handle(DomainStoreRequest $domainStoreRequest): void
+    {
         $domainRequest = $domainStoreRequest->getInput();
 
         DB::beginTransaction();
@@ -68,9 +71,9 @@ final class StoreService
     }
 
     /**
-     * @return \App\Http\Resources\DomainResource
+     * @return DomainResource
      */
-    public function getResponse(): \App\Http\Resources\DomainResource
+    public function getResponse(): DomainResource
     {
         return new DomainResource($this->domain);
     }

@@ -9,14 +9,13 @@ use App\Models\User;
 
 final class ResendVerifyService
 {
-    private $emailVerificationService;
+    private EmailVerificationService $emailVerificationService;
 
     /**
      * @param EmailVerificationService $emailVerificationService
      */
-    public function __construct(
-        EmailVerificationService $emailVerificationService
-    ) {
+    public function __construct(EmailVerificationService $emailVerificationService)
+    {
         $this->emailVerificationService = $emailVerificationService;
     }
 

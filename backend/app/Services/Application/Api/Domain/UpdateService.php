@@ -5,35 +5,34 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Domain;
 
 use App\Http\Resources\DomainResource;
-
+use App\Models\Domain;
+use App\Services\Application\InputData\DomainUpdateRequest;
+use App\Services\Domain\Domain\RenewService;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 final class UpdateService
 {
-    private $renewService;
+    private RenewService $renewService;
 
-    private $domain;
+    private Domain $domain;
 
     /**
-     * @param \App\Services\Domain\Domain\RenewService $renewService
+     * @param RenewService $renewService
      */
-    public function __construct(
-        \App\Services\Domain\Domain\RenewService $renewService,
-    ) {
+    public function __construct(RenewService $renewService)
+    {
         $this->renewService = $renewService;
     }
 
     /**
-     * @param \App\Services\Application\InputData\DomainUpdateRequest $domainUpdateRequest
-     * @param \App\Models\Domain $domain
-     *
+     * @param DomainUpdateRequest $domainUpdateRequest
+     * @param Domain $domain
      * @return void
+     * @throws Exception
      */
-    public function handle(
-        \App\Services\Application\InputData\DomainUpdateRequest $domainUpdateRequest,
-        \App\Models\Domain $domain
-    ): void {
+    public function handle(DomainUpdateRequest $domainUpdateRequest, Domain $domain): void
+    {
         $domainRequest = $domainUpdateRequest->getInput();
 
         DB::beginTransaction();
@@ -62,9 +61,9 @@ final class UpdateService
     }
 
     /**
-     * @return \App\Http\Resources\DomainResource
+     * @return DomainResource
      */
-    public function getResponse(): \App\Http\Resources\DomainResource
+    public function getResponse(): DomainResource
     {
         return new DomainResource($this->domain);
     }

@@ -4,26 +4,27 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Api\Setting;
 
+use App\Repositories\User\UserMailSettingRepositoryInterface;
+use App\Services\Application\InputData\SettingMailSaveRequest;
+
 final class MailSaveService
 {
-    private $userMailSettingRepository;
+    private UserMailSettingRepositoryInterface $userMailSettingRepository;
 
     /**
-     * @param \App\Repositories\User\UserMailSettingRepositoryInterface $userMailSettingRepository
+     * @param UserMailSettingRepositoryInterface $userMailSettingRepository
      */
-    public function __construct(
-        \App\Repositories\User\UserMailSettingRepositoryInterface $userMailSettingRepository
-    ) {
+    public function __construct(UserMailSettingRepositoryInterface $userMailSettingRepository)
+    {
         $this->userMailSettingRepository = $userMailSettingRepository;
     }
 
     /**
-     * @param \App\Services\Application\InputData\SettingMailSaveRequest $settingMailSaveRequest
+     * @param SettingMailSaveRequest $settingMailSaveRequest
      * @return void
      */
-    public function handle(
-        \App\Services\Application\InputData\SettingMailSaveRequest $settingMailSaveRequest
-    ): void {
+    public function handle(SettingMailSaveRequest $settingMailSaveRequest): void
+    {
         $userMailSettings = $settingMailSaveRequest->getInput();
 
         foreach ($userMailSettings as $userMailSetting) {

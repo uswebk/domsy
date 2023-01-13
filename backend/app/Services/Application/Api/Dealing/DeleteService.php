@@ -5,38 +5,32 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Dealing;
 
 use App\Exceptions\Api\ExistsFixedBillingException;
-use Exception;
+use App\Repositories\Domain\Dealing\DealingRepositoryInterface;
 
 final class DeleteService
 {
-    private $dealingRepository;
+    private DealingRepositoryInterface $dealingRepository;
 
     /**
-     * @param \App\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
+     * @param DealingRepositoryInterface $dealingRepository
      */
-    public function __construct(
-        \App\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
-    ) {
+    public function __construct(DealingRepositoryInterface $dealingRepository)
+    {
         $this->dealingRepository = $dealingRepository;
     }
 
     /**
      * @param \App\Models\DomainDealing $domainDealing
      * @return void
-     *
      * @throws ExistsFixedBillingException
      */
     public function handle(
         \App\Models\DomainDealing $domainDealing
     ): void {
-        try {
-            if ($domainDealing->hasFixedBilling()) {
-                throw new ExistsFixedBillingException();
-            }
-            $this->dealingRepository->delete($domainDealing);
-        } catch (Exception $e) {
-            throw $e;
+        if ($domainDealing->hasFixedBilling()) {
+            throw new ExistsFixedBillingException();
         }
+        $this->dealingRepository->delete($domainDealing);
     }
 
     /**

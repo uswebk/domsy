@@ -5,25 +5,28 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Role;
 
 use App\Http\Resources\RoleResource;
+use App\Models\Role;
+use App\Repositories\Role\RoleItemRepositoryInterface;
+use App\Repositories\Role\RoleRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 final class StoreService
 {
-    private $roleRepository;
+    private RoleRepositoryInterface $roleRepository;
 
-    private $roleItemRepository;
+    private RoleItemRepositoryInterface $roleItemRepository;
 
-    private $role;
+    private Role $role;
 
     /**
-     * @param \App\Repositories\Role\RoleRepositoryInterface $roleRepository
-     * @param \App\Repositories\Role\RoleItemRepositoryInterface $roleItemRepository
+     * @param RoleRepositoryInterface $roleRepository
+     * @param RoleItemRepositoryInterface $roleItemRepository
      */
     public function __construct(
-        \App\Repositories\Role\RoleRepositoryInterface $roleRepository,
-        \App\Repositories\Role\RoleItemRepositoryInterface $roleItemRepository
+        RoleRepositoryInterface $roleRepository,
+        RoleItemRepositoryInterface $roleItemRepository
     ) {
         $this->roleRepository = $roleRepository;
         $this->roleItemRepository = $roleItemRepository;
@@ -32,6 +35,7 @@ final class StoreService
     /**
      * @param array $attribute
      * @return void
+     * @throws Exception
      */
     public function handle(array $attribute): void
     {
@@ -61,9 +65,9 @@ final class StoreService
     }
 
     /**
-     * @return \App\Http\Resources\RoleResource
+     * @return RoleResource
      */
-    public function getResponse(): \App\Http\Resources\RoleResource
+    public function getResponse(): RoleResource
     {
         return new RoleResource($this->role);
     }

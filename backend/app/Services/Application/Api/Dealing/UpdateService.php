@@ -5,48 +5,42 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Dealing;
 
 use App\Http\Resources\DomainDealingResource;
-use Exception;
+use App\Models\DomainDealing;
+use App\Repositories\Domain\Dealing\DealingRepositoryInterface;
+use App\Services\Application\InputData\DealingUpdateRequest;
 
 final class UpdateService
 {
-    private $dealingRepository;
+    private DealingRepositoryInterface $dealingRepository;
 
-    private $dealing;
+    private DomainDealing $dealing;
 
     /**
-     * @param \App\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
+     * @param DealingRepositoryInterface $dealingRepository
      */
-    public function __construct(
-        \App\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
-    ) {
+    public function __construct(DealingRepositoryInterface $dealingRepository)
+    {
         $this->dealingRepository = $dealingRepository;
     }
 
     /**
-     * @param \App\Services\Application\InputData\DealingUpdateRequest $dealingUpdateRequest
-     * @param \App\Models\DomainDealing $domainDealing
-     *
+     * @param DealingUpdateRequest $dealingUpdateRequest
+     * @param DomainDealing $domainDealing
      * @return void
      */
-    public function handle(
-        \App\Services\Application\InputData\DealingUpdateRequest $dealingUpdateRequest,
-        \App\Models\DomainDealing $domainDealing
-    ): void {
+    public function handle(DealingUpdateRequest $dealingUpdateRequest, DomainDealing $domainDealing): void
+    {
         $domainDealingRequest = $dealingUpdateRequest->getInput();
 
-        try {
-            $domainDealing->fill($domainDealingRequest->toArray());
+        $domainDealing->fill($domainDealingRequest->toArray());
 
-            $this->dealing = $this->dealingRepository->save($domainDealing);
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $this->dealing = $this->dealingRepository->save($domainDealing);
     }
 
     /**
-     * @return \App\Http\Resources\DomainDealingResource
+     * @return DomainDealingResource
      */
-    public function getResponse(): \App\Http\Resources\DomainDealingResource
+    public function getResponse(): DomainDealingResource
     {
         return new DomainDealingResource($this->dealing);
     }

@@ -5,27 +5,29 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Billing;
 
 use App\Http\Resources\BillingResource;
+use App\Models\DomainBilling;
+use App\Repositories\Domain\Billing\BillingRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 final class StoreService
 {
-    private $billingRepository;
+    private BillingRepositoryInterface $billingRepository;
 
-    private $billing;
+    private DomainBilling $billing;
 
     /**
-     * @param \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+     * @param BillingRepositoryInterface $billingRepository
      */
-    public function __construct(
-        \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
-    ) {
+    public function __construct(BillingRepositoryInterface $billingRepository)
+    {
         $this->billingRepository = $billingRepository;
     }
 
     /**
      * @param array $attribute
      * @return void
+     * @throws Exception
      */
     public function handle(array $attribute): void
     {
@@ -42,9 +44,9 @@ final class StoreService
     }
 
     /**
-     * @return \App\Http\Resources\BillingResource
+     * @return BillingResource
      */
-    public function getResponse(): \App\Http\Resources\BillingResource
+    public function getResponse(): BillingResource
     {
         return new BillingResource($this->billing);
     }

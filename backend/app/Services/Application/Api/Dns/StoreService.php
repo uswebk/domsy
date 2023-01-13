@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Dns;
 
 use App\Http\Resources\SubdomainResource;
-use Exception;
+use App\Repositories\Subdomain\SubdomainRepositoryInterface;
+use App\Services\Application\InputData\DnsStoreRequest;
 
 final class StoreService
 {
@@ -14,42 +15,35 @@ final class StoreService
     private $subdomain;
 
     /**
-     * @param \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
+     * @param SubdomainRepositoryInterface $subdomainRepository
      */
-    public function __construct(
-        \App\Repositories\Subdomain\SubdomainRepositoryInterface $subdomainRepository
-    ) {
+    public function __construct(SubdomainRepositoryInterface $subdomainRepository)
+    {
         $this->subdomainRepository = $subdomainRepository;
     }
 
     /**
-     * @param \App\Services\Application\InputData\DnsStoreRequest $dnsStoreRequest
-     *
+     * @param DnsStoreRequest $dnsStoreRequest
      * @return void
      */
-    public function handle(
-        \App\Services\Application\InputData\DnsStoreRequest $dnsStoreRequest
-    ): void {
+    public function handle(DnsStoreRequest $dnsStoreRequest): void
+    {
         $subdomainRequest = $dnsStoreRequest->getInput();
 
-        try {
-            $this->subdomain = $this->subdomainRepository->store([
-                'prefix' => $subdomainRequest->prefix,
-                'domain_id' => $subdomainRequest->domain_id,
-                'type_id' => $subdomainRequest->type_id,
-                'value' => $subdomainRequest->value,
-                'ttl' => $subdomainRequest->ttl,
-                'priority' => $subdomainRequest->priority,
-            ]);
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $this->subdomain = $this->subdomainRepository->store([
+            'prefix' => $subdomainRequest->prefix,
+            'domain_id' => $subdomainRequest->domain_id,
+            'type_id' => $subdomainRequest->type_id,
+            'value' => $subdomainRequest->value,
+            'ttl' => $subdomainRequest->ttl,
+            'priority' => $subdomainRequest->priority,
+        ]);
     }
 
     /**
-     * @return \App\Http\Resources\SubdomainResource
+     * @return SubdomainResource
      */
-    public function getResponse(): \App\Http\Resources\SubdomainResource
+    public function getResponse(): SubdomainResource
     {
         return new SubdomainResource($this->subdomain);
     }

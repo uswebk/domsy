@@ -4,29 +4,30 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Api\Account;
 
+use App\Repositories\User\UserRepositoryInterface;
 use Exception;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 final class WithdrawService
 {
-    private $userRepository;
+    private UserRepositoryInterface $userRepository;
 
-    private $user;
+    private ?Authenticatable $user;
 
     /**
-     * @param \App\Repositories\User\UserRepositoryInterface $userRepository
+     * @param UserRepositoryInterface $userRepository
      */
-    public function __construct(
-        \App\Repositories\User\UserRepositoryInterface $userRepository,
-    ) {
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
         $this->userRepository = $userRepository;
         $this->user = Auth::user();
     }
 
     /**
-     * @param \App\Services\Application\InputData\AccountStoreRequest $storeRequest
      * @return void
+     * @throws Exception
      */
     public function handle(): void
     {

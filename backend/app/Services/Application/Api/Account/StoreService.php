@@ -5,29 +5,34 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Account;
 
 use App\Http\Resources\UserResource;
+use App\Mails\Services\EmailVerificationService;
+use App\Repositories\User\UserLatestCodeRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
+use App\Services\Application\InputData\AccountStoreRequest;
 use Exception;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 final class StoreService
 {
-    private $userRepository;
+    private UserRepositoryInterface $userRepository;
 
-    private $userLatestCodeRepository;
+    private UserLatestCodeRepositoryInterface $userLatestCodeRepository;
 
-    private $emailVerificationService;
+    private EmailVerificationService $emailVerificationService;
 
-    private $user;
+    private ?Authenticatable $user;
 
     /**
-     * @param \App\Repositories\User\UserRepositoryInterface $userRepository
-     * @param \App\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository
-     * @param \App\Mails\Services\EmailVerificationService $emailVerificationService
+     * @param UserRepositoryInterface $userRepository
+     * @param UserLatestCodeRepositoryInterface $userLatestCodeRepository
+     * @param EmailVerificationService $emailVerificationService
      */
     public function __construct(
-        \App\Repositories\User\UserRepositoryInterface $userRepository,
-        \App\Repositories\User\UserLatestCodeRepositoryInterface $userLatestCodeRepository,
-        \App\Mails\Services\EmailVerificationService $emailVerificationService
+        UserRepositoryInterface $userRepository,
+        UserLatestCodeRepositoryInterface $userLatestCodeRepository,
+        EmailVerificationService $emailVerificationService
     ) {
         $this->userRepository = $userRepository;
         $this->userLatestCodeRepository = $userLatestCodeRepository;
@@ -37,12 +42,12 @@ final class StoreService
     }
 
     /**
-     * @param \App\Services\Application\InputData\AccountStoreRequest $storeRequest
+     * @param AccountStoreRequest $storeRequest
      * @return void
+     * @throws Exception
      */
-    public function handle(
-        \App\Services\Application\InputData\AccountStoreRequest $storeRequest
-    ): void {
+    public function handle(AccountStoreRequest $storeRequest): void
+    {
         $userRequest = $storeRequest->getInput();
 
         DB::beginTransaction();
@@ -70,9 +75,9 @@ final class StoreService
     }
 
     /**
-     * @return \App\Http\Resources\UserResource
+     * @return UserResource
      */
-    public function getResponse(): \App\Http\Resources\UserResource
+    public function getResponse(): UserResource
     {
         return new UserResource($this->user);
     }

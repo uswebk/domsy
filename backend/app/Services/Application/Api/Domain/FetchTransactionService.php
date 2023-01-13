@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Api\Domain;
 
+use App\Http\Requests\Request;
 use App\Models\User;
+use App\Queries\Domain\DomainQueryServiceInterface;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchTransactionService
@@ -14,13 +16,11 @@ final class FetchTransactionService
     const DEFAULT_MONTHS = 6;
 
     /**
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Queries\Domain\DomainQueryServiceInterface $domainQueryService
+     * @param Request $request
+     * @param DomainQueryServiceInterface $domainQueryService
      */
-    public function __construct(
-        \Illuminate\Http\Request $request,
-        \App\Queries\Domain\DomainQueryServiceInterface $domainQueryService
-    ) {
+    public function __construct(Request $request, DomainQueryServiceInterface $domainQueryService)
+    {
         $backMonths = $request->months ?? self::DEFAULT_MONTHS;
         $startMonth = now()->subMonths($backMonths)->startOfMonth();
         $endMonth = now()->copy()->endOfMonth();

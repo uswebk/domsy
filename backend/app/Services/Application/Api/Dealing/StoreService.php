@@ -5,27 +5,31 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Dealing;
 
 use App\Http\Resources\DomainDealingResource;
+use App\Models\DomainDealing;
+use App\Repositories\Domain\Billing\BillingRepositoryInterface;
+use App\Repositories\Domain\Dealing\DealingRepositoryInterface;
+use App\Services\Application\InputData\DealingStoreRequest;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 final class StoreService
 {
-    private $dealingRepository;
+    private DealingRepositoryInterface $dealingRepository;
 
-    private $billingRepository;
+    private BillingRepositoryInterface $billingRepository;
 
     private $userId;
 
-    private $dealing;
+    private DomainDealing $dealing;
 
     /**
-     * @param \App\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository
-     * @param \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+     * @param DealingRepositoryInterface $dealingRepository
+     * @param BillingRepositoryInterface $billingRepository
      */
     public function __construct(
-        \App\Repositories\Domain\Dealing\DealingRepositoryInterface $dealingRepository,
-        \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+        DealingRepositoryInterface $dealingRepository,
+        BillingRepositoryInterface $billingRepository
     ) {
         $this->dealingRepository = $dealingRepository;
         $this->billingRepository = $billingRepository;
@@ -34,12 +38,12 @@ final class StoreService
     }
 
     /**
-     * @param \App\Services\Application\InputData\DealingStoreRequest $domainDealingRequest
-     *
+     * @param DealingStoreRequest $domainDealingRequest
      * @return void
+     * @throws Exception
      */
     public function handle(
-        \App\Services\Application\InputData\DealingStoreRequest $domainDealingRequest
+        DealingStoreRequest $domainDealingRequest
     ): void {
         $dealingInput = $domainDealingRequest->getInput();
 
@@ -75,9 +79,9 @@ final class StoreService
     }
 
     /**
-     * @return \App\Http\Resources\DomainDealingResource
+     * @return DomainDealingResource
      */
-    public function getResponse(): \App\Http\Resources\DomainDealingResource
+    public function getResponse(): DomainDealingResource
     {
         return new DomainDealingResource($this->dealing);
     }

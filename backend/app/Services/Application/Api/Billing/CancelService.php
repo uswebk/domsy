@@ -5,29 +5,31 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Billing;
 
 use App\Http\Resources\BillingResource;
+use App\Models\DomainBilling;
+use App\Repositories\Domain\Billing\BillingRepositoryInterface;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
 final class CancelService
 {
-    private $billingRepository;
+    private BillingRepositoryInterface $billingRepository;
 
-    private $billing;
+    private DomainBilling $billing;
 
     /**
-     * @param \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
+     * @param BillingRepositoryInterface $billingRepository
      */
-    public function __construct(
-        \App\Repositories\Domain\Billing\BillingRepositoryInterface $billingRepository
-    ) {
+    public function __construct(BillingRepositoryInterface $billingRepository)
+    {
         $this->billingRepository = $billingRepository;
     }
 
     /**
-     * @param \App\Models\DomainBilling $domainBilling
+     * @param DomainBilling $domainBilling
      * @return void
+     * @throws Exception
      */
-    public function handle(\App\Models\DomainBilling $domainBilling): void
+    public function handle(DomainBilling $domainBilling): void
     {
         DB::beginTransaction();
         try {
@@ -45,9 +47,9 @@ final class CancelService
     }
 
     /**
-     * @return \App\Http\Resources\BillingResource
+     * @return BillingResource
      */
-    public function getResponse(): \App\Http\Resources\BillingResource
+    public function getResponse(): BillingResource
     {
         return new BillingResource($this->billing);
     }

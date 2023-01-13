@@ -18,9 +18,8 @@ final class FetchService
     /**
      * @param RoleQueryServiceInterface $roleQueryService
      */
-    public function __construct(
-        RoleQueryServiceInterface $roleQueryService
-    ) {
+    public function __construct(RoleQueryServiceInterface $roleQueryService)
+    {
         $user = Auth::user();
 
         $adminRole = $roleQueryService->findById(RoleConstant::DEFAULT_ROLE_ID);

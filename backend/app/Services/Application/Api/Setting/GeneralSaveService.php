@@ -4,25 +4,27 @@ declare(strict_types=1);
 
 namespace App\Services\Application\Api\Setting;
 
-final class SettingGeneralSaveService
+use App\Repositories\User\UserGeneralSettingRepositoryInterface;
+use App\Services\Application\InputData\SettingGeneralSaveRequest;
+
+final class GeneralSaveService
 {
-    private $userGeneralSettingRepository;
+    private UserGeneralSettingRepositoryInterface $userGeneralSettingRepository;
 
     /**
-     * @param \App\Repositories\User\UserGeneralSettingRepositoryInterface $userGeneralSettingRepository
+     * @param UserGeneralSettingRepositoryInterface $userGeneralSettingRepository
      */
-    public function __construct(
-        \App\Repositories\User\UserGeneralSettingRepositoryInterface $userGeneralSettingRepository
-    ) {
+    public function __construct(UserGeneralSettingRepositoryInterface $userGeneralSettingRepository)
+    {
         $this->userGeneralSettingRepository = $userGeneralSettingRepository;
     }
 
     /**
-     * @param \App\Services\Application\InputData\SettingGeneralSaveRequest $settingGeneralSaveRequest
+     * @param SettingGeneralSaveRequest $settingGeneralSaveRequest
      * @return void
      */
     public function handle(
-        \App\Services\Application\InputData\SettingGeneralSaveRequest $settingGeneralSaveRequest
+        SettingGeneralSaveRequest $settingGeneralSaveRequest
     ): void {
         $userGeneralSettings = $settingGeneralSaveRequest->getInput();
 

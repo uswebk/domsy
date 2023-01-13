@@ -5,24 +5,26 @@ declare(strict_types=1);
 namespace App\Services\Application\Api\Role;
 
 use App\Http\Resources\RoleResource;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Role;
+use App\Repositories\Role\RoleItemRepositoryInterface;
+use App\Repositories\Role\RoleRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
 final class UpdateService
 {
-    private $roleRepository;
+    private RoleRepositoryInterface $roleRepository;
 
-    private $roleItemRepository;
+    private RoleItemRepositoryInterface $roleItemRepository;
 
-    private $role;
+    private Role $role;
 
     /**
-     * @param \App\Repositories\Role\RoleRepositoryInterface $roleRepository
-     * @param \App\Repositories\Role\RoleItemRepositoryInterface $roleItemRepository
+     * @param RoleRepositoryInterface $roleRepository
+     * @param RoleItemRepositoryInterface $roleItemRepository
      */
     public function __construct(
-        \App\Repositories\Role\RoleRepositoryInterface $roleRepository,
-        \App\Repositories\Role\RoleItemRepositoryInterface $roleItemRepository
+        RoleRepositoryInterface $roleRepository,
+        RoleItemRepositoryInterface $roleItemRepository
     ) {
         $this->roleRepository = $roleRepository;
         $this->roleItemRepository = $roleItemRepository;
@@ -30,15 +32,11 @@ final class UpdateService
 
     /**
      * @param array $attribute
-     * @param \App\Models\Role $role
+     * @param Role $role
      * @return void
      */
-    public function handle(
-        array $attribute,
-        \App\Models\Role $role
-    ): void {
-        $user = Auth::user();
-
+    public function handle(array $attribute, Role $role): void
+    {
         DB::beginTransaction();
         try {
             $role->fill([
@@ -65,9 +63,9 @@ final class UpdateService
     }
 
     /**
-     * @return \App\Http\Resources\RoleResource
+     * @return RoleResource
      */
-    public function getResponse(): \App\Http\Resources\RoleResource
+    public function getResponse(): RoleResource
     {
         return new RoleResource($this->role);
     }
