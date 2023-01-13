@@ -4,33 +4,31 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\Api\Client\StoreRequest;
+use App\Http\Requests\Api\Client\UpdateRequest;
 use App\Http\Resources\ClientResource;
-use Illuminate\Http\Response;
+use App\Models\Client;
+use App\Repositories\Client\ClientRepositoryInterface;
+use App\Services\Application\Api\Client\FetchService;
+use Exception;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 final class ClientController extends Controller
 {
-    protected $clientRepository;
-
-    /**
-     * @param \App\Repositories\Client\ClientRepositoryInterface $clientRepository
-     */
-    public function __construct(
-        \App\Repositories\Client\ClientRepositoryInterface $clientRepository
-    ) {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->middleware('can:owner,client')->except(['fetch', 'store']);
-
-        $this->clientRepository = $clientRepository;
     }
 
     /**
-     * @param \App\Services\Application\Api\Client\FetchService $fetchService
-     * @return \Illuminate\Http\JsonResponse
+     * @param FetchService $fetchService
+     * @return JsonResponse
      */
-    public function fetch(
-        \App\Services\Application\Api\Client\FetchService $fetchService
-    ) {
+    public function fetch(FetchService $fetchService): JsonResponse
+    {
         return response()->json(
             $fetchService->getResponse(),
             Response::HTTP_OK
@@ -38,14 +36,14 @@ final class ClientController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Client\StoreRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param StoreRequest $request
+     * @param ClientRepositoryInterface $clientRepository
+     * @return JsonResponse
      */
-    public function store(
-        \App\Http\Requests\Api\Client\StoreRequest $request
-    ) {
+    public function store(StoreRequest $request, ClientRepositoryInterface $clientRepository): JsonResponse
+    {
         try {
-            $client = $this->clientRepository->store($request->makeInput());
+            $client = $clientRepository->store($request->makeInput());
 
             return response()->json(
                 new ClientResource($client),
@@ -60,17 +58,16 @@ final class ClientController extends Controller
     }
 
     /**
-     * @param \App\Http\Requests\Api\Client\UpdateRequest $request
-     * @param \App\Models\Client $client
-     * @return \Illuminate\Http\JsonResponse
+     * @param UpdateRequest $request
+     * @param Client $client
+     * @param ClientRepositoryInterface $clientRepository
+     * @return JsonResponse
      */
-    public function update(
-        \App\Http\Requests\Api\Client\UpdateRequest $request,
-        \App\Models\Client $client
-    ) {
+    public function update(UpdateRequest $request, Client $client, ClientRepositoryInterface $clientRepository): JsonResponse
+    {
         try {
             $client->fill($request->makeInput());
-            $client = $this->clientRepository->save($client);
+            $client = $clientRepository->save($client);
 
             return response()->json(
                 new ClientResource($client),
@@ -85,14 +82,14 @@ final class ClientController extends Controller
     }
 
     /**
-     * @param \App\Models\Client $client
-     * @return \Illuminate\Http\JsonResponse
+     * @param Client $client
+     * @param ClientRepositoryInterface $clientRepository
+     * @return JsonResponse
      */
-    public function delete(
-        \App\Models\Client $client
-    ) {
+    public function delete(Client $client, ClientRepositoryInterface $clientRepository): JsonResponse
+    {
         try {
-            $this->clientRepository->delete($client);
+            $clientRepository->delete($client);
 
             return response()->json(
                 [],

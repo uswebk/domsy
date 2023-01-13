@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Repositories\Client\ClientRepository;
 use App\Repositories\Client\ClientRepositoryInterface;
+use App\Repositories\Client\EloquentClientRepository;
 use App\Repositories\Company\CompanyRepository;
 use App\Repositories\Company\CompanyRepositoryInterface;
 use App\Repositories\Domain\Billing\BillingRepository;
@@ -32,7 +32,6 @@ use App\Repositories\User\UserMailSettingRepository;
 use App\Repositories\User\UserMailSettingRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
-
 use Illuminate\Support\ServiceProvider;
 
 final class RepositoryProvider extends ServiceProvider
@@ -45,7 +44,7 @@ final class RepositoryProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(ClientRepositoryInterface::class, function () {
-            return new ClientRepository();
+            return new EloquentClientRepository();
         });
 
         $this->app->bind(CompanyRepositoryInterface::class, function () {

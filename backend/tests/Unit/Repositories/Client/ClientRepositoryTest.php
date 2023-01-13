@@ -6,7 +6,7 @@ namespace Tests\Unit\Repository\Client;
 
 use App\Models\Client;
 use App\Models\User;
-use App\Repositories\Client\ClientRepository;
+use App\Repositories\Client\EloquentClientRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -34,7 +34,7 @@ final class ClientRepositoryTest extends TestCase
             'name' => 'test',
         ]);
 
-        $clientRepository = new ClientRepository();
+        $clientRepository = new EloquentClientRepository();
         $client = $clientRepository->store($data);
 
         $this->assertInstanceOf(Client::class, $client);
@@ -49,7 +49,7 @@ final class ClientRepositoryTest extends TestCase
         $client = Client::factory()->create();
         $client->name = 'test';
 
-        $clientRepository = new ClientRepository();
+        $clientRepository = new EloquentClientRepository();
         $clientResult = $clientRepository->save($client);
 
         $this->assertSame($clientResult->name, 'test');
@@ -67,7 +67,7 @@ final class ClientRepositoryTest extends TestCase
             'id' => $id,
         ]);
 
-        $clientRepository = new ClientRepository();
+        $clientRepository = new EloquentClientRepository();
         $clientRepository->delete($client);
 
         $this->assertDatabaseMissing('clients', [
