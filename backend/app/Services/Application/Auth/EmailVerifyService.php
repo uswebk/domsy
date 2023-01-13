@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 final class EmailVerifyService
 {
@@ -69,7 +70,7 @@ final class EmailVerifyService
 
             DB::commit();
         } catch (AlreadyVerifiedException $e) {
-            \Log::info($e->getMessage());
+            Log::info($e->getMessage());
             throw $e;
         } catch (Exception $e) {
             DB::rollBack();
