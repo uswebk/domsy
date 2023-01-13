@@ -6,21 +6,21 @@ namespace App\Repositories\User;
 
 use App\Models\UserMailSetting;
 
-final class UserMailSettingRepository implements UserMailSettingRepositoryInterface
+final class EloquentUserMailSettingRepository implements UserMailSettingRepositoryInterface
 {
     /**
      * @param integer $userId
      * @param integer $mailCategoryId
      * @param boolean $isReceived
      * @param integer $noticeNumberDays
-     * @return \App\Models\UserMailSetting
+     * @return UserMailSetting
      */
     public function updateOfUserIdAndMailCategoryIdEqual(
         int $userId,
         int $mailCategoryId,
         bool $isReceived,
         int $noticeNumberDays
-    ): \App\Models\UserMailSetting {
+    ): UserMailSetting {
         $userMailSetting = UserMailSetting::firstOrNew([
             'user_id' => $userId,
             'mail_category_id' => $mailCategoryId,
