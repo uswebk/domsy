@@ -7,7 +7,7 @@ namespace Tests\Unit\Service\Domain\Domain;
 use App\Models\Domain;
 use App\Models\Subdomain;
 use App\Repositories\Domain\EloquentDomainRepository;
-use App\Repositories\Subdomain\SubdomainRepository;
+use App\Repositories\Subdomain\EloquentSubdomainRepository;
 use App\Services\Domain\Domain\RenewService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -29,7 +29,7 @@ final class RenewServiceTest extends TestCase
 
         $domain->name = 'test2.com';
 
-        $renewService = new RenewService(new EloquentDomainRepository(), new SubdomainRepository());
+        $renewService = new RenewService(new EloquentDomainRepository(), new EloquentSubdomainRepository());
         $renewService->execute($domain);
 
         $this->assertDatabaseCount('subdomains', 1);
@@ -49,7 +49,7 @@ final class RenewServiceTest extends TestCase
             'domain_id' => $domain->id,
         ])->count(10)->create();
 
-        $renewService = new RenewService(new EloquentDomainRepository(), new SubdomainRepository());
+        $renewService = new RenewService(new EloquentDomainRepository(), new EloquentSubdomainRepository());
         $renewService->execute($domain);
 
         $this->assertDatabaseCount('subdomains', 10);

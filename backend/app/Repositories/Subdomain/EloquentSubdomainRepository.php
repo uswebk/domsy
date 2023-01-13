@@ -6,15 +6,14 @@ namespace App\Repositories\Subdomain;
 
 use App\Models\Subdomain;
 
-final class SubdomainRepository implements SubdomainRepositoryInterface
+final class EloquentSubdomainRepository implements SubdomainRepositoryInterface
 {
     /**
-     * @param \App\Models\Subdomain $subdomain
-     * @return \App\Models\Subdomain
+     * @param Subdomain $subdomain
+     * @return Subdomain
      */
-    public function save(
-        \App\Models\Subdomain $subdomain
-    ): \App\Models\Subdomain {
+    public function save(Subdomain $subdomain): Subdomain
+    {
         $subdomain->save();
 
         return $subdomain;
@@ -22,9 +21,9 @@ final class SubdomainRepository implements SubdomainRepositoryInterface
 
     /**
      * @param array $attributes
-     * @return \App\Models\Subdomain
+     * @return Subdomain
      */
-    public function store(array $attributes): \App\Models\Subdomain
+    public function store(array $attributes): Subdomain
     {
         $domain = Subdomain::create($attributes);
 
@@ -32,10 +31,10 @@ final class SubdomainRepository implements SubdomainRepositoryInterface
     }
 
     /**
-     * @param \App\Models\Subdomain $subdomain
+     * @param Subdomain $subdomain
      * @return void
      */
-    public function delete(\App\Models\Subdomain $subdomain): void
+    public function delete(Subdomain $subdomain): void
     {
         $subdomain->delete();
     }
@@ -47,7 +46,7 @@ final class SubdomainRepository implements SubdomainRepositoryInterface
      * @param string $value
      * @param integer $ttl
      * @param integer $priority
-     * @return \App\Models\Subdomain
+     * @return Subdomain
      */
     public function updateOfTtlPriority(
         int $domainId,
@@ -56,7 +55,7 @@ final class SubdomainRepository implements SubdomainRepositoryInterface
         string $value,
         int $ttl,
         int $priority
-    ): \App\Models\Subdomain {
+    ): Subdomain {
         $subdomain = Subdomain::firstOrNew([
             'domain_id' => $domainId,
             'type_id' => $typeId,

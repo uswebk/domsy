@@ -7,7 +7,7 @@ namespace Tests\Unit\Services\Domain\Subdomain\Dns;
 use App\Models\DnsRecordType;
 use App\Models\Domain;
 use App\Models\Subdomain;
-use App\Repositories\Subdomain\SubdomainRepository;
+use App\Repositories\Subdomain\EloquentSubdomainRepository;
 use App\Services\Domain\Subdomain\Dns\ApplyRecordService;
 use App\Services\Domain\Subdomain\Dns\RecordService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -50,7 +50,7 @@ final class ApplyRecordServiceTest extends TestCase
             'prefix' => '',
         ])->count(10)->create();
 
-        $apply_record_service = new ApplyRecordService(new SubdomainRepository(), $this->mock);
+        $apply_record_service = new ApplyRecordService(new EloquentSubdomainRepository(), $this->mock);
         $apply_record_service->execute($subdomains, $this->dnsRecordTypes);
 
         $this->assertDatabaseHas('subdomains', [
@@ -78,7 +78,7 @@ final class ApplyRecordServiceTest extends TestCase
             'prefix' => '',
         ])->count(10)->create();
 
-        $apply_record_service = new ApplyRecordService(new SubdomainRepository(), $this->mock);
+        $apply_record_service = new ApplyRecordService(new EloquentSubdomainRepository(), $this->mock);
         $apply_record_service->execute($subdomains, $this->dnsRecordTypes);
 
         $this->assertDatabaseMissing('subdomains', [
