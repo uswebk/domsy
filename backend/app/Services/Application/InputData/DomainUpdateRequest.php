@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
+use App\Http\Requests\Api\Domain\UpdateRequest;
 use App\Models\Domain;
 use Illuminate\Support\Facades\Auth;
 
 final class DomainUpdateRequest
 {
-    private $domain;
+    private Domain $domain;
 
     /**
-     * @param \App\Http\Requests\Api\Domain\UpdateRequest $updateRequest
+     * @param UpdateRequest $updateRequest
      */
-    public function __construct(
-        \App\Http\Requests\Api\Domain\UpdateRequest $updateRequest
-    ) {
+    public function __construct(UpdateRequest $updateRequest)
+    {
         $validated = array_merge($updateRequest->validated(), [
             'user_id' => Auth::id(),
         ]);
@@ -25,9 +25,9 @@ final class DomainUpdateRequest
     }
 
     /**
-     * @return \App\Models\Domain
+     * @return Domain
      */
-    public function getInput(): \App\Models\Domain
+    public function getInput(): Domain
     {
         return $this->domain;
     }

@@ -4,23 +4,22 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData\Auth;
 
+use App\Http\Requests\Auth\CorporationRegisterRequest as AuthCorporationRegisterRequest;
 use App\Models\Company;
 use App\Models\User;
-
 use Illuminate\Support\Facades\Hash;
 
 final class CorporationRegisterRequest
 {
-    private $company;
+    private Company $company;
 
-    private $user;
+    private User $user;
 
     /**
-     * @param \App\Http\Requests\Auth\Corporation\RegisterRequest $registerRequest
+     * @param AuthCorporationRegisterRequest $registerRequest
      */
-    public function __construct(
-        \App\Http\Requests\Auth\Corporation\RegisterRequest $registerRequest
-    ) {
+    public function __construct(AuthCorporationRegisterRequest $registerRequest)
+    {
         $validated = $registerRequest->validated();
 
         $this->company = new Company($validated['corporation']);
@@ -35,17 +34,17 @@ final class CorporationRegisterRequest
     }
 
     /**
-     * @return \App\Models\Company
+     * @return Company
      */
-    public function getInputCompany(): \App\Models\Company
+    public function getInputCompany(): Company
     {
         return $this->company;
     }
 
     /**
-     * @return \App\Models\User
+     * @return User
      */
-    public function getInputUser(): \App\Models\User
+    public function getInputUser(): User
     {
         return $this->user;
     }

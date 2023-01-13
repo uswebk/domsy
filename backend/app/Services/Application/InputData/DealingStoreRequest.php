@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
+use App\Http\Requests\Api\Dealing\StoreRequest;
 use App\Models\DomainDealing;
 
 final class DealingStoreRequest
 {
-    private $domainDealing;
+    private DomainDealing $domainDealing;
 
     /**
-     * @param \App\Http\Requests\Api\Dealing\StoreRequest $storeRequest
+     * @param StoreRequest $storeRequest
      */
-    public function __construct(
-        \App\Http\Requests\Api\Dealing\StoreRequest $storeRequest
-    ) {
+    public function __construct(StoreRequest $storeRequest)
+    {
         $this->domainDealing = new DomainDealing($storeRequest->validated());
     }
 
     /**
-     * @return \App\Models\DomainDealing
+     * @return DomainDealing
      */
-    public function getInput(): \App\Models\DomainDealing
+    public function getInput(): DomainDealing
     {
         return $this->domainDealing;
     }

@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
+use App\Http\Requests\Api\Account\StoreRequest;
 use App\Models\User;
-
 use Illuminate\Support\Facades\Hash;
 
 final class AccountStoreRequest
 {
-    private $user;
+    private User $user;
 
     /**
-     * @param App\Http\Requests\Api\Account\StoreRequest $storeRequest
+     * @param StoreRequest $storeRequest
      */
-    public function __construct(
-        \App\Http\Requests\Api\Account\StoreRequest $storeRequest
-    ) {
+    public function __construct(StoreRequest $storeRequest)
+    {
         $validated = $storeRequest->validated();
 
         $validated = array_merge($validated, [
@@ -29,9 +28,9 @@ final class AccountStoreRequest
     }
 
     /**
-     * @return \App\Models\User
+     * @return User
      */
-    public function getInput(): \App\Models\User
+    public function getInput(): User
     {
         return $this->user;
     }

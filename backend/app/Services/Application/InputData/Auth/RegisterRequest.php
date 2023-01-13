@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData\Auth;
 
+use App\Http\Requests\Auth\RegisterRequest as AuthRegisterRequest;
 use App\Models\User;
-
 use Illuminate\Support\Facades\Hash;
 
 final class RegisterRequest
 {
-    private $user;
+    private User $user;
 
     /**
-     * @param \App\Http\Requests\Auth\RegisterRequest $registerRequest
+     * @param AuthRegisterRequest $registerRequest
      */
-    public function __construct(
-        \App\Http\Requests\Auth\RegisterRequest $registerRequest
-    ) {
+    public function __construct(AuthRegisterRequest $registerRequest)
+    {
         $validated = $registerRequest->validated();
 
         $validated = array_merge($validated, [
@@ -29,9 +28,9 @@ final class RegisterRequest
     }
 
     /**
-     * @return \App\Models\User
+     * @return User
      */
-    public function getInput(): \App\Models\User
+    public function getInput(): User
     {
         return $this->user;
     }

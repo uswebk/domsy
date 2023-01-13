@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
+use App\Http\Requests\Api\Dns\StoreRequest;
 use App\Models\Subdomain;
 
 final class DnsStoreRequest
 {
-    private $subdomain;
+    private Subdomain $subdomain;
 
     /**
-     * @param \App\Http\Requests\Frontend\Dns\StoreRequest $storeRequest
+     * @param StoreRequest $storeRequest
      */
-    public function __construct(
-        \App\Http\Requests\Api\Dns\StoreRequest $storeRequest
-    ) {
+    public function __construct(StoreRequest $storeRequest)
+    {
         $validated = $storeRequest->validated();
 
         if (!isset($storeRequest->prefix)) {
@@ -28,9 +28,9 @@ final class DnsStoreRequest
     }
 
     /**
-     * @return \App\Models\Subdomain
+     * @return Subdomain
      */
-    public function getInput(): \App\Models\Subdomain
+    public function getInput(): Subdomain
     {
         return $this->subdomain;
     }

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
+use App\Http\Requests\Api\Domain\StoreRequest;
 use App\Models\Domain;
 use Illuminate\Support\Facades\Auth;
 
 final class DomainStoreRequest
 {
-    private $domain;
+    private Domain $domain;
 
     /**
-     * @param \App\Http\Requests\Frontend\Domain\StoreRequest $storeRequest
+     * @param StoreRequest $storeRequest
      */
-    public function __construct(
-        \App\Http\Requests\Api\Domain\StoreRequest $storeRequest
-    ) {
+    public function __construct(StoreRequest $storeRequest)
+    {
         $validated = array_merge($storeRequest->validated(), [
             'user_id' => Auth::id(),
         ]);
@@ -25,9 +25,9 @@ final class DomainStoreRequest
     }
 
     /**
-     * @return \App\Models\Domain
+     * @return Domain
      */
-    public function getInput(): \App\Models\Domain
+    public function getInput(): Domain
     {
         return $this->domain;
     }

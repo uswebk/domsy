@@ -4,22 +4,21 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData;
 
+use App\Http\Requests\Api\Setting\SaveMailRequest;
 use App\Models\MailCategory;
 use App\Models\UserMailSetting;
-
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
 final class SettingMailSaveRequest
 {
-    private $userMailSettings;
+    private Collection $userMailSettings;
 
     /**
-     * @param \App\Http\Requests\Api\Setting\SaveMailRequest $saveRequest
+     * @param SaveMailRequest $saveRequest
      */
-    public function __construct(
-        \App\Http\Requests\Api\Setting\SaveMailRequest $saveRequest
-    ) {
+    public function __construct(SaveMailRequest $saveRequest)
+    {
         $this->userMailSettings = new Collection();
 
         $mailSettingParameter = $saveRequest->request->all();
@@ -45,9 +44,9 @@ final class SettingMailSaveRequest
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
-    public function getInput(): \Illuminate\Database\Eloquent\Collection
+    public function getInput(): Collection
     {
         return $this->userMailSettings;
     }
