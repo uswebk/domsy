@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Models\DomainBilling;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 final class DomainBillingPolicy
@@ -11,14 +13,12 @@ final class DomainBillingPolicy
     use HandlesAuthorization;
 
     /**
-     * @param \App\Models\User $user
-     * @param \App\Models\DomainDealing $domainDealing
+     * @param User $user
+     * @param DomainBilling $domainBilling
      * @return boolean
      */
-    public function owner(
-        \App\Models\User $user,
-        \App\Models\DomainBilling $domainBilling
-    ): bool {
+    public function owner(User $user, DomainBilling $domainBilling): bool
+    {
         if ($user->isCompany()) {
             return in_array($domainBilling->getUserId(), $user->getMemberIds());
         }

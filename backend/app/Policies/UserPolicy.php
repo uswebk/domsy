@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 final class UserPolicy
@@ -11,13 +12,12 @@ final class UserPolicy
     use HandlesAuthorization;
 
     /**
-     * @param \App\Models\User $user
-     * @param \App\Models\User $_user
+     * @param User $user
+     * @param User $user2
+     * @return bool
      */
-    public function owner(
-        \App\Models\User $user,
-        \App\Models\User $_user
-    ): bool {
-        return $user->company_id == $_user->company_id;
+    public function owner(User $user, User $user2): bool
+    {
+        return $user->company_id == $user2->company_id;
     }
 }

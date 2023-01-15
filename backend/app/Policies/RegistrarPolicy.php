@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Models\Registrar;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 final class RegistrarPolicy
@@ -11,14 +13,12 @@ final class RegistrarPolicy
     use HandlesAuthorization;
 
     /**
-     * @param \App\Models\User $user
-     * @param \App\Models\Registrar $registrar
+     * @param User $user
+     * @param Registrar $registrar
      * @return boolean
      */
-    public function owner(
-        \App\Models\User $user,
-        \App\Models\Registrar $registrar
-    ): bool {
+    public function owner(User $user, Registrar $registrar): bool
+    {
         if ($user->isCompany()) {
             return in_array($registrar->user_id, $user->getMemberIds());
         }

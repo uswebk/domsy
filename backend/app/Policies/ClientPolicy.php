@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Models\Client;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 final class ClientPolicy
@@ -11,14 +13,12 @@ final class ClientPolicy
     use HandlesAuthorization;
 
     /**
-     * @param \App\Models\User $user
-     * @param \App\Models\Client $client
+     * @param User $user
+     * @param Client $client
      * @return boolean
      */
-    public function owner(
-        \App\Models\User $user,
-        \App\Models\Client $client
-    ): bool {
+    public function owner(User $user, Client $client): bool
+    {
         if ($user->isCompany()) {
             return in_array($client->user_id, $user->getMemberIds());
         }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Models\DomainDealing;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 final class DomainDealingPolicy
@@ -11,14 +13,12 @@ final class DomainDealingPolicy
     use HandlesAuthorization;
 
     /**
-     * @param \App\Models\User $user
-     * @param \App\Models\DomainDealing $domainDealing
+     * @param User $user
+     * @param DomainDealing $domainDealing
      * @return boolean
      */
-    public function owner(
-        \App\Models\User $user,
-        \App\Models\DomainDealing $domainDealing
-    ): bool {
+    public function owner(User $user, DomainDealing $domainDealing): bool
+    {
         if ($user->isCompany()) {
             return in_array($domainDealing->getUserId(), $user->getMemberIds());
         }
