@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Queries\User;
 
+use App\Models\Company;
 use App\Models\User;
 use App\Queries\User\EloquentUserQueryService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -141,5 +142,69 @@ final class EloquentUserQueryServiceTest extends TestCase
         } catch (ModelNotFoundException $e) {
             $this->assertTrue($isException);
         }
+    }
+
+    public function dataProviderOfGetActiveUsersByCompanyId(): array
+    {
+        return [
+            'all match user' => [
+                [['id' => 1], ['id' => 2],],
+                [
+                    ['company_id' => 1, 'deleted_at' => null],
+                    ['company_id' => 1, 'deleted_at' => null],
+                ],
+                1,
+                2,
+            ],
+            'part match user, if delete' => [
+                [['id' => 1], ['id' => 2],],
+                [
+                    ['company_id' => 1, 'deleted_at' => null],
+                    ['company_id' => 1, 'deleted_at' => now()->toDateString()],
+                ],
+                1,
+                1,
+            ],
+            'part match user, if different company' => [
+                [['id' => 1], ['id' => 2],],
+                [
+                    ['company_id' => 1, 'deleted_at' => null],
+                    ['company_id' => 2, 'deleted_at' => null],
+                ],
+                1,
+                1,
+            ],
+            'not match user' => [
+                [['id' => 1], ['id' => 2],],
+                [
+                    ['company_id' => 2, 'deleted_at' => null],
+                    ['company_id' => 2, 'deleted_at' => null],
+                ],
+                1,
+                0,
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider dataProviderOfGetActiveUsersByCompanyId
+     */
+    public function it_get_active_users_by_company_id(
+        array $companies,
+        array $users,
+        int $targetCompanyId,
+        int $assert
+    ) {
+        foreach ($companies as $company) {
+            Company::factory()->create($company);
+        }
+
+        foreach ($users as $user) {
+            User::factory()->create($user);
+        }
+
+        $users = (new EloquentUserQueryService())->getActiveUsersByCompanyId($targetCompanyId);
+        $this->assertSame($assert, $users->count());
     }
 }
