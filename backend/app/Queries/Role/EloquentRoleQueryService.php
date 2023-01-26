@@ -14,7 +14,7 @@ final class EloquentRoleQueryService implements RoleQueryServiceInterface
      */
     public function findById(int $id): Role
     {
-        return Role::find($id);
+        return Role::findOrFail($id);
     }
 
     /**
