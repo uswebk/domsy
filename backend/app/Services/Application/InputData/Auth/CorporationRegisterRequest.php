@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\Application\InputData\Auth;
 
-use App\Http\Requests\Auth\CorporationRegisterRequest as AuthCorporationRegisterRequest;
+use App\Http\Requests\Auth\Corporation\RegisterRequest;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -16,9 +16,9 @@ final class CorporationRegisterRequest
     private User $user;
 
     /**
-     * @param AuthCorporationRegisterRequest $registerRequest
+     * @param RegisterRequest $registerRequest
      */
-    public function __construct(AuthCorporationRegisterRequest $registerRequest)
+    public function __construct(RegisterRequest $registerRequest)
     {
         $validated = $registerRequest->validated();
 
