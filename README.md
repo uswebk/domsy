@@ -23,7 +23,7 @@ This is a portfolio.
 
 Management system of domain, dealing, accounts, role etc...
 
-## Development
+## Setup
 ```
 #backend
 make build
