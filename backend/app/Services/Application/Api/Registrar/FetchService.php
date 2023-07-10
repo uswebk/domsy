@@ -7,26 +7,20 @@ namespace App\Services\Application\Api\Registrar;
 use App\Http\Resources\RegistrarResource;
 use App\Models\User;
 use App\Queries\Registrar\RegistrarQueryServiceInterface;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 final class FetchService
 {
-    private Collection $registrars;
+
+    private RegistrarQueryServiceInterface $registrarQueryService;
 
     /**
-     * @param RegistrarQueryServiceInterface $registrarQueryServiceInterface
+     * @param RegistrarQueryServiceInterface $registrarQueryService
      */
-    public function __construct(RegistrarQueryServiceInterface $registrarQueryServiceInterface)
+    public function __construct(RegistrarQueryServiceInterface $registrarQueryService)
     {
-        $user = User::find(Auth::id());
-
-        if ($user->isCompany()) {
-            $this->registrars = $registrarQueryServiceInterface->getByUserIds($user->getMemberIds());
-        } else {
-            $this->registrars = $user->registrars;
-        }
+        $this->registrarQueryService = $registrarQueryService;
     }
 
     /**
@@ -34,6 +28,14 @@ final class FetchService
      */
     public function getResponse(): AnonymousResourceCollection
     {
-        return RegistrarResource::collection($this->registrars);
+        $user = User::find(Auth::id());
+
+        if ($user->isCompany()) {
+            $registrars = $this->registrarQueryService->getByUserIds($user->getMemberIds());
+        } else {
+            $registrars = $user->registrars;
+        }
+
+        return RegistrarResource::collection($registrars);
     }
 }

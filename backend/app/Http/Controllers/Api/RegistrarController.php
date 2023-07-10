@@ -10,6 +10,7 @@ use App\Http\Resources\RegistrarResource;
 use App\Models\Registrar;
 use App\Repositories\Registrar\RegistrarRepositoryInterface;
 use App\Services\Application\Api\Registrar\FetchService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
