@@ -8,7 +8,6 @@ use App\Http\Resources\RegistrarResource;
 use App\Models\User;
 use App\Queries\Registrar\RegistrarQueryServiceInterface;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Auth;
 
 final class FetchService
 {
@@ -24,18 +23,19 @@ final class FetchService
     }
 
     /**
+     * @param int $user_id
      * @return AnonymousResourceCollection
      */
-    public function getResponse(): AnonymousResourceCollection
+    public function getResponse(int $user_id): AnonymousResourceCollection
     {
-        $user = User::find(Auth::id());
+        $user = User::findOrFail($user_id);
 
         if ($user->isCompany()) {
             $registrars = $this->registrarQueryService->getByUserIds($user->getMemberIds());
-        } else {
-            $registrars = $user->registrars;
+
+            return RegistrarResource::collection($registrars);
         }
 
-        return RegistrarResource::collection($registrars);
+        return RegistrarResource::collection($user->registrars);
     }
 }

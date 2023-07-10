@@ -11,8 +11,11 @@ use App\Models\Registrar;
 use App\Repositories\Registrar\RegistrarRepositoryInterface;
 use App\Services\Application\Api\Registrar\FetchService;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use function response;
 
 final class RegistrarController extends Controller
 {
@@ -36,10 +39,13 @@ final class RegistrarController extends Controller
      */
     public function fetch(FetchService $fetchService): JsonResponse
     {
-        return response()->json(
-            $fetchService->getResponse(),
-            Response::HTTP_OK
-        );
+        try {
+            return response()->json($fetchService->getResponse(Auth::id()));
+        } catch (ModelNotFoundException $e) {
+            return response()->json([], Response::HTTP_FORBIDDEN);
+        } catch (Exception $e) {
+            return response()->json([], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
