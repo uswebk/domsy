@@ -51,6 +51,9 @@ docker-compose up
 ## Screen
 <img width="1000" alt="image" src="https://user-images.githubusercontent.com/50518919/197834530-be9a5c87-81b4-46b5-a3ad-d467d5f01229.png">
 <img width="1000" alt="image" src="https://user-images.githubusercontent.com/50518919/190405435-67d0f9e5-49a5-43b3-9ba9-d4d10d11523f.png">
+<img width="1597" alt="image" src="https://github.com/uswebk/domsy/assets/50518919/aaf130df-7b31-425a-a772-fb8993574b19">
+
+
 
 ## Batches
 * Domain expiration notification
