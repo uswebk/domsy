@@ -30,7 +30,7 @@ final class UpdateRequest extends Request
     /**
      * @return array
      */
-    public function makeInput(): array
+    public function formatData(): array
     {
         return [
             'name' => $this->name,
